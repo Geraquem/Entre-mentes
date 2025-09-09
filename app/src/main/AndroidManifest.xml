@@ -28,8 +28,8 @@
             android:name=".base.bedrock.BedRockActivity"
             android:exported="true"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"
             android:theme="@style/Theme.BetweenMinds"
-            android:windowSoftInputMode="stateHidden|adjustPan"
             tools:ignore="LockedOrientationActivity" />
 
     </application>

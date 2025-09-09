@@ -8,4 +8,7 @@
     <string name="error_description">Inténtalo de nuevo más tarde</string>
     <string name="error_btn">Aceptar</string>
 
+    <!-- NUMBER -->
+    <string name="zero">0</string>
+
 </resources>

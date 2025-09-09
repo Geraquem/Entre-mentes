@@ -133,5 +133,11 @@ fun Context.setGlideImage(image: String, view: ImageView, loading: ImageView? = 
     }).into(view)
 }
 
+fun getNumberColor(value: Int): Int {
+    return if (value > 0) R.color.blue
+    else if (value == 0) R.color.dark_grey
+    else R.color.dark_orange
+}
+
 //fun FragmentActivity.shouldShowInterstitial(position: Int) =
 //    (this as MainActivity).showInterstitial(position)

@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.view.WindowInsets
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.NavHostFragment
@@ -31,8 +33,24 @@ class BedRockActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         changeStatusBarColor(R.color.white)
+        respectScreenDimensions()
+
         setUpNavGraph()
         setAds()
+    }
+
+    private fun respectScreenDimensions() {
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, insets ->
+            val systemBarsInsets = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            view.setPadding(
+                view.paddingLeft,
+                view.paddingTop,
+                view.paddingRight,
+                systemBarsInsets.bottom
+            )
+            WindowInsetsCompat.CONSUMED
+        }
+
     }
 
     private fun changeStatusBarColor(color: Int) {
