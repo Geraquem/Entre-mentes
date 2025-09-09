@@ -166,6 +166,26 @@ class NumberFragment : BaseFragmentNoVM<FragmentNumberBinding>() {
             sliderNumber = value.toInt()
             tvSliderNumber.text = "${value.toInt().absoluteValue}"
             tvSliderNumber.setTextColor(getColor(mContext, getNumberColor(value.toInt())))
+
+            val leftScale = 3f - ((value + 100f) / 200f) * 2f
+            val rightScale = 1f + ((value + 100f) / 200f) * 2f
+
+            ivRight.scaleX = leftScale
+            ivRight.scaleY = leftScale
+
+            ivLeft.scaleX = rightScale
+            ivLeft.scaleY = rightScale
+
+            if (value > 0) {
+                ivLeft.setImageResource(R.drawable.ic_human_up)
+                ivRight.setImageResource(R.drawable.ic_human_down)
+            } else if (value == 0f) {
+                ivLeft.setImageResource(R.drawable.ic_human_down)
+                ivRight.setImageResource(R.drawable.ic_human_down)
+            } else {
+                ivLeft.setImageResource(R.drawable.ic_human_down)
+                ivRight.setImageResource(R.drawable.ic_human_up)
+            }
         }
     }
 
@@ -174,3 +194,4 @@ class NumberFragment : BaseFragmentNoVM<FragmentNumberBinding>() {
         mContext = context
     }
 }
+
