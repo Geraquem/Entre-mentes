@@ -73,9 +73,6 @@ dependencies {
     // Splash screen
     implementation("androidx.core:core-splashscreen:1.0.1")
 
-    //Custom Slider
-    implementation("com.github.marcinmoskala:ArcSeekBar:0.31")
-
     // Firebase + Realm
 //    implementation("io.reactivex.rxjava2:rxjava:2.1.8")
 

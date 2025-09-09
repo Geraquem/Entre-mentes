@@ -1,27 +1,28 @@
-package com.mmfsin.betweenminds.presentation.menu
+package com.mmfsin.betweenminds.presentation.number
 
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.viewModels
 import com.mmfsin.betweenminds.R
 import com.mmfsin.betweenminds.base.BaseFragment
-import com.mmfsin.betweenminds.databinding.FragmentMenuBinding
-import com.mmfsin.betweenminds.presentation.MainActivity
+import com.mmfsin.betweenminds.databinding.FragmentNumberBinding
 import com.mmfsin.betweenminds.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.math.absoluteValue
 
 @AndroidEntryPoint
-class MenuFragment : BaseFragment<FragmentMenuBinding, MenuViewModel>() {
+class NumberFragment : BaseFragment<FragmentNumberBinding, NumberViewModel>() {
 
-    override val viewModel: MenuViewModel by viewModels()
+    override val viewModel: NumberViewModel by viewModels()
     private lateinit var mContext: Context
 
     override fun inflateView(
         inflater: LayoutInflater, container: ViewGroup?
-    ) = FragmentMenuBinding.inflate(inflater, container, false)
+    ) = FragmentNumberBinding.inflate(inflater, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -29,9 +30,8 @@ class MenuFragment : BaseFragment<FragmentMenuBinding, MenuViewModel>() {
 
     override fun setUI() {
         binding.apply {
-            btnModeNumber.setOnClickListener { navigateTo(R.navigation.nav_graph_number) }
-            btnModeQuestion.setOnClickListener {
-//                navigateTo(R.navigation.nav_graph_question)
+            slider.addOnChangeListener { _, value, _ ->
+                setSliderValue(value)
             }
         }
     }
@@ -44,17 +44,18 @@ class MenuFragment : BaseFragment<FragmentMenuBinding, MenuViewModel>() {
     override fun observe() {
         viewModel.event.observe(this) { event ->
             when (event) {
-                is MenuEvent.SomethingWentWrong -> error()
+                is NumberEvent.SomethingWentWrong -> error()
             }
         }
     }
 
-    private fun navigateTo(navGraph: Int, strArgs: String? = null, booleanArgs: Boolean? = null) {
-        (activity as MainActivity).openBedRockActivity(
-            navGraph = navGraph,
-            strArgs = strArgs,
-            booleanArgs = booleanArgs
-        )
+    private fun setSliderValue(value: Float) {
+        binding.apply {
+            valueText.text = "${value.toInt().absoluteValue}"
+            val color = if (value > 0) R.color.blue else if (value == 0f) R.color.black
+            else R.color.orange
+            valueText.setTextColor(getColor(mContext, color))
+        }
     }
 
     private fun error() = activity?.showErrorDialog()
