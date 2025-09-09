@@ -22,15 +22,6 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.95" />
 
-    <View
-        android:id="@+id/bg_curtain"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginBottom="-36dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_question"
         android:layout_width="0dp"
@@ -79,7 +70,6 @@
             app:layout_constraintRight_toRightOf="@id/gl_right"
             app:layout_constraintTop_toTopOf="parent">
 
-
             <TextView
                 android:id="@+id/tv_top_number"
                 android:layout_width="wrap_content"
@@ -89,23 +79,41 @@
                 android:fontFamily="@font/august_shining"
                 android:text="@string/zero"
                 android:textColor="@color/dark_grey"
-                android:textSize="68sp" />
+                android:textSize="68sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.slider.Slider
                 android:id="@+id/top_slider"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginTop="8dp"
                 android:stepSize="1"
                 android:value="0"
                 android:valueFrom="-100"
                 android:valueTo="100"
                 app:labelBehavior="gone"
+                app:layout_constraintTop_toBottomOf="@id/tv_top_number"
                 app:thumbRadius="14dp"
                 app:tickVisible="false"
                 app:trackColorActive="@color/blue"
                 app:trackColorInactive="@color/dark_orange"
                 app:trackHeight="20dp" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/lottie_curtain"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:elevation="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:lottie_autoPlay="false"
+                app:lottie_loop="false"
+                app:lottie_rawRes="@raw/curtain" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -250,19 +258,6 @@
             android:layout_height="32dp" />
 
     </LinearLayout>
-
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/lottie_curtain"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:elevation="10dp"
-        app:layout_constraintBottom_toBottomOf="@id/bg_curtain"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:lottie_autoPlay="false"
-        app:lottie_loop="false"
-        app:lottie_rawRes="@raw/curtain" />
 
     <include
         android:id="@+id/rematch"

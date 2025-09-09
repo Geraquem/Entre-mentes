@@ -194,7 +194,6 @@
         app:lottie_loop="false"
         app:lottie_rawRes="@raw/curtain" />
 
-
     <include
         android:id="@+id/rematch"
         layout="@layout/include_btn_rematch"

@@ -42,11 +42,6 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
     override fun setUI() {
         binding.apply {
             loading.root.isVisible = true
-            clQuestion.animateX(-1000f, 1)
-            lottieCurtain.isVisible = false
-
-            llBottomSlider.alpha = 0.4f
-            bottomSlider.isEnabled = false
 
             llBtnHide.animateY(500f, 1)
             llBtnCheck.animateY(500f, 1)
@@ -59,10 +54,16 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
     private fun initialStates() {
         binding.apply {
             hideCurtain()
+
+            clQuestion.animateX(-1000f, 1)
+            lottieCurtain.isVisible = false
+
+            bottomSlider.isEnabled = false
             llBottomSlider.handleAlpha(0.4f, 350) {
                 bottomSlider.value = 0f
                 bottomSliderValue(0f)
             }
+
 
             topSlider.isEnabled = true
             btnHide.isEnabled = true
@@ -100,7 +101,23 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
             rematch.btnRematch.setOnClickListener {
                 rematch.btnRematch.isEnabled = false
                 rematch.root.animateX(500f, 500)
-                countDown(200) { initialStates() }
+                countDown(200) {
+                    initialStates()
+                    nextQuestion()
+                }
+            }
+        }
+    }
+
+    private fun nextQuestion() {
+        binding.apply {
+            position++
+            if (position < questions.size - 1) {
+                countDown(500) {
+                    tvQuestion.text = questions[position].text
+                    clQuestion.animateX(0f, 500)
+                    llBtnHide.animateY(0f, 500)
+                }
             }
         }
     }
