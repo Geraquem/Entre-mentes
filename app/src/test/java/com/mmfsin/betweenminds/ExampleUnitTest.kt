@@ -1,4 +1,4 @@
-package com.mmfsin.betweenminds
+package com.mmfsin.betweenminds.base
 
 import org.junit.Test
 
