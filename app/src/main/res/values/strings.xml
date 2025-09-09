@@ -10,5 +10,7 @@
 
     <!-- NUMBER -->
     <string name="zero">0</string>
+    <string name="number_btn_hide">Ocultar</string>
+    <string name="number_btn_check">Comprobar</string>
 
 </resources>

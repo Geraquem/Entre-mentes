@@ -7,12 +7,10 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat.getColor
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL
+import androidx.core.view.isVisible
 import com.mmfsin.betweenminds.R
 import com.mmfsin.betweenminds.base.BaseFragmentNoVM
 import com.mmfsin.betweenminds.databinding.FragmentNumberBinding
-import com.mmfsin.betweenminds.presentation.number.adapter.BarAdapter
 import com.mmfsin.betweenminds.utils.animateX
 import com.mmfsin.betweenminds.utils.animateY
 import com.mmfsin.betweenminds.utils.countDown
@@ -37,30 +35,15 @@ class NumberFragment : BaseFragmentNoVM<FragmentNumberBinding>() {
 
     override fun setUI() {
         binding.apply {
-            buildCurtain()
+            lottieCurtain.isVisible = false
 
-            llBtnHide.animateY(500f, 10)
-            llBtnCheck.animateY(500f, 10)
-            rematch.root.animateX(500f, 10)
+            llSlider.alpha = 0f
+
+            llBtnHide.animateY(500f, 1)
+            llBtnCheck.animateY(500f, 1)
+            rematch.root.animateX(500f, 1)
 
             startGame()
-        }
-    }
-
-    private fun buildCurtain() {
-        binding.rvCurtain.apply {
-            val displayMetrics = resources.displayMetrics
-            val screenWidth = displayMetrics.widthPixels
-
-            val barWidth = (24 * resources.displayMetrics.density).toInt()
-            val spaceWidth = (2 * resources.displayMetrics.density).toInt()
-            val totalUnit = barWidth + spaceWidth
-
-            val numberOfBars = screenWidth / totalUnit
-
-            layoutManager = LinearLayoutManager(mContext, HORIZONTAL, false)
-            adapter = BarAdapter(numberOfBars)
-
         }
     }
 
@@ -68,13 +51,14 @@ class NumberFragment : BaseFragmentNoVM<FragmentNumberBinding>() {
         binding.apply {
             hideCurtain()
             slotMachine()
-            slider.value = 0f
-            setSliderValue(0f)
-            llSlider.hideAlpha(100)
+
+            llSlider.hideAlpha(350) {
+                slider.value = 0f
+                setSliderValue(0f)
+            }
 
             btnHide.isEnabled = true
             btnCheck.isEnabled = true
-            slider.isEnabled = true
             rematch.btnRematch.isEnabled = true
         }
     }
@@ -114,7 +98,7 @@ class NumberFragment : BaseFragmentNoVM<FragmentNumberBinding>() {
                 llBtnHide.animateY(500f, 500)
 
                 countDown(350) {
-                    llSlider.showAlpha(500)
+                    llSlider.showAlpha(500) { slider.isEnabled = true }
                     llBtnCheck.animateY(0f, 500)
                 }
             }
@@ -138,25 +122,17 @@ class NumberFragment : BaseFragmentNoVM<FragmentNumberBinding>() {
 
     private fun showCurtain() {
         binding.apply {
-            rvCurtain.post {
-                rvCurtain.animate()
-                    .translationX(0f)
-                    .setDuration(1000)
-                    .setInterpolator(android.view.animation.AccelerateDecelerateInterpolator())
-                    .start()
-            }
+            lottieCurtain.isVisible = true
+            lottieCurtain.speed = 4f
+            lottieCurtain.playAnimation()
         }
     }
 
     private fun hideCurtain() {
         binding.apply {
-            rvCurtain.post {
-                val curtainWidth = rvCurtain.width.toFloat()
-                rvCurtain.animate()
-                    .translationX(-curtainWidth)
-                    .setDuration(1000)
-                    .setInterpolator(android.view.animation.AccelerateDecelerateInterpolator())
-                    .start()
+            lottieCurtain.animateY(-1000f, 500) {
+                lottieCurtain.isVisible = false
+                lottieCurtain.animateY(0f, 1)
             }
         }
     }

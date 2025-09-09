@@ -58,8 +58,8 @@ fun countDown(millis: Long, action: () -> Unit) {
 fun FragmentActivity?.showFragmentDialog(dialog: DialogFragment) =
     this?.let { dialog.show(it.supportFragmentManager, "") }
 
-fun View.animateY(pos: Float, duration: Long) =
-    this.animate().translationY(pos).setDuration(duration)
+fun View.animateY(pos: Float, duration: Long, endAction: () -> Unit = {}) =
+    this.animate().translationY(pos).setDuration(duration).withEndAction { endAction() }
 
 fun View.animateX(pos: Float, duration: Long) =
     this.animate().translationX(pos).setDuration(duration)
@@ -71,7 +71,21 @@ fun View.hideAlpha(duration: Long, onEnd: () -> Unit = {}) =
         }
     })
 
-fun View.showAlpha(duration: Long) = this.animate().alpha(1f).setDuration(duration)
+fun View.handleAlpha(alpha: Float, duration: Long, onEnd: () -> Unit = {}) =
+    this.animate().alpha(alpha).setDuration(duration)
+        .setListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationEnd(animation: Animator) {
+                onEnd()
+            }
+        })
+
+fun View.showAlpha(duration: Long, onEnd: () -> Unit = {}) =
+    this.animate().alpha(1f).setDuration(duration).setListener(object : AnimatorListenerAdapter() {
+        override fun onAnimationEnd(animation: Animator) {
+            onEnd()
+        }
+    })
+
 fun View.showCustomAlpha(alpha: Float, duration: Long) =
     this.animate().alpha(alpha).setDuration(duration)
 
