@@ -1,9 +1,7 @@
 package com.mmfsin.betweenminds.presentation.menu
 
 import android.content.Context
-import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.mmfsin.betweenminds.R
@@ -23,23 +21,16 @@ class MenuFragment : BaseFragment<FragmentMenuBinding, MenuViewModel>() {
         inflater: LayoutInflater, container: ViewGroup?
     ) = FragmentMenuBinding.inflate(inflater, container, false)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
-
     override fun setUI() {
         binding.apply {
-            navigateTo(R.navigation.nav_graph_number)
+            navigateTo(R.navigation.nav_graph_question)
             btnModeNumber.setOnClickListener { navigateTo(R.navigation.nav_graph_number) }
-            btnModeQuestion.setOnClickListener {
-//                navigateTo(R.navigation.nav_graph_question)
-            }
+            btnModeQuestion.setOnClickListener { navigateTo(R.navigation.nav_graph_question) }
         }
     }
 
     override fun setListeners() {
-        binding.apply {
-        }
+        binding.apply {}
     }
 
     override fun observe() {

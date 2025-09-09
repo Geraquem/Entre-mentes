@@ -1,110 +1,96 @@
-package com.mmfsin.betweenminds.presentation.number
+package com.mmfsin.betweenminds.presentation.question
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
-import android.animation.ValueAnimator
 import android.content.Context
+import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat.getColor
 import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
 import com.mmfsin.betweenminds.R
-import com.mmfsin.betweenminds.base.BaseFragmentNoVM
-import com.mmfsin.betweenminds.databinding.FragmentNumberBinding
+import com.mmfsin.betweenminds.base.BaseFragment
+import com.mmfsin.betweenminds.databinding.FragmentQuestionBinding
+import com.mmfsin.betweenminds.domain.models.Phrase
 import com.mmfsin.betweenminds.utils.animateX
 import com.mmfsin.betweenminds.utils.animateY
 import com.mmfsin.betweenminds.utils.countDown
 import com.mmfsin.betweenminds.utils.getNumberColor
-import com.mmfsin.betweenminds.utils.hideAlpha
+import com.mmfsin.betweenminds.utils.handleAlpha
 import com.mmfsin.betweenminds.utils.showAlpha
+import com.mmfsin.betweenminds.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.absoluteValue
 
 @AndroidEntryPoint
-class NumberFragment : BaseFragmentNoVM<FragmentNumberBinding>() {
+class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel>() {
 
+    override val viewModel: QuestionViewModel by viewModels()
     private lateinit var mContext: Context
 
-    private var numberToGuess = 0
-    private var sliderNumber = 0
+    private var questions: List<Phrase> = emptyList()
+    private var position = 0
 
-    override fun inflateView(
-        inflater: LayoutInflater, container: ViewGroup?
-    ) = FragmentNumberBinding.inflate(inflater, container, false)
+    override fun inflateView(inflater: LayoutInflater, container: ViewGroup?) =
+        FragmentQuestionBinding.inflate(inflater, container, false)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.getPhrases()
+    }
 
     override fun setUI() {
         binding.apply {
+            loading.root.isVisible = true
+            clQuestion.animateX(-1000f, 1)
             lottieCurtain.isVisible = false
 
-            llSlider.alpha = 0f
+            llBottomSlider.alpha = 0.4f
+            bottomSlider.isEnabled = false
 
             llBtnHide.animateY(500f, 1)
             llBtnCheck.animateY(500f, 1)
             rematch.root.animateX(500f, 1)
 
-            startGame()
+            initialStates()
         }
     }
 
-    private fun startGame() {
+    private fun initialStates() {
         binding.apply {
             hideCurtain()
-            slotMachine()
-
-            llSlider.hideAlpha(350) {
-                slider.value = 0f
-                setSliderValue(0f)
+            llBottomSlider.handleAlpha(0.4f, 350) {
+                bottomSlider.value = 0f
+                bottomSliderValue(0f)
             }
 
+            topSlider.isEnabled = true
             btnHide.isEnabled = true
             btnCheck.isEnabled = true
             rematch.btnRematch.isEnabled = true
         }
     }
 
-    private fun slotMachine() {
-        binding.apply {
-            tvNumberToGuess.setTextColor(getColor(mContext, R.color.dark_grey))
-            val finalNumber = (-100..100).random()
-            numberToGuess = finalNumber
-            val animator = ValueAnimator.ofInt(1, 100)
-            animator.duration = 2500
-            animator.addUpdateListener { _ ->
-                val random = (0..100).random()
-                tvNumberToGuess.text = "$random"
-            }
-            animator.addListener(object : AnimatorListenerAdapter() {
-                override fun onAnimationEnd(animation: Animator) {
-                    tvNumberToGuess.text = "${finalNumber.absoluteValue}"
-                    tvNumberToGuess.setTextColor(getColor(mContext, getNumberColor(finalNumber)))
-
-                    countDown(500) {
-                        llBtnHide.animateY(0f, 500)
-                    }
-                }
-            })
-            animator.start()
-        }
-    }
-
     override fun setListeners() {
         binding.apply {
-            slider.addOnChangeListener { _, value, _ -> setSliderValue(value) }
+            topSlider.addOnChangeListener { _, value, _ -> topSliderValue(value) }
+            bottomSlider.addOnChangeListener { _, value, _ -> bottomSliderValue(value) }
 
             btnHide.setOnClickListener {
                 btnHide.isEnabled = false
+                topSlider.isEnabled = false
                 showCurtain()
                 llBtnHide.animateY(500f, 500)
 
                 countDown(350) {
-                    llSlider.showAlpha(500) { slider.isEnabled = true }
+                    llBottomSlider.showAlpha(500) { bottomSlider.isEnabled = true }
                     llBtnCheck.animateY(0f, 500)
                 }
             }
 
             btnCheck.setOnClickListener {
                 btnCheck.isEnabled = false
-                slider.isEnabled = false
+                bottomSlider.isEnabled = false
                 hideCurtain()
                 llBtnCheck.animateY(500f, 500)
 
@@ -114,7 +100,34 @@ class NumberFragment : BaseFragmentNoVM<FragmentNumberBinding>() {
             rematch.btnRematch.setOnClickListener {
                 rematch.btnRematch.isEnabled = false
                 rematch.root.animateX(500f, 500)
-                countDown(200) { startGame() }
+                countDown(200) { initialStates() }
+            }
+        }
+    }
+
+    override fun observe() {
+        viewModel.event.observe(this) { event ->
+            when (event) {
+                is QuestionEvent.Phrases -> setPhrases(event.phrases)
+                is QuestionEvent.SomethingWentWrong -> error()
+            }
+        }
+    }
+
+    private fun setPhrases(phrases: List<Phrase>) {
+        binding.apply {
+            try {
+                this@QuestionFragment.questions = phrases
+                tvQuestion.text = questions[position].text
+                countDown(1000) {
+                    loading.root.isVisible = false
+                }
+                countDown(1200) {
+                    clQuestion.animateX(0f, 500)
+                    llBtnHide.animateY(0f, 500)
+                }
+            } catch (e: Exception) {
+                error()
             }
         }
     }
@@ -136,11 +149,17 @@ class NumberFragment : BaseFragmentNoVM<FragmentNumberBinding>() {
         }
     }
 
-    private fun setSliderValue(value: Float) {
+    private fun topSliderValue(value: Float) {
         binding.apply {
-            sliderNumber = value.toInt()
-            tvSliderNumber.text = "${value.toInt().absoluteValue}"
-            tvSliderNumber.setTextColor(getColor(mContext, getNumberColor(value.toInt())))
+            tvTopNumber.text = "${value.toInt().absoluteValue}"
+            tvTopNumber.setTextColor(getColor(mContext, getNumberColor(value.toInt())))
+        }
+    }
+
+    private fun bottomSliderValue(value: Float) {
+        binding.apply {
+            tvBottomNumber.text = "${value.toInt().absoluteValue}"
+            tvBottomNumber.setTextColor(getColor(mContext, getNumberColor(value.toInt())))
 
             val leftScale = 3f - ((value + 100f) / 200f) * 2f
             val rightScale = 1f + ((value + 100f) / 200f) * 2f
@@ -163,6 +182,8 @@ class NumberFragment : BaseFragmentNoVM<FragmentNumberBinding>() {
             }
         }
     }
+
+    private fun error() = activity?.showErrorDialog()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

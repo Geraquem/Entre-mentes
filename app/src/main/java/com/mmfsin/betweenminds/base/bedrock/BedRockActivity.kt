@@ -88,7 +88,7 @@ class BedRockActivity : AppCompatActivity() {
         instructionsType: String? = null
     ) {
         binding.toolbar.apply {
-            ivBack.setOnClickListener { onBackPressed() }
+            ivBack.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
             tvTitle.text = title
             ivInstructions.isVisible = instructionsVisible
 
