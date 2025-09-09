@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import com.marcinmoskala.arcseekbar.ProgressListener
 import com.mmfsin.betweenminds.base.BaseFragment
 import com.mmfsin.betweenminds.databinding.FragmentMenuBinding
 import com.mmfsin.betweenminds.presentation.MainActivity
@@ -28,6 +29,14 @@ class MenuFragment : BaseFragment<FragmentMenuBinding, MenuViewModel>() {
 
     override fun setUI() {
         binding.apply {
+            slider.addOnChangeListener { _, value, _ ->
+                valueText.text = "${value.toInt()}"
+            }
+
+            seekArc.onProgressChangedListener = ProgressListener { progress ->
+                val value = progress - 100   // convierte 0..200 -> -100..100
+                valueText.text = "$value"
+            }
         }
     }
 
