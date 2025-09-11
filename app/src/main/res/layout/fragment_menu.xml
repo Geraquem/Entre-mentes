@@ -46,12 +46,25 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="32dp"
             android:background="@drawable/click_effect"
             android:elevation="4dp"
             android:gravity="center"
             android:paddingVertical="12dp"
             android:text="Modo aparece una pregunta"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/btn_scores"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/click_effect"
+            android:elevation="4dp"
+            android:gravity="center"
+            android:paddingVertical="12dp"
+            android:text="PUNTUACIONES GUARDADAS"
             android:textSize="24sp" />
 
     </LinearLayout>

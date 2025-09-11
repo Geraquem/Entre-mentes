@@ -23,7 +23,7 @@ class MenuFragment : BaseFragment<FragmentMenuBinding, MenuViewModel>() {
 
     override fun setUI() {
         binding.apply {
-            navigateTo(R.navigation.nav_graph_number)
+//            navigateTo(R.navigation.nav_graph_number)
 //            navigateTo(R.navigation.nav_graph_question)
         }
     }
@@ -32,6 +32,7 @@ class MenuFragment : BaseFragment<FragmentMenuBinding, MenuViewModel>() {
         binding.apply {
             btnModeNumber.setOnClickListener { navigateTo(R.navigation.nav_graph_number) }
             btnModeQuestion.setOnClickListener { navigateTo(R.navigation.nav_graph_question) }
+            btnScores.setOnClickListener { navigateTo(R.navigation.nav_graph_saved_scores) }
         }
     }
 

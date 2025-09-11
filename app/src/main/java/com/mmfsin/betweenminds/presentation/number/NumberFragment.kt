@@ -57,7 +57,7 @@ class NumberFragment : BaseFragmentNoVM<FragmentNumberBinding>() {
     private fun setUpScoreboard() {
         binding.apply {
             scoreboard.rvScore.apply {
-                layoutManager = GridLayoutManager(requireContext(), 4)
+                layoutManager = GridLayoutManager(mContext, 4)
                 scoreboardAdapter = ScoreboardAdapter(getEmptyScoreList())
                 adapter = scoreboardAdapter
             }

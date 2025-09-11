@@ -130,7 +130,7 @@
         android:layout_marginTop="16dp"
         android:background="@drawable/click_effect"
         android:gravity="center"
-        android:paddingVertical="12dp"
+        android:paddingVertical="16dp"
         app:layout_constraintTop_toBottomOf="@id/ll_buttons">
 
         <TextView
