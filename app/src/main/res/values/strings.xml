@@ -14,10 +14,18 @@
     <string name="number_btn_check">Comprobar</string>
 
     <!-- SCOREBOARD -->
-    <string name="scoreboard_pts">%spts</string>
+    <string name="scoreboard_pts">pts</string>
 
     <!-- ENDGAME -->
+    <string name="endgame_top_text">Habéis conseguido</string>
+    <string name="endgame_pts">%s puntos</string>
+    <string name="endgame_phrase_perfect">Ha sido todo tan perfecto y milimétrico que seguro que habéis hecho trampas</string>
+    <string name="endgame_phrase_almost_perfect">Sois como uña y carne</string>
+    <string name="endgame_phrase_medium_good">¡No lo habéis hecho nada mal!</string>
+    <string name="endgame_phrase_medium_bad">Tenéis que pasar más tiempo juntos…</string>
+    <string name="endgame_phrase_bad">¿Estáis seguros de que os conocéis de algo?</string>
     <string name="endgame_exit">Salir</string>
+    <string name="endgame_save">Guardar</string>
     <string name="endgame_replay">Volver a jugar</string>
 
 </resources>

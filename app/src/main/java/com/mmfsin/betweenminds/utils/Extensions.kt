@@ -167,5 +167,17 @@ fun Slider.moveSliderValue(value: Float) {
 
 fun getEmptyScoreList() = listOf(Score(), Score(), Score(), Score())
 
+fun getPoints(num1: Int, num2: Int): Int {
+    val diff = kotlin.math.abs(num1 - num2)
+
+    return when {
+        diff > 15 -> 0
+        diff == 0 -> 20
+        else -> {
+            16 - diff
+        }
+    }
+}
+
 //fun FragmentActivity.shouldShowInterstitial(position: Int) =
 //    (this as MainActivity).showInterstitial(position)

@@ -23,9 +23,11 @@ import com.mmfsin.betweenminds.utils.animateY
 import com.mmfsin.betweenminds.utils.countDown
 import com.mmfsin.betweenminds.utils.getEmptyScoreList
 import com.mmfsin.betweenminds.utils.getNumberColor
+import com.mmfsin.betweenminds.utils.getPoints
 import com.mmfsin.betweenminds.utils.hideAlpha
 import com.mmfsin.betweenminds.utils.moveSliderValue
 import com.mmfsin.betweenminds.utils.showAlpha
+import com.mmfsin.betweenminds.utils.showErrorDialog
 import com.mmfsin.betweenminds.utils.showFragmentDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.absoluteValue
@@ -145,7 +147,7 @@ class NumberFragment : BaseFragmentNoVM<FragmentNumberBinding>() {
                 llBtnCheck.animateY(500f, 500)
                 countDown(500) {
                     /** Cuatro rondas 0,1,2,3 */
-                    if (round > 2) countDown(1000) { endGame() }
+                    if (round > -1) countDown(1000) { endGame() }
                     else rematch.root.animateX(0f, 500)
                 }
             }
@@ -210,25 +212,23 @@ class NumberFragment : BaseFragmentNoVM<FragmentNumberBinding>() {
                 discovered = true,
                 topNumber = numberToGuess,
                 resultNumber = resultNumber,
-                points = 11
-            ),
-            position = round
+                points = getPoints(numberToGuess, resultNumber)
+            ), position = round
         )
     }
 
     private fun endGame() {
-        activity?.showFragmentDialog(
-            EndGameDialog(
-                points = 11,
-                restartGame = {
-                    round = 0
-                    scoreboardAdapter?.resetScores()
-                    startGame()
-                },
-                exit = { activity?.onBackPressedDispatcher?.onBackPressed() }
-            )
-        )
+        val points = scoreboardAdapter?.getTotalPoints()
+        points?.let {
+            activity?.showFragmentDialog(EndGameDialog(points = points, restartGame = {
+                round = 0
+                scoreboardAdapter?.resetScores()
+                startGame()
+            }, exit = { activity?.onBackPressedDispatcher?.onBackPressed() }))
+        } ?: run { error() }
     }
+
+    private fun error() = activity?.showErrorDialog()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

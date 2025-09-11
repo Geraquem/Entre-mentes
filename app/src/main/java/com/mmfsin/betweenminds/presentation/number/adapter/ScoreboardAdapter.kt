@@ -31,7 +31,7 @@ class ScoreboardAdapter(
 
                 setSliderNumbers(tvTopNumber, data.topNumber)
                 setSliderNumbers(tvBottomNumber, data.resultNumber)
-                data.points?.let { tvPoints.text = c.getString(R.string.scoreboard_pts, "$it") }
+                data.points?.let { tvPoints.text = "$it" }
             }
         }
 
@@ -59,6 +59,14 @@ class ScoreboardAdapter(
             it.topNumber = 0
         }
         notifyDataSetChanged()
+    }
+
+    fun getTotalPoints(): Int {
+        var totalPoints = 0
+        scores.forEach {
+            it.points?.let { points -> totalPoints += points }
+        }
+        return totalPoints
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
