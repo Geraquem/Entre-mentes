@@ -28,6 +28,7 @@ import com.bumptech.glide.request.target.Target
 import com.google.android.material.slider.Slider
 import com.mmfsin.betweenminds.R
 import com.mmfsin.betweenminds.base.dialog.ErrorDialog
+import com.mmfsin.betweenminds.domain.models.Score
 import java.util.Base64
 
 fun FragmentActivity.showErrorDialog(goBack: Boolean = true) {
@@ -163,6 +164,8 @@ fun Slider.moveSliderValue(value: Float) {
     }
     animator.start()
 }
+
+fun getEmptyScoreList() = listOf(Score(), Score(), Score(), Score())
 
 //fun FragmentActivity.shouldShowInterstitial(position: Int) =
 //    (this as MainActivity).showInterstitial(position)

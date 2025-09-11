@@ -1,5 +1,6 @@
 package com.mmfsin.betweenminds.presentation.number.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -30,7 +31,7 @@ class ScoreboardAdapter(
 
                 setSliderNumbers(tvTopNumber, data.topNumber)
                 setSliderNumbers(tvBottomNumber, data.resultNumber)
-                data.points?.let { tvPoints.text = "$it" }
+                data.points?.let { tvPoints.text = c.getString(R.string.scoreboard_pts, "$it") }
             }
         }
 
@@ -49,6 +50,15 @@ class ScoreboardAdapter(
         score.resultNumber = newScore.resultNumber
         score.points = newScore.points
         notifyItemChanged(position)
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun resetScores() {
+        scores.forEach {
+            it.discovered = false
+            it.topNumber = 0
+        }
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

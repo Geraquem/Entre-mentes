@@ -21,12 +21,12 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="oooooooh"/>
+            android:text="oooooooh" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="que pena"/>
+            android:text="que pena" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -62,14 +62,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Salir" />
+                android:text="@string/endgame_exit" />
 
         </LinearLayout>
 
         <Space
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.05"/>
+            android:layout_weight="0.05" />
 
         <LinearLayout
             android:id="@+id/btn_rematch"
@@ -89,7 +89,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="volver a jugar" />
+                android:text="@string/endgame_replay" />
 
         </LinearLayout>
 

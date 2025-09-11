@@ -21,6 +21,7 @@ import com.mmfsin.betweenminds.presentation.number.dialogs.EndGameDialog
 import com.mmfsin.betweenminds.utils.animateX
 import com.mmfsin.betweenminds.utils.animateY
 import com.mmfsin.betweenminds.utils.countDown
+import com.mmfsin.betweenminds.utils.getEmptyScoreList
 import com.mmfsin.betweenminds.utils.getNumberColor
 import com.mmfsin.betweenminds.utils.hideAlpha
 import com.mmfsin.betweenminds.utils.moveSliderValue
@@ -51,10 +52,9 @@ class NumberFragment : BaseFragmentNoVM<FragmentNumberBinding>() {
 
     private fun setUpScoreboard() {
         binding.apply {
-            val scores = listOf(Score(), Score(), Score(), Score())
             scoreboard.rvScore.apply {
                 layoutManager = GridLayoutManager(requireContext(), 4)
-                scoreboardAdapter = ScoreboardAdapter(scores)
+                scoreboardAdapter = ScoreboardAdapter(getEmptyScoreList())
                 adapter = scoreboardAdapter
             }
         }
@@ -145,7 +145,7 @@ class NumberFragment : BaseFragmentNoVM<FragmentNumberBinding>() {
                 llBtnCheck.animateY(500f, 500)
                 countDown(500) {
                     /** Cuatro rondas 0,1,2,3 */
-                    if (round > -1) countDown(1000) { endGame() }
+                    if (round > 2) countDown(1000) { endGame() }
                     else rematch.root.animateX(0f, 500)
                 }
             }
@@ -220,7 +220,11 @@ class NumberFragment : BaseFragmentNoVM<FragmentNumberBinding>() {
         activity?.showFragmentDialog(
             EndGameDialog(
                 points = 11,
-                restartGame = {},
+                restartGame = {
+                    round = 0
+                    scoreboardAdapter?.resetScores()
+                    startGame()
+                },
                 exit = { activity?.onBackPressedDispatcher?.onBackPressed() }
             )
         )

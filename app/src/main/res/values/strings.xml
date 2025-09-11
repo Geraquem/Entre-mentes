@@ -13,4 +13,11 @@
     <string name="number_btn_hide">Ocultar</string>
     <string name="number_btn_check">Comprobar</string>
 
+    <!-- SCOREBOARD -->
+    <string name="scoreboard_pts">%spts</string>
+
+    <!-- ENDGAME -->
+    <string name="endgame_exit">Salir</string>
+    <string name="endgame_replay">Volver a jugar</string>
+
 </resources>
