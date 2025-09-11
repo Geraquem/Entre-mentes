@@ -1,5 +1,6 @@
 package com.mmfsin.betweenminds.presentation.question
 
+import android.animation.ValueAnimator
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,6 +9,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat.getColor
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import com.google.android.material.slider.Slider
 import com.mmfsin.betweenminds.R
 import com.mmfsin.betweenminds.base.BaseFragment
 import com.mmfsin.betweenminds.databinding.FragmentQuestionBinding
@@ -17,6 +19,7 @@ import com.mmfsin.betweenminds.utils.animateY
 import com.mmfsin.betweenminds.utils.countDown
 import com.mmfsin.betweenminds.utils.getNumberColor
 import com.mmfsin.betweenminds.utils.handleAlpha
+import com.mmfsin.betweenminds.utils.hideAlpha
 import com.mmfsin.betweenminds.utils.showAlpha
 import com.mmfsin.betweenminds.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,6 +33,7 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
 
     private var questions: List<Phrase> = emptyList()
     private var position = 0
+    private var topSliderNumber = 0f
 
     override fun inflateView(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentQuestionBinding.inflate(inflater, container, false)
@@ -56,14 +60,14 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
             hideCurtain()
 
             clQuestion.animateX(-1000f, 1)
-            lottieCurtain.isVisible = false
+
+            topSlider.resetSliderValue()
+            topSliderValue(0f)
 
             bottomSlider.isEnabled = false
-            llBottomSlider.handleAlpha(0.4f, 350) {
-                bottomSlider.value = 0f
-                bottomSliderValue(0f)
-            }
-
+            llBottomSlider.handleAlpha(0.4f, 350)
+            bottomSlider.resetSliderValue()
+            bottomSliderValue(0f)
 
             topSlider.isEnabled = true
             btnHide.isEnabled = true
@@ -151,23 +155,22 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
 
     private fun showCurtain() {
         binding.apply {
-            lottieCurtain.isVisible = true
-            lottieCurtain.speed = 4f
-            lottieCurtain.playAnimation()
+            tvTopNumber.text = "?"
+            tvTopNumber.setTextColor(getColor(mContext, R.color.dark_grey))
+            topSlider.hideAlpha(300)
         }
     }
 
     private fun hideCurtain() {
         binding.apply {
-            lottieCurtain.animateY(-1000f, 500) {
-                lottieCurtain.isVisible = false
-                lottieCurtain.animateY(0f, 1)
-            }
+            topSliderValue(topSliderNumber)
+            topSlider.showAlpha(500)
         }
     }
 
     private fun topSliderValue(value: Float) {
         binding.apply {
+            topSliderNumber = value
             tvTopNumber.text = "${value.toInt().absoluteValue}"
             tvTopNumber.setTextColor(getColor(mContext, getNumberColor(value.toInt())))
         }
@@ -198,6 +201,15 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
                 ivRight.setImageResource(R.drawable.ic_human_up)
             }
         }
+    }
+
+    private fun Slider.resetSliderValue() {
+        val animator = ValueAnimator.ofFloat(this.value, 0f)
+        animator.duration = 500
+        animator.addUpdateListener { anim ->
+            this.value = anim.animatedValue as Float
+        }
+        animator.start()
     }
 
     private fun error() = activity?.showErrorDialog()

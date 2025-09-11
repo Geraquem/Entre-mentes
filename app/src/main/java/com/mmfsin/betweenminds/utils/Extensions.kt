@@ -61,8 +61,8 @@ fun FragmentActivity?.showFragmentDialog(dialog: DialogFragment) =
 fun View.animateY(pos: Float, duration: Long, endAction: () -> Unit = {}) =
     this.animate().translationY(pos).setDuration(duration).withEndAction { endAction() }
 
-fun View.animateX(pos: Float, duration: Long) =
-    this.animate().translationX(pos).setDuration(duration)
+fun View.animateX(pos: Float, duration: Long, endAction: () -> Unit = {}) =
+    this.animate().translationX(pos).setDuration(duration).withEndAction { endAction() }
 
 fun View.hideAlpha(duration: Long, onEnd: () -> Unit = {}) =
     this.animate().alpha(0f).setDuration(duration).setListener(object : AnimatorListenerAdapter() {

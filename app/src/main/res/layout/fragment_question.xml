@@ -51,14 +51,28 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@id/ll_btn_hide"
-        app:layout_constraintLeft_toLeftOf="@id/gl_left"
-        app:layout_constraintRight_toRightOf="@id/gl_right"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cl_question">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_left2"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.05" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_right2"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.95" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/ll_top_slider"
@@ -66,35 +80,52 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="vertical"
-            app:layout_constraintLeft_toLeftOf="@id/gl_left"
-            app:layout_constraintRight_toRightOf="@id/gl_right"
             app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/gl_left3"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.05" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/gl_right3"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.95" />
 
             <TextView
                 android:id="@+id/tv_top_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginTop="16dp"
                 android:layout_marginBottom="8dp"
                 android:fontFamily="@font/august_shining"
                 android:text="@string/zero"
                 android:textColor="@color/dark_grey"
                 android:textSize="68sp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="@id/gl_left3"
+                app:layout_constraintRight_toRightOf="@id/gl_right3"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.slider.Slider
                 android:id="@+id/top_slider"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="8dp"
-                android:stepSize="1"
+                android:layout_marginBottom="16dp"
+                android:stepSize="0"
                 android:value="0"
                 android:valueFrom="-100"
                 android:valueTo="100"
                 app:labelBehavior="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="@id/gl_left3"
+                app:layout_constraintRight_toRightOf="@id/gl_right3"
                 app:layout_constraintTop_toBottomOf="@id/tv_top_number"
                 app:thumbRadius="14dp"
                 app:tickVisible="false"
@@ -102,42 +133,24 @@
                 app:trackColorInactive="@color/dark_orange"
                 app:trackHeight="20dp" />
 
-            <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/lottie_curtain"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:elevation="10dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:lottie_autoPlay="false"
-                app:lottie_loop="false"
-                app:lottie_rawRes="@raw/curtain" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="32dp" />
 
         <LinearLayout
             android:id="@+id/ll_bottom_slider"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:gravity="center"
             android:orientation="vertical"
-            app:layout_constraintBottom_toTopOf="@id/ll_btn_hide"
-            app:layout_constraintLeft_toLeftOf="@id/gl_left"
-            app:layout_constraintRight_toRightOf="@id/gl_right"
-            app:layout_constraintTop_toBottomOf="@id/bg_curtain">
+            app:layout_constraintLeft_toLeftOf="@id/gl_left2"
+            app:layout_constraintRight_toRightOf="@id/gl_right2"
+            app:layout_constraintTop_toBottomOf="@id/ll_top_slider">
 
             <TextView
                 android:id="@+id/tv_bottom_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginBottom="8dp"
                 android:fontFamily="@font/august_shining"
                 android:text="@string/zero"
                 android:textColor="@color/dark_grey"
@@ -188,7 +201,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:stepSize="1"
+                android:stepSize="0"
                 android:value="0"
                 android:valueFrom="-100"
                 android:valueTo="100"
@@ -201,7 +214,7 @@
 
         </LinearLayout>
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
         android:id="@+id/ll_btn_check"
