@@ -28,4 +28,12 @@
     <string name="endgame_save">Guardar</string>
     <string name="endgame_replay">Volver a jugar</string>
 
+    <!-- SAVE POINTS -->
+    <string name="save_points_player_one_hint">Jugador 1</string>
+    <string name="save_points_player_two_hint">Jugador 2</string>
+    <string name="save_points_error">¡Ponle un nombre a cada jugador!</string>
+    <string name="save_points_saved_result">Guardado</string>
+    <string name="save_points_notes_hint">¿Algo que queráis añadir?</string>
+    <string name="save_points_cancel_and_replay">Cancelar y volver a jugar</string>
+
 </resources>

@@ -18,6 +18,8 @@ import com.mmfsin.betweenminds.databinding.FragmentNumberBinding
 import com.mmfsin.betweenminds.domain.models.Score
 import com.mmfsin.betweenminds.presentation.number.adapter.ScoreboardAdapter
 import com.mmfsin.betweenminds.presentation.number.dialogs.EndGameDialog
+import com.mmfsin.betweenminds.presentation.number.dialogs.save.SavePointsDialog
+import com.mmfsin.betweenminds.utils.MODE_NUMBER
 import com.mmfsin.betweenminds.utils.animateX
 import com.mmfsin.betweenminds.utils.animateY
 import com.mmfsin.betweenminds.utils.countDown
@@ -220,12 +222,32 @@ class NumberFragment : BaseFragmentNoVM<FragmentNumberBinding>() {
     private fun endGame() {
         val points = scoreboardAdapter?.getTotalPoints()
         points?.let {
-            activity?.showFragmentDialog(EndGameDialog(points = points, restartGame = {
-                round = 0
-                scoreboardAdapter?.resetScores()
-                startGame()
-            }, exit = { activity?.onBackPressedDispatcher?.onBackPressed() }))
+            activity?.showFragmentDialog(
+                EndGameDialog(
+                    points = points,
+                    restartGame = { restartGame() },
+                    saveScore = { showSaveScoreDialog(points) },
+                    exit = { activity?.onBackPressedDispatcher?.onBackPressed() }
+                )
+            )
         } ?: run { error() }
+    }
+
+    private fun showSaveScoreDialog(points: Int) {
+        activity?.showFragmentDialog(
+            SavePointsDialog(
+                mode = MODE_NUMBER,
+                points = points,
+                restartGame = { restartGame() },
+                exit = { activity?.onBackPressedDispatcher?.onBackPressed() }
+            )
+        )
+    }
+
+    private fun restartGame() {
+        round = 0
+        scoreboardAdapter?.resetScores()
+        startGame()
     }
 
     private fun error() = activity?.showErrorDialog()

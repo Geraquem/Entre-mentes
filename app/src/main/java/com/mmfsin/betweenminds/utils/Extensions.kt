@@ -29,7 +29,10 @@ import com.google.android.material.slider.Slider
 import com.mmfsin.betweenminds.R
 import com.mmfsin.betweenminds.base.dialog.ErrorDialog
 import com.mmfsin.betweenminds.domain.models.Score
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.Base64
+import java.util.Locale
 
 fun FragmentActivity.showErrorDialog(goBack: Boolean = true) {
     val dialog = ErrorDialog(goBack)
@@ -177,6 +180,12 @@ fun getPoints(num1: Int, num2: Int): Int {
             16 - diff
         }
     }
+}
+
+fun getTodayDate(): String {
+    val today = LocalDate.now()
+    val formatter = DateTimeFormatter.ofPattern("d 'de' MMMM 'de' yyyy", Locale("es", "ES"))
+    return today.format(formatter)
 }
 
 //fun FragmentActivity.shouldShowInterstitial(position: Int) =

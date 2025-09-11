@@ -25,14 +25,14 @@ class MenuFragment : BaseFragment<FragmentMenuBinding, MenuViewModel>() {
         binding.apply {
             navigateTo(R.navigation.nav_graph_number)
 //            navigateTo(R.navigation.nav_graph_question)
-
-            btnModeNumber.setOnClickListener { navigateTo(R.navigation.nav_graph_number) }
-            btnModeQuestion.setOnClickListener { navigateTo(R.navigation.nav_graph_question) }
         }
     }
 
     override fun setListeners() {
-        binding.apply {}
+        binding.apply {
+            btnModeNumber.setOnClickListener { navigateTo(R.navigation.nav_graph_number) }
+            btnModeQuestion.setOnClickListener { navigateTo(R.navigation.nav_graph_question) }
+        }
     }
 
     override fun observe() {

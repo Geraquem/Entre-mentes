@@ -1,5 +1,10 @@
 package com.mmfsin.betweenminds.data.models
 
-data class PhraseDTO(
-    val text: String
-)
+import io.realm.kotlin.types.RealmObject
+import io.realm.kotlin.types.annotations.PrimaryKey
+
+open class PhraseDTO : RealmObject {
+    @PrimaryKey
+    var id: String = ""
+    var text: String = ""
+}

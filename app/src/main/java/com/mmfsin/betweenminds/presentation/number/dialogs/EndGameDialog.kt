@@ -11,6 +11,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class EndGameDialog(
     private val points: Int,
     private val restartGame: () -> Unit,
+    private val saveScore: () -> Unit,
     private val exit: () -> Unit,
 ) : BaseDialog<DialogEndGameBinding>() {
 
@@ -39,12 +40,18 @@ class EndGameDialog(
     override fun setListeners() {
         binding.apply {
             btnExit.setOnClickListener {
-                dismiss()
                 exit()
-            }
-            btnRematch.setOnClickListener {
                 dismiss()
+            }
+
+            btnSave.setOnClickListener {
+                saveScore()
+                dismiss()
+            }
+
+            btnRematch.setOnClickListener {
                 restartGame()
+                dismiss()
             }
         }
     }
