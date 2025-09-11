@@ -49,7 +49,7 @@
             android:fontFamily="@font/august_shining"
             android:text="@string/zero"
             android:textColor="@color/dark_grey"
-            android:textSize="80sp" />
+            android:textSize="72sp" />
 
         <com.google.android.material.slider.Slider
             android:id="@+id/top_slider"
@@ -66,62 +66,6 @@
             app:trackColorActive="@color/blue"
             app:trackColorInactive="@color/dark_orange"
             app:trackHeight="20dp" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_btn_check"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@id/scoreboard"
-        app:layout_constraintLeft_toLeftOf="@id/gl_left"
-        app:layout_constraintRight_toRightOf="@id/gl_right">
-
-        <TextView
-            android:id="@+id/btn_check"
-            style="@style/BigTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/click_effect"
-            android:elevation="2dp"
-            android:fontFamily="@font/august_shining"
-            android:gravity="center"
-            android:paddingVertical="16dp"
-            android:text="@string/number_btn_check"
-            android:textAllCaps="true" />
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="32dp" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_btn_hide"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@id/scoreboard"
-        app:layout_constraintLeft_toLeftOf="@id/gl_left"
-        app:layout_constraintRight_toRightOf="@id/gl_right">
-
-        <TextView
-            android:id="@+id/btn_hide"
-            style="@style/BigTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/click_effect"
-            android:elevation="2dp"
-            android:fontFamily="@font/august_shining"
-            android:gravity="center"
-            android:paddingVertical="16dp"
-            android:text="@string/number_btn_hide"
-            android:textAllCaps="true" />
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="32dp" />
 
     </LinearLayout>
 
@@ -145,7 +89,7 @@
             android:fontFamily="@font/august_shining"
             android:text="@string/zero"
             android:textColor="@color/dark_grey"
-            android:textSize="80sp" />
+            android:textSize="72sp" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_images"
@@ -205,6 +149,62 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/ll_btn_check"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@id/scoreboard"
+        app:layout_constraintLeft_toLeftOf="@id/gl_left"
+        app:layout_constraintRight_toRightOf="@id/gl_right">
+
+        <TextView
+            android:id="@+id/btn_check"
+            style="@style/BigTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/click_effect"
+            android:elevation="2dp"
+            android:fontFamily="@font/august_shining"
+            android:gravity="center"
+            android:paddingVertical="16dp"
+            android:text="@string/number_btn_check"
+            android:textAllCaps="true" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="16dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_btn_hide"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@id/scoreboard"
+        app:layout_constraintLeft_toLeftOf="@id/gl_left"
+        app:layout_constraintRight_toRightOf="@id/gl_right">
+
+        <TextView
+            android:id="@+id/btn_hide"
+            style="@style/BigTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/click_effect"
+            android:elevation="2dp"
+            android:fontFamily="@font/august_shining"
+            android:gravity="center"
+            android:paddingVertical="16dp"
+            android:text="@string/number_btn_hide"
+            android:textAllCaps="true" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="16dp" />
+
+    </LinearLayout>
+
     <include
         android:id="@+id/scoreboard"
         layout="@layout/include_scoreboard"
@@ -232,7 +232,7 @@
         layout="@layout/include_btn_rematch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32sp"
+        android:layout_marginBottom="16sp"
         app:layout_constraintBottom_toTopOf="@id/scoreboard"
         app:layout_constraintRight_toRightOf="@id/gl_right" />
 

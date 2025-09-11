@@ -10,6 +10,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.mmfsin.betweenminds.R
 import com.mmfsin.betweenminds.base.BaseFragment
+import com.mmfsin.betweenminds.base.bedrock.BedRockActivity
 import com.mmfsin.betweenminds.databinding.FragmentQuestionBinding
 import com.mmfsin.betweenminds.domain.models.Phrase
 import com.mmfsin.betweenminds.utils.animateX
@@ -44,6 +45,10 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
 
     override fun setUI() {
         binding.apply {
+            (activity as BedRockActivity).setUpToolbar(
+                instructionsNavGraph = R.navigation.nav_graph_question
+            )
+
             loading.root.isVisible = true
 
             llBtnHide.animateY(500f, 1)

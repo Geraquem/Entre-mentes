@@ -4,13 +4,20 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ValueAnimator
 import android.content.Context
+import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat.getColor
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.GridLayoutManager
 import com.mmfsin.betweenminds.R
 import com.mmfsin.betweenminds.base.BaseFragmentNoVM
+import com.mmfsin.betweenminds.base.bedrock.BedRockActivity
 import com.mmfsin.betweenminds.databinding.FragmentNumberBinding
+import com.mmfsin.betweenminds.domain.models.Score
+import com.mmfsin.betweenminds.presentation.number.adapter.ScoreboardAdapter
+import com.mmfsin.betweenminds.presentation.number.dialogs.EndGameDialog
 import com.mmfsin.betweenminds.utils.animateX
 import com.mmfsin.betweenminds.utils.animateY
 import com.mmfsin.betweenminds.utils.countDown
@@ -18,6 +25,7 @@ import com.mmfsin.betweenminds.utils.getNumberColor
 import com.mmfsin.betweenminds.utils.hideAlpha
 import com.mmfsin.betweenminds.utils.moveSliderValue
 import com.mmfsin.betweenminds.utils.showAlpha
+import com.mmfsin.betweenminds.utils.showFragmentDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.absoluteValue
 
@@ -27,14 +35,37 @@ class NumberFragment : BaseFragmentNoVM<FragmentNumberBinding>() {
     private lateinit var mContext: Context
 
     private var numberToGuess = 0
-    private var sliderNumber = 0
+    private var resultNumber = 0
+    private var round = 0
+
+    private var scoreboardAdapter: ScoreboardAdapter? = null
 
     override fun inflateView(
         inflater: LayoutInflater, container: ViewGroup?
     ) = FragmentNumberBinding.inflate(inflater, container, false)
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setUpScoreboard()
+    }
+
+    private fun setUpScoreboard() {
+        binding.apply {
+            val scores = listOf(Score(), Score(), Score(), Score())
+            scoreboard.rvScore.apply {
+                layoutManager = GridLayoutManager(requireContext(), 4)
+                scoreboardAdapter = ScoreboardAdapter(scores)
+                adapter = scoreboardAdapter
+            }
+        }
+    }
+
     override fun setUI() {
         binding.apply {
+            (activity as BedRockActivity).setUpToolbar(
+                instructionsNavGraph = R.navigation.nav_graph_question
+            )
+
             lottieCurtain.isVisible = false
 
             topSlider.isEnabled = false
@@ -71,7 +102,7 @@ class NumberFragment : BaseFragmentNoVM<FragmentNumberBinding>() {
             val finalNumber = (-100..100).random()
             numberToGuess = finalNumber
             val animator = ValueAnimator.ofInt(1, 100)
-            animator.duration = 2500
+            animator.duration = 2000
             animator.addUpdateListener { _ ->
                 val random = (0..100).random()
                 tvNumberToGuess.text = "$random"
@@ -110,12 +141,17 @@ class NumberFragment : BaseFragmentNoVM<FragmentNumberBinding>() {
                 btnCheck.isEnabled = false
                 slider.isEnabled = false
                 hideCurtain()
+                addPoints()
                 llBtnCheck.animateY(500f, 500)
-
-                countDown(500) { rematch.root.animateX(0f, 500) }
+                countDown(500) {
+                    /** Cuatro rondas 0,1,2,3 */
+                    if (round > -1) countDown(1000) { endGame() }
+                    else rematch.root.animateX(0f, 500)
+                }
             }
 
             rematch.btnRematch.setOnClickListener {
+                round++
                 rematch.btnRematch.isEnabled = false
                 rematch.root.animateX(500f, 500)
                 countDown(200) { startGame() }
@@ -142,7 +178,7 @@ class NumberFragment : BaseFragmentNoVM<FragmentNumberBinding>() {
 
     private fun setSliderValue(value: Float) {
         binding.apply {
-            sliderNumber = value.toInt()
+            resultNumber = value.toInt()
             tvSliderNumber.text = "${value.toInt().absoluteValue}"
             tvSliderNumber.setTextColor(getColor(mContext, getNumberColor(value.toInt())))
 
@@ -166,6 +202,28 @@ class NumberFragment : BaseFragmentNoVM<FragmentNumberBinding>() {
                 ivRight.setImageResource(R.drawable.ic_human_up)
             }
         }
+    }
+
+    private fun addPoints() {
+        scoreboardAdapter?.updateScore(
+            newScore = Score(
+                discovered = true,
+                topNumber = numberToGuess,
+                resultNumber = resultNumber,
+                points = 11
+            ),
+            position = round
+        )
+    }
+
+    private fun endGame() {
+        activity?.showFragmentDialog(
+            EndGameDialog(
+                points = 11,
+                restartGame = {},
+                exit = { activity?.onBackPressedDispatcher?.onBackPressed() }
+            )
+        )
     }
 
     override fun onAttach(context: Context) {

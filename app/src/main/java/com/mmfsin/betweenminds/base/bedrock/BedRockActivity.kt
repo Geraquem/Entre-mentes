@@ -24,9 +24,6 @@ class BedRockActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityBedrockBinding
 
-    var isGameFinished = false
-    var inDashboard = false
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityBedrockBinding.inflate(layoutInflater)
@@ -50,7 +47,6 @@ class BedRockActivity : AppCompatActivity() {
             )
             WindowInsetsCompat.CONSUMED
         }
-
     }
 
     private fun changeStatusBarColor(color: Int) {
@@ -85,7 +81,6 @@ class BedRockActivity : AppCompatActivity() {
         title: String? = "",
         instructionsVisible: Boolean = true,
         instructionsNavGraph: Int? = null,
-        instructionsType: String? = null
     ) {
         binding.toolbar.apply {
             ivBack.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
@@ -93,12 +88,7 @@ class BedRockActivity : AppCompatActivity() {
             ivInstructions.isVisible = instructionsVisible
 
             instructionsNavGraph?.let { navGraph ->
-                ivInstructions.setOnClickListener {
-                    openBedRockActivity(
-                        navGraph = navGraph,
-                        strArgs = instructionsType
-                    )
-                }
+                ivInstructions.setOnClickListener { openBedRockActivity(navGraph = navGraph) }
             }
         }
     }
