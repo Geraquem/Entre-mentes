@@ -4,6 +4,7 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
 import android.app.Activity
 import android.app.Dialog
 import android.content.Context
@@ -24,6 +25,7 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
+import com.google.android.material.slider.Slider
 import com.mmfsin.betweenminds.R
 import com.mmfsin.betweenminds.base.dialog.ErrorDialog
 import java.util.Base64
@@ -151,6 +153,15 @@ fun getNumberColor(value: Int): Int {
     return if (value > 0) R.color.blue
     else if (value == 0) R.color.dark_grey
     else R.color.dark_orange
+}
+
+fun Slider.moveSliderValue(value: Float) {
+    val animator = ValueAnimator.ofFloat(this.value, value)
+    animator.duration = 500
+    animator.addUpdateListener { anim ->
+        this.value = anim.animatedValue as Float
+    }
+    animator.start()
 }
 
 //fun FragmentActivity.shouldShowInterstitial(position: Int) =

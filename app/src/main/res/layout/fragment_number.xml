@@ -26,31 +26,55 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginBottom="-36dp"
-        app:layout_constraintBottom_toBottomOf="@id/tv_number_to_guess"
+        app:layout_constraintBottom_toBottomOf="@id/ll_top_number"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tv_number_to_guess"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/ll_top_number"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:layout_marginTop="42dp"
-        android:fontFamily="@font/august_shining"
-        android:text="@string/zero"
-        android:textColor="@color/dark_grey"
-        android:textSize="80sp"
+        android:orientation="vertical"
         app:layout_constraintLeft_toLeftOf="@id/gl_left"
         app:layout_constraintRight_toRightOf="@id/gl_right"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tv_number_to_guess"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/august_shining"
+            android:text="@string/zero"
+            android:textColor="@color/dark_grey"
+            android:textSize="80sp" />
+
+        <com.google.android.material.slider.Slider
+            android:id="@+id/top_slider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:stepSize="0"
+            android:value="0"
+            android:valueFrom="-100"
+            android:valueTo="100"
+            app:labelBehavior="gone"
+            app:thumbRadius="14dp"
+            app:tickVisible="false"
+            app:trackColorActive="@color/blue"
+            app:trackColorInactive="@color/dark_orange"
+            app:trackHeight="20dp" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/ll_btn_check"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/scoreboard"
         app:layout_constraintLeft_toLeftOf="@id/gl_left"
         app:layout_constraintRight_toRightOf="@id/gl_right">
 
@@ -78,7 +102,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/scoreboard"
         app:layout_constraintLeft_toLeftOf="@id/gl_left"
         app:layout_constraintRight_toRightOf="@id/gl_right">
 
@@ -181,10 +205,19 @@
 
     </LinearLayout>
 
+    <include
+        android:id="@+id/scoreboard"
+        layout="@layout/include_scoreboard"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/lottie_curtain"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:elevation="10dp"
         app:layout_constraintBottom_toBottomOf="@id/bg_curtain"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -200,7 +233,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/scoreboard"
         app:layout_constraintRight_toRightOf="@id/gl_right" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

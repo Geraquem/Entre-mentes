@@ -1,6 +1,5 @@
 package com.mmfsin.betweenminds.presentation.question
 
-import android.animation.ValueAnimator
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,7 +8,6 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat.getColor
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import com.google.android.material.slider.Slider
 import com.mmfsin.betweenminds.R
 import com.mmfsin.betweenminds.base.BaseFragment
 import com.mmfsin.betweenminds.databinding.FragmentQuestionBinding
@@ -20,6 +18,7 @@ import com.mmfsin.betweenminds.utils.countDown
 import com.mmfsin.betweenminds.utils.getNumberColor
 import com.mmfsin.betweenminds.utils.handleAlpha
 import com.mmfsin.betweenminds.utils.hideAlpha
+import com.mmfsin.betweenminds.utils.moveSliderValue
 import com.mmfsin.betweenminds.utils.showAlpha
 import com.mmfsin.betweenminds.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
@@ -61,12 +60,12 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
 
             clQuestion.animateX(-1000f, 1)
 
-            topSlider.resetSliderValue()
+            topSlider.moveSliderValue(0f)
             topSliderValue(0f)
 
             bottomSlider.isEnabled = false
             llBottomSlider.handleAlpha(0.4f, 350)
-            bottomSlider.resetSliderValue()
+            bottomSlider.moveSliderValue(0f)
             bottomSliderValue(0f)
 
             topSlider.isEnabled = true
@@ -201,15 +200,6 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
                 ivRight.setImageResource(R.drawable.ic_human_up)
             }
         }
-    }
-
-    private fun Slider.resetSliderValue() {
-        val animator = ValueAnimator.ofFloat(this.value, 0f)
-        animator.duration = 500
-        animator.addUpdateListener { anim ->
-            this.value = anim.animatedValue as Float
-        }
-        animator.start()
     }
 
     private fun error() = activity?.showErrorDialog()

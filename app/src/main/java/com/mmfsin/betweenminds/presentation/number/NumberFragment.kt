@@ -16,6 +16,7 @@ import com.mmfsin.betweenminds.utils.animateY
 import com.mmfsin.betweenminds.utils.countDown
 import com.mmfsin.betweenminds.utils.getNumberColor
 import com.mmfsin.betweenminds.utils.hideAlpha
+import com.mmfsin.betweenminds.utils.moveSliderValue
 import com.mmfsin.betweenminds.utils.showAlpha
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.absoluteValue
@@ -36,6 +37,7 @@ class NumberFragment : BaseFragmentNoVM<FragmentNumberBinding>() {
         binding.apply {
             lottieCurtain.isVisible = false
 
+            topSlider.isEnabled = false
             llSlider.alpha = 0f
 
             llBtnHide.animateY(500f, 1)
@@ -51,6 +53,7 @@ class NumberFragment : BaseFragmentNoVM<FragmentNumberBinding>() {
             hideCurtain()
             slotMachine()
 
+            topSlider.moveSliderValue(0f)
             llSlider.hideAlpha(350) {
                 slider.value = 0f
                 setSliderValue(0f)
@@ -77,8 +80,9 @@ class NumberFragment : BaseFragmentNoVM<FragmentNumberBinding>() {
                 override fun onAnimationEnd(animation: Animator) {
                     tvNumberToGuess.text = "${finalNumber.absoluteValue}"
                     tvNumberToGuess.setTextColor(getColor(mContext, getNumberColor(finalNumber)))
+                    topSlider.moveSliderValue(finalNumber.toFloat())
 
-                    countDown(500) {
+                    countDown(350) {
                         llBtnHide.animateY(0f, 500)
                     }
                 }
