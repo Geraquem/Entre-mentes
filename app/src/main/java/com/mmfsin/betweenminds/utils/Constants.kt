@@ -9,8 +9,10 @@ const val MODE_NUMBER = "mode_number"
 const val MODE_QUESTIONS = "mode_questions"
 
 const val ID = "id"
+const val VERSION = "version"
 const val QUESTIONS = "questions"
 
 /** SHARED PREFS */
-const val SHARED_MAIN = "sharedMain"
+const val SHARED_PREFS = "sharedPrefs"
+const val SAVED_VERSION = "savedVersion"
 const val SERVER_QUESTIONS = "sharedQuestions"

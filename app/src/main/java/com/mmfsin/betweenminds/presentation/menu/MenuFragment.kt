@@ -1,8 +1,11 @@
 package com.mmfsin.betweenminds.presentation.menu
 
 import android.content.Context
+import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.mmfsin.betweenminds.R
 import com.mmfsin.betweenminds.base.BaseFragment
@@ -21,8 +24,14 @@ class MenuFragment : BaseFragment<FragmentMenuBinding, MenuViewModel>() {
         inflater: LayoutInflater, container: ViewGroup?
     ) = FragmentMenuBinding.inflate(inflater, container, false)
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.checkVersion()
+    }
+
     override fun setUI() {
         binding.apply {
+            loading.root.isVisible = true
 //            navigateTo(R.navigation.nav_graph_number)
 //            navigateTo(R.navigation.nav_graph_question)
         }
@@ -39,6 +48,7 @@ class MenuFragment : BaseFragment<FragmentMenuBinding, MenuViewModel>() {
     override fun observe() {
         viewModel.event.observe(this) { event ->
             when (event) {
+                is MenuEvent.VersionCompleted -> binding.loading.root.isVisible = false
                 is MenuEvent.SomethingWentWrong -> error()
             }
         }

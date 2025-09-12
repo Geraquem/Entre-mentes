@@ -10,10 +10,12 @@ import com.mmfsin.betweenminds.domain.interfaces.IRealmDatabase
 import com.mmfsin.betweenminds.domain.models.Question
 import com.mmfsin.betweenminds.utils.QUESTIONS
 import com.mmfsin.betweenminds.utils.SERVER_QUESTIONS
-import com.mmfsin.betweenminds.utils.SHARED_MAIN
+import com.mmfsin.betweenminds.utils.SHARED_PREFS
 import dagger.hilt.android.qualifiers.ApplicationContext
 import io.realm.kotlin.ext.query
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.concurrent.CountDownLatch
 import javax.inject.Inject
@@ -25,7 +27,7 @@ class QuestionsRepository @Inject constructor(
 
     override suspend fun getQuestions(): List<Question> {
         val latch = CountDownLatch(1)
-        val sharedPrefs = context.getSharedPreferences(SHARED_MAIN, Context.MODE_PRIVATE)
+        val sharedPrefs = context.getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE)
 
         val questions = mutableListOf<QuestionDTO>()
         if (sharedPrefs.getBoolean(SERVER_QUESTIONS, true)) {
@@ -35,12 +37,11 @@ class QuestionsRepository @Inject constructor(
                         id = child.key.toString()
                         text = child.value.toString()
                     }
-                    saveQuestionInRealm(question)
+                    CoroutineScope(Dispatchers.IO).launch {   saveQuestionInRealm(question)}
                     questions.add(question)
                 }
                 sharedPrefs.edit().apply {
-//                    putBoolean(SERVER_QUESTIONS, false)
-                    putBoolean(SERVER_QUESTIONS, true)
+                    putBoolean(SERVER_QUESTIONS, false)
                     apply()
                 }
                 latch.countDown()
@@ -58,5 +59,7 @@ class QuestionsRepository @Inject constructor(
         }
     }
 
-    private fun saveQuestionInRealm(question: QuestionDTO) = realmDatabase.addObject { question }
+    private suspend fun saveQuestionInRealm(question: QuestionDTO) {
+        realmDatabase.write { question }
+    }
 }
