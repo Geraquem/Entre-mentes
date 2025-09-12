@@ -1,6 +1,7 @@
 package com.mmfsin.betweenminds.domain.models
 
 data class SavedScore(
+    val id: String,
     val playerOneName: String,
     val playerTwoName: String,
     val points: Int,

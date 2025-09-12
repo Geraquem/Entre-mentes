@@ -14,6 +14,7 @@ import com.mmfsin.betweenminds.domain.models.SavedScore
 import com.mmfsin.betweenminds.utils.getTodayDate
 import com.mmfsin.betweenminds.utils.showAlpha
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.UUID
 
 @AndroidEntryPoint
 class SavePointsDialog(
@@ -62,6 +63,7 @@ class SavePointsDialog(
                     btnSave.isEnabled = false
 
                     val newScore = SavedScore(
+                        id = UUID.randomUUID().toString(),
                         playerOneName = pyOne,
                         playerTwoName = pyTwo,
                         points = points,

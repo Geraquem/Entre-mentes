@@ -36,4 +36,8 @@
     <string name="save_points_notes_hint">¿Algo que queráis añadir?</string>
     <string name="save_points_cancel_and_replay">Cancelar y volver a jugar</string>
 
+    <!-- DELETE SCORE -->
+    <string name="delete_score_cancel">Cancelar</string>
+    <string name="delete_score_delete">Eliminar</string>
+
 </resources>

@@ -13,7 +13,9 @@ import com.mmfsin.betweenminds.base.bedrock.BedRockActivity
 import com.mmfsin.betweenminds.databinding.FragmentSavedScoresBinding
 import com.mmfsin.betweenminds.domain.models.SavedScore
 import com.mmfsin.betweenminds.presentation.scores.adapter.SavedScoresAdapter
+import com.mmfsin.betweenminds.presentation.scores.dialogs.DeleteScoreDialog
 import com.mmfsin.betweenminds.utils.showErrorDialog
+import com.mmfsin.betweenminds.utils.showFragmentDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -21,6 +23,8 @@ class SavedScoresFragment : BaseFragment<FragmentSavedScoresBinding, SavedScores
 
     override val viewModel: SavedScoresViewModel by viewModels()
     private lateinit var mContext: Context
+
+    private var scoresAdapter: SavedScoresAdapter? = null
 
     override fun inflateView(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentSavedScoresBinding.inflate(inflater, container, false)
@@ -43,6 +47,7 @@ class SavedScoresFragment : BaseFragment<FragmentSavedScoresBinding, SavedScores
         viewModel.event.observe(this) { event ->
             when (event) {
                 is SavedScoresEvent.Scores -> setUpScores(event.scores)
+                is SavedScoresEvent.ScoreDeleted -> scoresAdapter?.deleteScore(event.savedId)
                 is SavedScoresEvent.SomethingWentWrong -> error()
             }
         }
@@ -52,7 +57,12 @@ class SavedScoresFragment : BaseFragment<FragmentSavedScoresBinding, SavedScores
         binding.apply {
             rvScores.apply {
                 layoutManager = LinearLayoutManager(mContext)
-                adapter = SavedScoresAdapter(savedScores)
+                scoresAdapter = SavedScoresAdapter(savedScores.toMutableList()) { id ->
+                    activity.showFragmentDialog(DeleteScoreDialog {
+                        viewModel.deleteSavedScore(id)
+                    })
+                }
+                adapter = scoresAdapter
             }
             loading.root.isVisible = false
         }

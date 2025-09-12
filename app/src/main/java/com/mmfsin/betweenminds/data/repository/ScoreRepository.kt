@@ -6,6 +6,7 @@ import com.mmfsin.betweenminds.data.models.SavedScoreDTO
 import com.mmfsin.betweenminds.domain.interfaces.IRealmDatabase
 import com.mmfsin.betweenminds.domain.interfaces.IScoreRepository
 import com.mmfsin.betweenminds.domain.models.SavedScore
+import com.mmfsin.betweenminds.utils.ID
 import io.realm.kotlin.ext.query
 import javax.inject.Inject
 
@@ -20,5 +21,9 @@ class ScoreRepository @Inject constructor(
     override fun getScores(): List<SavedScore> {
         val scores = realmDatabase.getObjectsFromRealm { query<SavedScoreDTO>().find() }
         return scores.toListSavedScore()
+    }
+
+    override fun deleteSavedScore(scoreId: String) {
+        realmDatabase.deleteObject(SavedScoreDTO::class, ID, scoreId)
     }
 }

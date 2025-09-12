@@ -11,13 +11,14 @@ import com.mmfsin.betweenminds.databinding.ItemSavedScoreBinding
 import com.mmfsin.betweenminds.domain.models.SavedScore
 
 class SavedScoresAdapter(
-    private val scores: List<SavedScore>,
+    private val scores: MutableList<SavedScore>,
+    private val onLongClick: (String) -> Unit
 ) : RecyclerView.Adapter<SavedScoresAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding = ItemSavedScoreBinding.bind(view)
         val c: Context = binding.root.context
-        fun bind(score: SavedScore) {
+        fun bind(score: SavedScore, action: (String) -> Unit) {
             binding.apply {
                 tvPlayerOne.text = score.playerOneName
                 tvPlayerTwo.text = score.playerTwoName
@@ -28,7 +29,20 @@ class SavedScoresAdapter(
 
                 if (score.notes.isEmpty()) tvNotes.isVisible = false
                 else tvNotes.text = score.notes
+
+                root.setOnLongClickListener {
+                    action("")
+                    true
+                }
             }
+        }
+    }
+
+    fun deleteScore(savedId: String) {
+        val index = scores.indexOfFirst { it.id == savedId }
+        if (index != -1) {
+            scores.removeAt(index)
+            notifyItemRemoved(index)
         }
     }
 
@@ -39,7 +53,7 @@ class SavedScoresAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(scores[position])
+        holder.bind(scores[position], onLongClick)
     }
 
     override fun getItemCount(): Int = scores.size

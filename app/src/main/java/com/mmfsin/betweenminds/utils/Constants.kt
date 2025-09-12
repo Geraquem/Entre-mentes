@@ -7,3 +7,5 @@ const val BEDROCK_BOOLEAN_ARGS = "bedrock_boolean_args"
 
 const val MODE_NUMBER = "mode_number"
 const val MODE_QUESTIONS = "mode_questions"
+
+const val ID = "id"

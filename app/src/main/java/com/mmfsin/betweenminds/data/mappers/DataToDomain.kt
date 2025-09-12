@@ -4,6 +4,7 @@ import com.mmfsin.betweenminds.data.models.SavedScoreDTO
 import com.mmfsin.betweenminds.domain.models.SavedScore
 
 fun SavedScoreDTO.toSavedScore() = SavedScore(
+    id = id,
     playerOneName = playerOneName,
     playerTwoName = playerTwoName,
     points = points,
