@@ -1,6 +1,8 @@
 package com.mmfsin.betweenminds.data.mappers
 
+import com.mmfsin.betweenminds.data.models.QuestionDTO
 import com.mmfsin.betweenminds.data.models.SavedScoreDTO
+import com.mmfsin.betweenminds.domain.models.Question
 import com.mmfsin.betweenminds.domain.models.SavedScore
 
 fun SavedScoreDTO.toSavedScore() = SavedScore(
@@ -14,3 +16,9 @@ fun SavedScoreDTO.toSavedScore() = SavedScore(
 )
 
 fun List<SavedScoreDTO>.toListSavedScore() = this.map { it.toSavedScore() }
+
+fun QuestionDTO.toQuestion() = Question(
+    text = text
+)
+
+fun List<QuestionDTO>.toQuestionsList() = this.map { it.toQuestion() }

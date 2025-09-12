@@ -2,7 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-//    id("com.google.gms.google-services")
+    id("com.google.gms.google-services")
     id("kotlin-parcelize")
     id("com.google.dagger.hilt.android")
     id("kotlin-kapt")
@@ -74,16 +74,16 @@ dependencies {
     implementation("androidx.core:core-splashscreen:1.0.1")
 
     // Firebase + Realm
-//    implementation("io.reactivex.rxjava2:rxjava:2.1.8")
+    implementation("io.reactivex.rxjava2:rxjava:2.1.8")
 
     // Firebase
-//    implementation(platform("com.google.firebase:firebase-bom:32.2.0"))
-//    implementation("com.google.firebase:firebase-analytics-ktx")
-//    implementation("com.google.firebase:firebase-database-ktx")
-//    implementation("com.google.firebase:firebase-firestore-ktx")
-//    implementation("com.google.firebase:firebase-storage-ktx")
-//    implementation("com.google.firebase:firebase-auth-ktx")
-//    implementation("com.google.firebase:firebase-messaging-ktx")
+    implementation(platform("com.google.firebase:firebase-bom:32.2.0"))
+    implementation("com.google.firebase:firebase-analytics-ktx")
+    implementation("com.google.firebase:firebase-database-ktx")
+    implementation("com.google.firebase:firebase-firestore-ktx")
+    implementation("com.google.firebase:firebase-storage-ktx")
+    implementation("com.google.firebase:firebase-auth-ktx")
+    implementation("com.google.firebase:firebase-messaging-ktx")
 
     //Realm
     implementation("io.realm.kotlin:library-base:3.0.0")

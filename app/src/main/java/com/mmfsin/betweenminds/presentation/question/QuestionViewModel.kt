@@ -1,19 +1,19 @@
 package com.mmfsin.betweenminds.presentation.question
 
 import com.mmfsin.betweenminds.base.BaseViewModel
-import com.mmfsin.betweenminds.domain.usecases.GetPhrasesUseCase
+import com.mmfsin.betweenminds.domain.usecases.GetQuestionsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class QuestionViewModel @Inject constructor(
-    private val getPhrasesUseCase: GetPhrasesUseCase
+    private val getQuestionsUseCase: GetQuestionsUseCase
 ) : BaseViewModel<QuestionEvent>() {
 
-    fun getPhrases() {
+    fun getQuestions() {
         executeUseCase(
-            { getPhrasesUseCase.execute() },
-            { result -> _event.value = QuestionEvent.Phrases(result) },
+            { getQuestionsUseCase.execute() },
+            { result -> _event.value = QuestionEvent.Questions(result) },
             { _event.value = QuestionEvent.SomethingWentWrong }
         )
     }

@@ -13,12 +13,12 @@ import com.mmfsin.betweenminds.R
 import com.mmfsin.betweenminds.base.BaseFragment
 import com.mmfsin.betweenminds.base.bedrock.BedRockActivity
 import com.mmfsin.betweenminds.databinding.FragmentQuestionBinding
-import com.mmfsin.betweenminds.domain.models.Phrase
+import com.mmfsin.betweenminds.domain.models.Question
 import com.mmfsin.betweenminds.domain.models.Score
 import com.mmfsin.betweenminds.presentation.common.adapter.ScoreboardAdapter
 import com.mmfsin.betweenminds.presentation.common.dialogs.EndGameDialog
 import com.mmfsin.betweenminds.presentation.common.dialogs.save.SavePointsDialog
-import com.mmfsin.betweenminds.utils.MODE_NUMBER
+import com.mmfsin.betweenminds.utils.MODE_QUESTIONS
 import com.mmfsin.betweenminds.utils.animateX
 import com.mmfsin.betweenminds.utils.animateY
 import com.mmfsin.betweenminds.utils.countDown
@@ -40,7 +40,7 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
     override val viewModel: QuestionViewModel by viewModels()
     private lateinit var mContext: Context
 
-    private var questions: List<Phrase> = emptyList()
+    private var questions: List<Question> = emptyList()
     private var position = 0
 
     private var numberToGuess = 0f
@@ -55,7 +55,7 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpScoreboard()
-        viewModel.getPhrases()
+        viewModel.getQuestions()
     }
 
     private fun setUpScoreboard() {
@@ -163,16 +163,16 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
     override fun observe() {
         viewModel.event.observe(this) { event ->
             when (event) {
-                is QuestionEvent.Phrases -> setPhrases(event.phrases)
+                is QuestionEvent.Questions -> setPhrases(event.phrases)
                 is QuestionEvent.SomethingWentWrong -> error()
             }
         }
     }
 
-    private fun setPhrases(phrases: List<Phrase>) {
+    private fun setPhrases(questions: List<Question>) {
         binding.apply {
             try {
-                this@QuestionFragment.questions = phrases
+                this@QuestionFragment.questions = questions
                 tvQuestion.text = questions[position].text
                 countDown(1000) {
                     loading.root.isVisible = false
@@ -264,7 +264,7 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
 
     private fun showSaveScoreDialog(points: Int) {
         activity?.showFragmentDialog(
-            SavePointsDialog(mode = MODE_NUMBER,
+            SavePointsDialog(mode = MODE_QUESTIONS,
                 points = points,
                 restartGame = { restartGame() },
                 exit = { activity?.onBackPressedDispatcher?.onBackPressed() })

@@ -1,7 +1,7 @@
 package com.mmfsin.betweenminds.di
 
 import com.mmfsin.betweenminds.data.database.RealmDatabase
-import com.mmfsin.betweenminds.data.models.PhraseDTO
+import com.mmfsin.betweenminds.data.models.QuestionDTO
 import com.mmfsin.betweenminds.data.models.SavedScoreDTO
 import com.mmfsin.betweenminds.domain.interfaces.IRealmDatabase
 import dagger.Module
@@ -21,7 +21,7 @@ object RealmDatabaseModule {
         val config = RealmConfiguration.create(
             schema = setOf(
                 SavedScoreDTO::class,
-                PhraseDTO::class
+                QuestionDTO::class
             )
         )
 

@@ -1,8 +1,8 @@
 package com.mmfsin.betweenminds.presentation.question
 
-import com.mmfsin.betweenminds.domain.models.Phrase
+import com.mmfsin.betweenminds.domain.models.Question
 
 sealed class QuestionEvent {
-    data class Phrases(val phrases: List<Phrase>) : QuestionEvent()
+    data class Questions(val phrases: List<Question>) : QuestionEvent()
     data object SomethingWentWrong : QuestionEvent()
 }

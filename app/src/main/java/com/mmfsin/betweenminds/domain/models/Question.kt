@@ -1,5 +1,5 @@
 package com.mmfsin.betweenminds.domain.models
 
-data class Phrase(
+data class Question(
     val text: String
 )
