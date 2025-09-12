@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "550785901580",
+    "firebase_url": "https://entre-mentes-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "entre-mentes",
+    "storage_bucket": "entre-mentes.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:550785901580:android:ef3eefde6e1e5f94763a29",
+        "android_client_info": {
+          "package_name": "com.mmfsin.betweenminds"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAwhV6zkVKJVB1uBI2xFTnwo92hW277tlY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
