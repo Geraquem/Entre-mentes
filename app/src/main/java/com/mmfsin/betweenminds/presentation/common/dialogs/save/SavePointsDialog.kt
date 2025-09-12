@@ -1,4 +1,4 @@
-package com.mmfsin.betweenminds.presentation.number.dialogs.save
+package com.mmfsin.betweenminds.presentation.common.dialogs.save
 
 import android.app.Dialog
 import android.os.Bundle
@@ -44,7 +44,9 @@ class SavePointsDialog(
             btnSave.alpha = 1f
 
             tvError.isVisible = false
-            tvPoints.text = getString(R.string.endgame_pts, "$points")
+
+            tvPoints.text = if (points == 1) getString(R.string.endgame_one_point)
+            else getString(R.string.endgame_pts, "$points")
         }
     }
 

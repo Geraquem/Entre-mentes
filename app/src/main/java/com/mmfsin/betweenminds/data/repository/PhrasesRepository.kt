@@ -15,6 +15,6 @@ class PhrasesRepository @Inject constructor(
             Phrase(text = "Frase numero 2"),
             Phrase(text = "Frase numero 3"),
             Phrase(text = "Frase numero 4")
-        ).shuffled()
+        )//.shuffled()
     }
 }

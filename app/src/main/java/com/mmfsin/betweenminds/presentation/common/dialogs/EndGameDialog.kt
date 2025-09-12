@@ -1,4 +1,4 @@
-package com.mmfsin.betweenminds.presentation.number.dialogs
+package com.mmfsin.betweenminds.presentation.common.dialogs
 
 import android.app.Dialog
 import android.view.LayoutInflater
@@ -22,7 +22,9 @@ class EndGameDialog(
     override fun setUI() {
         isCancelable = false
         binding.apply {
-            tvPoints.text = getString(R.string.endgame_pts, "$points")
+            tvPoints.text = if (points == 1) getString(R.string.endgame_one_point)
+            else getString(R.string.endgame_pts, "$points")
+
             tvPhrase.text = getString(getPhrase())
         }
     }

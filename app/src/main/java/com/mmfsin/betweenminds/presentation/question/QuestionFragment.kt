@@ -8,20 +8,29 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat.getColor
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.GridLayoutManager
 import com.mmfsin.betweenminds.R
 import com.mmfsin.betweenminds.base.BaseFragment
 import com.mmfsin.betweenminds.base.bedrock.BedRockActivity
 import com.mmfsin.betweenminds.databinding.FragmentQuestionBinding
 import com.mmfsin.betweenminds.domain.models.Phrase
+import com.mmfsin.betweenminds.domain.models.Score
+import com.mmfsin.betweenminds.presentation.common.adapter.ScoreboardAdapter
+import com.mmfsin.betweenminds.presentation.common.dialogs.EndGameDialog
+import com.mmfsin.betweenminds.presentation.common.dialogs.save.SavePointsDialog
+import com.mmfsin.betweenminds.utils.MODE_NUMBER
 import com.mmfsin.betweenminds.utils.animateX
 import com.mmfsin.betweenminds.utils.animateY
 import com.mmfsin.betweenminds.utils.countDown
+import com.mmfsin.betweenminds.utils.getEmptyScoreList
 import com.mmfsin.betweenminds.utils.getNumberColor
+import com.mmfsin.betweenminds.utils.getPoints
 import com.mmfsin.betweenminds.utils.handleAlpha
 import com.mmfsin.betweenminds.utils.hideAlpha
 import com.mmfsin.betweenminds.utils.moveSliderValue
 import com.mmfsin.betweenminds.utils.showAlpha
 import com.mmfsin.betweenminds.utils.showErrorDialog
+import com.mmfsin.betweenminds.utils.showFragmentDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.absoluteValue
 
@@ -33,14 +42,30 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
 
     private var questions: List<Phrase> = emptyList()
     private var position = 0
-    private var topSliderNumber = 0f
+
+    private var numberToGuess = 0f
+    private var resultNumber = 0f
+    private var round = 0
+
+    private var scoreboardAdapter: ScoreboardAdapter? = null
 
     override fun inflateView(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentQuestionBinding.inflate(inflater, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setUpScoreboard()
         viewModel.getPhrases()
+    }
+
+    private fun setUpScoreboard() {
+        binding.apply {
+            scoreboard.rvScore.apply {
+                layoutManager = GridLayoutManager(mContext, 4)
+                scoreboardAdapter = ScoreboardAdapter(getEmptyScoreList())
+                adapter = scoreboardAdapter
+            }
+        }
     }
 
     override fun setUI() {
@@ -101,12 +126,18 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
                 btnCheck.isEnabled = false
                 bottomSlider.isEnabled = false
                 hideCurtain()
+                setScoreRound()
                 llBtnCheck.animateY(500f, 500)
 
-                countDown(500) { rematch.root.animateX(0f, 500) }
+                countDown(500) {
+                    /** Cuatro rondas 0,1,2,3 */
+                    if (round > 2) countDown(1000) { endGame() }
+                    else rematch.root.animateX(0f, 500)
+                }
             }
 
             rematch.btnRematch.setOnClickListener {
+                round++
                 rematch.btnRematch.isEnabled = false
                 rematch.root.animateX(500f, 500)
                 countDown(200) {
@@ -120,12 +151,11 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
     private fun nextQuestion() {
         binding.apply {
             position++
-            if (position < questions.size - 1) {
-                countDown(500) {
-                    tvQuestion.text = questions[position].text
-                    clQuestion.animateX(0f, 500)
-                    llBtnHide.animateY(0f, 500)
-                }
+            countDown(500) {
+                if (position > questions.size - 1) position = 0
+                tvQuestion.text = questions[position].text
+                clQuestion.animateX(0f, 500)
+                llBtnHide.animateY(0f, 500)
             }
         }
     }
@@ -167,14 +197,14 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
 
     private fun hideCurtain() {
         binding.apply {
-            topSliderValue(topSliderNumber)
+            topSliderValue(numberToGuess)
             topSlider.showAlpha(500)
         }
     }
 
     private fun topSliderValue(value: Float) {
         binding.apply {
-            topSliderNumber = value
+            numberToGuess = value
             tvTopNumber.text = "${value.toInt().absoluteValue}"
             tvTopNumber.setTextColor(getColor(mContext, getNumberColor(value.toInt())))
         }
@@ -182,6 +212,8 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
 
     private fun bottomSliderValue(value: Float) {
         binding.apply {
+            resultNumber = value
+
             tvBottomNumber.text = "${value.toInt().absoluteValue}"
             tvBottomNumber.setTextColor(getColor(mContext, getNumberColor(value.toInt())))
 
@@ -205,6 +237,45 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
                 ivRight.setImageResource(R.drawable.ic_human_up)
             }
         }
+    }
+
+    private fun setScoreRound() {
+        scoreboardAdapter?.updateScore(
+            newScore = Score(
+                discovered = true,
+                topNumber = numberToGuess.toInt(),
+                resultNumber = resultNumber.toInt(),
+                points = getPoints(numberToGuess.toInt(), resultNumber.toInt())
+            ), position = round
+        )
+    }
+
+    private fun endGame() {
+        val points = scoreboardAdapter?.getTotalPoints()
+        points?.let {
+            activity?.showFragmentDialog(
+                EndGameDialog(points = points,
+                    restartGame = { restartGame() },
+                    saveScore = { showSaveScoreDialog(points) },
+                    exit = { activity?.onBackPressedDispatcher?.onBackPressed() })
+            )
+        } ?: run { error() }
+    }
+
+    private fun showSaveScoreDialog(points: Int) {
+        activity?.showFragmentDialog(
+            SavePointsDialog(mode = MODE_NUMBER,
+                points = points,
+                restartGame = { restartGame() },
+                exit = { activity?.onBackPressedDispatcher?.onBackPressed() })
+        )
+    }
+
+    private fun restartGame() {
+        round = 0
+        scoreboardAdapter?.resetScores()
+        initialStates()
+        nextQuestion()
     }
 
     private fun error() = activity?.showErrorDialog()

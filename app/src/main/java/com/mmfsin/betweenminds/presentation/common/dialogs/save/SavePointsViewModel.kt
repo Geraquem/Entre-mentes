@@ -1,4 +1,4 @@
-package com.mmfsin.betweenminds.presentation.number.dialogs.save
+package com.mmfsin.betweenminds.presentation.common.dialogs.save
 
 import com.mmfsin.betweenminds.base.BaseViewModel
 import com.mmfsin.betweenminds.domain.models.SavedScore

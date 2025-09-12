@@ -16,9 +16,9 @@ import com.mmfsin.betweenminds.base.BaseFragmentNoVM
 import com.mmfsin.betweenminds.base.bedrock.BedRockActivity
 import com.mmfsin.betweenminds.databinding.FragmentNumberBinding
 import com.mmfsin.betweenminds.domain.models.Score
-import com.mmfsin.betweenminds.presentation.number.adapter.ScoreboardAdapter
-import com.mmfsin.betweenminds.presentation.number.dialogs.EndGameDialog
-import com.mmfsin.betweenminds.presentation.number.dialogs.save.SavePointsDialog
+import com.mmfsin.betweenminds.presentation.common.adapter.ScoreboardAdapter
+import com.mmfsin.betweenminds.presentation.common.dialogs.EndGameDialog
+import com.mmfsin.betweenminds.presentation.common.dialogs.save.SavePointsDialog
 import com.mmfsin.betweenminds.utils.MODE_NUMBER
 import com.mmfsin.betweenminds.utils.animateX
 import com.mmfsin.betweenminds.utils.animateY
@@ -145,11 +145,11 @@ class NumberFragment : BaseFragmentNoVM<FragmentNumberBinding>() {
                 btnCheck.isEnabled = false
                 slider.isEnabled = false
                 hideCurtain()
-                addPoints()
+                setScoreRound()
                 llBtnCheck.animateY(500f, 500)
                 countDown(500) {
                     /** Cuatro rondas 0,1,2,3 */
-                    if (round > -1) countDown(1000) { endGame() }
+                    if (round > 2) countDown(1000) { endGame() }
                     else rematch.root.animateX(0f, 500)
                 }
             }
@@ -208,7 +208,7 @@ class NumberFragment : BaseFragmentNoVM<FragmentNumberBinding>() {
         }
     }
 
-    private fun addPoints() {
+    private fun setScoreRound() {
         scoreboardAdapter?.updateScore(
             newScore = Score(
                 discovered = true,

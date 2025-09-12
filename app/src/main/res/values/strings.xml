@@ -18,6 +18,7 @@
 
     <!-- ENDGAME -->
     <string name="endgame_top_text">Habéis conseguido</string>
+    <string name="endgame_one_point">1 punto</string>
     <string name="endgame_pts">%s puntos</string>
     <string name="endgame_phrase_perfect">Ha sido todo tan perfecto y milimétrico que seguro que habéis hecho trampas</string>
     <string name="endgame_phrase_almost_perfect">Sois como uña y carne</string>

@@ -6,5 +6,5 @@ import javax.inject.Inject
 class GetPhrasesUseCase @Inject constructor(
     private val repository: IPhrasesRepository
 ) {
-    fun execute() = repository.getPhrases().shuffled()
+    fun execute() = repository.getPhrases()//.shuffled()
 }

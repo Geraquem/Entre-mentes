@@ -1,4 +1,4 @@
-package com.mmfsin.betweenminds.presentation.number.dialogs.save
+package com.mmfsin.betweenminds.presentation.common.dialogs.save
 
 sealed class SavePointsEvent {
     data object Completed : SavePointsEvent()

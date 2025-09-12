@@ -1,4 +1,4 @@
-package com.mmfsin.betweenminds.presentation.number.adapter
+package com.mmfsin.betweenminds.presentation.common.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context

@@ -74,27 +74,14 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.95" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/ll_top_slider"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="vertical"
+            app:layout_constraintLeft_toLeftOf="@id/gl_left2"
+            app:layout_constraintRight_toRightOf="@id/gl_right2"
             app:layout_constraintTop_toTopOf="parent">
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/gl_left3"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.05" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/gl_right3"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.95" />
 
             <TextView
                 android:id="@+id/tv_top_number"
@@ -106,111 +93,99 @@
                 android:fontFamily="@font/august_shining"
                 android:text="@string/zero"
                 android:textColor="@color/dark_grey"
-                android:textSize="68sp"
-                app:layout_constraintLeft_toLeftOf="@id/gl_left3"
-                app:layout_constraintRight_toRightOf="@id/gl_right3"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:textSize="68sp" />
 
             <com.google.android.material.slider.Slider
                 android:id="@+id/top_slider"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="24dp"
                 android:stepSize="0"
                 android:value="0"
                 android:valueFrom="-100"
                 android:valueTo="100"
                 app:labelBehavior="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="@id/gl_left3"
-                app:layout_constraintRight_toRightOf="@id/gl_right3"
-                app:layout_constraintTop_toBottomOf="@id/tv_top_number"
                 app:thumbRadius="14dp"
                 app:tickVisible="false"
                 app:trackColorActive="@color/blue"
                 app:trackColorInactive="@color/dark_orange"
                 app:trackHeight="20dp" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <LinearLayout
-            android:id="@+id/ll_bottom_slider"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:gravity="center"
-            android:orientation="vertical"
-            app:layout_constraintLeft_toLeftOf="@id/gl_left2"
-            app:layout_constraintRight_toRightOf="@id/gl_right2"
-            app:layout_constraintTop_toBottomOf="@id/ll_top_slider">
-
-            <TextView
-                android:id="@+id/tv_bottom_number"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:fontFamily="@font/august_shining"
-                android:text="@string/zero"
-                android:textColor="@color/dark_grey"
-                android:textSize="68sp" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_images"
+            <LinearLayout
+                android:id="@+id/ll_bottom_slider"
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:layout_gravity="center"
-                android:gravity="center">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/gl_center"
+                <TextView
+                    android:id="@+id/tv_bottom_number"
                     android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_percent="0.5" />
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/august_shining"
+                    android:text="@string/zero"
+                    android:textColor="@color/dark_grey"
+                    android:textSize="68sp" />
 
-                <ImageView
-                    android:id="@+id/iv_left"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:contentDescription="@string/content_description"
-                    android:src="@drawable/ic_human_down"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toLeftOf="@id/gl_center"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/blue" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_images"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:layout_gravity="center"
+                    android:gravity="center">
 
-                <ImageView
-                    android:id="@+id/iv_right"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:contentDescription="@string/content_description"
-                    android:src="@drawable/ic_human_down"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toRightOf="@id/gl_center"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/dark_orange" />
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/gl_center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.5" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    <ImageView
+                        android:id="@+id/iv_left"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:contentDescription="@string/content_description"
+                        android:src="@drawable/ic_human_down"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toLeftOf="@id/gl_center"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tint="@color/blue" />
 
-            <com.google.android.material.slider.Slider
-                android:id="@+id/bottom_slider"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:stepSize="0"
-                android:value="0"
-                android:valueFrom="-100"
-                android:valueTo="100"
-                app:labelBehavior="gone"
-                app:thumbRadius="14dp"
-                app:tickVisible="false"
-                app:trackColorActive="@color/blue"
-                app:trackColorInactive="@color/dark_orange"
-                app:trackHeight="20dp" />
+                    <ImageView
+                        android:id="@+id/iv_right"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:contentDescription="@string/content_description"
+                        android:src="@drawable/ic_human_down"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toRightOf="@id/gl_center"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tint="@color/dark_orange" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <com.google.android.material.slider.Slider
+                    android:id="@+id/bottom_slider"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:stepSize="0"
+                    android:value="0"
+                    android:valueFrom="-100"
+                    android:valueTo="100"
+                    app:labelBehavior="gone"
+                    app:thumbRadius="14dp"
+                    app:tickVisible="false"
+                    app:trackColorActive="@color/blue"
+                    app:trackColorInactive="@color/dark_orange"
+                    app:trackHeight="20dp" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -221,7 +196,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/scoreboard"
         app:layout_constraintLeft_toLeftOf="@id/gl_left"
         app:layout_constraintRight_toRightOf="@id/gl_right">
 
@@ -240,7 +215,7 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="32dp" />
+            android:layout_height="16dp" />
 
     </LinearLayout>
 
@@ -249,7 +224,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/scoreboard"
         app:layout_constraintLeft_toLeftOf="@id/gl_left"
         app:layout_constraintRight_toRightOf="@id/gl_right">
 
@@ -268,7 +243,7 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="32dp" />
+            android:layout_height="16dp" />
 
     </LinearLayout>
 
@@ -277,9 +252,18 @@
         layout="@layout/include_btn_rematch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="16sp"
+        app:layout_constraintBottom_toTopOf="@id/scoreboard"
         app:layout_constraintRight_toRightOf="@id/gl_right" />
+
+    <include
+        android:id="@+id/scoreboard"
+        layout="@layout/include_scoreboard"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
     <include
         android:id="@+id/loading"
