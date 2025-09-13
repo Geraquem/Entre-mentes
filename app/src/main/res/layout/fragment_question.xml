@@ -22,43 +22,29 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.95" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_question"
+    <TextView
+        android:id="@+id/tv_question"
+        style="@style/MediumTextView"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:background="@drawable/bg_white_box"
-        android:clipChildren="false"
-        android:clipToPadding="false"
-        android:elevation="4dp"
-        android:paddingHorizontal="12dp"
-        android:paddingVertical="24dp"
+        android:layout_height="120dp"
+        android:layout_marginHorizontal="8dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/alphazet"
+        android:gravity="center"
+        android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="@id/gl_left"
         app:layout_constraintRight_toRightOf="@id/gl_right"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/tv_question"
-            style="@style/MediumTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="¿Quién es más simpático cuando se trata de conocer a gente nueva?" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="¿Quién es más simpático cuando se trata de conocer a gente nueva?" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@id/ll_btn_hide"
+        app:layout_constraintBottom_toTopOf="@id/rl_btn_hide"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cl_question">
+        app:layout_constraintTop_toBottomOf="@id/tv_question">
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/gl_left2"
@@ -74,6 +60,61 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.95" />
 
+        <TextView
+            android:id="@+id/tv_top_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/august_shining"
+            android:text="@string/zero"
+            android:textColor="@color/dark_grey"
+            android:textSize="52sp"
+            app:layout_constraintLeft_toLeftOf="@id/gl_left2"
+            app:layout_constraintRight_toRightOf="@id/gl_right2"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.slider.Slider
+            android:id="@+id/top_slider"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:stepSize="1"
+            android:value="0"
+            android:valueFrom="-100"
+            android:valueTo="100"
+            app:labelBehavior="gone"
+            app:layout_constraintLeft_toLeftOf="@id/gl_left2"
+            app:layout_constraintRight_toRightOf="@id/gl_right2"
+            app:layout_constraintTop_toBottomOf="@id/tv_top_number"
+            app:thumbRadius="14dp"
+            app:tickVisible="false"
+            app:trackColor="@color/dark_grey"
+            app:trackHeight="16dp" />
+
+        <RelativeLayout
+            android:id="@+id/curtain"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/background"
+            app:layout_constraintBottom_toBottomOf="@id/top_slider"
+            app:layout_constraintLeft_toLeftOf="@id/gl_left2"
+            app:layout_constraintRight_toRightOf="@id/gl_right2"
+            app:layout_constraintTop_toTopOf="@id/tv_top_number">
+
+            <TextView
+                style="@style/BigTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/august_shining"
+                android:text="@string/question"
+                android:textColor="@color/dark_red"
+                android:textSize="64sp" />
+
+        </RelativeLayout>
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -81,37 +122,48 @@
             android:orientation="vertical"
             app:layout_constraintLeft_toLeftOf="@id/gl_left2"
             app:layout_constraintRight_toRightOf="@id/gl_right2"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@id/top_slider">
 
-            <TextView
-                android:id="@+id/tv_top_number"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="8dp"
-                android:fontFamily="@font/august_shining"
-                android:text="@string/zero"
-                android:textColor="@color/dark_grey"
-                android:textSize="68sp" />
-
-            <com.google.android.material.slider.Slider
-                android:id="@+id/top_slider"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_images"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="64dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="24dp"
-                android:stepSize="0"
-                android:value="0"
-                android:valueFrom="-100"
-                android:valueTo="100"
-                app:labelBehavior="gone"
-                app:thumbRadius="14dp"
-                app:tickVisible="false"
-                app:trackColorActive="@color/blue"
-                app:trackColorInactive="@color/dark_orange"
-                app:trackHeight="20dp" />
+                android:layout_marginVertical="12dp"
+                android:gravity="center">
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/gl_center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.5" />
+
+                <ImageView
+                    android:id="@+id/iv_left"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:contentDescription="@string/content_description"
+                    android:src="@drawable/ic_human_down"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toLeftOf="@id/gl_center"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/blue" />
+
+                <ImageView
+                    android:id="@+id/iv_right"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:contentDescription="@string/content_description"
+                    android:src="@drawable/ic_human_down"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@id/gl_center"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/dark_orange" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <LinearLayout
                 android:id="@+id/ll_bottom_slider"
@@ -127,47 +179,7 @@
                     android:fontFamily="@font/august_shining"
                     android:text="@string/zero"
                     android:textColor="@color/dark_grey"
-                    android:textSize="68sp" />
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/cl_images"
-                    android:layout_width="match_parent"
-                    android:layout_height="80dp"
-                    android:layout_gravity="center"
-                    android:gravity="center">
-
-                    <androidx.constraintlayout.widget.Guideline
-                        android:id="@+id/gl_center"
-                        android:layout_width="wrap_content"
-                        android:layout_height="0dp"
-                        android:orientation="vertical"
-                        app:layout_constraintGuide_percent="0.5" />
-
-                    <ImageView
-                        android:id="@+id/iv_left"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:contentDescription="@string/content_description"
-                        android:src="@drawable/ic_human_down"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintRight_toLeftOf="@id/gl_center"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:tint="@color/blue" />
-
-                    <ImageView
-                        android:id="@+id/iv_right"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:contentDescription="@string/content_description"
-                        android:src="@drawable/ic_human_down"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintLeft_toRightOf="@id/gl_center"
-                        app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:tint="@color/dark_orange" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:textSize="52sp" />
 
                 <com.google.android.material.slider.Slider
                     android:id="@+id/bottom_slider"
@@ -181,9 +193,8 @@
                     app:labelBehavior="gone"
                     app:thumbRadius="14dp"
                     app:tickVisible="false"
-                    app:trackColorActive="@color/blue"
-                    app:trackColorInactive="@color/dark_orange"
-                    app:trackHeight="20dp" />
+                    app:trackColor="@color/dark_grey"
+                    app:trackHeight="16dp" />
 
             </LinearLayout>
 
@@ -191,8 +202,8 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <LinearLayout
-        android:id="@+id/ll_btn_check"
+    <RelativeLayout
+        android:id="@+id/rl_btn_check"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -205,7 +216,9 @@
             style="@style/BigTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/click_effect"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="4dp"
+            android:background="@drawable/click_effect_button"
             android:elevation="2dp"
             android:fontFamily="@font/august_shining"
             android:gravity="center"
@@ -213,16 +226,14 @@
             android:text="@string/number_btn_check"
             android:textAllCaps="true" />
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="16dp" />
+    </RelativeLayout>
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_btn_hide"
+    <RelativeLayout
+        android:id="@+id/rl_btn_hide"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:clipChildren="false"
+        android:clipToPadding="false"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@id/scoreboard"
         app:layout_constraintLeft_toLeftOf="@id/gl_left"
@@ -233,7 +244,9 @@
             style="@style/BigTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/click_effect"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="4dp"
+            android:background="@drawable/click_effect_button"
             android:elevation="2dp"
             android:fontFamily="@font/august_shining"
             android:gravity="center"
@@ -241,20 +254,27 @@
             android:text="@string/number_btn_hide"
             android:textAllCaps="true" />
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="16dp" />
+    </RelativeLayout>
 
-    </LinearLayout>
-
-    <include
-        android:id="@+id/rematch"
-        layout="@layout/include_btn_rematch"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/rl_btn_rematch"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16sp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@id/scoreboard"
-        app:layout_constraintRight_toRightOf="@id/gl_right" />
+        app:layout_constraintLeft_toLeftOf="@id/gl_left"
+        app:layout_constraintRight_toRightOf="@id/gl_right">
+
+        <include
+            android:id="@+id/rematch"
+            layout="@layout/include_btn_rematch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp" />
+
+    </RelativeLayout>
 
     <include
         android:id="@+id/scoreboard"

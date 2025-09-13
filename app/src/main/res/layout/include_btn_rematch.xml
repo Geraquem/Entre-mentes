@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:elevation="2dp"
+    android:background="@drawable/click_effect_button"
     android:clipChildren="false"
     android:clipToPadding="false">
 
     <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/btn_rematch"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:background="@drawable/click_effect"
         android:elevation="4dp"
+        android:visibility="gone"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:shapeAppearanceOverlay="@style/circular_image" />
@@ -22,9 +24,24 @@
         android:contentDescription="@string/content_description"
         android:elevation="4dp"
         android:src="@drawable/ic_replay"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@id/btn_rematch"
         app:layout_constraintLeft_toLeftOf="@id/btn_rematch"
         app:layout_constraintRight_toRightOf="@id/btn_rematch"
         app:layout_constraintTop_toTopOf="@id/btn_rematch" />
+
+    <TextView
+        android:id="@+id/btn_rematch"
+        style="@style/BigTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/august_shining"
+        android:gravity="center"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="16dp"
+        android:text="@string/number_btn_next_round"
+        android:textAllCaps="true"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

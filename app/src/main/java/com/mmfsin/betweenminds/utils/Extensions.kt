@@ -8,6 +8,7 @@ import android.animation.ValueAnimator
 import android.app.Activity
 import android.app.Dialog
 import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
 import android.os.CountDownTimer
 import android.transition.AutoTransition
@@ -17,6 +18,7 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.LinearLayout
+import androidx.core.content.ContextCompat.getColor
 import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentActivity
@@ -154,16 +156,16 @@ fun Context.setGlideImage(image: String, view: ImageView, loading: ImageView? = 
 }
 
 fun getNumberColor(value: Int): Int {
-    return if (value > 0) R.color.blue
+    return if (value > 0) R.color.dark_orange
     else if (value == 0) R.color.dark_grey
-    else R.color.dark_orange
+    else R.color.blue
 }
 
-fun Slider.moveSliderValue(value: Float) {
-    val animator = ValueAnimator.ofFloat(this.value, value)
+fun Slider.moveSliderValue(value: Int) {
+    val animator = ValueAnimator.ofInt(this.value.toInt(), value)
     animator.duration = 500
     animator.addUpdateListener { anim ->
-        this.value = anim.animatedValue as Float
+        this.value = (anim.animatedValue as Int).toFloat()
     }
     animator.start()
 }
@@ -186,6 +188,16 @@ fun getTodayDate(): String {
     val today = LocalDate.now()
     val formatter = DateTimeFormatter.ofPattern("d 'de' MMMM 'de' yyyy", Locale("es", "ES"))
     return today.format(formatter)
+}
+
+
+fun Context.handleSliderTrackColor(value: Int, slider: Slider) {
+    val color = if (value > 0f) R.color.dark_orange
+    else if (value == 0) R.color.dark_grey
+    else R.color.blue
+
+    val colorStateList = ColorStateList.valueOf(getColor(this, color))
+    slider.trackTintList = colorStateList
 }
 
 //fun FragmentActivity.shouldShowInterstitial(position: Int) =

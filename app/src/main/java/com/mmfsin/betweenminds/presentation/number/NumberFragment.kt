@@ -88,7 +88,7 @@ class NumberFragment : BaseFragmentNoVM<FragmentNumberBinding>() {
             hideCurtain()
             slotMachine()
 
-            topSlider.moveSliderValue(0f)
+            topSlider.moveSliderValue(0)
             llSlider.hideAlpha(350) {
                 slider.value = 0f
                 setSliderValue(0f)
@@ -115,7 +115,7 @@ class NumberFragment : BaseFragmentNoVM<FragmentNumberBinding>() {
                 override fun onAnimationEnd(animation: Animator) {
                     tvNumberToGuess.text = "${finalNumber.absoluteValue}"
                     tvNumberToGuess.setTextColor(getColor(mContext, getNumberColor(finalNumber)))
-                    topSlider.moveSliderValue(finalNumber.toFloat())
+                    topSlider.moveSliderValue(finalNumber)
 
                     countDown(350) {
                         llBtnHide.animateY(0f, 500)

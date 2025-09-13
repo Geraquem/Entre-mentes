@@ -23,6 +23,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_score"
+        style="@style/scroll_no_effects"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_white_box"

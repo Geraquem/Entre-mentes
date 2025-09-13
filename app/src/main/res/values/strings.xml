@@ -8,10 +8,12 @@
     <string name="error_description">Inténtalo de nuevo más tarde</string>
     <string name="error_btn">Aceptar</string>
 
-    <!-- NUMBER -->
+    <!-- DASHBOARD -->
     <string name="zero">0</string>
+    <string name="question">\?</string>
     <string name="number_btn_hide">Ocultar</string>
     <string name="number_btn_check">Comprobar</string>
+    <string name="number_btn_next_round">Siguiente ronda</string>
 
     <!-- SCOREBOARD -->
     <string name="scoreboard_pts">pts</string>

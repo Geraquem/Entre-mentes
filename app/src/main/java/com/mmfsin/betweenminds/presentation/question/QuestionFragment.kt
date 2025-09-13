@@ -19,13 +19,13 @@ import com.mmfsin.betweenminds.presentation.common.adapter.ScoreboardAdapter
 import com.mmfsin.betweenminds.presentation.common.dialogs.EndGameDialog
 import com.mmfsin.betweenminds.presentation.common.dialogs.save.SavePointsDialog
 import com.mmfsin.betweenminds.utils.MODE_QUESTIONS
-import com.mmfsin.betweenminds.utils.animateX
 import com.mmfsin.betweenminds.utils.animateY
 import com.mmfsin.betweenminds.utils.countDown
 import com.mmfsin.betweenminds.utils.getEmptyScoreList
 import com.mmfsin.betweenminds.utils.getNumberColor
 import com.mmfsin.betweenminds.utils.getPoints
 import com.mmfsin.betweenminds.utils.handleAlpha
+import com.mmfsin.betweenminds.utils.handleSliderTrackColor
 import com.mmfsin.betweenminds.utils.hideAlpha
 import com.mmfsin.betweenminds.utils.moveSliderValue
 import com.mmfsin.betweenminds.utils.showAlpha
@@ -43,8 +43,8 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
     private var questions: List<Question> = emptyList()
     private var position = 0
 
-    private var numberToGuess = 0f
-    private var resultNumber = 0f
+    private var numberToGuess = 0
+    private var resultNumber = 0
     private var round = 0
 
     private var scoreboardAdapter: ScoreboardAdapter? = null
@@ -76,9 +76,9 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
 
             loading.root.isVisible = true
 
-            llBtnHide.animateY(500f, 1)
-            llBtnCheck.animateY(500f, 1)
-            rematch.root.animateX(500f, 1)
+            rlBtnHide.animateY(500f, 1)
+            rlBtnCheck.animateY(500f, 1)
+            rlBtnRematch.animateY(500f, 1)
 
             initialStates()
         }
@@ -88,15 +88,15 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
         binding.apply {
             hideCurtain()
 
-            clQuestion.animateX(-1000f, 1)
+            tvQuestion.hideAlpha(1)
 
-            topSlider.moveSliderValue(0f)
-            topSliderValue(0f)
+            topSlider.moveSliderValue(0)
+            topSliderValue(0)
 
             bottomSlider.isEnabled = false
             llBottomSlider.handleAlpha(0.4f, 350)
-            bottomSlider.moveSliderValue(0f)
-            bottomSliderValue(0f)
+            bottomSlider.moveSliderValue(0)
+            bottomSliderValue(0)
 
             topSlider.isEnabled = true
             btnHide.isEnabled = true
@@ -107,18 +107,18 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
 
     override fun setListeners() {
         binding.apply {
-            topSlider.addOnChangeListener { _, value, _ -> topSliderValue(value) }
-            bottomSlider.addOnChangeListener { _, value, _ -> bottomSliderValue(value) }
+            topSlider.addOnChangeListener { _, value, _ -> topSliderValue(value.toInt()) }
+            bottomSlider.addOnChangeListener { _, value, _ -> bottomSliderValue(value.toInt()) }
 
             btnHide.setOnClickListener {
                 btnHide.isEnabled = false
                 topSlider.isEnabled = false
                 showCurtain()
-                llBtnHide.animateY(500f, 500)
+                rlBtnHide.animateY(500f, 500)
 
                 countDown(350) {
                     llBottomSlider.showAlpha(500) { bottomSlider.isEnabled = true }
-                    llBtnCheck.animateY(0f, 500)
+                    rlBtnCheck.animateY(0f, 500)
                 }
             }
 
@@ -127,19 +127,19 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
                 bottomSlider.isEnabled = false
                 hideCurtain()
                 setScoreRound()
-                llBtnCheck.animateY(500f, 500)
+                rlBtnCheck.animateY(500f, 500)
 
                 countDown(500) {
                     /** Cuatro rondas 0,1,2,3 */
                     if (round > 2) countDown(1000) { endGame() }
-                    else rematch.root.animateX(0f, 500)
+                    else rlBtnRematch.animateY(0f, 500)
                 }
             }
 
             rematch.btnRematch.setOnClickListener {
                 round++
                 rematch.btnRematch.isEnabled = false
-                rematch.root.animateX(500f, 500)
+                rlBtnRematch.animateY(500f, 500)
                 countDown(200) {
                     initialStates()
                     nextQuestion()
@@ -154,8 +154,8 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
             countDown(500) {
                 if (position > questions.size - 1) position = 0
                 tvQuestion.text = questions[position].text
-                clQuestion.animateX(0f, 500)
-                llBtnHide.animateY(0f, 500)
+                tvQuestion.showAlpha(500)
+                rlBtnHide.animateY(0f, 500)
             }
         }
     }
@@ -178,8 +178,8 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
                     loading.root.isVisible = false
                 }
                 countDown(1200) {
-                    clQuestion.animateX(0f, 500)
-                    llBtnHide.animateY(0f, 500)
+                    tvQuestion.showAlpha(500)
+                    rlBtnHide.animateY(0f, 500)
                 }
             } catch (e: Exception) {
                 error()
@@ -188,53 +188,52 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
     }
 
     private fun showCurtain() {
-        binding.apply {
-            tvTopNumber.text = "?"
-            tvTopNumber.setTextColor(getColor(mContext, R.color.dark_grey))
-            topSlider.hideAlpha(300)
-        }
+        binding.apply { curtain.showAlpha(350) }
     }
 
     private fun hideCurtain() {
-        binding.apply {
-            topSliderValue(numberToGuess)
-            topSlider.showAlpha(500)
-        }
+        binding.apply { curtain.hideAlpha(500) }
     }
 
-    private fun topSliderValue(value: Float) {
+    private fun topSliderValue(value: Int) {
         binding.apply {
             numberToGuess = value
-            tvTopNumber.text = "${value.toInt().absoluteValue}"
+            val number = "${value.toInt().absoluteValue}%"
+            tvTopNumber.text = number
             tvTopNumber.setTextColor(getColor(mContext, getNumberColor(value.toInt())))
+
+            mContext.handleSliderTrackColor(value, topSlider)
         }
     }
 
-    private fun bottomSliderValue(value: Float) {
+    private fun bottomSliderValue(value: Int) {
         binding.apply {
             resultNumber = value
 
-            tvBottomNumber.text = "${value.toInt().absoluteValue}"
+            val number = "${value.toInt().absoluteValue}%"
+            tvBottomNumber.text = number
             tvBottomNumber.setTextColor(getColor(mContext, getNumberColor(value.toInt())))
 
-            val leftScale = 3f - ((value + 100f) / 200f) * 2f
-            val rightScale = 1f + ((value + 100f) / 200f) * 2f
+            mContext.handleSliderTrackColor(value, bottomSlider)
 
-            ivRight.scaleX = leftScale
-            ivRight.scaleY = leftScale
+            val leftScale = 2f - ((value + 100f) / 200f) * 1f
+            val rightScale = 1f + ((value + 100f) / 200f) * 1f
 
-            ivLeft.scaleX = rightScale
-            ivLeft.scaleY = rightScale
+            ivRight.scaleX = rightScale
+            ivRight.scaleY = rightScale
+
+            ivLeft.scaleX = leftScale
+            ivLeft.scaleY = leftScale
 
             if (value > 0) {
-                ivLeft.setImageResource(R.drawable.ic_human_up)
-                ivRight.setImageResource(R.drawable.ic_human_down)
-            } else if (value == 0f) {
+                ivLeft.setImageResource(R.drawable.ic_human_down)
+                ivRight.setImageResource(R.drawable.ic_human_up)
+            } else if (value == 0) {
                 ivLeft.setImageResource(R.drawable.ic_human_down)
                 ivRight.setImageResource(R.drawable.ic_human_down)
             } else {
-                ivLeft.setImageResource(R.drawable.ic_human_down)
-                ivRight.setImageResource(R.drawable.ic_human_up)
+                ivLeft.setImageResource(R.drawable.ic_human_up)
+                ivRight.setImageResource(R.drawable.ic_human_down)
             }
         }
     }
@@ -243,9 +242,9 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
         scoreboardAdapter?.updateScore(
             newScore = Score(
                 discovered = true,
-                topNumber = numberToGuess.toInt(),
-                resultNumber = resultNumber.toInt(),
-                points = getPoints(numberToGuess.toInt(), resultNumber.toInt())
+                topNumber = numberToGuess,
+                resultNumber = resultNumber,
+                points = getPoints(numberToGuess, resultNumber)
             ), position = round
         )
     }
