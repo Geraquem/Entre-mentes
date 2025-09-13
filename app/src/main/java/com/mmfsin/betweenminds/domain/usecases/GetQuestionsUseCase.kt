@@ -6,5 +6,5 @@ import javax.inject.Inject
 class GetQuestionsUseCase @Inject constructor(
     private val repository: IQuestionsRepository
 ) {
-    suspend fun execute() = repository.getQuestions()//.shuffled()
+    suspend fun execute() = repository.getQuestions().shuffled()
 }

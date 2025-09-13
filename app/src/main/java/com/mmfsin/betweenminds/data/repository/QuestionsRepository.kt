@@ -13,9 +13,7 @@ import com.mmfsin.betweenminds.utils.SERVER_QUESTIONS
 import com.mmfsin.betweenminds.utils.SHARED_PREFS
 import dagger.hilt.android.qualifiers.ApplicationContext
 import io.realm.kotlin.ext.query
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.concurrent.CountDownLatch
 import javax.inject.Inject
@@ -37,7 +35,7 @@ class QuestionsRepository @Inject constructor(
                         id = child.key.toString()
                         text = child.value.toString()
                     }
-                    CoroutineScope(Dispatchers.IO).launch {   saveQuestionInRealm(question)}
+                    saveQuestionInRealm(question)
                     questions.add(question)
                 }
                 sharedPrefs.edit().apply {
@@ -59,7 +57,11 @@ class QuestionsRepository @Inject constructor(
         }
     }
 
-    private suspend fun saveQuestionInRealm(question: QuestionDTO) {
-        realmDatabase.write { question }
+    private fun saveQuestionInRealm(question: QuestionDTO) {
+        try {
+            realmDatabase.addObject { question }
+        } catch (e: Exception) {
+            println("Error writing in realm")
+        }
     }
 }
