@@ -176,11 +176,9 @@ fun getPoints(num1: Int, num2: Int): Int {
     val diff = kotlin.math.abs(num1 - num2)
 
     return when {
-        diff > 15 -> 0
-        diff == 0 -> 20
-        else -> {
-            16 - diff
-        }
+        diff > 20 -> 0
+        diff == 0 -> 30
+        else -> 21 - diff
     }
 }
 

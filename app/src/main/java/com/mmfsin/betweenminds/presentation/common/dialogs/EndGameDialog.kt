@@ -31,11 +31,13 @@ class EndGameDialog(
 
     private fun getPhrase(): Int {
         return when (points) {
-            in 0..16 -> R.string.endgame_phrase_bad
-            in 17..39 -> R.string.endgame_phrase_medium_bad
-            in 40..64 -> R.string.endgame_phrase_medium_good
-            in 65..79 -> R.string.endgame_phrase_almost_perfect
-            else -> R.string.endgame_phrase_perfect
+            120 -> R.string.endgame_phrase_perfect
+            in 101..119 -> R.string.endgame_phrase_one
+            in 81..100 -> R.string.endgame_phrase_two
+            in 36..80 -> R.string.endgame_phrase_three
+            in 11..35 -> R.string.endgame_phrase_four
+            else -> R.string.endgame_phrase_five
+
         }
     }
 

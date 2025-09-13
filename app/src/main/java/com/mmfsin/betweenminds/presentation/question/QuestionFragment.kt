@@ -87,16 +87,15 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
     private fun initialStates() {
         binding.apply {
             hideCurtain()
+            scaleHumans(0)
 
             tvQuestion.hideAlpha(1)
 
             topSlider.moveSliderValue(0)
-            topSliderValue(0)
 
             bottomSlider.isEnabled = false
             llBottomSlider.handleAlpha(0.4f, 350)
             bottomSlider.moveSliderValue(0)
-            bottomSliderValue(0)
 
             topSlider.isEnabled = true
             btnHide.isEnabled = true
@@ -113,7 +112,11 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
             btnHide.setOnClickListener {
                 btnHide.isEnabled = false
                 topSlider.isEnabled = false
+
                 showCurtain()
+                scaleHumans(0)
+                moveHumans(0)
+
                 rlBtnHide.animateY(500f, 500)
 
                 countDown(350) {
@@ -188,10 +191,7 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
     }
 
     private fun showCurtain() {
-        binding.apply {
-            curtain.showAlpha(350)
-            moveHumans(0)
-        }
+        binding.apply { curtain.showAlpha(350) }
     }
 
     private fun hideCurtain() {
@@ -207,6 +207,7 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
 
             mContext.handleSliderTrackColor(value, topSlider)
 
+            scaleHumans(value)
             moveHumans(value)
         }
     }
@@ -221,6 +222,13 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
 
             mContext.handleSliderTrackColor(value, bottomSlider)
 
+            scaleHumans(value)
+            moveHumans(value)
+        }
+    }
+
+    private fun scaleHumans(value: Int) {
+        binding.apply {
             val leftScale = 2f - ((value + 100f) / 200f) * 1f
             val rightScale = 1f + ((value + 100f) / 200f) * 1f
 
@@ -229,8 +237,6 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
 
             ivLeft.scaleX = leftScale
             ivLeft.scaleY = leftScale
-
-            moveHumans(value)
         }
     }
 

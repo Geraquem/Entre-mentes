@@ -2,6 +2,7 @@
     <string name="app_name">Between Minds</string>
 
     <string name="content_description">image</string>
+    <string name="toolbar_instructions">Cómo jugar</string>
 
     <!-- ERROR -->
     <string name="error_title">Ha ocurrido un problema</string>
@@ -23,10 +24,11 @@
     <string name="endgame_one_point">1 punto</string>
     <string name="endgame_pts">%s puntos</string>
     <string name="endgame_phrase_perfect">Ha sido todo tan perfecto y milimétrico que seguro que habéis hecho trampas</string>
-    <string name="endgame_phrase_almost_perfect">Sois como uña y carne</string>
-    <string name="endgame_phrase_medium_good">¡No lo habéis hecho nada mal!</string>
-    <string name="endgame_phrase_medium_bad">Tenéis que pasar más tiempo juntos…</string>
-    <string name="endgame_phrase_bad">¿Estáis seguros de que os conocéis de algo?</string>
+    <string name="endgame_phrase_one">Os conocéis tanto que casi os comunicáis por telepatía</string>
+    <string name="endgame_phrase_two">Sois como uña y carne</string>
+    <string name="endgame_phrase_three">¡No lo habéis hecho nada mal!</string>
+    <string name="endgame_phrase_four">Tenéis que pasar más tiempo juntos…</string>
+    <string name="endgame_phrase_five">¿Estáis seguros de que os conocéis de algo?</string>
     <string name="endgame_exit">Salir</string>
     <string name="endgame_save">Guardar</string>
     <string name="endgame_replay">Volver a jugar</string>
