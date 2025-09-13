@@ -1,9 +1,11 @@
-package com.mmfsin.betweenminds.presentation.number
+package com.mmfsin.betweenminds.presentation.range
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ValueAnimator
 import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,18 +16,19 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.mmfsin.betweenminds.R
 import com.mmfsin.betweenminds.base.BaseFragmentNoVM
 import com.mmfsin.betweenminds.base.bedrock.BedRockActivity
-import com.mmfsin.betweenminds.databinding.FragmentNumberBinding
+import com.mmfsin.betweenminds.databinding.FragmentRangeBinding
 import com.mmfsin.betweenminds.domain.models.Score
 import com.mmfsin.betweenminds.presentation.common.adapter.ScoreboardAdapter
 import com.mmfsin.betweenminds.presentation.common.dialogs.EndGameDialog
 import com.mmfsin.betweenminds.presentation.common.dialogs.save.SavePointsDialog
 import com.mmfsin.betweenminds.utils.MODE_NUMBER
-import com.mmfsin.betweenminds.utils.animateX
 import com.mmfsin.betweenminds.utils.animateY
 import com.mmfsin.betweenminds.utils.countDown
 import com.mmfsin.betweenminds.utils.getEmptyScoreList
 import com.mmfsin.betweenminds.utils.getNumberColor
 import com.mmfsin.betweenminds.utils.getPoints
+import com.mmfsin.betweenminds.utils.handleAlpha
+import com.mmfsin.betweenminds.utils.handleSliderTrackColor
 import com.mmfsin.betweenminds.utils.hideAlpha
 import com.mmfsin.betweenminds.utils.moveSliderValue
 import com.mmfsin.betweenminds.utils.showAlpha
@@ -35,7 +38,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.absoluteValue
 
 @AndroidEntryPoint
-class NumberFragment : BaseFragmentNoVM<FragmentNumberBinding>() {
+class RangeFragment : BaseFragmentNoVM<FragmentRangeBinding>() {
 
     private lateinit var mContext: Context
 
@@ -45,9 +48,8 @@ class NumberFragment : BaseFragmentNoVM<FragmentNumberBinding>() {
 
     private var scoreboardAdapter: ScoreboardAdapter? = null
 
-    override fun inflateView(
-        inflater: LayoutInflater, container: ViewGroup?
-    ) = FragmentNumberBinding.inflate(inflater, container, false)
+    override fun inflateView(inflater: LayoutInflater, container: ViewGroup?) =
+        FragmentRangeBinding.inflate(inflater, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -70,29 +72,31 @@ class NumberFragment : BaseFragmentNoVM<FragmentNumberBinding>() {
                 instructionsNavGraph = R.navigation.nav_graph_question
             )
 
-            lottieCurtain.isVisible = false
+            loading.root.isVisible = true
+            loading.root.isVisible = false
 
             topSlider.isEnabled = false
-            llSlider.alpha = 0f
+            topSlider.thumbTintList = ColorStateList.valueOf(Color.WHITE)
+            bottomSlider.thumbTintList = ColorStateList.valueOf(Color.WHITE)
 
-            llBtnHide.animateY(500f, 1)
-            llBtnCheck.animateY(500f, 1)
-            rematch.root.animateX(500f, 1)
+            rlBtnHide.animateY(500f, 1)
+            rlBtnCheck.animateY(500f, 1)
+            rlBtnRematch.animateY(500f, 1)
 
+            initialStates()
             startGame()
         }
     }
 
-    private fun startGame() {
+    private fun initialStates() {
         binding.apply {
             hideCurtain()
-            slotMachine()
 
             topSlider.moveSliderValue(0)
-            llSlider.hideAlpha(350) {
-                slider.value = 0f
-                setSliderValue(0f)
-            }
+
+            bottomSlider.isEnabled = false
+            llBottomSlider.handleAlpha(0.4f, 350)
+            bottomSlider.moveSliderValue(0)
 
             btnHide.isEnabled = true
             btnCheck.isEnabled = true
@@ -100,25 +104,26 @@ class NumberFragment : BaseFragmentNoVM<FragmentNumberBinding>() {
         }
     }
 
-    private fun slotMachine() {
+    private fun startGame() {
         binding.apply {
-            tvNumberToGuess.setTextColor(getColor(mContext, R.color.dark_grey))
+            tvTopNumber.setTextColor(getColor(mContext, R.color.dark_grey))
             val finalNumber = (-100..100).random()
             numberToGuess = finalNumber
             val animator = ValueAnimator.ofInt(1, 100)
             animator.duration = 2000
             animator.addUpdateListener { _ ->
                 val random = (0..100).random()
-                tvNumberToGuess.text = "$random"
+                tvTopNumber.text = "$random"
             }
             animator.addListener(object : AnimatorListenerAdapter() {
                 override fun onAnimationEnd(animation: Animator) {
-                    tvNumberToGuess.text = "${finalNumber.absoluteValue}"
-                    tvNumberToGuess.setTextColor(getColor(mContext, getNumberColor(finalNumber)))
+                    tvTopNumber.text = "${finalNumber.absoluteValue}"
+                    tvTopNumber.setTextColor(getColor(mContext, getNumberColor(finalNumber)))
                     topSlider.moveSliderValue(finalNumber)
+                    mContext.handleSliderTrackColor(finalNumber, topSlider)
 
                     countDown(350) {
-                        llBtnHide.animateY(0f, 500)
+                        rlBtnHide.animateY(0f, 500)
                     }
                 }
             })
@@ -128,83 +133,59 @@ class NumberFragment : BaseFragmentNoVM<FragmentNumberBinding>() {
 
     override fun setListeners() {
         binding.apply {
-            slider.addOnChangeListener { _, value, _ -> setSliderValue(value) }
+            bottomSlider.addOnChangeListener { _, value, _ -> setSliderValue(value.toInt()) }
 
             btnHide.setOnClickListener {
                 btnHide.isEnabled = false
                 showCurtain()
-                llBtnHide.animateY(500f, 500)
+                rlBtnHide.animateY(500f, 500)
 
                 countDown(350) {
-                    llSlider.showAlpha(500) { slider.isEnabled = true }
-                    llBtnCheck.animateY(0f, 500)
+                    llBottomSlider.showAlpha(500) { bottomSlider.isEnabled = true }
+                    rlBtnCheck.animateY(0f, 500)
                 }
             }
 
             btnCheck.setOnClickListener {
                 btnCheck.isEnabled = false
-                slider.isEnabled = false
+                bottomSlider.isEnabled = false
                 hideCurtain()
                 setScoreRound()
-                llBtnCheck.animateY(500f, 500)
+                rlBtnCheck.animateY(500f, 500)
+
                 countDown(500) {
                     /** Cuatro rondas 0,1,2,3 */
                     if (round > 2) countDown(1000) { endGame() }
-                    else rematch.root.animateX(0f, 500)
+                    else rlBtnRematch.animateY(0f, 500)
                 }
             }
 
             rematch.btnRematch.setOnClickListener {
                 round++
                 rematch.btnRematch.isEnabled = false
-                rematch.root.animateX(500f, 500)
-                countDown(200) { startGame() }
+                rlBtnRematch.animateY(500f, 500)
+                countDown(200) {
+                    initialStates()
+                    startGame()
+                }
             }
         }
     }
 
     private fun showCurtain() {
-        binding.apply {
-            lottieCurtain.isVisible = true
-            lottieCurtain.speed = 4f
-            lottieCurtain.playAnimation()
-        }
+        binding.apply { curtain.showAlpha(350) }
     }
 
     private fun hideCurtain() {
-        binding.apply {
-            lottieCurtain.animateY(-1000f, 500) {
-                lottieCurtain.isVisible = false
-                lottieCurtain.animateY(0f, 1)
-            }
-        }
+        binding.apply { curtain.hideAlpha(500) }
     }
 
-    private fun setSliderValue(value: Float) {
+    private fun setSliderValue(value: Int) {
         binding.apply {
-            resultNumber = value.toInt()
-            tvSliderNumber.text = "${value.toInt().absoluteValue}"
-            tvSliderNumber.setTextColor(getColor(mContext, getNumberColor(value.toInt())))
-
-            val leftScale = 3f - ((value + 100f) / 200f) * 2f
-            val rightScale = 1f + ((value + 100f) / 200f) * 2f
-
-            ivRight.scaleX = leftScale
-            ivRight.scaleY = leftScale
-
-            ivLeft.scaleX = rightScale
-            ivLeft.scaleY = rightScale
-
-            if (value > 0) {
-                ivLeft.setImageResource(R.drawable.ic_human_up)
-                ivRight.setImageResource(R.drawable.ic_human_down)
-            } else if (value == 0f) {
-                ivLeft.setImageResource(R.drawable.ic_human_down)
-                ivRight.setImageResource(R.drawable.ic_human_down)
-            } else {
-                ivLeft.setImageResource(R.drawable.ic_human_down)
-                ivRight.setImageResource(R.drawable.ic_human_up)
-            }
+            resultNumber = value
+            tvBottomNumber.text = "${value.absoluteValue}"
+            tvBottomNumber.setTextColor(getColor(mContext, getNumberColor(value)))
+            mContext.handleSliderTrackColor(value, bottomSlider)
         }
     }
 

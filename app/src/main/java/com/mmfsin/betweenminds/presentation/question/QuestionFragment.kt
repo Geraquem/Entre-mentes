@@ -1,6 +1,8 @@
 package com.mmfsin.betweenminds.presentation.question
 
 import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.Color.WHITE
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -75,6 +77,9 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
             )
 
             loading.root.isVisible = true
+
+            topSlider.thumbTintList = ColorStateList.valueOf(WHITE)
+            bottomSlider.thumbTintList = ColorStateList.valueOf(WHITE)
 
             rlBtnHide.animateY(500f, 1)
             rlBtnCheck.animateY(500f, 1)

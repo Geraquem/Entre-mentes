@@ -7,8 +7,8 @@
 
     <fragment
         android:id="@+id/numberFragment"
-        android:name="com.mmfsin.betweenminds.presentation.number.NumberFragment"
+        android:name="com.mmfsin.betweenminds.presentation.range.RangeFragment"
         android:label="numberFragment"
-        tools:layout="@layout/fragment_number" />
+        tools:layout="@layout/fragment_range" />
 
 </navigation>

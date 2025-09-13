@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:clipChildren="false"
+    android:clipToPadding="false">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_left"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.05" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_right"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.95" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@id/rl_btn_hide"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_left2"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.05" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_right2"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.95" />
+
+        <TextView
+            android:id="@+id/tv_top_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/august_shining"
+            android:text="@string/zero"
+            android:textColor="@color/dark_grey"
+            android:textSize="52sp"
+            app:layout_constraintLeft_toLeftOf="@id/gl_left2"
+            app:layout_constraintRight_toRightOf="@id/gl_right2"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.slider.Slider
+            android:id="@+id/top_slider"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:stepSize="1"
+            app:thumbTint="@color/white"
+            android:value="0"
+            android:valueFrom="-100"
+            android:valueTo="100"
+            app:labelBehavior="gone"
+            app:layout_constraintLeft_toLeftOf="@id/gl_left2"
+            app:layout_constraintRight_toRightOf="@id/gl_right2"
+            app:layout_constraintTop_toBottomOf="@id/tv_top_number"
+            app:thumbRadius="8dp"
+            app:tickVisible="false"
+            app:trackColor="@color/dark_grey"
+            app:trackHeight="16dp" />
+
+        <RelativeLayout
+            android:id="@+id/curtain"
+            tools:visibility="gone"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/background"
+            app:layout_constraintBottom_toBottomOf="@id/top_slider"
+            app:layout_constraintLeft_toLeftOf="@id/gl_left2"
+            app:layout_constraintRight_toRightOf="@id/gl_right2"
+            app:layout_constraintTop_toTopOf="@id/tv_top_number">
+
+            <TextView
+                style="@style/BigTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/august_shining"
+                android:text="@string/question"
+                android:textColor="@color/dark_red"
+                android:textSize="64sp" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintLeft_toLeftOf="@id/gl_left2"
+            app:layout_constraintRight_toRightOf="@id/gl_right2"
+            app:layout_constraintTop_toBottomOf="@id/top_slider">
+
+            <LinearLayout
+                android:id="@+id/cl_images"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginVertical="24dp"
+                android:gravity="center"
+                android:weightSum="1">
+
+                <TextView
+                    style="@style/BigTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.475"
+                    android:fontFamily="@font/alphazet"
+                    android:gravity="start"
+                    android:paddingStart="16dp"
+                    android:text="Frío"
+                    android:textColor="@color/blue"
+                    android:textStyle="bold"
+                    tools:ignore="RtlSymmetry" />
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.05" />
+
+                <TextView
+                    style="@style/BigTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="0.475"
+                    android:fontFamily="@font/alphazet"
+                    android:gravity="end"
+                    android:paddingEnd="16dp"
+                    android:text="Calor"
+                    android:textColor="@color/dark_orange"
+                    android:textStyle="bold"
+                    tools:ignore="RtlSymmetry" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_bottom_slider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_bottom_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/august_shining"
+                    android:text="@string/zero"
+                    android:textColor="@color/dark_grey"
+                    android:textSize="52sp" />
+
+                <com.google.android.material.slider.Slider
+                    android:id="@+id/bottom_slider"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:stepSize="0"
+                    android:value="0"
+                    android:valueFrom="-100"
+                    android:valueTo="100"
+                    app:labelBehavior="gone"
+                    app:thumbRadius="14dp"
+                    app:tickVisible="false"
+                    app:trackColor="@color/dark_grey"
+                    app:trackHeight="16dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_btn_check"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@id/scoreboard"
+        app:layout_constraintLeft_toLeftOf="@id/gl_left"
+        app:layout_constraintRight_toRightOf="@id/gl_right">
+
+        <TextView
+            android:id="@+id/btn_check"
+            style="@style/BigTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="4dp"
+            android:background="@drawable/click_effect_button"
+            android:elevation="2dp"
+            android:fontFamily="@font/august_shining"
+            android:gravity="center"
+            android:paddingVertical="16dp"
+            android:text="@string/number_btn_check"
+            android:textAllCaps="true" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_btn_hide"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@id/scoreboard"
+        app:layout_constraintLeft_toLeftOf="@id/gl_left"
+        app:layout_constraintRight_toRightOf="@id/gl_right">
+
+        <TextView
+            android:id="@+id/btn_hide"
+            style="@style/BigTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="4dp"
+            android:background="@drawable/click_effect_button"
+            android:elevation="2dp"
+            android:fontFamily="@font/august_shining"
+            android:gravity="center"
+            android:paddingVertical="16dp"
+            android:text="@string/number_btn_hide"
+            android:textAllCaps="true" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_btn_rematch"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@id/scoreboard"
+        app:layout_constraintLeft_toLeftOf="@id/gl_left"
+        app:layout_constraintRight_toRightOf="@id/gl_right">
+
+        <include
+            android:id="@+id/rematch"
+            layout="@layout/include_btn_rematch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp" />
+
+    </RelativeLayout>
+
+    <include
+        android:id="@+id/scoreboard"
+        layout="@layout/include_scoreboard"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <include
+        android:id="@+id/loading"
+        layout="@layout/include_loading"
+        tools:visibility="gone" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
