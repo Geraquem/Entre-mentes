@@ -188,7 +188,10 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
     }
 
     private fun showCurtain() {
-        binding.apply { curtain.showAlpha(350) }
+        binding.apply {
+            curtain.showAlpha(350)
+            moveHumans(0)
+        }
     }
 
     private fun hideCurtain() {
@@ -198,11 +201,13 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
     private fun topSliderValue(value: Int) {
         binding.apply {
             numberToGuess = value
-            val number = "${value.toInt().absoluteValue}%"
+            val number = "${value.absoluteValue}%"
             tvTopNumber.text = number
-            tvTopNumber.setTextColor(getColor(mContext, getNumberColor(value.toInt())))
+            tvTopNumber.setTextColor(getColor(mContext, getNumberColor(value)))
 
             mContext.handleSliderTrackColor(value, topSlider)
+
+            moveHumans(value)
         }
     }
 
@@ -210,9 +215,9 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
         binding.apply {
             resultNumber = value
 
-            val number = "${value.toInt().absoluteValue}%"
+            val number = "${value.absoluteValue}%"
             tvBottomNumber.text = number
-            tvBottomNumber.setTextColor(getColor(mContext, getNumberColor(value.toInt())))
+            tvBottomNumber.setTextColor(getColor(mContext, getNumberColor(value)))
 
             mContext.handleSliderTrackColor(value, bottomSlider)
 
@@ -225,6 +230,12 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
             ivLeft.scaleX = leftScale
             ivLeft.scaleY = leftScale
 
+            moveHumans(value)
+        }
+    }
+
+    private fun moveHumans(value: Int) {
+        binding.apply {
             if (value > 0) {
                 ivLeft.setImageResource(R.drawable.ic_human_down)
                 ivRight.setImageResource(R.drawable.ic_human_up)
