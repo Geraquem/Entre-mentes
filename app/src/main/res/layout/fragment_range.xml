@@ -66,7 +66,6 @@
             android:layout_gravity="center"
             android:layout_marginTop="8dp"
             android:stepSize="1"
-            app:thumbTint="@color/white"
             android:value="0"
             android:valueFrom="-100"
             android:valueTo="100"
@@ -75,20 +74,21 @@
             app:layout_constraintRight_toRightOf="@id/gl_right2"
             app:layout_constraintTop_toBottomOf="@id/tv_top_number"
             app:thumbRadius="8dp"
+            app:thumbTint="@color/white"
             app:tickVisible="false"
             app:trackColor="@color/dark_grey"
             app:trackHeight="16dp" />
 
         <RelativeLayout
             android:id="@+id/curtain"
-            tools:visibility="gone"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@color/background"
             app:layout_constraintBottom_toBottomOf="@id/top_slider"
             app:layout_constraintLeft_toLeftOf="@id/gl_left2"
             app:layout_constraintRight_toRightOf="@id/gl_right2"
-            app:layout_constraintTop_toTopOf="@id/tv_top_number">
+            app:layout_constraintTop_toTopOf="@id/tv_top_number"
+            tools:visibility="gone">
 
             <TextView
                 style="@style/BigTextView"
@@ -121,6 +121,7 @@
                 android:weightSum="1">
 
                 <TextView
+                    android:id="@+id/tv_range_left"
                     style="@style/BigTextView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -139,6 +140,7 @@
                     android:layout_weight="0.05" />
 
                 <TextView
+                    android:id="@+id/tv_range_right"
                     style="@style/BigTextView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"

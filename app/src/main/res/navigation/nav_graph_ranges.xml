@@ -2,13 +2,13 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nav_graph_number"
-    app:startDestination="@id/numberFragment">
+    android:id="@+id/nav_graph_ranges"
+    app:startDestination="@id/rangesFragment">
 
     <fragment
-        android:id="@+id/numberFragment"
-        android:name="com.mmfsin.betweenminds.presentation.range.RangeFragment"
-        android:label="numberFragment"
+        android:id="@+id/rangesFragment"
+        android:name="com.mmfsin.betweenminds.presentation.range.RangesFragment"
+        android:label="rangesFragment"
         tools:layout="@layout/fragment_range" />
 
 </navigation>

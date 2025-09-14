@@ -12,11 +12,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat.getColor
 import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.mmfsin.betweenminds.R
-import com.mmfsin.betweenminds.base.BaseFragmentNoVM
+import com.mmfsin.betweenminds.base.BaseFragment
 import com.mmfsin.betweenminds.base.bedrock.BedRockActivity
 import com.mmfsin.betweenminds.databinding.FragmentRangeBinding
+import com.mmfsin.betweenminds.domain.models.Range
 import com.mmfsin.betweenminds.domain.models.Score
 import com.mmfsin.betweenminds.presentation.common.adapter.ScoreboardAdapter
 import com.mmfsin.betweenminds.presentation.common.dialogs.EndGameDialog
@@ -38,9 +40,14 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.absoluteValue
 
 @AndroidEntryPoint
-class RangeFragment : BaseFragmentNoVM<FragmentRangeBinding>() {
+class RangesFragment : BaseFragment<FragmentRangeBinding, RangesViewModel>() {
+
+    override val viewModel: RangesViewModel by viewModels()
 
     private lateinit var mContext: Context
+
+    private var ranges: List<Range> = emptyList()
+    private var position = 0
 
     private var numberToGuess = 0
     private var resultNumber = 0
@@ -54,6 +61,7 @@ class RangeFragment : BaseFragmentNoVM<FragmentRangeBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpScoreboard()
+        viewModel.getRanges()
     }
 
     private fun setUpScoreboard() {
@@ -84,7 +92,6 @@ class RangeFragment : BaseFragmentNoVM<FragmentRangeBinding>() {
             rlBtnRematch.animateY(500f, 1)
 
             initialStates()
-            startGame()
         }
     }
 
@@ -166,8 +173,51 @@ class RangeFragment : BaseFragmentNoVM<FragmentRangeBinding>() {
                 rlBtnRematch.animateY(500f, 500)
                 countDown(200) {
                     initialStates()
-                    startGame()
+                    nextRange()
                 }
+            }
+        }
+    }
+
+    private fun nextRange() {
+        binding.apply {
+            position++
+            countDown(500) {
+                if (position > ranges.size - 1) position = 0
+                val actualRange = ranges[position]
+                tvRangeLeft.text = actualRange.leftRange
+                tvRangeRight.text = actualRange.rightRange
+                startGame()
+            }
+        }
+    }
+
+    override fun observe() {
+        viewModel.event.observe(this) { event ->
+            when (event) {
+                is RangesEvent.Ranges -> setRanges(event.ranges)
+                is RangesEvent.SomethingWentWrong -> error()
+            }
+        }
+    }
+
+    private fun setRanges(ranges: List<Range>) {
+        binding.apply {
+            try {
+                this@RangesFragment.ranges = ranges
+                val actualRange = ranges[position]
+                tvRangeLeft.text = actualRange.leftRange
+                tvRangeRight.text = actualRange.rightRange
+
+                countDown(1000) {
+                    loading.root.isVisible = false
+                }
+                countDown(1200) {
+                    startGame()
+                    rlBtnHide.animateY(0f, 500)
+                }
+            } catch (e: Exception) {
+                error()
             }
         }
     }

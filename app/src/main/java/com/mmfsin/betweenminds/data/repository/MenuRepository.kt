@@ -7,6 +7,7 @@ import com.google.firebase.ktx.Firebase
 import com.mmfsin.betweenminds.domain.interfaces.IMenuRepository
 import com.mmfsin.betweenminds.utils.SAVED_VERSION
 import com.mmfsin.betweenminds.utils.SERVER_QUESTIONS
+import com.mmfsin.betweenminds.utils.SERVER_RANGES
 import com.mmfsin.betweenminds.utils.SHARED_PREFS
 import com.mmfsin.betweenminds.utils.VERSION
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -61,6 +62,7 @@ class MenuRepository @Inject constructor(
     private fun restartSystemData() {
         val sharedPrefs = context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE)
         sharedPrefs.edit().apply {
+            putBoolean(SERVER_RANGES, true)
             putBoolean(SERVER_QUESTIONS, true)
             apply()
         }

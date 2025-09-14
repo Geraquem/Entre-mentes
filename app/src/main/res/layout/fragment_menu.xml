@@ -29,7 +29,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/btn_mode_number"
+            android:id="@+id/btn_mode_ranges"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -38,7 +38,7 @@
             android:elevation="4dp"
             android:gravity="center"
             android:paddingVertical="12dp"
-            android:text="Modo aparece un número"
+            android:text="Modo aparece un rango de algo"
             android:textSize="24sp" />
 
         <TextView
