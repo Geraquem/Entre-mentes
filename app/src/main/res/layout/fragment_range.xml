@@ -116,7 +116,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginVertical="24dp"
+                android:layout_marginTop="24dp"
                 android:gravity="center"
                 android:weightSum="1">
 
@@ -129,10 +129,10 @@
                     android:fontFamily="@font/alphazet"
                     android:gravity="start"
                     android:paddingStart="16dp"
-                    android:text="Frío"
                     android:textColor="@color/blue"
                     android:textStyle="bold"
-                    tools:ignore="RtlSymmetry" />
+                    tools:ignore="RtlSymmetry"
+                    tools:text="Frío" />
 
                 <Space
                     android:layout_width="0dp"
@@ -149,12 +149,49 @@
                     android:fontFamily="@font/alphazet"
                     android:gravity="end"
                     android:paddingEnd="16dp"
-                    android:text="Calor"
                     android:textColor="@color/dark_orange"
                     android:textStyle="bold"
-                    tools:ignore="RtlSymmetry" />
+                    tools:ignore="RtlSymmetry"
+                    tools:text="Calor" />
 
             </LinearLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp">
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/gl_center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.5" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="38dp"
+                    android:contentDescription="@string/content_description"
+                    android:src="@drawable/ic_long_arrow"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toLeftOf="@id/gl_center"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/blue" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="38dp"
+                    android:contentDescription="@string/content_description"
+                    android:scaleX="-1"
+                    android:src="@drawable/ic_long_arrow"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@id/gl_center"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/dark_orange" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <LinearLayout
                 android:id="@+id/ll_bottom_slider"
@@ -208,7 +245,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:layout_marginBottom="4dp"
+            android:layout_marginBottom="8dp"
             android:background="@drawable/click_effect_button"
             android:elevation="2dp"
             android:fontFamily="@font/august_shining"
@@ -236,7 +273,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:layout_marginBottom="4dp"
+            android:layout_marginBottom="8dp"
             android:background="@drawable/click_effect_button"
             android:elevation="2dp"
             android:fontFamily="@font/august_shining"
@@ -263,7 +300,7 @@
             layout="@layout/include_btn_rematch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp" />
+            android:layout_marginBottom="6dp" />
 
     </RelativeLayout>
 

@@ -81,7 +81,6 @@ class RangesFragment : BaseFragment<FragmentRangeBinding, RangesViewModel>() {
             )
 
             loading.root.isVisible = true
-            loading.root.isVisible = false
 
             topSlider.isEnabled = false
             topSlider.thumbTintList = ColorStateList.valueOf(Color.WHITE)
@@ -212,10 +211,7 @@ class RangesFragment : BaseFragment<FragmentRangeBinding, RangesViewModel>() {
                 countDown(1000) {
                     loading.root.isVisible = false
                 }
-                countDown(1200) {
-                    startGame()
-                    rlBtnHide.animateY(0f, 500)
-                }
+                countDown(1200) { startGame() }
             } catch (e: Exception) {
                 error()
             }
@@ -278,6 +274,7 @@ class RangesFragment : BaseFragment<FragmentRangeBinding, RangesViewModel>() {
     private fun restartGame() {
         round = 0
         scoreboardAdapter?.resetScores()
+        initialStates()
         startGame()
     }
 

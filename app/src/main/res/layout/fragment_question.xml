@@ -217,7 +217,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:layout_marginBottom="4dp"
+            android:layout_marginBottom="8dp"
             android:background="@drawable/click_effect_button"
             android:elevation="2dp"
             android:fontFamily="@font/august_shining"
@@ -245,7 +245,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:layout_marginBottom="4dp"
+            android:layout_marginBottom="8dp"
             android:background="@drawable/click_effect_button"
             android:elevation="2dp"
             android:fontFamily="@font/august_shining"
@@ -272,7 +272,7 @@
             layout="@layout/include_btn_rematch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp" />
+            android:layout_marginBottom="6dp" />
 
     </RelativeLayout>
 
