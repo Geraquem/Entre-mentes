@@ -61,6 +61,7 @@
 
         <com.google.android.material.slider.Slider
             android:id="@+id/top_slider"
+            android:progressDrawable="@drawable/slider_auzzzzzz"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
