@@ -210,8 +210,8 @@ class RangesFragment : BaseFragment<FragmentRangeBinding, RangesViewModel>() {
 
                 countDown(1000) {
                     loading.root.isVisible = false
+                    startGame()
                 }
-                countDown(1200) { startGame() }
             } catch (e: Exception) {
                 error()
             }
@@ -249,26 +249,18 @@ class RangesFragment : BaseFragment<FragmentRangeBinding, RangesViewModel>() {
     private fun endGame() {
         val points = scoreboardAdapter?.getTotalPoints()
         points?.let {
-            activity?.showFragmentDialog(
-                EndGameDialog(
-                    points = points,
-                    restartGame = { restartGame() },
-                    saveScore = { showSaveScoreDialog(points) },
-                    exit = { activity?.onBackPressedDispatcher?.onBackPressed() }
-                )
-            )
+            activity?.showFragmentDialog(EndGameDialog(points = points,
+                restartGame = { restartGame() },
+                saveScore = { showSaveScoreDialog(points) },
+                exit = { activity?.onBackPressedDispatcher?.onBackPressed() }))
         } ?: run { error() }
     }
 
     private fun showSaveScoreDialog(points: Int) {
-        activity?.showFragmentDialog(
-            SavePointsDialog(
-                mode = MODE_NUMBER,
-                points = points,
-                restartGame = { restartGame() },
-                exit = { activity?.onBackPressedDispatcher?.onBackPressed() }
-            )
-        )
+        activity?.showFragmentDialog(SavePointsDialog(mode = MODE_NUMBER,
+            points = points,
+            restartGame = { restartGame() },
+            exit = { activity?.onBackPressedDispatcher?.onBackPressed() }))
     }
 
     private fun restartGame() {
