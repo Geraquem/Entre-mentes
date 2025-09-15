@@ -7,10 +7,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo.IME_ACTION_DONE
+import android.widget.EditText
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
-import com.google.android.material.slider.Slider
 import com.mmfsin.betweenminds.R
 import com.mmfsin.betweenminds.base.BaseFragment
 import com.mmfsin.betweenminds.base.bedrock.BedRockActivity
@@ -82,11 +83,15 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
                 slider.thumbTintList = ColorStateList.valueOf(WHITE)
                 slider.haloRadius = 0
             }
+
             bottomSlider.apply {
                 bgSlider.isEnabled = false
                 slider.thumbTintList = ColorStateList.valueOf(WHITE)
                 slider.haloRadius = 0
             }
+
+            handleEditText(etPlayerBlue)
+            handleEditText(etPlayerOrange)
 
             rlBtnHide.animateY(500f, 1)
             rlBtnCheck.animateY(500f, 1)
@@ -116,6 +121,17 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
         }
     }
 
+    private fun handleEditText(editText: EditText) {
+        editText.setOnFocusChangeListener { _, hasFocus ->
+            editText.isCursorVisible = hasFocus
+        }
+
+        editText.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == IME_ACTION_DONE) editText.clearFocus()
+            false
+        }
+    }
+
     override fun setListeners() {
         binding.apply {
             topSlider.slider.addOnChangeListener { _, value, _ ->
@@ -130,8 +146,8 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
                 topSlider.slider.isEnabled = false
 
                 showCurtain()
-                scaleHumans(0)
-                moveHumans(0)
+                scaleHumans(50)
+                moveHumans(50)
 
                 rlBtnHide.animateY(500f, 500)
 
@@ -221,10 +237,13 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
             val number1 = "${100 - value.absoluteValue}%"
             val number2 = "${value.absoluteValue}%"
 
-            slider.tvPercentLeft.text = number1
-            slider.tvPercentRight.text = number2
+            slider.tvPercentLeft.text = number2
+            slider.tvPercentRight.text = number1
 
-            slider.bgSlider.value = (100 - value).toFloat()
+            slider.bgSlider.value = value.toFloat()
+
+            etPlayerBlue.clearFocus()
+            etPlayerOrange.clearFocus()
 
             scaleHumans(value)
             moveHumans(value)
@@ -238,25 +257,25 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
             val leftScale = 2f - factor
             val rightScale = 1f + factor
 
-            ivRight.scaleX = rightScale
-            ivRight.scaleY = rightScale
+            ivRight.scaleX = leftScale
+            ivRight.scaleY = leftScale
 
-            ivLeft.scaleX = leftScale
-            ivLeft.scaleY = leftScale
+            ivLeft.scaleX = rightScale
+            ivLeft.scaleY = rightScale
         }
     }
 
     private fun moveHumans(value: Int) {
         binding.apply {
             if (value > 50) {
-                ivLeft.setImageResource(R.drawable.ic_human_down)
-                ivRight.setImageResource(R.drawable.ic_human_up)
+                ivLeft.setImageResource(R.drawable.ic_human_up)
+                ivRight.setImageResource(R.drawable.ic_human_down)
             } else if (value == 50) {
                 ivLeft.setImageResource(R.drawable.ic_human_down)
                 ivRight.setImageResource(R.drawable.ic_human_down)
             } else {
-                ivLeft.setImageResource(R.drawable.ic_human_up)
-                ivRight.setImageResource(R.drawable.ic_human_down)
+                ivLeft.setImageResource(R.drawable.ic_human_down)
+                ivRight.setImageResource(R.drawable.ic_human_up)
             }
         }
     }

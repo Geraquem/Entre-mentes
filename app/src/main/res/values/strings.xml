@@ -18,6 +18,8 @@
     <string name="number_btn_hide">Ocultar</string>
     <string name="number_btn_check">Comprobar</string>
     <string name="number_btn_next_round">Siguiente ronda</string>
+    <string name="name_blue">Nombre azul</string>
+    <string name="name_orange">Nombre naranja</string>
 
     <!-- SCOREBOARD -->
     <string name="scoreboard_pts">pts</string>
