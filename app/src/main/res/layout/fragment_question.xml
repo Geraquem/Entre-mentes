@@ -37,147 +37,54 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="¿Quién es más simpático cuando se trata de conocer a gente nueva?" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@id/rl_btn_hide"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="@id/gl_left"
+        app:layout_constraintRight_toRightOf="@id/gl_right"
         app:layout_constraintTop_toBottomOf="@id/tv_question">
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/gl_left2"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.05" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/gl_right2"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.95" />
-
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/ll_top_number"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="1"
-            app:layout_constraintLeft_toLeftOf="@id/gl_left2"
-            app:layout_constraintRight_toRightOf="@id/gl_right2"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/gl_center"
-                android:layout_width="wrap_content"
+            <include
+                android:id="@+id/top_slider"
+                layout="@layout/include_slider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <RelativeLayout
+                android:id="@+id/curtain"
+                android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.5" />
-
-            <TextView
-                android:id="@+id/tv_top_number_one"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="0.475"
-                android:fontFamily="@font/august_shining"
-                android:gravity="center"
-                android:text="@string/fifty"
-                android:textColor="@color/blue"
-                android:textSize="42sp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:background="@color/background"
+                app:layout_constraintBottom_toBottomOf="@id/top_slider"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toLeftOf="@id/percent_top"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/percent_top"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="0.05"
-                android:fontFamily="@font/august_shining"
-                android:gravity="center"
-                android:text="@string/percent"
-                android:textColor="@color/dark_grey"
-                android:visibility="gone"
-                android:textSize="32sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="@id/gl_center"
-                app:layout_constraintRight_toRightOf="@id/gl_center"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tv_top_number_two"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="0.475"
-                android:fontFamily="@font/august_shining"
-                android:gravity="center"
-                android:text="@string/fifty"
-                android:textColor="@color/dark_orange"
-                android:textSize="42sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toRightOf="@id/percent_top"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="@id/top_slider"
+                tools:visibility="visible">
+
+                <TextView
+                    style="@style/BigTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/august_shining"
+                    android:text="@string/question"
+                    android:textColor="@color/dark_red"
+                    android:textSize="64sp" />
+
+            </RelativeLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <com.google.android.material.slider.Slider
-            android:id="@+id/top_slider"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:stepSize="1"
-            android:value="50"
-            android:valueFrom="0"
-            android:valueTo="100"
-            app:labelBehavior="gone"
-            app:layout_constraintLeft_toLeftOf="@id/gl_left2"
-            app:layout_constraintRight_toRightOf="@id/gl_right2"
-            app:layout_constraintTop_toBottomOf="@id/ll_top_number"
-            app:thumbRadius="8dp"
-            app:tickVisible="false"
-            app:trackColorActive="@color/blue"
-            app:trackColorInactive="@color/dark_orange"
-            app:trackHeight="16dp" />
-
-        <RelativeLayout
-            android:id="@+id/curtain"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:background="@color/background"
-            app:layout_constraintBottom_toBottomOf="@id/top_slider"
-            app:layout_constraintLeft_toLeftOf="@id/gl_left2"
-            app:layout_constraintRight_toRightOf="@id/gl_right2"
-            app:layout_constraintTop_toTopOf="@id/ll_top_number"
-            tools:visibility="gone">
-
-            <TextView
-                style="@style/BigTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:fontFamily="@font/august_shining"
-                android:text="@string/question"
-                android:textColor="@color/dark_red"
-                android:textSize="64sp" />
-
-        </RelativeLayout>
-
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:orientation="vertical"
-            app:layout_constraintLeft_toLeftOf="@id/gl_left2"
-            app:layout_constraintRight_toRightOf="@id/gl_right2"
-            app:layout_constraintTop_toBottomOf="@id/top_slider">
+            android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_images"
@@ -220,138 +127,15 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <LinearLayout
-                android:id="@+id/ll_bottom_slider"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/ll_bottom_number"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:weightSum="1"
-                    app:layout_constraintLeft_toLeftOf="@id/gl_left2"
-                    app:layout_constraintRight_toRightOf="@id/gl_right2"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <androidx.constraintlayout.widget.Guideline
-                        android:id="@+id/gl_center3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="0dp"
-                        android:orientation="vertical"
-                        app:layout_constraintGuide_percent="0.5" />
-
-                    <TextView
-                        android:id="@+id/tv_bottom_number_one"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_weight="0.475"
-                        android:fontFamily="@font/august_shining"
-                        android:gravity="center"
-                        android:text="@string/fifty"
-                        android:textColor="@color/blue"
-                        android:textSize="42sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintRight_toLeftOf="@id/percent_bottom"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/percent_bottom"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_weight="0.05"
-                        android:visibility="gone"
-                        android:fontFamily="@font/august_shining"
-                        android:gravity="center"
-                        android:text="@string/percent"
-                        android:textColor="@color/dark_grey"
-                        android:textSize="32sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintLeft_toLeftOf="@id/gl_center3"
-                        app:layout_constraintRight_toRightOf="@id/gl_center3"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/tv_bottom_number_two"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_weight="0.475"
-                        android:fontFamily="@font/august_shining"
-                        android:gravity="center"
-                        android:text="@string/fifty"
-                        android:textColor="@color/dark_orange"
-                        android:textSize="42sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintLeft_toRightOf="@id/percent_bottom"
-                        app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <androidx.constraintlayout.widget.Guideline
-                        android:id="@+id/gl_center4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="0dp"
-                        android:orientation="vertical"
-                        app:layout_constraintGuide_percent="0.5" />
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_marginVertical="8dp"
-                        android:background="@drawable/bg_slider"
-                        android:backgroundTint="@color/blue"
-                        app:layout_constraintBottom_toBottomOf="@id/bottom_slider"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintRight_toLeftOf="@id/gl_center4"
-                        app:layout_constraintTop_toTopOf="@id/bottom_slider" />
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_marginVertical="8dp"
-                        android:background="@drawable/bg_slider"
-                        android:backgroundTint="@color/dark_orange"
-                        android:scaleX="-1"
-                        app:layout_constraintBottom_toBottomOf="@id/bottom_slider"
-                        app:layout_constraintLeft_toRightOf="@id/gl_center4"
-                        app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/bottom_slider" />
-
-                    <com.google.android.material.slider.Slider
-                        android:id="@+id/bottom_slider"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:stepSize="1"
-                        android:value="50"
-                        android:valueFrom="0"
-                        app:trackColor="@color/transparent"
-                        android:valueTo="100"
-                        app:labelBehavior="gone"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:thumbRadius="8dp"
-                        app:trackHeight="16dp"
-                        app:tickVisible="false"/>
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </LinearLayout>
-
         </LinearLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <include
+            android:id="@+id/bottom_slider"
+            layout="@layout/include_slider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/rl_btn_check"

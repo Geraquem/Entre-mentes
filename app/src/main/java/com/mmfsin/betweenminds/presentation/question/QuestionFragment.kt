@@ -2,20 +2,20 @@ package com.mmfsin.betweenminds.presentation.question
 
 import android.content.Context
 import android.content.res.ColorStateList
-import android.graphics.Color
 import android.graphics.Color.WHITE
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.android.material.slider.Slider
 import com.mmfsin.betweenminds.R
 import com.mmfsin.betweenminds.base.BaseFragment
 import com.mmfsin.betweenminds.base.bedrock.BedRockActivity
 import com.mmfsin.betweenminds.databinding.FragmentQuestionBinding
+import com.mmfsin.betweenminds.databinding.IncludeSliderBinding
 import com.mmfsin.betweenminds.domain.models.Question
 import com.mmfsin.betweenminds.domain.models.Score
 import com.mmfsin.betweenminds.presentation.common.adapter.ScoreboardAdapter
@@ -27,7 +27,6 @@ import com.mmfsin.betweenminds.utils.countDown
 import com.mmfsin.betweenminds.utils.getEmptyScoreList
 import com.mmfsin.betweenminds.utils.getPoints
 import com.mmfsin.betweenminds.utils.handleAlpha
-import com.mmfsin.betweenminds.utils.handleSliderTrackColor
 import com.mmfsin.betweenminds.utils.hideAlpha
 import com.mmfsin.betweenminds.utils.moveSliderValue
 import com.mmfsin.betweenminds.utils.showAlpha
@@ -78,13 +77,16 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
 
             loading.root.isVisible = true
 
-//            bottomSlider.trackInactiveTintList = ColorStateList.valueOf(Color.TRANSPARENT)
-//            bottomSlider.trackActiveTintList = ColorStateList.valueOf(Color.TRANSPARENT)
-//            bottomSlider.setBackgroundResource(R.drawable.bg_slider_aux)
-//            bottomSlider.haloRadius = 0
-
-            topSlider.thumbTintList = ColorStateList.valueOf(WHITE)
-            bottomSlider.thumbTintList = ColorStateList.valueOf(WHITE)
+            topSlider.apply {
+                bgSlider.isEnabled = false
+                slider.thumbTintList = ColorStateList.valueOf(WHITE)
+                slider.haloRadius = 0
+            }
+            bottomSlider.apply {
+                bgSlider.isEnabled = false
+                slider.thumbTintList = ColorStateList.valueOf(WHITE)
+                slider.haloRadius = 0
+            }
 
             rlBtnHide.animateY(500f, 1)
             rlBtnCheck.animateY(500f, 1)
@@ -101,13 +103,13 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
 
             tvQuestion.hideAlpha(1)
 
-            topSlider.moveSliderValue(50)
+            topSlider.slider.moveSliderValue(50)
 
-            bottomSlider.isEnabled = false
-            llBottomSlider.handleAlpha(0.4f, 350)
-            bottomSlider.moveSliderValue(50)
+            bottomSlider.slider.isEnabled = false
+            bottomSlider.root.handleAlpha(0.4f, 350)
+            bottomSlider.slider.moveSliderValue(50)
 
-            topSlider.isEnabled = true
+            topSlider.slider.isEnabled = true
             btnHide.isEnabled = true
             btnCheck.isEnabled = true
             rematch.btnRematch.isEnabled = true
@@ -116,12 +118,16 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
 
     override fun setListeners() {
         binding.apply {
-            topSlider.addOnChangeListener { _, value, _ -> topSliderValue(value.toInt()) }
-            bottomSlider.addOnChangeListener { _, value, _ -> bottomSliderValue(value.toInt()) }
+            topSlider.slider.addOnChangeListener { _, value, _ ->
+                handleSliderValue(topSlider, value.toInt())
+            }
+            bottomSlider.slider.addOnChangeListener { _, value, _ ->
+                handleSliderValue(bottomSlider, value.toInt())
+            }
 
             btnHide.setOnClickListener {
                 btnHide.isEnabled = false
-                topSlider.isEnabled = false
+                topSlider.slider.isEnabled = false
 
                 showCurtain()
                 scaleHumans(0)
@@ -130,14 +136,14 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
                 rlBtnHide.animateY(500f, 500)
 
                 countDown(350) {
-                    llBottomSlider.showAlpha(500) { bottomSlider.isEnabled = true }
+                    bottomSlider.root.showAlpha(500) { bottomSlider.slider.isEnabled = true }
                     rlBtnCheck.animateY(0f, 500)
                 }
             }
 
             btnCheck.setOnClickListener {
                 btnCheck.isEnabled = false
-                bottomSlider.isEnabled = false
+                bottomSlider.slider.isEnabled = false
                 hideCurtain()
                 setScoreRound()
                 rlBtnCheck.animateY(500f, 500)
@@ -208,62 +214,24 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
         binding.apply { curtain.hideAlpha(500) }
     }
 
-    private fun topSliderValue(value: Int) {
+    private fun handleSliderValue(slider: IncludeSliderBinding, value: Int) {
         binding.apply {
             numberToGuess = value
 
             val number1 = "${100 - value.absoluteValue}%"
             val number2 = "${value.absoluteValue}%"
 
-            tvTopNumberOne.text = number2
-            tvTopNumberTwo.text = number1
+            slider.tvPercentLeft.text = number1
+            slider.tvPercentRight.text = number2
 
-//            percentTop.setTextColor(getColor(mContext, getNumberColor(value)))
-//            mContext.handleSliderTrackColor(value, topSlider)
+            slider.bgSlider.value = (100 - value).toFloat()
 
             scaleHumans(value)
-//            moveHumans(value)
-        }
-    }
-
-    private fun bottomSliderValue(value: Int) {
-        binding.apply {
-            resultNumber = value
-
-            val number1 = "${100 - value.absoluteValue}%"
-            val number2 = "${value.absoluteValue}%"
-
-            tvBottomNumberOne.text = number1
-            tvBottomNumberTwo.text = number2
-
-//            val params = myView.layoutParams
-//            params.height = value.toInt()   // el value es Float, lo pasamos a Int
-//            myView.layoutParams = params
-
-
-//            percentBottom.setTextColor(getColor(mContext, getNumberColor(value)))
-//            mContext.handleSliderTrackColor(value, bottomSlider)
-
-//            scaleHumans2(value)
-//            moveHumans(value)
+            moveHumans(value)
         }
     }
 
     private fun scaleHumans(value: Int) {
-        binding.apply {
-            val factor = value / 100f
-
-            val leftScale = 2f - factor
-            val rightScale = 1f + factor
-
-            ivRight.scaleX = leftScale
-            ivRight.scaleY = leftScale
-
-            ivLeft.scaleX = rightScale
-            ivLeft.scaleY = rightScale
-        }
-    }
-    private fun scaleHumans2(value: Int) {
         binding.apply {
             val factor = value / 100f
 
