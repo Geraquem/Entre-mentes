@@ -156,8 +156,8 @@ fun Context.setGlideImage(image: String, view: ImageView, loading: ImageView? = 
 }
 
 fun getNumberColor(value: Int): Int {
-    return if (value > 0) R.color.dark_orange
-    else if (value == 0) R.color.dark_grey
+    return if (value > 50) R.color.dark_orange
+    else if (value == 50) R.color.dark_grey
     else R.color.blue
 }
 
@@ -190,8 +190,8 @@ fun getTodayDate(): String {
 
 
 fun Context.handleSliderTrackColor(value: Int, slider: Slider) {
-    val color = if (value > 0f) R.color.dark_orange
-    else if (value == 0) R.color.dark_grey
+    val color = if (value > 50) R.color.dark_orange
+    else if (value == 50) R.color.dark_grey
     else R.color.blue
 
     val colorStateList = ColorStateList.valueOf(getColor(this, color))

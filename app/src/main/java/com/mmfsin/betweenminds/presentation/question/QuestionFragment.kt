@@ -2,12 +2,13 @@ package com.mmfsin.betweenminds.presentation.question
 
 import android.content.Context
 import android.content.res.ColorStateList
+import android.graphics.Color
 import android.graphics.Color.WHITE
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat.getColor
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
@@ -24,7 +25,6 @@ import com.mmfsin.betweenminds.utils.MODE_QUESTIONS
 import com.mmfsin.betweenminds.utils.animateY
 import com.mmfsin.betweenminds.utils.countDown
 import com.mmfsin.betweenminds.utils.getEmptyScoreList
-import com.mmfsin.betweenminds.utils.getNumberColor
 import com.mmfsin.betweenminds.utils.getPoints
 import com.mmfsin.betweenminds.utils.handleAlpha
 import com.mmfsin.betweenminds.utils.handleSliderTrackColor
@@ -78,6 +78,11 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
 
             loading.root.isVisible = true
 
+//            bottomSlider.trackInactiveTintList = ColorStateList.valueOf(Color.TRANSPARENT)
+//            bottomSlider.trackActiveTintList = ColorStateList.valueOf(Color.TRANSPARENT)
+//            bottomSlider.setBackgroundResource(R.drawable.bg_slider_aux)
+//            bottomSlider.haloRadius = 0
+
             topSlider.thumbTintList = ColorStateList.valueOf(WHITE)
             bottomSlider.thumbTintList = ColorStateList.valueOf(WHITE)
 
@@ -92,15 +97,15 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
     private fun initialStates() {
         binding.apply {
             hideCurtain()
-            scaleHumans(0)
+            scaleHumans(50)
 
             tvQuestion.hideAlpha(1)
 
-            topSlider.moveSliderValue(0)
+            topSlider.moveSliderValue(50)
 
             bottomSlider.isEnabled = false
             llBottomSlider.handleAlpha(0.4f, 350)
-            bottomSlider.moveSliderValue(0)
+            bottomSlider.moveSliderValue(50)
 
             topSlider.isEnabled = true
             btnHide.isEnabled = true
@@ -206,14 +211,18 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
     private fun topSliderValue(value: Int) {
         binding.apply {
             numberToGuess = value
-            val number = "${value.absoluteValue}%"
-            tvTopNumber.text = number
-            tvTopNumber.setTextColor(getColor(mContext, getNumberColor(value)))
 
-            mContext.handleSliderTrackColor(value, topSlider)
+            val number1 = "${100 - value.absoluteValue}%"
+            val number2 = "${value.absoluteValue}%"
+
+            tvTopNumberOne.text = number2
+            tvTopNumberTwo.text = number1
+
+//            percentTop.setTextColor(getColor(mContext, getNumberColor(value)))
+//            mContext.handleSliderTrackColor(value, topSlider)
 
             scaleHumans(value)
-            moveHumans(value)
+//            moveHumans(value)
         }
     }
 
@@ -221,21 +230,45 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
         binding.apply {
             resultNumber = value
 
-            val number = "${value.absoluteValue}%"
-            tvBottomNumber.text = number
-            tvBottomNumber.setTextColor(getColor(mContext, getNumberColor(value)))
+            val number1 = "${100 - value.absoluteValue}%"
+            val number2 = "${value.absoluteValue}%"
 
-            mContext.handleSliderTrackColor(value, bottomSlider)
+            tvBottomNumberOne.text = number1
+            tvBottomNumberTwo.text = number2
 
-            scaleHumans(value)
-            moveHumans(value)
+//            val params = myView.layoutParams
+//            params.height = value.toInt()   // el value es Float, lo pasamos a Int
+//            myView.layoutParams = params
+
+
+//            percentBottom.setTextColor(getColor(mContext, getNumberColor(value)))
+//            mContext.handleSliderTrackColor(value, bottomSlider)
+
+//            scaleHumans2(value)
+//            moveHumans(value)
         }
     }
 
     private fun scaleHumans(value: Int) {
         binding.apply {
-            val leftScale = 2f - ((value + 100f) / 200f) * 1f
-            val rightScale = 1f + ((value + 100f) / 200f) * 1f
+            val factor = value / 100f
+
+            val leftScale = 2f - factor
+            val rightScale = 1f + factor
+
+            ivRight.scaleX = leftScale
+            ivRight.scaleY = leftScale
+
+            ivLeft.scaleX = rightScale
+            ivLeft.scaleY = rightScale
+        }
+    }
+    private fun scaleHumans2(value: Int) {
+        binding.apply {
+            val factor = value / 100f
+
+            val leftScale = 2f - factor
+            val rightScale = 1f + factor
 
             ivRight.scaleX = rightScale
             ivRight.scaleY = rightScale
@@ -247,10 +280,10 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
 
     private fun moveHumans(value: Int) {
         binding.apply {
-            if (value > 0) {
+            if (value > 50) {
                 ivLeft.setImageResource(R.drawable.ic_human_down)
                 ivRight.setImageResource(R.drawable.ic_human_up)
-            } else if (value == 0) {
+            } else if (value == 50) {
                 ivLeft.setImageResource(R.drawable.ic_human_down)
                 ivRight.setImageResource(R.drawable.ic_human_down)
             } else {

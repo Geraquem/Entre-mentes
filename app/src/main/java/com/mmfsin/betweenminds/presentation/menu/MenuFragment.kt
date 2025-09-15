@@ -32,8 +32,8 @@ class MenuFragment : BaseFragment<FragmentMenuBinding, MenuViewModel>() {
     override fun setUI() {
         binding.apply {
             loading.root.isVisible = true
-            navigateTo(R.navigation.nav_graph_ranges)
-//            navigateTo(R.navigation.nav_graph_question)
+//            navigateTo(R.navigation.nav_graph_ranges)
+            navigateTo(R.navigation.nav_graph_question)
         }
     }
 

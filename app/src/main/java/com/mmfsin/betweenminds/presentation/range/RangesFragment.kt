@@ -6,7 +6,6 @@ import android.animation.ValueAnimator
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
-import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -83,9 +82,9 @@ class RangesFragment : BaseFragment<FragmentRangeBinding, RangesViewModel>() {
 
             loading.root.isVisible = true
 
-            topSlider.trackInactiveTintList = ColorStateList.valueOf(Color.TRANSPARENT)
-            topSlider.trackActiveTintList = ColorStateList.valueOf(Color.TRANSPARENT)
-            topSlider.setBackgroundResource(R.drawable.slider_auzzzzzz)
+            bottomSlider.trackInactiveTintList = ColorStateList.valueOf(Color.TRANSPARENT)
+            bottomSlider.trackActiveTintList = ColorStateList.valueOf(Color.TRANSPARENT)
+            bottomSlider.setBackgroundResource(R.drawable.bg_slider)
 
 
             topSlider.isEnabled = false
