@@ -157,8 +157,8 @@ fun Context.setGlideImage(image: String, view: ImageView, loading: ImageView? = 
 }
 
 fun getNumberColor(value: Int): Int {
-    return if (value > 50) R.color.dark_orange
-    else if (value == 50) R.color.dark_grey
+    return if (value >= 50) R.color.dark_orange
+//    else if (value == 50) R.color.dark_grey
     else R.color.blue
 }
 

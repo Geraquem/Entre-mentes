@@ -5,7 +5,7 @@ import android.animation.AnimatorListenerAdapter
 import android.animation.ValueAnimator
 import android.content.Context
 import android.content.res.ColorStateList
-import android.graphics.Color
+import android.graphics.Color.WHITE
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -20,17 +20,15 @@ import com.mmfsin.betweenminds.base.bedrock.BedRockActivity
 import com.mmfsin.betweenminds.databinding.FragmentRangeBinding
 import com.mmfsin.betweenminds.domain.models.Range
 import com.mmfsin.betweenminds.domain.models.ScoreRange
-import com.mmfsin.betweenminds.presentation.ranges.adapter.ScoreboardRangesAdapter
 import com.mmfsin.betweenminds.presentation.common.dialogs.EndGameDialog
 import com.mmfsin.betweenminds.presentation.common.dialogs.save.SavePointsDialog
+import com.mmfsin.betweenminds.presentation.ranges.adapter.ScoreboardRangesAdapter
 import com.mmfsin.betweenminds.utils.MODE_NUMBER
 import com.mmfsin.betweenminds.utils.animateY
 import com.mmfsin.betweenminds.utils.countDown
 import com.mmfsin.betweenminds.utils.getEmptyScoreList
 import com.mmfsin.betweenminds.utils.getNumberColor
 import com.mmfsin.betweenminds.utils.getPoints
-import com.mmfsin.betweenminds.utils.handleAlpha
-import com.mmfsin.betweenminds.utils.handleSliderTrackColor
 import com.mmfsin.betweenminds.utils.hideAlpha
 import com.mmfsin.betweenminds.utils.moveSliderValue
 import com.mmfsin.betweenminds.utils.showAlpha
@@ -49,8 +47,8 @@ class RangesFragment : BaseFragment<FragmentRangeBinding, RangesViewModel>() {
     private var ranges: List<Range> = emptyList()
     private var position = 0
 
-    private var numberToGuess = 0
-    private var resultNumber = 0
+    private var topNumber = 0
+    private var bottomNumber = 0
     private var round = 0
 
     private var scoreboardRangesAdapter: ScoreboardRangesAdapter? = null
@@ -82,14 +80,18 @@ class RangesFragment : BaseFragment<FragmentRangeBinding, RangesViewModel>() {
 
             loading.root.isVisible = true
 
-            bottomSlider.trackInactiveTintList = ColorStateList.valueOf(Color.TRANSPARENT)
-            bottomSlider.trackActiveTintList = ColorStateList.valueOf(Color.TRANSPARENT)
-            bottomSlider.setBackgroundResource(R.drawable.bg_slider)
+            topSlider.slider.apply {
+                isEnabled = false
+                haloRadius = 0
+                thumbTintList = ColorStateList.valueOf(WHITE)
+                setBackgroundResource(R.drawable.bg_slider_ranges)
+            }
 
-
-            topSlider.isEnabled = false
-            topSlider.thumbTintList = ColorStateList.valueOf(Color.WHITE)
-            bottomSlider.thumbTintList = ColorStateList.valueOf(Color.WHITE)
+            bottomSlider.slider.apply {
+                haloRadius = 0
+                thumbTintList = ColorStateList.valueOf(WHITE)
+                setBackgroundResource(R.drawable.bg_slider_ranges)
+            }
 
             rlBtnHide.animateY(500f, 1)
             rlBtnCheck.animateY(500f, 1)
@@ -103,11 +105,11 @@ class RangesFragment : BaseFragment<FragmentRangeBinding, RangesViewModel>() {
         binding.apply {
             hideCurtain()
 
-            topSlider.moveSliderValue(0)
+            topSlider.slider.moveSliderValue(50)
 
-            bottomSlider.isEnabled = false
-            llBottomSlider.handleAlpha(0.4f, 350)
-            bottomSlider.moveSliderValue(0)
+            bottomSlider.slider.isEnabled = false
+            bottomSlider.root.hideAlpha(350)
+            bottomSlider.slider.moveSliderValue(50)
 
             btnHide.isEnabled = true
             btnCheck.isEnabled = true
@@ -117,20 +119,22 @@ class RangesFragment : BaseFragment<FragmentRangeBinding, RangesViewModel>() {
 
     private fun startGame() {
         binding.apply {
-            tvTopNumber.setTextColor(getColor(mContext, R.color.dark_grey))
-            val finalNumber = (-100..100).random()
-            numberToGuess = finalNumber
+            topSlider.tvPercent.setTextColor(getColor(mContext, R.color.dark_grey))
+            val finalNumber = (0..100).random()
+            topNumber = finalNumber
             val animator = ValueAnimator.ofInt(1, 100)
             animator.duration = 2000
             animator.addUpdateListener { _ ->
                 val random = (0..100).random()
-                tvTopNumber.text = "$random"
+                topSlider.tvPercent.text = "$random"
             }
             animator.addListener(object : AnimatorListenerAdapter() {
                 override fun onAnimationEnd(animation: Animator) {
-                    tvTopNumber.text = "${finalNumber.absoluteValue}"
-                    tvTopNumber.setTextColor(getColor(mContext, getNumberColor(finalNumber)))
-                    topSlider.moveSliderValue(finalNumber)
+                    topSlider.tvPercent.text = "${finalNumber.absoluteValue}"
+                    topSlider.tvPercent.setTextColor(
+                        getColor(mContext, getNumberColor(finalNumber))
+                    )
+                    topSlider.slider.moveSliderValue(finalNumber)
 //                    mContext.handleSliderTrackColor(finalNumber, topSlider)
 
                     countDown(350) {
@@ -144,7 +148,7 @@ class RangesFragment : BaseFragment<FragmentRangeBinding, RangesViewModel>() {
 
     override fun setListeners() {
         binding.apply {
-            bottomSlider.addOnChangeListener { _, value, _ -> setSliderValue(value.toInt()) }
+            bottomSlider.slider.addOnChangeListener { _, value, _ -> setSliderValue(value.toInt()) }
 
             btnHide.setOnClickListener {
                 btnHide.isEnabled = false
@@ -152,14 +156,14 @@ class RangesFragment : BaseFragment<FragmentRangeBinding, RangesViewModel>() {
                 rlBtnHide.animateY(500f, 500)
 
                 countDown(350) {
-                    llBottomSlider.showAlpha(500) { bottomSlider.isEnabled = true }
+                    bottomSlider.root.showAlpha(500) { bottomSlider.slider.isEnabled = true }
                     rlBtnCheck.animateY(0f, 500)
                 }
             }
 
             btnCheck.setOnClickListener {
                 btnCheck.isEnabled = false
-                bottomSlider.isEnabled = false
+                bottomSlider.slider.isEnabled = false
                 hideCurtain()
                 setScoreRound()
                 rlBtnCheck.animateY(500f, 500)
@@ -233,10 +237,10 @@ class RangesFragment : BaseFragment<FragmentRangeBinding, RangesViewModel>() {
 
     private fun setSliderValue(value: Int) {
         binding.apply {
-            resultNumber = value
-            tvBottomNumber.text = "${value.absoluteValue}"
-            tvBottomNumber.setTextColor(getColor(mContext, getNumberColor(value)))
-            mContext.handleSliderTrackColor(value, bottomSlider)
+            bottomNumber = value
+            bottomSlider.tvPercent.text = "${value.absoluteValue}"
+            bottomSlider.tvPercent.setTextColor(getColor(mContext, getNumberColor(value)))
+//            mContext.handleSliderTrackColor(value, bottomSlider)
         }
     }
 
@@ -244,9 +248,9 @@ class RangesFragment : BaseFragment<FragmentRangeBinding, RangesViewModel>() {
         scoreboardRangesAdapter?.updateScore(
             newScoreRange = ScoreRange(
                 discovered = true,
-                topNumber = numberToGuess,
-                bottomNumber = resultNumber,
-                points = getPoints(numberToGuess, resultNumber)
+                topNumber = topNumber,
+                bottomNumber = bottomNumber,
+                points = getPoints(topNumber, bottomNumber)
             ), position = round
         )
     }
@@ -254,18 +258,22 @@ class RangesFragment : BaseFragment<FragmentRangeBinding, RangesViewModel>() {
     private fun endGame() {
         val points = scoreboardRangesAdapter?.getTotalPoints()
         points?.let {
-            activity?.showFragmentDialog(EndGameDialog(points = points,
-                restartGame = { restartGame() },
-                saveScore = { showSaveScoreDialog(points) },
-                exit = { activity?.onBackPressedDispatcher?.onBackPressed() }))
+            activity?.showFragmentDialog(
+                EndGameDialog(points = points,
+                    restartGame = { restartGame() },
+                    saveScore = { showSaveScoreDialog(points) },
+                    exit = { activity?.onBackPressedDispatcher?.onBackPressed() })
+            )
         } ?: run { error() }
     }
 
     private fun showSaveScoreDialog(points: Int) {
-        activity?.showFragmentDialog(SavePointsDialog(mode = MODE_NUMBER,
-            points = points,
-            restartGame = { restartGame() },
-            exit = { activity?.onBackPressedDispatcher?.onBackPressed() }))
+        activity?.showFragmentDialog(
+            SavePointsDialog(mode = MODE_NUMBER,
+                points = points,
+                restartGame = { restartGame() },
+                exit = { activity?.onBackPressedDispatcher?.onBackPressed() })
+        )
     }
 
     private fun restartGame() {

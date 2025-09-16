@@ -51,7 +51,7 @@
 
             <include
                 android:id="@+id/top_slider"
-                layout="@layout/include_slider"
+                layout="@layout/include_slider_questions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -174,7 +174,7 @@
 
         <include
             android:id="@+id/bottom_slider"
-            layout="@layout/include_slider"
+            layout="@layout/include_slider_questions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 

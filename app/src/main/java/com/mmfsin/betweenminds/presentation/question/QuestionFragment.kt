@@ -16,7 +16,7 @@ import com.mmfsin.betweenminds.R
 import com.mmfsin.betweenminds.base.BaseFragment
 import com.mmfsin.betweenminds.base.bedrock.BedRockActivity
 import com.mmfsin.betweenminds.databinding.FragmentQuestionBinding
-import com.mmfsin.betweenminds.databinding.IncludeSliderBinding
+import com.mmfsin.betweenminds.databinding.IncludeSliderQuestionsBinding
 import com.mmfsin.betweenminds.domain.models.Question
 import com.mmfsin.betweenminds.domain.models.ScoreQuestion
 import com.mmfsin.betweenminds.presentation.common.dialogs.EndGameDialog
@@ -233,7 +233,11 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
         binding.apply { curtain.hideAlpha(500) }
     }
 
-    private fun handleSliderValue(slider: IncludeSliderBinding, value: Int, isTop: Boolean) {
+    private fun handleSliderValue(
+        slider: IncludeSliderQuestionsBinding,
+        value: Int,
+        isTop: Boolean
+    ) {
         binding.apply {
             if (isTop) {
                 topLeftNumber = value
