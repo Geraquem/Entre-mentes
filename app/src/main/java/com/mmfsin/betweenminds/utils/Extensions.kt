@@ -30,12 +30,16 @@ import com.bumptech.glide.request.target.Target
 import com.google.android.material.slider.Slider
 import com.mmfsin.betweenminds.R
 import com.mmfsin.betweenminds.base.dialog.ErrorDialog
-import com.mmfsin.betweenminds.domain.models.ScoreRange
 import com.mmfsin.betweenminds.domain.models.ScoreQuestion
+import com.mmfsin.betweenminds.domain.models.ScoreRange
+import nl.dionsegijn.konfetti.core.Party
+import nl.dionsegijn.konfetti.core.Position
+import nl.dionsegijn.konfetti.core.emitter.Emitter
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Base64
 import java.util.Locale
+import java.util.concurrent.TimeUnit
 
 fun FragmentActivity.showErrorDialog(goBack: Boolean = true) {
     val dialog = ErrorDialog(goBack)
@@ -174,7 +178,7 @@ fun Slider.moveSliderValue(value: Int) {
 fun getEmptyScoreQuestionList() =
     listOf(ScoreQuestion(), ScoreQuestion(), ScoreQuestion(), ScoreQuestion())
 
-fun getEmptyScoreList() = listOf(ScoreRange(), ScoreRange(), ScoreRange(), ScoreRange())
+fun getEmptyScoreRangesList() = listOf(ScoreRange(), ScoreRange(), ScoreRange(), ScoreRange())
 
 fun getPoints(num1: Int, num2: Int): Int {
     val diff = kotlin.math.abs(num1 - num2)
@@ -192,7 +196,6 @@ fun getTodayDate(): String {
     return today.format(formatter)
 }
 
-
 fun Context.handleSliderTrackColor(value: Int, slider: Slider) {
     val color = if (value > 50) R.color.dark_orange
     else if (value == 50) R.color.dark_grey
@@ -201,6 +204,16 @@ fun Context.handleSliderTrackColor(value: Int, slider: Slider) {
     val colorStateList = ColorStateList.valueOf(getColor(this, color))
     slider.trackTintList = colorStateList
 }
+
+fun getKonfettiParty() = Party(
+    speed = 0f,
+    maxSpeed = 30f,
+    damping = 0.9f,
+    spread = 360,
+    colors = listOf(0xfce18a, 0xff726d, 0xf4306d, 0xb48def),
+    emitter = Emitter(duration = 100, TimeUnit.MILLISECONDS).max(100),
+    position = Position.Relative(0.5, 0.3)
+)
 
 //fun FragmentActivity.shouldShowInterstitial(position: Int) =
 //    (this as MainActivity).showInterstitial(position)

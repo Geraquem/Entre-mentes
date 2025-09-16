@@ -26,7 +26,8 @@ import com.mmfsin.betweenminds.presentation.ranges.adapter.ScoreboardRangesAdapt
 import com.mmfsin.betweenminds.utils.MODE_NUMBER
 import com.mmfsin.betweenminds.utils.animateY
 import com.mmfsin.betweenminds.utils.countDown
-import com.mmfsin.betweenminds.utils.getEmptyScoreList
+import com.mmfsin.betweenminds.utils.getEmptyScoreRangesList
+import com.mmfsin.betweenminds.utils.getKonfettiParty
 import com.mmfsin.betweenminds.utils.getNumberColor
 import com.mmfsin.betweenminds.utils.getPoints
 import com.mmfsin.betweenminds.utils.hideAlpha
@@ -66,7 +67,7 @@ class RangesFragment : BaseFragment<FragmentRangeBinding, RangesViewModel>() {
         binding.apply {
             scoreboard.rvScore.apply {
                 layoutManager = GridLayoutManager(mContext, 4)
-                scoreboardRangesAdapter = ScoreboardRangesAdapter(getEmptyScoreList())
+                scoreboardRangesAdapter = ScoreboardRangesAdapter(getEmptyScoreRangesList())
                 adapter = scoreboardRangesAdapter
             }
         }
@@ -135,7 +136,6 @@ class RangesFragment : BaseFragment<FragmentRangeBinding, RangesViewModel>() {
                         getColor(mContext, getNumberColor(finalNumber))
                     )
                     topSlider.slider.moveSliderValue(finalNumber)
-//                    mContext.handleSliderTrackColor(finalNumber, topSlider)
 
                     countDown(350) {
                         rlBtnHide.animateY(0f, 500)
@@ -240,17 +240,19 @@ class RangesFragment : BaseFragment<FragmentRangeBinding, RangesViewModel>() {
             bottomNumber = value
             bottomSlider.tvPercent.text = "${value.absoluteValue}"
             bottomSlider.tvPercent.setTextColor(getColor(mContext, getNumberColor(value)))
-//            mContext.handleSliderTrackColor(value, bottomSlider)
         }
     }
 
     private fun setScoreRound() {
+        val points = getPoints(topNumber, bottomNumber)
+        if (points > 10) binding.konfetti.start(getKonfettiParty())
+
         scoreboardRangesAdapter?.updateScore(
             newScoreRange = ScoreRange(
                 discovered = true,
                 topNumber = topNumber,
                 bottomNumber = bottomNumber,
-                points = getPoints(topNumber, bottomNumber)
+                points = points
             ), position = round
         )
     }

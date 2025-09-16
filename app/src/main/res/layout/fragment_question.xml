@@ -22,6 +22,11 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.95" />
 
+    <nl.dionsegijn.konfetti.xml.KonfettiView
+        android:id="@+id/konfetti"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
     <TextView
         android:id="@+id/tv_question"
         style="@style/MediumTextView"

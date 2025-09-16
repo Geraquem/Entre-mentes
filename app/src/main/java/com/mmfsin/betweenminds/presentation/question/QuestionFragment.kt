@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo.IME_ACTION_DONE
 import android.widget.EditText
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
@@ -26,6 +27,7 @@ import com.mmfsin.betweenminds.utils.MODE_QUESTIONS
 import com.mmfsin.betweenminds.utils.animateY
 import com.mmfsin.betweenminds.utils.countDown
 import com.mmfsin.betweenminds.utils.getEmptyScoreQuestionList
+import com.mmfsin.betweenminds.utils.getKonfettiParty
 import com.mmfsin.betweenminds.utils.getPoints
 import com.mmfsin.betweenminds.utils.handleAlpha
 import com.mmfsin.betweenminds.utils.hideAlpha
@@ -294,12 +296,17 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
     }
 
     private fun setScoreRound() {
+        val points = getPoints(topLeftNumber, bottomLeftNumber)
+        if (points > 10) binding.konfetti.start(getKonfettiParty())
+
+        Toast.makeText(mContext, points.toString(), Toast.LENGTH_SHORT).show()
+
         scoreboardAdapter?.updateScore(
             newScore = ScoreQuestion(
                 discovered = true,
                 topNumber = Pair(topLeftNumber, topRightNumber),
                 bottomNumber = Pair(bottomLeftNumber, bottomRightNumber),
-                points = getPoints(topLeftNumber, bottomLeftNumber)
+                points = points
             ), position = round
         )
     }
