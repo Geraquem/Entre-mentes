@@ -1,4 +1,4 @@
-package com.mmfsin.betweenminds.presentation.range
+package com.mmfsin.betweenminds.presentation.ranges
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
@@ -19,8 +19,8 @@ import com.mmfsin.betweenminds.base.BaseFragment
 import com.mmfsin.betweenminds.base.bedrock.BedRockActivity
 import com.mmfsin.betweenminds.databinding.FragmentRangeBinding
 import com.mmfsin.betweenminds.domain.models.Range
-import com.mmfsin.betweenminds.domain.models.Score
-import com.mmfsin.betweenminds.presentation.common.adapter.ScoreboardAdapter
+import com.mmfsin.betweenminds.domain.models.ScoreRange
+import com.mmfsin.betweenminds.presentation.ranges.adapter.ScoreboardRangesAdapter
 import com.mmfsin.betweenminds.presentation.common.dialogs.EndGameDialog
 import com.mmfsin.betweenminds.presentation.common.dialogs.save.SavePointsDialog
 import com.mmfsin.betweenminds.utils.MODE_NUMBER
@@ -53,7 +53,7 @@ class RangesFragment : BaseFragment<FragmentRangeBinding, RangesViewModel>() {
     private var resultNumber = 0
     private var round = 0
 
-    private var scoreboardAdapter: ScoreboardAdapter? = null
+    private var scoreboardRangesAdapter: ScoreboardRangesAdapter? = null
 
     override fun inflateView(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentRangeBinding.inflate(inflater, container, false)
@@ -68,8 +68,8 @@ class RangesFragment : BaseFragment<FragmentRangeBinding, RangesViewModel>() {
         binding.apply {
             scoreboard.rvScore.apply {
                 layoutManager = GridLayoutManager(mContext, 4)
-                scoreboardAdapter = ScoreboardAdapter(getEmptyScoreList())
-                adapter = scoreboardAdapter
+                scoreboardRangesAdapter = ScoreboardRangesAdapter(getEmptyScoreList())
+                adapter = scoreboardRangesAdapter
             }
         }
     }
@@ -77,7 +77,7 @@ class RangesFragment : BaseFragment<FragmentRangeBinding, RangesViewModel>() {
     override fun setUI() {
         binding.apply {
             (activity as BedRockActivity).setUpToolbar(
-                instructionsNavGraph = R.navigation.nav_graph_question
+                instructionsNavGraph = R.navigation.nav_graph_instr_ranges,
             )
 
             loading.root.isVisible = true
@@ -241,18 +241,18 @@ class RangesFragment : BaseFragment<FragmentRangeBinding, RangesViewModel>() {
     }
 
     private fun setScoreRound() {
-        scoreboardAdapter?.updateScore(
-            newScore = Score(
+        scoreboardRangesAdapter?.updateScore(
+            newScoreRange = ScoreRange(
                 discovered = true,
                 topNumber = numberToGuess,
-                resultNumber = resultNumber,
+                bottomNumber = resultNumber,
                 points = getPoints(numberToGuess, resultNumber)
             ), position = round
         )
     }
 
     private fun endGame() {
-        val points = scoreboardAdapter?.getTotalPoints()
+        val points = scoreboardRangesAdapter?.getTotalPoints()
         points?.let {
             activity?.showFragmentDialog(EndGameDialog(points = points,
                 restartGame = { restartGame() },
@@ -270,7 +270,7 @@ class RangesFragment : BaseFragment<FragmentRangeBinding, RangesViewModel>() {
 
     private fun restartGame() {
         round = 0
-        scoreboardAdapter?.resetScores()
+        scoreboardRangesAdapter?.resetScores()
         initialStates()
         startGame()
     }

@@ -1,4 +1,4 @@
-package com.mmfsin.betweenminds.presentation.range
+package com.mmfsin.betweenminds.presentation.ranges
 
 import com.mmfsin.betweenminds.domain.models.Range
 

@@ -2,7 +2,6 @@
     <string name="app_name">Between Minds</string>
 
     <string name="content_description">image</string>
-    <string name="toolbar_instructions">Cómo jugar</string>
 
     <!-- ERROR -->
     <string name="error_title">Ha ocurrido un problema</string>
@@ -49,5 +48,21 @@
     <!-- DELETE SCORE -->
     <string name="delete_score_cancel">Cancelar</string>
     <string name="delete_score_delete">Eliminar</string>
+
+    <!-- INSTRUCTIONS -->
+    <string name="toolbar_instructions">Cómo jugar</string>
+    <string name="instr_questions_1">Como todo es más fácil con ejemplos, aquí va uno de <b>cómo se juega</b>:</string>
+    <string name="instr_questions_1_1">Lo primero de todo es que necesitáis ser <i>dos personas</i>, para este ejemplo serán <b>María</b> y <b>Juan</b>.</string>
+    <string name="instr_questions_2">María lee la pregunta y tras pensar un ratito, pone el marcador de la barra de arriba donde cree ella que está orientada la respuesta de la pregunta.</string>
+    <string name="instr_questions_3"><b>La respuesta depende de quién tenga más color en la barra de selección.</b></string>
+    <string name="instr_questions_4">Por ejemplo, si la pregunta es <i>“¿Quién es más ordenado?”</i> Y la barra está así:</string>
+    <string name="instr_questions_6">Significa que <b><i>María es 80% más ordenada que Juan</i></b>.</string>
+    <string name="instr_questions_7">Una vez María ha hecho su suposición, pulsa el botón <b>Ocultar</b> y le pasa el móvil a Juan.</string>
+    <string name="instr_questions_8">Ahora <b>Juan debe</b> leer la pregunta y <b>tratar de poner la barra de abajo en la misma posición que la dejó María la barra de arriba</b>.</string>
+    <string name="instr_questions_8_1">Una vez tiene la posición que él cree que es la correcta, pulsa el botón <b>Comprobar</b> para ver y comparar sus resultados con los de María.</string>
+    <string name="instr_questions_9">Si la diferencia de valores es mayor de 15, no se suma ningún punto. Cuánto más os acerquéis más puntos conseguiréis.</string>
+    <string name="instr_questions_11">A ver cuántos puntos podéis hacer en <b>4 rondas</b>.</string>
+    <string name="instr_questions_maria">María</string>
+    <string name="instr_questions_juan">Juan</string>
 
 </resources>

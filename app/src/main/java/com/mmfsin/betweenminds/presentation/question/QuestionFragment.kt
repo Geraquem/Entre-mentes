@@ -76,7 +76,7 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
     override fun setUI() {
         binding.apply {
             (activity as BedRockActivity).setUpToolbar(
-                instructionsNavGraph = R.navigation.nav_graph_question
+                instructionsNavGraph = R.navigation.nav_graph_instr_questions
             )
 
             loading.root.isVisible = true

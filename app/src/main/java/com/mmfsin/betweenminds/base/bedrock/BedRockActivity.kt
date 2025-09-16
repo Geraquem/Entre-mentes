@@ -91,7 +91,7 @@ class BedRockActivity : AppCompatActivity() {
         }
     }
 
-    fun openBedRockActivity(
+    private fun openBedRockActivity(
         navGraph: Int,
         strArgs: String? = null,
         booleanArgs: Boolean? = null

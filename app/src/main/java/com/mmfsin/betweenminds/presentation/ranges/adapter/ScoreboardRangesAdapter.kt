@@ -1,4 +1,4 @@
-package com.mmfsin.betweenminds.presentation.common.adapter
+package com.mmfsin.betweenminds.presentation.ranges.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -9,28 +9,28 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat.getColor
 import androidx.recyclerview.widget.RecyclerView
 import com.mmfsin.betweenminds.R
-import com.mmfsin.betweenminds.databinding.ItemScoreBinding
-import com.mmfsin.betweenminds.domain.models.Score
+import com.mmfsin.betweenminds.databinding.ItemScoreRangeBinding
+import com.mmfsin.betweenminds.domain.models.ScoreRange
 import com.mmfsin.betweenminds.utils.getNumberColor
 import com.mmfsin.betweenminds.utils.hideAlpha
 import com.mmfsin.betweenminds.utils.showAlpha
 import kotlin.math.absoluteValue
 
-class ScoreboardAdapter(
-    private val scores: List<Score>,
-) : RecyclerView.Adapter<ScoreboardAdapter.ViewHolder>() {
+class ScoreboardRangesAdapter(
+    private val scoreRanges: List<ScoreRange>,
+) : RecyclerView.Adapter<ScoreboardRangesAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val binding = ItemScoreBinding.bind(view)
+        val binding = ItemScoreRangeBinding.bind(view)
         val c: Context = binding.root.context
-        fun bind(data: Score, position: Int) {
+        fun bind(data: ScoreRange, position: Int) {
             binding.apply {
                 tvRound.text = "$position"
                 if (data.discovered) discovered.hideAlpha(500)
                 else discovered.showAlpha(1)
 
                 setSliderNumbers(tvTopNumber, data.topNumber)
-                setSliderNumbers(tvBottomNumber, data.resultNumber)
+                setSliderNumbers(tvBottomNumber, data.bottomNumber)
                 data.points?.let { tvPoints.text = "$it" }
             }
         }
@@ -43,18 +43,18 @@ class ScoreboardAdapter(
         }
     }
 
-    fun updateScore(newScore: Score, position: Int) {
-        val score = scores[position]
-        score.discovered = newScore.discovered
-        score.topNumber = newScore.topNumber
-        score.resultNumber = newScore.resultNumber
-        score.points = newScore.points
+    fun updateScore(newScoreRange: ScoreRange, position: Int) {
+        val score = scoreRanges[position]
+        score.discovered = newScoreRange.discovered
+        score.topNumber = newScoreRange.topNumber
+        score.bottomNumber = newScoreRange.bottomNumber
+        score.points = newScoreRange.points
         notifyItemChanged(position)
     }
 
     @SuppressLint("NotifyDataSetChanged")
     fun resetScores() {
-        scores.forEach {
+        scoreRanges.forEach {
             it.discovered = false
             it.topNumber = 0
         }
@@ -63,7 +63,7 @@ class ScoreboardAdapter(
 
     fun getTotalPoints(): Int {
         var totalPoints = 0
-        scores.forEach {
+        scoreRanges.forEach {
             it.points?.let { points -> totalPoints += points }
         }
         return totalPoints
@@ -71,13 +71,13 @@ class ScoreboardAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.item_score, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.item_score_range, parent, false)
         )
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(scores[position], position + 1)
+        holder.bind(scoreRanges[position], position + 1)
     }
 
-    override fun getItemCount(): Int = scores.size
+    override fun getItemCount(): Int = scoreRanges.size
 }

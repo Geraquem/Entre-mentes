@@ -30,7 +30,7 @@ import com.bumptech.glide.request.target.Target
 import com.google.android.material.slider.Slider
 import com.mmfsin.betweenminds.R
 import com.mmfsin.betweenminds.base.dialog.ErrorDialog
-import com.mmfsin.betweenminds.domain.models.Score
+import com.mmfsin.betweenminds.domain.models.ScoreRange
 import com.mmfsin.betweenminds.domain.models.ScoreQuestion
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -174,7 +174,7 @@ fun Slider.moveSliderValue(value: Int) {
 fun getEmptyScoreQuestionList() =
     listOf(ScoreQuestion(), ScoreQuestion(), ScoreQuestion(), ScoreQuestion())
 
-fun getEmptyScoreList() = listOf(Score(), Score(), Score(), Score())
+fun getEmptyScoreList() = listOf(ScoreRange(), ScoreRange(), ScoreRange(), ScoreRange())
 
 fun getPoints(num1: Int, num2: Int): Int {
     val diff = kotlin.math.abs(num1 - num2)

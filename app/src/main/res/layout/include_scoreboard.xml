@@ -33,6 +33,6 @@
         app:layout_constraintRight_toRightOf="@id/gl_right"
         app:layout_constraintTop_toTopOf="parent"
         tools:itemCount="1"
-        tools:listitem="@layout/item_score" />
+        tools:listitem="@layout/item_score_range" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
