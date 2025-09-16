@@ -12,29 +12,63 @@
         android:weightSum="1"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/tv_percent_left"
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:layout_weight="0.5"
-            android:fontFamily="@font/august_shining"
-            android:gravity="center"
-            android:text="@string/fifty"
-            android:textColor="@color/blue"
-            android:textSize="42sp" />
+            android:gravity="center">
 
-        <TextView
-            android:id="@+id/tv_percent_right"
+            <TextView
+                android:id="@+id/tv_percent_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginEnd="4dp"
+                android:fontFamily="@font/august_shining"
+                android:gravity="center"
+                android:text="@string/fifty"
+                android:textColor="@color/blue"
+                android:textSize="42sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/august_shining"
+                android:text="@string/percent"
+                android:textColor="@color/blue"
+                android:textSize="30sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:layout_weight="0.5"
-            android:fontFamily="@font/august_shining"
-            android:gravity="center"
-            android:text="@string/fifty"
-            android:textColor="@color/dark_orange"
-            android:textSize="42sp" />
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/tv_percent_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/august_shining"
+                android:layout_marginEnd="4dp"
+                android:gravity="center"
+                android:text="@string/fifty"
+                android:textColor="@color/dark_orange"
+                android:textSize="42sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/august_shining"
+                android:text="@string/percent"
+                android:textColor="@color/dark_orange"
+                android:textSize="30sp" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

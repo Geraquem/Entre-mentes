@@ -31,6 +31,7 @@ import com.google.android.material.slider.Slider
 import com.mmfsin.betweenminds.R
 import com.mmfsin.betweenminds.base.dialog.ErrorDialog
 import com.mmfsin.betweenminds.domain.models.Score
+import com.mmfsin.betweenminds.domain.models.ScoreQuestion
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Base64
@@ -170,15 +171,18 @@ fun Slider.moveSliderValue(value: Int) {
     animator.start()
 }
 
+fun getEmptyScoreQuestionList() =
+    listOf(ScoreQuestion(), ScoreQuestion(), ScoreQuestion(), ScoreQuestion())
+
 fun getEmptyScoreList() = listOf(Score(), Score(), Score(), Score())
 
 fun getPoints(num1: Int, num2: Int): Int {
     val diff = kotlin.math.abs(num1 - num2)
 
     return when {
-        diff > 20 -> 0
-        diff == 0 -> 30
-        else -> 21 - diff
+        diff > 15 -> 0
+        diff == 0 -> 20
+        else -> 16 - diff
     }
 }
 

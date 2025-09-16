@@ -18,14 +18,14 @@ import com.mmfsin.betweenminds.base.bedrock.BedRockActivity
 import com.mmfsin.betweenminds.databinding.FragmentQuestionBinding
 import com.mmfsin.betweenminds.databinding.IncludeSliderBinding
 import com.mmfsin.betweenminds.domain.models.Question
-import com.mmfsin.betweenminds.domain.models.Score
-import com.mmfsin.betweenminds.presentation.common.adapter.ScoreboardAdapter
+import com.mmfsin.betweenminds.domain.models.ScoreQuestion
 import com.mmfsin.betweenminds.presentation.common.dialogs.EndGameDialog
 import com.mmfsin.betweenminds.presentation.common.dialogs.save.SavePointsDialog
+import com.mmfsin.betweenminds.presentation.question.adapter.ScoreboardQuestionAdapter
 import com.mmfsin.betweenminds.utils.MODE_QUESTIONS
 import com.mmfsin.betweenminds.utils.animateY
 import com.mmfsin.betweenminds.utils.countDown
-import com.mmfsin.betweenminds.utils.getEmptyScoreList
+import com.mmfsin.betweenminds.utils.getEmptyScoreQuestionList
 import com.mmfsin.betweenminds.utils.getPoints
 import com.mmfsin.betweenminds.utils.handleAlpha
 import com.mmfsin.betweenminds.utils.hideAlpha
@@ -45,11 +45,14 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
     private var questions: List<Question> = emptyList()
     private var position = 0
 
-    private var numberToGuess = 0
-    private var resultNumber = 0
+    private var topLeftNumber = 50
+    private var topRightNumber = 50
+    private var bottomLeftNumber = 50
+    private var bottomRightNumber = 50
+
     private var round = 0
 
-    private var scoreboardAdapter: ScoreboardAdapter? = null
+    private var scoreboardAdapter: ScoreboardQuestionAdapter? = null
 
     override fun inflateView(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentQuestionBinding.inflate(inflater, container, false)
@@ -64,7 +67,7 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
         binding.apply {
             scoreboard.rvScore.apply {
                 layoutManager = GridLayoutManager(mContext, 4)
-                scoreboardAdapter = ScoreboardAdapter(getEmptyScoreList())
+                scoreboardAdapter = ScoreboardQuestionAdapter(getEmptyScoreQuestionList())
                 adapter = scoreboardAdapter
             }
         }
@@ -135,10 +138,10 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
     override fun setListeners() {
         binding.apply {
             topSlider.slider.addOnChangeListener { _, value, _ ->
-                handleSliderValue(topSlider, value.toInt())
+                handleSliderValue(topSlider, value.toInt(), isTop = true)
             }
             bottomSlider.slider.addOnChangeListener { _, value, _ ->
-                handleSliderValue(bottomSlider, value.toInt())
+                handleSliderValue(bottomSlider, value.toInt(), isTop = false)
             }
 
             btnHide.setOnClickListener {
@@ -230,12 +233,18 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
         binding.apply { curtain.hideAlpha(500) }
     }
 
-    private fun handleSliderValue(slider: IncludeSliderBinding, value: Int) {
+    private fun handleSliderValue(slider: IncludeSliderBinding, value: Int, isTop: Boolean) {
         binding.apply {
-            numberToGuess = value
+            if (isTop) {
+                topLeftNumber = value
+                topRightNumber = 100 - value
+            } else {
+                bottomLeftNumber = value
+                bottomRightNumber = 100 - value
+            }
 
-            val number1 = "${100 - value.absoluteValue}%"
-            val number2 = "${value.absoluteValue}%"
+            val number1 = "${100 - value.absoluteValue}"
+            val number2 = "${value.absoluteValue}"
 
             slider.tvPercentLeft.text = number2
             slider.tvPercentRight.text = number1
@@ -282,11 +291,11 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
 
     private fun setScoreRound() {
         scoreboardAdapter?.updateScore(
-            newScore = Score(
+            newScore = ScoreQuestion(
                 discovered = true,
-                topNumber = numberToGuess,
-                resultNumber = resultNumber,
-                points = getPoints(numberToGuess, resultNumber)
+                topNumber = Pair(topLeftNumber, topRightNumber),
+                bottomNumber = Pair(bottomLeftNumber, bottomRightNumber),
+                points = getPoints(topLeftNumber, bottomLeftNumber)
             ), position = round
         )
     }
