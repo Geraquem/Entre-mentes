@@ -47,8 +47,8 @@ class RangesFragment : BaseFragment<FragmentRangeBinding, RangesViewModel>() {
     private var ranges: List<Range> = emptyList()
     private var position = 0
 
-    private var topNumber = 0
-    private var bottomNumber = 0
+    private var topNumber = 50
+    private var bottomNumber = 50
     private var round = 0
 
     private var scoreboardRangesAdapter: ScoreboardRangesAdapter? = null
