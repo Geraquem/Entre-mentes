@@ -31,7 +31,9 @@ import com.mmfsin.betweenminds.utils.getKonfettiParty
 import com.mmfsin.betweenminds.utils.getPoints
 import com.mmfsin.betweenminds.utils.handleAlpha
 import com.mmfsin.betweenminds.utils.hideAlpha
+import com.mmfsin.betweenminds.utils.moveHumans
 import com.mmfsin.betweenminds.utils.moveSliderValue
+import com.mmfsin.betweenminds.utils.scaleHumans
 import com.mmfsin.betweenminds.utils.showAlpha
 import com.mmfsin.betweenminds.utils.showErrorDialog
 import com.mmfsin.betweenminds.utils.showFragmentDialog
@@ -95,8 +97,8 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
                 slider.haloRadius = 0
             }
 
-            handleEditText(etPlayerBlue)
-            handleEditText(etPlayerOrange)
+            handleEditText(people.etPlayerBlue)
+            handleEditText(people.etPlayerOrange)
 
             rlBtnHide.animateY(500f, 1)
             rlBtnCheck.animateY(500f, 1)
@@ -109,7 +111,7 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
     private fun initialStates() {
         binding.apply {
             hideCurtain()
-            scaleHumans(50)
+            scaleHumans(people, 50)
 
             tvQuestion.hideAlpha(1)
 
@@ -151,8 +153,8 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
                 topSlider.slider.isEnabled = false
 
                 showCurtain()
-                scaleHumans(50)
-                moveHumans(50)
+                scaleHumans(people, 50)
+                moveHumans(people, 50)
 
                 rlBtnHide.animateY(500f, 500)
 
@@ -257,41 +259,11 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
 
             slider.bgSlider.value = value.toFloat()
 
-            etPlayerBlue.clearFocus()
-            etPlayerOrange.clearFocus()
+            people.etPlayerBlue.clearFocus()
+            people.etPlayerOrange.clearFocus()
 
-            scaleHumans(value)
-            moveHumans(value)
-        }
-    }
-
-    private fun scaleHumans(value: Int) {
-        binding.apply {
-            val factor = value / 100f
-
-            val leftScale = 2f - factor
-            val rightScale = 1f + factor
-
-            ivRight.scaleX = leftScale
-            ivRight.scaleY = leftScale
-
-            ivLeft.scaleX = rightScale
-            ivLeft.scaleY = rightScale
-        }
-    }
-
-    private fun moveHumans(value: Int) {
-        binding.apply {
-            if (value > 50) {
-                ivLeft.setImageResource(R.drawable.ic_human_up)
-                ivRight.setImageResource(R.drawable.ic_human_down)
-            } else if (value == 50) {
-                ivLeft.setImageResource(R.drawable.ic_human_down)
-                ivRight.setImageResource(R.drawable.ic_human_down)
-            } else {
-                ivLeft.setImageResource(R.drawable.ic_human_down)
-                ivRight.setImageResource(R.drawable.ic_human_up)
-            }
+            scaleHumans(people, value)
+            moveHumans(people, value)
         }
     }
 

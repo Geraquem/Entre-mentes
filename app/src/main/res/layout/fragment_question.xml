@@ -85,97 +85,13 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl_images"
-            android:layout_width="match_parent"
-            android:layout_height="64dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="16dp"
-            android:gravity="center">
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/gl_center2"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.5" />
-
-            <ImageView
-                android:id="@+id/iv_left"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:contentDescription="@string/content_description"
-                android:src="@drawable/ic_human_down"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toLeftOf="@id/gl_center2"
-                app:layout_constraintTop_toTopOf="parent"
-                app:tint="@color/blue" />
-
-            <ImageView
-                android:id="@+id/iv_right"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:contentDescription="@string/content_description"
-                android:src="@drawable/ic_human_down"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toRightOf="@id/gl_center2"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:tint="@color/dark_orange" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <LinearLayout
+        <include
+            android:id="@+id/people"
+            layout="@layout/include_people"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:layout_marginBottom="24dp"
-            android:weightSum="1">
-
-            <EditText
-                android:id="@+id/et_player_blue"
-                style="@style/MediumTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:autofillHints="null"
-                android:background="@null"
-                android:cursorVisible="false"
-                android:gravity="center"
-                android:hint="@string/name_blue"
-                android:imeOptions="actionDone"
-                android:inputType="textCapWords"
-                android:lines="1"
-                android:maxLines="1"
-                android:paddingHorizontal="16dp"
-                android:textColor="@color/blue"
-                android:textColorHint="@color/blue"
-                android:textStyle="bold"
-                tools:ignore="LabelFor" />
-
-            <EditText
-                android:id="@+id/et_player_orange"
-                style="@style/MediumTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:autofillHints="null"
-                android:background="@null"
-                android:cursorVisible="false"
-                android:gravity="center"
-                android:hint="@string/name_orange"
-                android:imeOptions="actionDone"
-                android:inputType="textCapWords"
-                android:lines="1"
-                android:maxLines="1"
-                android:paddingHorizontal="16dp"
-                android:textColor="@color/dark_orange"
-                android:textColorHint="@color/dark_orange"
-                android:textStyle="bold"
-                tools:ignore="LabelFor" />
-
-        </LinearLayout>
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="24dp" />
 
         <include
             android:id="@+id/bottom_slider"

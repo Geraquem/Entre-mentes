@@ -3,6 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:clipChildren="false"
+    android:clipToPadding="false"
     android:layout_height="match_parent"
     android:background="@color/background">
 
@@ -27,53 +29,42 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="42dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="@id/gl_left"
-        app:layout_constraintRight_toRightOf="@id/gl_right"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintRight_toRightOf="@id/gl_right">
 
         <TextView
-            android:id="@+id/btn_mode_ranges"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="24dp"
-            android:background="@drawable/click_effect"
-            android:elevation="4dp"
-            android:gravity="center"
-            android:paddingVertical="12dp"
-            android:text="Modo aparece un rango de algo"
-            android:textSize="24sp" />
-
-        <TextView
-            android:id="@+id/btn_mode_question"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="32dp"
-            android:background="@drawable/click_effect"
-            android:elevation="4dp"
-            android:gravity="center"
-            android:paddingVertical="12dp"
-            android:text="Modo aparece una pregunta"
-            android:textSize="24sp" />
-
-        <TextView
-            android:id="@+id/btn_scores"
+            android:id="@+id/btn_play"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginBottom="16dp"
-            android:background="@drawable/click_effect"
+            android:background="@drawable/click_effect_button"
             android:elevation="4dp"
             android:gravity="center"
             android:paddingVertical="12dp"
-            android:text="PUNTUACIONES GUARDADAS"
+            android:text="@string/menu_play"
+            android:textAllCaps="true"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/btn_how_to_play"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/click_effect_button"
+            android:elevation="4dp"
+            android:gravity="center"
+            android:paddingVertical="12dp"
+            android:text="@string/menu_how_to_play"
+            android:textAllCaps="true"
             android:textSize="24sp" />
 
     </LinearLayout>
-
 
     <include
         android:id="@+id/loading"

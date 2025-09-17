@@ -18,6 +18,7 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.LinearLayout
+import androidx.core.animation.doOnEnd
 import androidx.core.content.ContextCompat.getColor
 import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
@@ -30,6 +31,7 @@ import com.bumptech.glide.request.target.Target
 import com.google.android.material.slider.Slider
 import com.mmfsin.betweenminds.R
 import com.mmfsin.betweenminds.base.dialog.ErrorDialog
+import com.mmfsin.betweenminds.databinding.IncludePeopleBinding
 import com.mmfsin.betweenminds.domain.models.ScoreQuestion
 import com.mmfsin.betweenminds.domain.models.ScoreRange
 import nl.dionsegijn.konfetti.core.Party
@@ -166,12 +168,13 @@ fun getNumberColor(value: Int): Int {
     else R.color.blue
 }
 
-fun Slider.moveSliderValue(value: Int) {
+fun Slider.moveSliderValue(value: Int, duration: Long = 500, onEnd: () -> Unit = {}) {
     val animator = ValueAnimator.ofInt(this.value.toInt(), value)
-    animator.duration = 500
+    animator.duration = duration
     animator.addUpdateListener { anim ->
         this.value = (anim.animatedValue as Int).toFloat()
     }
+    animator.doOnEnd { onEnd() }
     animator.start()
 }
 
@@ -214,6 +217,36 @@ fun getKonfettiParty() = Party(
     emitter = Emitter(duration = 100, TimeUnit.MILLISECONDS).max(100),
     position = Position.Relative(0.5, 0.3)
 )
+
+fun scaleHumans(binding: IncludePeopleBinding, value: Int) {
+    binding.apply {
+        val factor = value / 100f
+
+        val leftScale = 2f - factor
+        val rightScale = 1f + factor
+
+        ivRight.scaleX = leftScale
+        ivRight.scaleY = leftScale
+
+        ivLeft.scaleX = rightScale
+        ivLeft.scaleY = rightScale
+    }
+}
+
+fun moveHumans(binding: IncludePeopleBinding, value: Int) {
+    binding.apply {
+        if (value > 50) {
+            ivLeft.setImageResource(R.drawable.ic_human_up)
+            ivRight.setImageResource(R.drawable.ic_human_down)
+        } else if (value == 50) {
+            ivLeft.setImageResource(R.drawable.ic_human_down)
+            ivRight.setImageResource(R.drawable.ic_human_down)
+        } else {
+            ivLeft.setImageResource(R.drawable.ic_human_down)
+            ivRight.setImageResource(R.drawable.ic_human_up)
+        }
+    }
+}
 
 //fun FragmentActivity.shouldShowInterstitial(position: Int) =
 //    (this as MainActivity).showInterstitial(position)

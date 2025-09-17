@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.mmfsin.betweenminds.R
 import com.mmfsin.betweenminds.base.BaseFragment
 import com.mmfsin.betweenminds.base.bedrock.BedRockActivity
-import com.mmfsin.betweenminds.databinding.FragmentRangeBinding
+import com.mmfsin.betweenminds.databinding.FragmentRangesBinding
 import com.mmfsin.betweenminds.domain.models.Range
 import com.mmfsin.betweenminds.domain.models.ScoreRange
 import com.mmfsin.betweenminds.presentation.common.dialogs.EndGameDialog
@@ -39,13 +39,13 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.absoluteValue
 
 @AndroidEntryPoint
-class RangesFragment : BaseFragment<FragmentRangeBinding, RangesViewModel>() {
+class RangesFragment : BaseFragment<FragmentRangesBinding, RangesViewModel>() {
 
     override val viewModel: RangesViewModel by viewModels()
 
     private lateinit var mContext: Context
 
-    private var ranges: List<Range> = emptyList()
+    private var rangesList: List<Range> = emptyList()
     private var position = 0
 
     private var topNumber = 50
@@ -55,7 +55,7 @@ class RangesFragment : BaseFragment<FragmentRangeBinding, RangesViewModel>() {
     private var scoreboardRangesAdapter: ScoreboardRangesAdapter? = null
 
     override fun inflateView(inflater: LayoutInflater, container: ViewGroup?) =
-        FragmentRangeBinding.inflate(inflater, container, false)
+        FragmentRangesBinding.inflate(inflater, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -191,10 +191,10 @@ class RangesFragment : BaseFragment<FragmentRangeBinding, RangesViewModel>() {
         binding.apply {
             position++
             countDown(500) {
-                if (position > ranges.size - 1) position = 0
-                val actualRange = ranges[position]
-                tvRangeLeft.text = actualRange.leftRange
-                tvRangeRight.text = actualRange.rightRange
+                if (position > rangesList.size - 1) position = 0
+                val actualRange = rangesList[position]
+                ranges.tvRangeLeft.text = actualRange.leftRange
+                ranges.tvRangeRight.text = actualRange.rightRange
                 startGame()
             }
         }
@@ -209,13 +209,13 @@ class RangesFragment : BaseFragment<FragmentRangeBinding, RangesViewModel>() {
         }
     }
 
-    private fun setRanges(ranges: List<Range>) {
+    private fun setRanges(mRanges: List<Range>) {
         binding.apply {
             try {
-                this@RangesFragment.ranges = ranges
-                val actualRange = ranges[position]
-                tvRangeLeft.text = actualRange.leftRange
-                tvRangeRight.text = actualRange.rightRange
+                rangesList = mRanges
+                val actualRange = mRanges[position]
+                ranges.tvRangeLeft.text = actualRange.leftRange
+                ranges.tvRangeRight.text = actualRange.rightRange
 
                 countDown(1000) {
                     loading.root.isVisible = false

@@ -83,4 +83,9 @@
     <style name="TransparentBottomSheet" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@android:color/transparent</item>
     </style>
+
+    <style name="CustomSliderStyle" parent="@style/Widget.MaterialComponents.Slider">
+        <item name="trackHeight">8dp</item>
+    </style>
+
 </resources>

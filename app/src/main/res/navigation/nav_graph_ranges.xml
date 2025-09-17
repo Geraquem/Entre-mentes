@@ -9,6 +9,6 @@
         android:id="@+id/rangesFragment"
         android:name="com.mmfsin.betweenminds.presentation.ranges.RangesFragment"
         android:label="rangesFragment"
-        tools:layout="@layout/fragment_range" />
+        tools:layout="@layout/fragment_ranges" />
 
 </navigation>

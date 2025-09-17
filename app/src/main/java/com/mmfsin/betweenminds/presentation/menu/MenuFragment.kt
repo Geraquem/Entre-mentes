@@ -7,10 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import com.mmfsin.betweenminds.R
+import androidx.navigation.fragment.findNavController
 import com.mmfsin.betweenminds.base.BaseFragment
 import com.mmfsin.betweenminds.databinding.FragmentMenuBinding
 import com.mmfsin.betweenminds.presentation.MainActivity
+import com.mmfsin.betweenminds.presentation.menu.MenuFragmentDirections.Companion.actionToChooseFragment
 import com.mmfsin.betweenminds.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -36,6 +37,7 @@ class MenuFragment : BaseFragment<FragmentMenuBinding, MenuViewModel>() {
 
 //            include.content.startRippleAnimation()
 
+//            findNavController().navigate(actionToChooseFragment())
 //            navigateTo(R.navigation.nav_graph_ranges)
 //            navigateTo(R.navigation.nav_graph_question)
         }
@@ -43,9 +45,8 @@ class MenuFragment : BaseFragment<FragmentMenuBinding, MenuViewModel>() {
 
     override fun setListeners() {
         binding.apply {
-            btnModeRanges.setOnClickListener { navigateTo(R.navigation.nav_graph_ranges) }
-            btnModeQuestion.setOnClickListener { navigateTo(R.navigation.nav_graph_question) }
-            btnScores.setOnClickListener { navigateTo(R.navigation.nav_graph_saved_scores) }
+            btnPlay.setOnClickListener { findNavController().navigate(actionToChooseFragment()) }
+            btnHowToPlay.setOnClickListener {}
         }
     }
 
@@ -60,9 +61,7 @@ class MenuFragment : BaseFragment<FragmentMenuBinding, MenuViewModel>() {
 
     private fun navigateTo(navGraph: Int, strArgs: String? = null, booleanArgs: Boolean? = null) {
         (activity as MainActivity).openBedRockActivity(
-            navGraph = navGraph,
-            strArgs = strArgs,
-            booleanArgs = booleanArgs
+            navGraph = navGraph, strArgs = strArgs, booleanArgs = booleanArgs
         )
     }
 
