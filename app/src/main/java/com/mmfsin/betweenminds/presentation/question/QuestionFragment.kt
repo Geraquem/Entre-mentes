@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo.IME_ACTION_DONE
 import android.widget.EditText
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
@@ -229,13 +228,8 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
         }
     }
 
-    private fun showCurtain() {
-        binding.apply { curtain.showAlpha(350) }
-    }
-
-    private fun hideCurtain() {
-        binding.apply { curtain.hideAlpha(500) }
-    }
+    private fun showCurtain() = binding.curtain.root.showAlpha(350)
+    private fun hideCurtain() = binding.curtain.root.hideAlpha(500)
 
     private fun handleSliderValue(
         slider: IncludeSliderQuestionsBinding,
@@ -270,8 +264,6 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
     private fun setScoreRound() {
         val points = getPoints(topLeftNumber, bottomLeftNumber)
         if (points > 10) binding.konfetti.start(getKonfettiParty())
-
-        Toast.makeText(mContext, points.toString(), Toast.LENGTH_SHORT).show()
 
         scoreboardAdapter?.updateScore(
             newScore = ScoreQuestion(

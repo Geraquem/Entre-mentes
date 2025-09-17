@@ -227,13 +227,8 @@ class RangesFragment : BaseFragment<FragmentRangesBinding, RangesViewModel>() {
         }
     }
 
-    private fun showCurtain() {
-        binding.apply { curtain.showAlpha(350) }
-    }
-
-    private fun hideCurtain() {
-        binding.apply { curtain.hideAlpha(500) }
-    }
+    private fun showCurtain() = binding.curtain.root.showAlpha(350)
+    private fun hideCurtain() = binding.curtain.root.hideAlpha(500)
 
     private fun setSliderValue(value: Int) {
         binding.apply {
@@ -292,4 +287,3 @@ class RangesFragment : BaseFragment<FragmentRangesBinding, RangesViewModel>() {
         mContext = context
     }
 }
-

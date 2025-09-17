@@ -13,7 +13,6 @@ import com.mmfsin.betweenminds.utils.moveHumans
 import com.mmfsin.betweenminds.utils.scaleHumans
 import dagger.hilt.android.AndroidEntryPoint
 
-
 @AndroidEntryPoint
 class ChooseFragment : BaseFragmentNoVM<FragmentChooseBinding>() {
 
@@ -22,7 +21,6 @@ class ChooseFragment : BaseFragmentNoVM<FragmentChooseBinding>() {
     override fun inflateView(
         inflater: LayoutInflater, container: ViewGroup?
     ) = FragmentChooseBinding.inflate(inflater, container, false)
-
 
     override fun setUI() {
         binding.apply {

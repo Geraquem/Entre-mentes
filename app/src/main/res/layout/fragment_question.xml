@@ -60,28 +60,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <RelativeLayout
+            <include
                 android:id="@+id/curtain"
-                android:layout_width="0dp"
+                layout="@layout/include_curtain"
+                android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:background="@color/background"
                 app:layout_constraintBottom_toBottomOf="@id/top_slider"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@id/top_slider"
-                tools:visibility="invisible">
-
-                <TextView
-                    style="@style/BigTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:fontFamily="@font/august_shining"
-                    android:text="@string/question"
-                    android:textColor="@color/dark_red"
-                    android:textSize="64sp" />
-
-            </RelativeLayout>
+                app:layout_constraintTop_toTopOf="@id/top_slider" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
