@@ -104,7 +104,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:fontFamily="@font/hina_ming"
+                    android:fontFamily="@font/kineks"
                     android:text="@string/choose_questions" />
 
                 <TextView
@@ -142,7 +142,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:fontFamily="@font/august_shining"
+                    android:fontFamily="@font/kineks"
                     android:text="@string/choose_ranges" />
 
                 <TextView

@@ -13,7 +13,7 @@
     <string name="menu_how_to_play">¿Cómo se juega?</string>
     <string name="choose_title">Modo de juego</string>
     <string name="choose_questions">Modo preguntas</string>
-    <string name="choose_questions_desc">Responde a preguntas tipo <i>¿Quién es más probable…?”</i> asignando un porcentaje a cada jugador. Es importante acertar pero también descubir si tu compañero piensa igual que tú.</string>
+    <string name="choose_questions_desc">Responde a preguntas tipo <i>¿Quién es más probable…?</i> asignando un porcentaje a cada jugador. Es importante acertar pero también descubir si tu compañero piensa igual que tú.</string>
     <string name="choose_questions_left_name">María</string>
     <string name="choose_questions_right_name">Juan</string>
     <string name="choose_ranges">Modo rangos</string>
