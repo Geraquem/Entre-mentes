@@ -103,7 +103,7 @@
                     style="@style/BigTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
+                    android:layout_marginBottom="4dp"
                     android:fontFamily="@font/kineks"
                     android:text="@string/choose_questions" />
 
@@ -141,7 +141,7 @@
                     style="@style/BigTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
+                    android:layout_marginBottom="4dp"
                     android:fontFamily="@font/kineks"
                     android:text="@string/choose_ranges" />
 
