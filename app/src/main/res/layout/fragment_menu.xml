@@ -3,10 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:clipChildren="false"
-    android:clipToPadding="false"
     android:layout_height="match_parent"
-    android:background="@color/background">
+    android:background="@color/background"
+    android:clipChildren="false"
+    android:clipToPadding="false">
+
+    <include
+        android:id="@+id/particles"
+        layout="@layout/fragment_waves" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/gl_left"
@@ -22,14 +26,45 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.95" />
 
-    <include
-        android:id="@+id/particles"
-        layout="@layout/fragment_waves" />
-
     <LinearLayout
+        android:id="@+id/ll_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="42dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/ll_buttons"
+        app:layout_constraintLeft_toLeftOf="@id/gl_left"
+        app:layout_constraintRight_toRightOf="@id/gl_right"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            style="@style/BigTextView_Bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/kineks"
+            android:text="@string/app_name_one"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="65sp" />
+
+        <TextView
+            style="@style/BigTextView_Bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/kineks"
+            android:text="@string/app_name_two"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="65sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_buttons"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="64dp"
         android:clipChildren="false"
         android:clipToPadding="false"
         android:orientation="vertical"
@@ -44,11 +79,14 @@
             android:layout_gravity="center"
             android:layout_marginBottom="16dp"
             android:background="@drawable/click_effect_button"
+            android:backgroundTint="@color/white"
             android:elevation="4dp"
+            android:fontFamily="@font/alphazet"
             android:gravity="center"
             android:paddingVertical="12dp"
             android:text="@string/menu_play"
             android:textAllCaps="true"
+            android:textColor="@color/black"
             android:textSize="24sp" />
 
         <TextView
@@ -57,11 +95,14 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:background="@drawable/click_effect_button"
+            android:backgroundTint="@color/white"
             android:elevation="4dp"
+            android:fontFamily="@font/alphazet"
             android:gravity="center"
             android:paddingVertical="12dp"
             android:text="@string/menu_how_to_play"
             android:textAllCaps="true"
+            android:textColor="@color/black"
             android:textSize="24sp" />
 
     </LinearLayout>

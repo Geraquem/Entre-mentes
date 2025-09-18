@@ -4,18 +4,36 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black" />
+
     <com.doctoror.particlesdrawable.ParticlesView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:density="60"
+        app:density="300"
         app:frameDelayMillis="10"
-        android:alpha="0.75"
-        app:lineColor="@color/white"
+        app:lineColor="@color/dark_orange"
         app:lineLength="100dp"
         app:lineThickness="2dp"
         app:particleColor="@color/white"
         app:particleRadiusMax="2dp"
         app:particleRadiusMin="1dp"
         app:speedFactor="1" />
+
+    <com.doctoror.particlesdrawable.ParticlesView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleY="-1"
+        app:density="200"
+        app:frameDelayMillis="10"
+        app:lineColor="@color/soft_blue"
+        app:lineLength="100dp"
+        app:lineThickness="2dp"
+        app:particleColor="@color/white"
+        app:particleRadiusMax="2dp"
+        app:particleRadiusMin="1dp"
+        app:speedFactor="1.5" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

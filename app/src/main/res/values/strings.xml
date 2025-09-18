@@ -1,5 +1,7 @@
 <resources>
-    <string name="app_name">Between Minds</string>
+    <string name="app_name">Entre mentes</string>
+    <string name="app_name_one">Entre</string>
+    <string name="app_name_two">Mentes</string>
 
     <string name="content_description">image</string>
 

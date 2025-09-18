@@ -54,6 +54,8 @@ class ChooseFragment : BaseFragmentNoVM<FragmentChooseBinding>() {
     override fun setListeners() {
         binding.apply {
             ivBack.setOnClickListener { activity?.onBackPressedDispatcher?.onBackPressed() }
+            bgBack.setOnClickListener { activity?.onBackPressedDispatcher?.onBackPressed() }
+
             btnQuestions.setOnClickListener { navigateTo(R.navigation.nav_graph_questions) }
             btnRanges.setOnClickListener { navigateTo(R.navigation.nav_graph_ranges) }
         }

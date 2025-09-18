@@ -23,56 +23,30 @@
         android:id="@+id/particles"
         layout="@layout/fragment_waves" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/bg_back"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="6dp"
         android:background="@color/white"
-        android:elevation="4dp"
-        android:paddingTop="36dp"
-        android:paddingBottom="16dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintLeft_toLeftOf="@id/gl_left"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/circular_image" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/gl_left2"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.05" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/gl_right2"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.95" />
-
-        <ImageView
-            android:id="@+id/iv_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="@string/content_description"
-            android:src="@drawable/ic_arrow_back"
-            app:layout_constraintBottom_toBottomOf="@id/tv_title"
-            app:layout_constraintLeft_toLeftOf="@id/gl_left2"
-            app:layout_constraintTop_toTopOf="@id/tv_title" />
-
-        <TextView
-            android:id="@+id/tv_title"
-            style="@style/BigTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:text="@string/choose_title"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="@id/gl_left2"
-            app:layout_constraintRight_toRightOf="@id/gl_right2"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <ImageView
+        android:id="@+id/iv_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/content_description"
+        android:src="@drawable/ic_arrow_back"
+        app:layout_constraintBottom_toBottomOf="@id/bg_back"
+        app:layout_constraintLeft_toLeftOf="@id/bg_back"
+        app:layout_constraintRight_toRightOf="@id/bg_back"
+        app:layout_constraintTop_toTopOf="@id/bg_back"
+        app:tint="@color/black" />
 
     <ScrollView
         style="@style/scroll_no_effects"
@@ -81,13 +55,13 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="@id/gl_left"
         app:layout_constraintRight_toRightOf="@id/gl_right"
-        app:layout_constraintTop_toBottomOf="@id/cl_title">
+        app:layout_constraintTop_toBottomOf="@id/iv_back">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingTop="24dp"
+            android:paddingTop="32dp"
             android:paddingBottom="24dp">
 
             <LinearLayout

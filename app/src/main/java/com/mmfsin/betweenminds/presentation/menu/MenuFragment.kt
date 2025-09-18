@@ -12,6 +12,10 @@ import com.mmfsin.betweenminds.base.BaseFragment
 import com.mmfsin.betweenminds.databinding.FragmentMenuBinding
 import com.mmfsin.betweenminds.presentation.MainActivity
 import com.mmfsin.betweenminds.presentation.menu.MenuFragmentDirections.Companion.actionToChooseFragment
+import com.mmfsin.betweenminds.utils.animateY
+import com.mmfsin.betweenminds.utils.countDown
+import com.mmfsin.betweenminds.utils.hideAlpha
+import com.mmfsin.betweenminds.utils.showAlpha
 import com.mmfsin.betweenminds.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -35,7 +39,8 @@ class MenuFragment : BaseFragment<FragmentMenuBinding, MenuViewModel>() {
         binding.apply {
             loading.root.isVisible = true
 
-//            include.content.startRippleAnimation()
+            llTitle.hideAlpha(1)
+            llButtons.animateY(1000f, 1)
 
 //            findNavController().navigate(actionToChooseFragment())
 //            navigateTo(R.navigation.nav_graph_ranges)
@@ -53,8 +58,26 @@ class MenuFragment : BaseFragment<FragmentMenuBinding, MenuViewModel>() {
     override fun observe() {
         viewModel.event.observe(this) { event ->
             when (event) {
-                is MenuEvent.VersionCompleted -> binding.loading.root.isVisible = false
+                is MenuEvent.VersionCompleted -> showAnimations()
                 is MenuEvent.SomethingWentWrong -> error()
+            }
+        }
+    }
+
+    private fun showAnimations() {
+        binding.apply {
+            loading.root.isVisible = false
+            if (activity is MainActivity) {
+                if ((activity as MainActivity).firstInit) {
+                    (activity as MainActivity).firstInit = false
+                    countDown(1500) {
+                        llTitle.showAlpha(2000)
+                        llButtons.animateY(0f, 1000)
+                    }
+                } else {
+                    llTitle.showAlpha(10)
+                    llButtons.animateY(0f, 10)
+                }
             }
         }
     }
