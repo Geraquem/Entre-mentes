@@ -48,94 +48,86 @@
         app:layout_constraintTop_toTopOf="@id/bg_back"
         app:tint="@color/black" />
 
-    <ScrollView
-        style="@style/scroll_no_effects"
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:gravity="center"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="@id/gl_left"
         app:layout_constraintRight_toRightOf="@id/gl_right"
-        app:layout_constraintTop_toBottomOf="@id/iv_back">
+        app:layout_constraintTop_toBottomOf="@id/bg_back">
 
         <LinearLayout
+            android:id="@+id/btn_questions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/click_effect"
             android:orientation="vertical"
-            android:paddingTop="32dp"
-            android:paddingBottom="24dp">
+            android:padding="16dp">
 
-            <LinearLayout
-                android:id="@+id/btn_questions"
-                android:layout_width="match_parent"
+            <TextView
+                style="@style/BigTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:fontFamily="@font/kineks"
+                android:text="@string/choose_questions" />
+
+            <TextView
+                style="@style/MediumTextView"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
-                android:background="@drawable/click_effect"
-                android:orientation="vertical"
-                android:padding="16dp">
+                android:text="@string/choose_questions_desc" />
 
-                <TextView
-                    style="@style/BigTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="4dp"
-                    android:fontFamily="@font/kineks"
-                    android:text="@string/choose_questions" />
-
-                <TextView
-                    style="@style/MediumTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="24dp"
-                    android:text="@string/choose_questions_desc" />
-
-                <include
-                    android:id="@+id/people"
-                    layout="@layout/include_people"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp" />
-
-                <include
-                    android:id="@+id/slider_questions"
-                    layout="@layout/include_slider_questions"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/btn_ranges"
+            <include
+                android:id="@+id/people"
+                layout="@layout/include_people"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/click_effect"
-                android:orientation="vertical"
-                android:padding="16dp">
+                android:layout_marginBottom="8dp" />
 
-                <TextView
-                    style="@style/BigTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="4dp"
-                    android:fontFamily="@font/kineks"
-                    android:text="@string/choose_ranges" />
-
-                <TextView
-                    style="@style/MediumTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="24dp"
-                    android:text="@string/choose_ranges_desc" />
-
-                <include
-                    android:id="@+id/ranges"
-                    layout="@layout/include_ranges"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-            </LinearLayout>
+            <include
+                android:id="@+id/slider_questions"
+                layout="@layout/include_slider_questions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 
-    </ScrollView>
+        <LinearLayout
+            android:id="@+id/btn_ranges"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/click_effect"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                style="@style/BigTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:fontFamily="@font/kineks"
+                android:text="@string/choose_ranges" />
+
+            <TextView
+                style="@style/MediumTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:text="@string/choose_ranges_desc" />
+
+            <include
+                android:id="@+id/ranges"
+                layout="@layout/include_ranges"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

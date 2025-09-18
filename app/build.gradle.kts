@@ -106,7 +106,6 @@ dependencies {
 
     //Animate BG
     implementation("nl.dionsegijn:konfetti-xml:2.0.5")
-    implementation("com.skyfishjy.ripplebackground:library:1.0.1")
     implementation("com.github.doctoror.particlesdrawable:library:2.0.2")
 
     //Google services

@@ -222,8 +222,10 @@ fun scaleHumans(binding: IncludePeopleBinding, value: Int) {
     binding.apply {
         val factor = value / 100f
 
-        val leftScale = 2f - factor
-        val rightScale = 1f + factor
+//        val leftScale = 2f - factor
+//        val rightScale = 1f + factor
+        val leftScale = 3f - factor * 2f
+        val rightScale = 1f + factor * 2f
 
         ivRight.scaleX = leftScale
         ivRight.scaleY = leftScale
