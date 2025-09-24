@@ -178,6 +178,9 @@ class AuxiliarFragment : BaseFragment<FragmentAuxiliarBinding, RangesViewModel>(
 
     private fun firstPhase() {
         binding.apply {
+
+            scoreboardRangesAdapter?.roundColor(round - 1)
+
             setBullsEye()
             countDown(500) {
                 curtainVisibility(isVisible = false)
@@ -267,13 +270,14 @@ class AuxiliarFragment : BaseFragment<FragmentAuxiliarBinding, RangesViewModel>(
             val bullseyeWidth = child.width
 
             parent.post {
-                val centerOffset = (0.25f * bullseyeWidth) + (0.25f * bullseyeWidth) / 2f
+                val centerOffset = (0.2f * bullseyeWidth) + (0.35f * bullseyeWidth) / 2f
 
                 val minX = -centerOffset
                 val maxX = parentWidth - (bullseyeWidth - centerOffset)
 
                 val randomX = (minX.toInt()..maxX.toInt()).random()
                 child.x = randomX.toFloat()
+//                child.x = minX
             }
         }
     }

@@ -5,16 +5,13 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.core.content.ContextCompat.getColor
 import androidx.recyclerview.widget.RecyclerView
 import com.mmfsin.betweenminds.R
 import com.mmfsin.betweenminds.databinding.ItemScoreRangeBinding
 import com.mmfsin.betweenminds.domain.models.ScoreRange
-import com.mmfsin.betweenminds.utils.getNumberColor
 import com.mmfsin.betweenminds.utils.hideAlpha
 import com.mmfsin.betweenminds.utils.showAlpha
-import kotlin.math.absoluteValue
 
 class ScoreboardRangesAdapter(
     private val scoreRanges: List<ScoreRange>,
@@ -29,6 +26,8 @@ class ScoreboardRangesAdapter(
                 if (data.discovered) discovered.hideAlpha(500)
                 else discovered.showAlpha(1)
 
+                if (data.activeRound) tvRound.setTextColor(getColor(c, R.color.dark_red))
+
                 data.points?.let { tvPoints.text = "$it" }
             }
         }
@@ -38,6 +37,12 @@ class ScoreboardRangesAdapter(
         val score = scoreRanges[position]
         score.discovered = newScoreRange.discovered
         score.points = newScoreRange.points
+        notifyItemChanged(position)
+    }
+
+    fun roundColor(position: Int) {
+        val score = scoreRanges[position]
+        if (!score.discovered) score.activeRound = true
         notifyItemChanged(position)
     }
 
@@ -60,7 +65,8 @@ class ScoreboardRangesAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.item_score_range, parent, false)
+            LayoutInflater.from(parent.context)
+                .inflate(R.layout.item_score_range, parent, false)
         )
     }
 
