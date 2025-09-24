@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="60dp"
+    android:layout_height="match_parent"
+    android:backgroundTint="@color/black"
+    android:background="@drawable/bg_slider"
+    android:baselineAligned="false"
+    android:weightSum="1">
+
+    <FrameLayout
+        android:id="@+id/left_bullseye"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.375"
+        android:background="@color/dark_orange">
+
+        <TextView
+            style="@style/SmallTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/manaspace"
+            android:gravity="center"
+            android:text="2" />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/center_bullseye"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.25"
+        android:background="@color/dark_green">
+
+        <TextView
+            style="@style/SmallTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/manaspace"
+            android:gravity="center"
+            android:text="5" />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/right_bullseye"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.375"
+        android:background="@color/dark_orange">
+
+        <TextView
+            style="@style/SmallTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/manaspace"
+            android:gravity="center"
+            android:text="2" />
+
+    </FrameLayout>
+
+</LinearLayout>

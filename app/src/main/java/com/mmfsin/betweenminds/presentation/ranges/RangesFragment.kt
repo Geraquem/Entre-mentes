@@ -20,9 +20,11 @@ import com.mmfsin.betweenminds.base.bedrock.BedRockActivity
 import com.mmfsin.betweenminds.databinding.FragmentRangesBinding
 import com.mmfsin.betweenminds.domain.models.Range
 import com.mmfsin.betweenminds.domain.models.ScoreRange
+import com.mmfsin.betweenminds.presentation.auxiliar.RangesEvent
+import com.mmfsin.betweenminds.presentation.auxiliar.RangesViewModel
 import com.mmfsin.betweenminds.presentation.common.dialogs.EndGameDialog
 import com.mmfsin.betweenminds.presentation.common.dialogs.save.SavePointsDialog
-import com.mmfsin.betweenminds.presentation.ranges.adapter.ScoreboardRangesAdapter
+import com.mmfsin.betweenminds.presentation.auxiliar.adapter.ScoreboardRangesAdapter
 import com.mmfsin.betweenminds.utils.MODE_NUMBER
 import com.mmfsin.betweenminds.utils.animateY
 import com.mmfsin.betweenminds.utils.countDown
@@ -245,8 +247,6 @@ class RangesFragment : BaseFragment<FragmentRangesBinding, RangesViewModel>() {
         scoreboardRangesAdapter?.updateScore(
             newScoreRange = ScoreRange(
                 discovered = true,
-                topNumber = topNumber,
-                bottomNumber = bottomNumber,
                 points = points
             ), position = round
         )

@@ -20,7 +20,7 @@
         android:fontFamily="@font/august_shining"
         android:gravity="center"
         android:paddingVertical="16dp"
-        android:text="@string/number_btn_next_round"
+        android:text="@string/btn_next_round"
         android:textAllCaps="true"
         app:layout_constraintTop_toTopOf="parent" />
 

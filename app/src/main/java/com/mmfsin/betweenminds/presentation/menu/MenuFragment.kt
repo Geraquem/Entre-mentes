@@ -7,18 +7,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
+import com.mmfsin.betweenminds.R
 import com.mmfsin.betweenminds.base.BaseFragment
 import com.mmfsin.betweenminds.databinding.FragmentMenuBinding
 import com.mmfsin.betweenminds.presentation.MainActivity
-import com.mmfsin.betweenminds.presentation.menu.MenuFragmentDirections.Companion.actionToChooseFragment
 import com.mmfsin.betweenminds.utils.animateY
 import com.mmfsin.betweenminds.utils.countDown
 import com.mmfsin.betweenminds.utils.hideAlpha
 import com.mmfsin.betweenminds.utils.showAlpha
 import com.mmfsin.betweenminds.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
-
 
 @AndroidEntryPoint
 class MenuFragment : BaseFragment<FragmentMenuBinding, MenuViewModel>() {
@@ -44,13 +42,15 @@ class MenuFragment : BaseFragment<FragmentMenuBinding, MenuViewModel>() {
 
 //            findNavController().navigate(actionToChooseFragment())
 //            navigateTo(R.navigation.nav_graph_ranges)
-//            navigateTo(R.navigation.nav_graph_question)
+//            navigateTo(R.navigation.nav_graph_questions)
+            navigateTo(R.navigation.nav_graph_auxiliar)
         }
     }
 
     override fun setListeners() {
         binding.apply {
-            btnPlay.setOnClickListener { findNavController().navigate(actionToChooseFragment()) }
+//            btnPlay.setOnClickListener { findNavController().navigate(actionToChooseFragment()) }
+            btnPlay.setOnClickListener { navigateTo(R.navigation.nav_graph_auxiliar) }
             btnHowToPlay.setOnClickListener {}
         }
     }
@@ -70,7 +70,7 @@ class MenuFragment : BaseFragment<FragmentMenuBinding, MenuViewModel>() {
             if (activity is MainActivity) {
                 if ((activity as MainActivity).firstInit) {
                     (activity as MainActivity).firstInit = false
-                    countDown(1500) {
+                    countDown(500) {
                         llTitle.showAlpha(2000)
                         llButtons.animateY(0f, 1000)
                     }

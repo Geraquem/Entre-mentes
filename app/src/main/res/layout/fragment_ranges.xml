@@ -92,7 +92,7 @@
             android:fontFamily="@font/august_shining"
             android:gravity="center"
             android:paddingVertical="16dp"
-            android:text="@string/number_btn_check"
+            android:text="@string/btn_check"
             android:textAllCaps="true" />
 
     </RelativeLayout>
@@ -120,7 +120,7 @@
             android:fontFamily="@font/august_shining"
             android:gravity="center"
             android:paddingVertical="16dp"
-            android:text="@string/number_btn_hide"
+            android:text="@string/btn_hide"
             android:textAllCaps="true" />
 
     </RelativeLayout>

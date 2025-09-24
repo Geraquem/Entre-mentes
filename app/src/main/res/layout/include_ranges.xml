@@ -3,16 +3,49 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
     android:orientation="vertical"
-    android:layout_height="wrap_content">
+    android:weightSum="1"
+    tools:background="@color/background_black">
 
-    <LinearLayout
-        android:id="@+id/cl_images"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:weightSum="1">
+        android:layout_marginBottom="8dp">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_center"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/content_description"
+            android:src="@drawable/ic_arrow_back"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/white" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/content_description"
+            android:scaleX="-1"
+            android:src="@drawable/ic_arrow_back"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/white" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
 
         <TextView
             android:id="@+id/tv_range_left"
@@ -21,12 +54,11 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.475"
             android:fontFamily="@font/alphazet"
-            android:gravity="start"
-            android:paddingStart="16dp"
-            android:textColor="@color/blue"
+            android:gravity="top|start"
+            android:textColor="@color/white"
             android:textStyle="bold"
             tools:ignore="RtlSymmetry"
-            tools:text="Frío" />
+            tools:text="Una mantis religiosa en misa cosiendo un suéter" />
 
         <Space
             android:layout_width="0dp"
@@ -38,52 +70,16 @@
             style="@style/MediumTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_gravity="top|end"
             android:layout_weight="0.475"
             android:fontFamily="@font/alphazet"
             android:gravity="end"
-            android:paddingEnd="16dp"
-            android:textColor="@color/dark_orange"
+            android:textColor="@color/white"
             android:textStyle="bold"
             tools:ignore="RtlSymmetry"
-            tools:text="Calor" />
+            tools:text="Una mantis religiosa en misa cosiendo un suéter" />
 
     </LinearLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/gl_center"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.5" />
-
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="38dp"
-            android:contentDescription="@string/content_description"
-            android:src="@drawable/ic_long_arrow"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/gl_center"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/blue" />
-
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="38dp"
-            android:contentDescription="@string/content_description"
-            android:scaleX="-1"
-            android:src="@drawable/ic_long_arrow"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/gl_center"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/dark_orange" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

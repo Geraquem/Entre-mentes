@@ -1,4 +1,4 @@
-package com.mmfsin.betweenminds.presentation.ranges
+package com.mmfsin.betweenminds.presentation.auxiliar
 
 import com.mmfsin.betweenminds.base.BaseViewModel
 import com.mmfsin.betweenminds.domain.usecases.GetRangesUseCase

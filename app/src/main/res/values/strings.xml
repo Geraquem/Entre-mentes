@@ -30,11 +30,16 @@
     <string name="percent">\%</string>
     <string name="slash">/</string>
     <string name="curtain_text">Top secret</string>
-    <string name="number_btn_hide">Ocultar</string>
-    <string name="number_btn_check">Comprobar</string>
-    <string name="number_btn_next_round">Siguiente ronda</string>
+    <string name="btn_hide">Ocultar</string>
+    <string name="btn_check">Comprobar</string>
+    <string name="btn_next_round">Siguiente ronda</string>
     <string name="name_blue">Nombre azul</string>
     <string name="name_orange">Nombre naranja</string>
+
+    <!-- RANGES -->
+    <string name="ranges_no_clue">No hay pista</string>
+    <string name="ranges_write_a_clue">Escribe una pista</string>
+    <string name="ranges_clue_title">La pista es:</string>
 
     <!-- SCOREBOARD -->
     <string name="scoreboard_pts">pts</string>

@@ -1,4 +1,4 @@
-package com.mmfsin.betweenminds.presentation.ranges.adapter
+package com.mmfsin.betweenminds.presentation.auxiliar.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -29,16 +29,7 @@ class ScoreboardRangesAdapter(
                 if (data.discovered) discovered.hideAlpha(500)
                 else discovered.showAlpha(1)
 
-                setSliderNumbers(tvTopNumber, data.topNumber)
-                setSliderNumbers(tvBottomNumber, data.bottomNumber)
                 data.points?.let { tvPoints.text = "$it" }
-            }
-        }
-
-        private fun setSliderNumbers(textView: TextView, number: Int?) {
-            number?.let {
-                textView.text = "${number.absoluteValue}"
-                textView.setTextColor(getColor(c, getNumberColor(number)))
             }
         }
     }
@@ -46,8 +37,6 @@ class ScoreboardRangesAdapter(
     fun updateScore(newScoreRange: ScoreRange, position: Int) {
         val score = scoreRanges[position]
         score.discovered = newScoreRange.discovered
-        score.topNumber = newScoreRange.topNumber
-        score.bottomNumber = newScoreRange.bottomNumber
         score.points = newScoreRange.points
         notifyItemChanged(position)
     }
@@ -56,7 +45,7 @@ class ScoreboardRangesAdapter(
     fun resetScores() {
         scoreRanges.forEach {
             it.discovered = false
-            it.topNumber = 0
+            it.points = 0
         }
         notifyDataSetChanged()
     }
