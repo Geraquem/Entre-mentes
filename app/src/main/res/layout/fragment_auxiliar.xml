@@ -99,6 +99,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/rl_slider"
             android:layout_width="match_parent"
+            android:clipToOutline="true"
             android:layout_height="50dp"
             android:background="@drawable/bg_slider"
             android:backgroundTint="@color/dark_grey"

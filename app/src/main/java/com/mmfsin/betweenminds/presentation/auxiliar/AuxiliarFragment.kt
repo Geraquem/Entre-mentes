@@ -13,6 +13,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.mmfsin.betweenminds.R
 import com.mmfsin.betweenminds.base.BaseFragment
+import com.mmfsin.betweenminds.base.bedrock.BedRockActivity
 import com.mmfsin.betweenminds.databinding.FragmentAuxiliarBinding
 import com.mmfsin.betweenminds.domain.models.Range
 import com.mmfsin.betweenminds.domain.models.ScoreRange
@@ -28,6 +29,7 @@ import com.mmfsin.betweenminds.utils.showAlpha
 import com.mmfsin.betweenminds.utils.showErrorDialog
 import com.mmfsin.betweenminds.utils.showFragmentDialog
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.random.Random
 
 @AndroidEntryPoint
 class AuxiliarFragment : BaseFragment<FragmentAuxiliarBinding, RangesViewModel>() {
@@ -63,6 +65,8 @@ class AuxiliarFragment : BaseFragment<FragmentAuxiliarBinding, RangesViewModel>(
 
     override fun setUI() {
         binding.apply {
+            (activity as BedRockActivity).setUpToolbar(instructionsNavGraph = R.navigation.nav_graph_instr_ranges)
+
             loading.root.isVisible = true
 
             tvTopText.hideAlpha(1)
@@ -159,6 +163,9 @@ class AuxiliarFragment : BaseFragment<FragmentAuxiliarBinding, RangesViewModel>(
             tvClue.hideAlpha(350)
             arrowVisibility(isVisible = false)
 
+            arrow.translationX = 0f
+            target.translationX = 0f
+
             buttonHide.isEnabled = true
             buttonCheck.isEnabled = true
             buttonNextRound.isEnabled = true
@@ -207,7 +214,8 @@ class AuxiliarFragment : BaseFragment<FragmentAuxiliarBinding, RangesViewModel>(
                 tvClue.showAlpha(1000)
 
                 controller.isEnabled = true
-                curtainVisibility(isVisible = false) { arrowVisibility(isVisible = true) }
+                curtainVisibility(isVisible = false)
+                arrowVisibility(isVisible = true)
                 buttonCheck.animateY(0f, 500)
             }
         }
@@ -252,13 +260,31 @@ class AuxiliarFragment : BaseFragment<FragmentAuxiliarBinding, RangesViewModel>(
             val parent = rlSlider
             val child = bullsEye.root
 
-            parent.post {
-                val parentWidth = parent.width
-                val childWidth = child.width
+            val parentWidth = parent.width
+            val bullseyeWidth = child.width
 
-                val randomX = (0..(parentWidth - childWidth)).random()
+            parent.post {
+                val centerOffset = (0.25f * bullseyeWidth) + (0.25f * bullseyeWidth) / 2f
+
+                val minX = -centerOffset
+                val maxX = parentWidth - (bullseyeWidth - centerOffset)
+
+                val randomX = (minX.toInt()..maxX.toInt()).random()
+//                val randomX = Random.nextInt((maxX - minX + 1).toInt()) + minX
                 child.x = randomX.toFloat()
             }
+
+
+//            val parent = rlSlider
+//            val child = bullsEye.root
+//
+//            parent.post {
+//                val parentWidth = parent.width
+//                val childWidth = child.width
+//
+//                val randomX = (0..(parentWidth - childWidth)).random()
+//                child.x = randomX.toFloat()
+//            }
         }
     }
 

@@ -29,7 +29,7 @@ class BedRockActivity : AppCompatActivity() {
         binding = ActivityBedrockBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        changeStatusBarColor(R.color.white)
+        changeStatusBarColor(R.color.background_black)
         respectScreenDimensions()
 
         setUpNavGraph()
@@ -66,7 +66,7 @@ class BedRockActivity : AppCompatActivity() {
         }
 
         //true == dark
-        WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = true
+        WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = false
     }
 
     private fun setUpNavGraph() {
@@ -83,10 +83,10 @@ class BedRockActivity : AppCompatActivity() {
     ) {
         binding.toolbar.apply {
             ivBack.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
-            tvInstructions.isVisible = instructionsVisible
+            ivInstructions.isVisible = instructionsVisible
 
             instructionsNavGraph?.let { navGraph ->
-                tvInstructions.setOnClickListener { openBedRockActivity(navGraph = navGraph) }
+                ivInstructions.setOnClickListener { openBedRockActivity(navGraph = navGraph) }
             }
         }
     }

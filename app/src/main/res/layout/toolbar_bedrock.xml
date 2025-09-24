@@ -1,53 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.appbar.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/appBar"
     android:layout_width="match_parent"
+    android:paddingVertical="24dp"
     android:layout_height="wrap_content"
-    android:background="?android:attr/windowBackground">
+    android:background="@color/background_black">
 
-    <androidx.appcompat.widget.Toolbar
-        android:layout_width="match_parent"
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_left"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.05" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_right"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.95" />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/bg_back"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:background="@color/white"
+        app:layout_constraintLeft_toLeftOf="@id/gl_left"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/circular_image" />
+
+    <ImageView
+        android:id="@+id/iv_back"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="?android:attr/windowBackground"
-        android:backgroundTint="@color/white"
-        android:paddingVertical="16dp"
-        app:layout_scrollFlags="scroll|enterAlways">
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/content_description"
+        android:src="@drawable/ic_arrow_back"
+        app:layout_constraintBottom_toBottomOf="@id/bg_back"
+        app:layout_constraintLeft_toLeftOf="@id/bg_back"
+        app:layout_constraintRight_toRightOf="@id/bg_back"
+        app:layout_constraintTop_toTopOf="@id/bg_back"
+        app:tint="@color/black" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginEnd="24dp">
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/bg_instructions"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:background="@color/white"
+        app:layout_constraintRight_toRightOf="@id/gl_right"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/circular_image" />
 
-            <ImageView
-                android:id="@+id/iv_back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="@string/content_description"
-                android:src="@drawable/ic_arrow_back"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+    <ImageView
+        android:id="@+id/iv_instructions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/content_description"
+        android:src="@drawable/ic_info"
+        app:layout_constraintBottom_toBottomOf="@id/bg_instructions"
+        app:layout_constraintLeft_toLeftOf="@id/bg_instructions"
+        app:layout_constraintRight_toRightOf="@id/bg_instructions"
+        app:layout_constraintTop_toTopOf="@id/bg_instructions"
+        app:tint="@color/black" />
 
-            <TextView
-                android:id="@+id/tv_instructions"
-                style="@style/MediumTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/click_effect"
-                android:paddingHorizontal="6dp"
-                android:paddingVertical="2dp"
-                android:text="@string/toolbar_instructions"
-                android:textColor="@color/blue"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="@string/app_name" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.appcompat.widget.Toolbar>
-
-</com.google.android.material.appbar.AppBarLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
