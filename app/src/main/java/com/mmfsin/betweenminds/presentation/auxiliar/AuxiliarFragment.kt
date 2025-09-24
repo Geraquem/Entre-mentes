@@ -17,6 +17,7 @@ import com.mmfsin.betweenminds.databinding.FragmentAuxiliarBinding
 import com.mmfsin.betweenminds.domain.models.Range
 import com.mmfsin.betweenminds.domain.models.ScoreRange
 import com.mmfsin.betweenminds.presentation.auxiliar.adapter.ScoreboardRangesAdapter
+import com.mmfsin.betweenminds.presentation.common.dialogs.EndGameDialog
 import com.mmfsin.betweenminds.utils.animateX
 import com.mmfsin.betweenminds.utils.animateY
 import com.mmfsin.betweenminds.utils.countDown
@@ -25,6 +26,7 @@ import com.mmfsin.betweenminds.utils.getKonfettiParty
 import com.mmfsin.betweenminds.utils.hideAlpha
 import com.mmfsin.betweenminds.utils.showAlpha
 import com.mmfsin.betweenminds.utils.showErrorDialog
+import com.mmfsin.betweenminds.utils.showFragmentDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -36,7 +38,7 @@ class AuxiliarFragment : BaseFragment<FragmentAuxiliarBinding, RangesViewModel>(
 
     private var rangesList: List<Range> = emptyList()
     private var position = 0
-    private var round = 0
+    private var round = 1
 
     private var scoreboardRangesAdapter: ScoreboardRangesAdapter? = null
 
@@ -93,7 +95,8 @@ class AuxiliarFragment : BaseFragment<FragmentAuxiliarBinding, RangesViewModel>(
             }
 
             buttonNextRound.setOnClickListener {
-
+                buttonNextRound.isEnabled = false
+                if (round > 3) endGame() else nextRange()
             }
 
             val parent = target.parent as View
@@ -148,13 +151,32 @@ class AuxiliarFragment : BaseFragment<FragmentAuxiliarBinding, RangesViewModel>(
         }
     }
 
+    private fun initialStates() {
+        binding.apply {
+            tvTopText.hideAlpha(350) {
+                tvTopText.text = getString(R.string.ranges_write_a_clue)
+            }
+            tvClue.hideAlpha(350)
+            arrowVisibility(isVisible = false)
+
+            buttonHide.isEnabled = true
+            buttonCheck.isEnabled = true
+            buttonNextRound.isEnabled = true
+
+            if (round > 3) buttonNextRound.text = getString(R.string.ranges_see_points)
+        }
+    }
+
     private fun firstPhase() {
         binding.apply {
             setBullsEye()
             countDown(500) {
                 curtainVisibility(isVisible = false)
                 tvTopText.showAlpha(1000)
-                etClue.showAlpha(1000)
+                etClue.showAlpha(1000) { etClue.isEnabled = true }
+                ranges.tvRangeLeft.showAlpha(1000)
+                ranges.tvRangeRight.showAlpha(1000)
+
                 buttonHide.animateY(0f, 1000)
             }
         }
@@ -165,28 +187,27 @@ class AuxiliarFragment : BaseFragment<FragmentAuxiliarBinding, RangesViewModel>(
             val clue = etClue.text.toString()
 
             tvTopText.hideAlpha(500)
-            etClue.hideAlpha(500)
+            etClue.isEnabled = false
+            etClue.hideAlpha(500) { etClue.text = null }
             tvClue.text = clue
 
             buttonHide.animateY(500f, 500)
             curtainVisibility(isVisible = true) {
-//                bullseyeVisibility(isVisible = false)
+                bullseyeVisibility(isVisible = false)
             }
 
             countDown(1500) {
-                val topText: Int
-                if (clue.isBlank()) topText = R.string.ranges_no_clue
-                else {
-                    topText = R.string.ranges_clue_title
+                if (clue.isBlank()) {
+                    tvClue.text = getString(R.string.ranges_no_clue)
+                } else {
+                    tvClue.text = clue
+                    tvTopText.text = getString(R.string.ranges_clue_title)
                     tvTopText.showAlpha(1000)
                 }
-
-                tvClue.text = getString(topText)
                 tvClue.showAlpha(1000)
 
-                arrowVisibility(isVisible = true)
                 controller.isEnabled = true
-                curtainVisibility(isVisible = false)
+                curtainVisibility(isVisible = false) { arrowVisibility(isVisible = true) }
                 buttonCheck.animateY(0f, 500)
             }
         }
@@ -203,6 +224,26 @@ class AuxiliarFragment : BaseFragment<FragmentAuxiliarBinding, RangesViewModel>(
             countDown(1000) {
                 buttonNextRound.animateY(0f, 500)
             }
+        }
+    }
+
+    private fun nextRange() {
+        binding.apply {
+            round++
+            buttonNextRound.animateY(500f, 500)
+
+            initialStates()
+            position++
+            curtainVisibility(isVisible = true)
+
+            if (position > rangesList.size - 1) position = 0
+            val actualRange = rangesList[position]
+            ranges.apply {
+                tvRangeLeft.hideAlpha(350) { tvRangeLeft.text = actualRange.leftRange }
+                tvRangeRight.hideAlpha(350) { tvRangeRight.text = actualRange.rightRange }
+            }
+
+            countDown(1500) { firstPhase() }
         }
     }
 
@@ -223,8 +264,6 @@ class AuxiliarFragment : BaseFragment<FragmentAuxiliarBinding, RangesViewModel>(
 
     private fun checkPoints() {
         binding.apply {
-//            val points = getPoints(topNumber, bottomNumber)
-
             val points = if (areViewsColliding(target, bullsEye.centerBullseye)) 5
             else if (areViewsColliding(target, bullsEye.rightBullseye)) 2
             else if (areViewsColliding(target, bullsEye.leftBullseye)) 2
@@ -236,7 +275,7 @@ class AuxiliarFragment : BaseFragment<FragmentAuxiliarBinding, RangesViewModel>(
                 newScoreRange = ScoreRange(
                     discovered = true,
                     points = points
-                ), position = round
+                ), position = round - 1
             )
         }
     }
@@ -249,7 +288,6 @@ class AuxiliarFragment : BaseFragment<FragmentAuxiliarBinding, RangesViewModel>(
         val isVisible2 = view2.getGlobalVisibleRect(rect2)
 
         return isVisible1 && isVisible2 && Rect.intersects(rect1, rect2)
-
     }
 
     private fun arrowVisibility(isVisible: Boolean) {
@@ -276,6 +314,18 @@ class AuxiliarFragment : BaseFragment<FragmentAuxiliarBinding, RangesViewModel>(
         val bullsEye = binding.bullsEye.root
         if (isVisible) bullsEye.showAlpha(500)
         else bullsEye.hideAlpha(1)
+    }
+
+    private fun endGame() {
+        val points = scoreboardRangesAdapter?.getTotalPoints()
+        points?.let {
+            activity?.showFragmentDialog(
+                EndGameDialog(points = points,
+                    restartGame = {/* restartGame()*/ },
+                    saveScore = {  /*showSaveScoreDialog(points)*/ },
+                    exit = { activity?.onBackPressedDispatcher?.onBackPressed() })
+            )
+        } ?: run { error() }
     }
 
     private fun error() = activity?.showErrorDialog()

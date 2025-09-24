@@ -24,10 +24,11 @@
         app:layout_constraintGuide_percent="0.95" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_clue"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        app:layout_constraintBottom_toTopOf="@id/ll_slider"
+        android:layout_marginTop="24dp"
+        app:layout_constraintBottom_toTopOf="@id/cl_slier"
         app:layout_constraintLeft_toLeftOf="@id/gl_left"
         app:layout_constraintRight_toRightOf="@id/gl_right"
         app:layout_constraintTop_toBottomOf="@id/scoreboard">
@@ -86,101 +87,95 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <LinearLayout
-        android:id="@+id/ll_slider"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_slier"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@id/button_hide"
         app:layout_constraintLeft_toLeftOf="@id/gl_left"
         app:layout_constraintRight_toRightOf="@id/gl_right"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl_slier"
+            android:id="@+id/rl_slider"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="50dp"
+            android:background="@drawable/bg_slider"
+            android:backgroundTint="@color/dark_grey"
+            android:padding="0.5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/rl_slider"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@drawable/bg_slider"
-                android:backgroundTint="@color/dark_grey"
-                android:padding="0.5dp"
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/gl_medium"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.5" />
+
+            <include
+                android:id="@+id/bulls_eye"
+                layout="@layout/include_ranges_bullseye"
+                android:background="@color/blue" />
+
+            <View
+                android:id="@+id/target"
+                android:layout_width="4dp"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:background="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent">
-
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/gl_medium"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_percent="0.5" />
-
-                <include
-                    android:id="@+id/bulls_eye"
-                    layout="@layout/include_ranges_bullseye"
-                    android:background="@color/blue" />
-
-                <View
-                    android:id="@+id/target"
-                    android:layout_width="4dp"
-                    android:layout_height="match_parent"
-                    android:layout_centerInParent="true"
-                    android:background="@color/white"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <View
-                    android:id="@+id/curtain_left"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/bg_curtain_ranges"
-                    android:backgroundTint="@color/dark_red"
-                    android:scaleX="-1"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toLeftOf="@id/gl_medium"
-                    tools:visibility="invisible" />
-
-                <View
-                    android:id="@+id/curtain_right"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/bg_curtain_ranges"
-                    android:backgroundTint="@color/dark_red"
-                    app:layout_constraintLeft_toRightOf="@id/gl_medium"
-                    app:layout_constraintRight_toRightOf="parent"
-                    tools:visibility="invisible" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <ImageView
-                android:id="@+id/arrow"
-                android:layout_width="26dp"
-                android:layout_height="26dp"
-                android:layout_marginBottom="-4dp"
-                android:contentDescription="@string/content_description"
-                android:src="@drawable/ic_triangle_pointing"
-                app:layout_constraintBottom_toTopOf="@id/rl_slider"
-                app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:tint="@color/white" />
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/curtain_left"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_curtain_ranges"
+                android:backgroundTint="@color/dark_red"
+                android:scaleX="-1"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/gl_medium"
+                tools:visibility="invisible" />
+
+            <View
+                android:id="@+id/curtain_right"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_curtain_ranges"
+                android:backgroundTint="@color/dark_red"
+                app:layout_constraintLeft_toRightOf="@id/gl_medium"
+                app:layout_constraintRight_toRightOf="parent"
+                tools:visibility="invisible" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <include
-            android:id="@+id/ranges"
-            layout="@layout/include_ranges"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@id/cl_slier" />
+        <ImageView
+            android:id="@+id/arrow"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_marginBottom="-4dp"
+            android:contentDescription="@string/content_description"
+            android:src="@drawable/ic_triangle_pointing"
+            app:layout_constraintBottom_toTopOf="@id/rl_slider"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:tint="@color/white" />
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <include
+        android:id="@+id/ranges"
+        layout="@layout/include_ranges"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintLeft_toLeftOf="@id/gl_left"
+        app:layout_constraintRight_toRightOf="@id/gl_right"
+        app:layout_constraintTop_toBottomOf="@id/cl_slier" />
 
     <RelativeLayout
         android:id="@+id/controller"
