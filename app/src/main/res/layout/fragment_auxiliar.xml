@@ -91,7 +91,7 @@
         android:id="@+id/cl_slier"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/button_hide"
+        app:layout_constraintBottom_toTopOf="@id/controller_info"
         app:layout_constraintLeft_toLeftOf="@id/gl_left"
         app:layout_constraintRight_toRightOf="@id/gl_right"
         app:layout_constraintTop_toTopOf="parent">
@@ -99,10 +99,10 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/rl_slider"
             android:layout_width="match_parent"
-            android:clipToOutline="true"
             android:layout_height="50dp"
             android:background="@drawable/bg_slider"
             android:backgroundTint="@color/dark_grey"
+            android:clipToOutline="true"
             android:padding="0.5dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -185,6 +185,16 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
+
+    <include
+        android:id="@+id/controller_info"
+        layout="@layout/include_controller"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        app:layout_constraintBottom_toTopOf="@id/button_hide"
+        app:layout_constraintLeft_toLeftOf="@id/gl_left"
+        app:layout_constraintRight_toRightOf="@id/gl_right" />
 
     <TextView
         android:id="@+id/button_hide"

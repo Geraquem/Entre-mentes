@@ -24,12 +24,12 @@ import com.mmfsin.betweenminds.utils.animateY
 import com.mmfsin.betweenminds.utils.countDown
 import com.mmfsin.betweenminds.utils.getEmptyScoreRangesList
 import com.mmfsin.betweenminds.utils.getKonfettiParty
+import com.mmfsin.betweenminds.utils.handleAlpha
 import com.mmfsin.betweenminds.utils.hideAlpha
 import com.mmfsin.betweenminds.utils.showAlpha
 import com.mmfsin.betweenminds.utils.showErrorDialog
 import com.mmfsin.betweenminds.utils.showFragmentDialog
 import dagger.hilt.android.AndroidEntryPoint
-import kotlin.random.Random
 
 @AndroidEntryPoint
 class AuxiliarFragment : BaseFragment<FragmentAuxiliarBinding, RangesViewModel>() {
@@ -73,6 +73,7 @@ class AuxiliarFragment : BaseFragment<FragmentAuxiliarBinding, RangesViewModel>(
             etClue.hideAlpha(1)
             tvClue.hideAlpha(1)
 
+            controllerInfo.root.hideAlpha(1)
             controller.isEnabled = false
 
             buttonHide.animateY(500f, 1)
@@ -162,6 +163,7 @@ class AuxiliarFragment : BaseFragment<FragmentAuxiliarBinding, RangesViewModel>(
             }
             tvClue.hideAlpha(350)
             arrowVisibility(isVisible = false)
+            controllerInfo.root.hideAlpha(350)
 
             arrow.translationX = 0f
             target.translationX = 0f
@@ -212,6 +214,7 @@ class AuxiliarFragment : BaseFragment<FragmentAuxiliarBinding, RangesViewModel>(
                     tvTopText.showAlpha(1000)
                 }
                 tvClue.showAlpha(1000)
+                controllerInfo.root.handleAlpha(0.35f, 1000)
 
                 controller.isEnabled = true
                 curtainVisibility(isVisible = false)
@@ -270,21 +273,8 @@ class AuxiliarFragment : BaseFragment<FragmentAuxiliarBinding, RangesViewModel>(
                 val maxX = parentWidth - (bullseyeWidth - centerOffset)
 
                 val randomX = (minX.toInt()..maxX.toInt()).random()
-//                val randomX = Random.nextInt((maxX - minX + 1).toInt()) + minX
                 child.x = randomX.toFloat()
             }
-
-
-//            val parent = rlSlider
-//            val child = bullsEye.root
-//
-//            parent.post {
-//                val parentWidth = parent.width
-//                val childWidth = child.width
-//
-//                val randomX = (0..(parentWidth - childWidth)).random()
-//                child.x = randomX.toFloat()
-//            }
         }
     }
 
@@ -299,8 +289,7 @@ class AuxiliarFragment : BaseFragment<FragmentAuxiliarBinding, RangesViewModel>(
 
             scoreboardRangesAdapter?.updateScore(
                 newScoreRange = ScoreRange(
-                    discovered = true,
-                    points = points
+                    discovered = true, points = points
                 ), position = round - 1
             )
         }
@@ -325,14 +314,18 @@ class AuxiliarFragment : BaseFragment<FragmentAuxiliarBinding, RangesViewModel>(
     }
 
     private fun curtainVisibility(isVisible: Boolean, onEnd: () -> Unit = {}) {
-        binding.apply {
-            if (isVisible) {
-                curtainLeft.animateX(0f, 1000) { onEnd() }
-                curtainRight.animateX(0f, 1000) { onEnd() }
-            } else {
-                curtainLeft.animateX(-1000f, 1000) { onEnd() }
-                curtainRight.animateX(1000f, 1000) { onEnd() }
+        try {
+            binding.apply {
+                if (isVisible) {
+                    curtainLeft.animateX(0f, 1000) { onEnd() }
+                    curtainRight.animateX(0f, 1000) { onEnd() }
+                } else {
+                    curtainLeft.animateX(-1000f, 1000) { onEnd() }
+                    curtainRight.animateX(1000f, 1000) { onEnd() }
+                }
             }
+        } catch (e: Exception) {
+            println("Error with binding not attached")
         }
     }
 

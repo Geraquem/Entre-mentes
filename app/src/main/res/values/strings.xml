@@ -35,6 +35,7 @@
     <string name="btn_next_round">Siguiente ronda</string>
     <string name="name_blue">Nombre azul</string>
     <string name="name_orange">Nombre naranja</string>
+    <string name="controller_text">Desliza desde cualquier parte de la pantalla para mover la flecha</string>
 
     <!-- RANGES -->
     <string name="ranges_no_clue">No hay pista</string>
