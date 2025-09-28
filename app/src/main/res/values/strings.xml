@@ -36,8 +36,14 @@
     <string name="name_blue">Nombre azul</string>
     <string name="name_orange">Nombre naranja</string>
     <string name="controller_text">Desliza desde cualquier parte de la pantalla para mover la flecha</string>
+    <string name="round">Ronda</string>
+    <string name="back">Volver</string>
+    <string name="how_to_play">Cómo jugar</string>
 
     <!-- RANGES -->
+    <string name="ranges_start_play">Empezar</string>
+    <string name="ranges_start_instructions">Cómo se juega</string>
+
     <string name="ranges_no_clue">No hay pista</string>
     <string name="ranges_write_a_clue">Escribe una pista</string>
     <string name="ranges_clue_title">La pista es:</string>

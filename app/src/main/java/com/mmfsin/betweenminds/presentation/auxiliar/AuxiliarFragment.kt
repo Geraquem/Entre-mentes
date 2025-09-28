@@ -18,6 +18,7 @@ import com.mmfsin.betweenminds.databinding.FragmentAuxiliarBinding
 import com.mmfsin.betweenminds.domain.models.Range
 import com.mmfsin.betweenminds.domain.models.ScoreRange
 import com.mmfsin.betweenminds.presentation.auxiliar.adapter.ScoreboardRangesAdapter
+import com.mmfsin.betweenminds.presentation.auxiliar.dialogs.RangesStartDialog
 import com.mmfsin.betweenminds.presentation.common.dialogs.EndGameDialog
 import com.mmfsin.betweenminds.utils.animateX
 import com.mmfsin.betweenminds.utils.animateY
@@ -65,16 +66,23 @@ class AuxiliarFragment : BaseFragment<FragmentAuxiliarBinding, RangesViewModel>(
 
     override fun setUI() {
         binding.apply {
-            (activity as BedRockActivity).setUpToolbar(instructionsNavGraph = R.navigation.nav_graph_instr_ranges)
-
             loading.root.isVisible = true
+
+            roundNumber.text = "$round"
 
             tvTopText.hideAlpha(1)
             etClue.hideAlpha(1)
             tvClue.hideAlpha(1)
 
+            bullsEye.root.translationX = 50f
+
             controllerInfo.root.hideAlpha(1)
             controller.isEnabled = false
+
+            ranges.apply {
+                tvRangeLeft.hideAlpha(1)
+                tvRangeRight.hideAlpha(1)
+            }
 
             buttonHide.animateY(500f, 1)
             buttonCheck.animateY(500f, 1)
@@ -89,6 +97,11 @@ class AuxiliarFragment : BaseFragment<FragmentAuxiliarBinding, RangesViewModel>(
     override fun setListeners() {
         binding.apply {
 
+            toolbar.apply {
+                btnBack.setOnClickListener { activity?.onBackPressedDispatcher?.onBackPressed() }
+                btnInstructions.setOnClickListener { openInstructions() }
+            }
+
             buttonHide.setOnClickListener {
                 buttonHide.isEnabled = false
                 secondPhase()
@@ -101,6 +114,7 @@ class AuxiliarFragment : BaseFragment<FragmentAuxiliarBinding, RangesViewModel>(
 
             buttonNextRound.setOnClickListener {
                 buttonNextRound.isEnabled = false
+                buttonNextRound.animateY(500f, 500)
                 if (round > 3) endGame() else nextRange()
             }
 
@@ -132,24 +146,44 @@ class AuxiliarFragment : BaseFragment<FragmentAuxiliarBinding, RangesViewModel>(
     override fun observe() {
         viewModel.event.observe(this) { event ->
             when (event) {
-                is RangesEvent.Ranges -> setRanges(event.ranges)
+                is RangesEvent.Ranges -> {
+                    binding.loading.root.isVisible = false
+                    rangesList = event.ranges
+                    showInitialDialog()
+                }
+
                 is RangesEvent.SomethingWentWrong -> error()
             }
         }
     }
 
-    private fun setRanges(mRanges: List<Range>) {
+    private fun showInitialDialog() {
+        activity?.showFragmentDialog(
+            RangesStartDialog(
+                start = { showRound { setFirstRanges() } },
+                instructions = { openInstructions() }
+            )
+        )
+    }
+
+    private fun showRound(onEnd: () -> Unit) {
+        binding.apply {
+            llRound.showAlpha(500) {
+                countDown(500) {
+                    llRound.hideAlpha(500) { onEnd() }
+                }
+            }
+        }
+    }
+
+    private fun setFirstRanges() {
         binding.apply {
             try {
-                rangesList = mRanges
-                val actualRange = mRanges[position]
+                val actualRange = rangesList[position]
                 ranges.tvRangeLeft.text = actualRange.leftRange
                 ranges.tvRangeRight.text = actualRange.rightRange
 
-                countDown(1000) {
-                    loading.root.isVisible = false
-                    firstPhase()
-                }
+                countDown(500) { firstPhase() }
             } catch (e: Exception) {
                 error()
             }
@@ -244,7 +278,7 @@ class AuxiliarFragment : BaseFragment<FragmentAuxiliarBinding, RangesViewModel>(
     private fun nextRange() {
         binding.apply {
             round++
-            buttonNextRound.animateY(500f, 500)
+            roundNumber.text = "$round"
 
             initialStates()
             position++
@@ -257,7 +291,7 @@ class AuxiliarFragment : BaseFragment<FragmentAuxiliarBinding, RangesViewModel>(
                 tvRangeRight.hideAlpha(350) { tvRangeRight.text = actualRange.rightRange }
             }
 
-            countDown(1500) { firstPhase() }
+            showRound { firstPhase() }
         }
     }
 
@@ -289,7 +323,7 @@ class AuxiliarFragment : BaseFragment<FragmentAuxiliarBinding, RangesViewModel>(
             else if (areViewsColliding(target, bullsEye.leftBullseye)) 2
             else 0
 
-            if (points == 5) binding.konfetti.start(getKonfettiParty())
+            if (points != 0) binding.konfetti.start(getKonfettiParty())
 
             scoreboardRangesAdapter?.updateScore(
                 newScoreRange = ScoreRange(
@@ -340,16 +374,40 @@ class AuxiliarFragment : BaseFragment<FragmentAuxiliarBinding, RangesViewModel>(
     }
 
     private fun endGame() {
+        endGameStates()
         val points = scoreboardRangesAdapter?.getTotalPoints()
         points?.let {
             activity?.showFragmentDialog(
                 EndGameDialog(points = points,
-                    restartGame = {/* restartGame()*/ },
+                    restartGame = { restartGame() },
                     saveScore = {  /*showSaveScoreDialog(points)*/ },
                     exit = { activity?.onBackPressedDispatcher?.onBackPressed() })
             )
         } ?: run { error() }
     }
+
+    private fun endGameStates() {
+        binding.apply {
+            curtainVisibility(isVisible = true)
+            ranges.apply {
+                tvRangeLeft.hideAlpha(200)
+                tvRangeRight.hideAlpha(200)
+            }
+            initialStates()
+        }
+    }
+
+    private fun restartGame() {
+        round = 1
+        binding.roundNumber.text = "$round"
+        position++
+        scoreboardRangesAdapter?.resetScores()
+
+        showRound { setFirstRanges() }
+    }
+
+    private fun openInstructions() =
+        (activity as BedRockActivity).openBedRockActivity(R.navigation.nav_graph_instr_ranges)
 
     private fun error() = activity?.showErrorDialog()
 

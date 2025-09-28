@@ -207,7 +207,7 @@
 
     <include
         android:id="@+id/rematch"
-        layout="@layout/include_button"
+        layout="@layout/include_button_white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16sp"

@@ -77,21 +77,7 @@ class BedRockActivity : AppCompatActivity() {
         navController.apply { if (navGraph != -1) setGraph(navGraph) else error() }
     }
 
-    fun setUpToolbar(
-        instructionsVisible: Boolean = true,
-        instructionsNavGraph: Int? = null,
-    ) {
-        binding.toolbar.apply {
-            ivBack.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
-            ivInstructions.isVisible = instructionsVisible
-
-            instructionsNavGraph?.let { navGraph ->
-                ivInstructions.setOnClickListener { openBedRockActivity(navGraph = navGraph) }
-            }
-        }
-    }
-
-    private fun openBedRockActivity(
+    fun openBedRockActivity(
         navGraph: Int,
         strArgs: String? = null,
         booleanArgs: Boolean? = null

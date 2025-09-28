@@ -36,9 +36,9 @@ class SavedScoresFragment : BaseFragment<FragmentSavedScoresBinding, SavedScores
 
     override fun setUI() {
         binding.apply {
-            (activity as BedRockActivity).setUpToolbar(
-                instructionsVisible = false
-            )
+//            (activity as BedRockActivity).setUpToolbar(
+//                instructionsVisible = false
+//            )
             loading.root.isVisible = true
         }
     }

@@ -77,9 +77,9 @@ class RangesFragment : BaseFragment<FragmentRangesBinding, RangesViewModel>() {
 
     override fun setUI() {
         binding.apply {
-            (activity as BedRockActivity).setUpToolbar(
-                instructionsNavGraph = R.navigation.nav_graph_instr_ranges,
-            )
+//            (activity as BedRockActivity).setUpToolbar(
+//                instructionsNavGraph = R.navigation.nav_graph_instr_ranges,
+//            )
 
             loading.root.isVisible = true
 
@@ -116,7 +116,7 @@ class RangesFragment : BaseFragment<FragmentRangesBinding, RangesViewModel>() {
 
             btnHide.isEnabled = true
             btnCheck.isEnabled = true
-            rematch.btnRematch.isEnabled = true
+            rematch.button.isEnabled = true
         }
     }
 
@@ -177,9 +177,9 @@ class RangesFragment : BaseFragment<FragmentRangesBinding, RangesViewModel>() {
                 }
             }
 
-            rematch.btnRematch.setOnClickListener {
+            rematch.button.setOnClickListener {
                 round++
-                rematch.btnRematch.isEnabled = false
+                rematch.button.isEnabled = false
                 rlBtnRematch.animateY(500f, 500)
                 countDown(200) {
                     initialStates()

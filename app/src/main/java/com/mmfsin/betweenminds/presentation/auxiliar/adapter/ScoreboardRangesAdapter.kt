@@ -27,6 +27,7 @@ class ScoreboardRangesAdapter(
                 else discovered.showAlpha(1)
 
                 if (data.activeRound) tvRound.setTextColor(getColor(c, R.color.dark_red))
+                else tvRound.setTextColor(getColor(c, R.color.dark_grey))
 
                 data.points?.let { tvPoints.text = "$it" }
             }
@@ -50,6 +51,7 @@ class ScoreboardRangesAdapter(
     fun resetScores() {
         scoreRanges.forEach {
             it.discovered = false
+            it.activeRound = false
             it.points = 0
         }
         notifyDataSetChanged()

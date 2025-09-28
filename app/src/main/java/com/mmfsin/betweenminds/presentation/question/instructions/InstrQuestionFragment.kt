@@ -20,9 +20,9 @@ class InstrQuestionFragment : BaseFragmentNoVM<FragmentInstrQuestionsBinding>() 
 
     override fun setUI() {
         binding.apply {
-            (activity as BedRockActivity).setUpToolbar(
-                instructionsVisible = false
-            )
+//            (activity as BedRockActivity).setUpToolbar(
+//                instructionsVisible = false
+//            )
 
             exampleSlider.apply {
                 bgSlider.value = 80f

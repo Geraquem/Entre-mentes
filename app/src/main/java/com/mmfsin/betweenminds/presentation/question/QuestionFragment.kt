@@ -78,9 +78,9 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
 
     override fun setUI() {
         binding.apply {
-            (activity as BedRockActivity).setUpToolbar(
-                instructionsNavGraph = R.navigation.nav_graph_instr_questions
-            )
+//            (activity as BedRockActivity).setUpToolbar(
+//                instructionsNavGraph = R.navigation.nav_graph_instr_questions
+//            )
 
             loading.root.isVisible = true
 
@@ -123,7 +123,7 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
             topSlider.slider.isEnabled = true
             btnHide.isEnabled = true
             btnCheck.isEnabled = true
-            rematch.btnRematch.isEnabled = true
+            rematch.button.isEnabled = true
         }
     }
 
@@ -177,9 +177,9 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
                 }
             }
 
-            rematch.btnRematch.setOnClickListener {
+            rematch.button.setOnClickListener {
                 round++
-                rematch.btnRematch.isEnabled = false
+                rematch.button.isEnabled = false
                 rlBtnRematch.animateY(500f, 500)
                 countDown(200) {
                     initialStates()
