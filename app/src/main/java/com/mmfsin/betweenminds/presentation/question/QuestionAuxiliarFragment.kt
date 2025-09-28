@@ -1,4 +1,4 @@
-package com.mmfsin.betweenminds.presentation.ranges
+package com.mmfsin.betweenminds.presentation.question
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -14,17 +14,14 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.mmfsin.betweenminds.R
 import com.mmfsin.betweenminds.base.BaseFragment
 import com.mmfsin.betweenminds.base.bedrock.BedRockActivity
-import com.mmfsin.betweenminds.databinding.FragmentRangesBinding
-import com.mmfsin.betweenminds.domain.models.Range
-import com.mmfsin.betweenminds.domain.models.ScoreRange
+import com.mmfsin.betweenminds.databinding.FragmentQuestionAuxiliarBinding
+import com.mmfsin.betweenminds.domain.models.Question
 import com.mmfsin.betweenminds.presentation.common.dialogs.EndGameDialog
 import com.mmfsin.betweenminds.presentation.ranges.adapter.ScoreboardRangesAdapter
-import com.mmfsin.betweenminds.presentation.ranges.dialogs.RangesStartDialog
 import com.mmfsin.betweenminds.utils.animateX
 import com.mmfsin.betweenminds.utils.animateY
 import com.mmfsin.betweenminds.utils.countDown
 import com.mmfsin.betweenminds.utils.getEmptyScoreRangesList
-import com.mmfsin.betweenminds.utils.getKonfettiParty
 import com.mmfsin.betweenminds.utils.handleAlpha
 import com.mmfsin.betweenminds.utils.hideAlpha
 import com.mmfsin.betweenminds.utils.showAlpha
@@ -33,25 +30,26 @@ import com.mmfsin.betweenminds.utils.showFragmentDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class RangesFragment : BaseFragment<FragmentRangesBinding, RangesViewModel>() {
+class QuestionAuxiliarFragment :
+    BaseFragment<FragmentQuestionAuxiliarBinding, QuestionViewModel>() {
 
-    override val viewModel: RangesViewModel by viewModels()
+    override val viewModel: QuestionViewModel by viewModels()
 
     private lateinit var mContext: Context
 
-    private var rangesList: List<Range> = emptyList()
+    private var questionList: List<Question> = emptyList()
     private var position = 0
     private var round = 1
 
     private var scoreboardRangesAdapter: ScoreboardRangesAdapter? = null
 
     override fun inflateView(inflater: LayoutInflater, container: ViewGroup?) =
-        FragmentRangesBinding.inflate(inflater, container, false)
+        FragmentQuestionAuxiliarBinding.inflate(inflater, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpScoreboard()
-        viewModel.getRanges()
+        viewModel.getQuestions()
     }
 
     private fun setUpScoreboard() {
@@ -75,19 +73,15 @@ class RangesFragment : BaseFragment<FragmentRangesBinding, RangesViewModel>() {
             llRound.showAlpha(1)
             roundNumber.text = "$round"
 
-            tvTopText.hideAlpha(1)
-            etClue.hideAlpha(1)
-            tvClue.hideAlpha(1)
-
-            bullsEye.root.translationX = 50f
+            tvQuestion.hideAlpha(1)
 
             controllerInfo.root.hideAlpha(1)
             controller.isEnabled = false
 
-            ranges.apply {
-                tvRangeLeft.hideAlpha(1)
-                tvRangeRight.hideAlpha(1)
-            }
+//            ranges.apply {
+//                tvRangeLeft.hideAlpha(1)
+//                tvRangeRight.hideAlpha(1)
+//            }
 
             buttonHide.root.animateY(500f, 1)
             buttonCheck.root.animateY(500f, 1)
@@ -101,6 +95,7 @@ class RangesFragment : BaseFragment<FragmentRangesBinding, RangesViewModel>() {
     @SuppressLint("ClickableViewAccessibility")
     override fun setListeners() {
         binding.apply {
+
             toolbar.apply {
                 btnBack.setOnClickListener { activity?.onBackPressedDispatcher?.onBackPressed() }
                 btnInstructions.setOnClickListener { openInstructions() }
@@ -122,24 +117,23 @@ class RangesFragment : BaseFragment<FragmentRangesBinding, RangesViewModel>() {
                 if (round > 3) endGame() else nextRange()
             }
 
-            val parent = target.parent as View
+            val parent = firstOpinion.parent as View
             controller.setOnTouchListener { _, event ->
                 when (event.action) {
                     MotionEvent.ACTION_DOWN -> {
-                        target.tag = event.rawX - target.x
+                        firstOpinion.tag = event.rawX - firstOpinion.x
                     }
 
                     MotionEvent.ACTION_MOVE -> {
-                        val offsetX = target.tag as Float
+                        val offsetX = firstOpinion.tag as Float
                         var newX = event.rawX - offsetX
 
                         if (newX < 0f) newX = 0f
-                        if (newX + target.width > parent.width) {
-                            newX = (parent.width - target.width).toFloat()
+                        if (newX + firstOpinion.width > parent.width) {
+                            newX = (parent.width - firstOpinion.width).toFloat()
                         }
-                        target.x = newX
-
-                        arrow.x = target.x + (target.width - arrow.width) / 2f
+                        firstOpinion.x = newX
+                        arrow.x = firstOpinion.x + (firstOpinion.width - arrow.width) / 2f
                     }
                 }
                 true
@@ -150,29 +144,30 @@ class RangesFragment : BaseFragment<FragmentRangesBinding, RangesViewModel>() {
     override fun observe() {
         viewModel.event.observe(this) { event ->
             when (event) {
-                is RangesEvent.Ranges -> {
+                is QuestionEvent.Questions -> {
                     binding.loading.root.isVisible = false
-                    rangesList = event.ranges
+                    questionList = event.questions
                     showInitialDialog()
                 }
 
-                is RangesEvent.SomethingWentWrong -> error()
+                is QuestionEvent.SomethingWentWrong -> error()
             }
         }
     }
 
     private fun showInitialDialog() {
-        activity?.showFragmentDialog(
-            RangesStartDialog(
-                start = { showRound { setFirstRanges() } },
-                instructions = { openInstructions() }
-            )
-        )
+        binding.llRound.hideAlpha(1)
+        setFirstRanges()
+//        activity?.showFragmentDialog(
+//            RangesStartDialog(
+//                start = { showRound { setFirstRanges() } },
+//                instructions = { openInstructions() }
+//            )
+//        )
     }
 
     private fun showRound(onEnd: () -> Unit) {
         try {
-
             binding.apply {
                 llRound.showAlpha(500) {
                     countDown(500) {
@@ -188,9 +183,8 @@ class RangesFragment : BaseFragment<FragmentRangesBinding, RangesViewModel>() {
     private fun setFirstRanges() {
         binding.apply {
             try {
-                val actualRange = rangesList[position]
-                ranges.tvRangeLeft.text = actualRange.leftRange
-                ranges.tvRangeRight.text = actualRange.rightRange
+                val actualQuestion = questionList[position]
+                tvQuestion.text = actualQuestion.text
 
                 countDown(500) { firstPhase() }
             } catch (e: Exception) {
@@ -201,14 +195,14 @@ class RangesFragment : BaseFragment<FragmentRangesBinding, RangesViewModel>() {
 
     private fun initialStates() {
         binding.apply {
-            tvTopText.hideAlpha(350) {
-                tvTopText.text = getString(R.string.ranges_write_a_clue)
+            tvQuestion.hideAlpha(350) {
+                tvQuestion.text = getString(R.string.ranges_write_a_clue)
             }
-            tvClue.hideAlpha(350)
+            tvQuestion.hideAlpha(350)
             arrowVisibility(isVisible = false)
 
             arrow.translationX = 0f
-            target.translationX = 0f
+            firstOpinion.translationX = 0f
 
             buttonHide.root.isEnabled = true
             buttonCheck.root.isEnabled = true
@@ -220,16 +214,14 @@ class RangesFragment : BaseFragment<FragmentRangesBinding, RangesViewModel>() {
 
     private fun firstPhase() {
         binding.apply {
-
             scoreboardRangesAdapter?.roundColor(round - 1)
-
-            setBullsEye()
             countDown(500) {
                 curtainVisibility(isVisible = false)
-                tvTopText.showAlpha(1000)
-                etClue.showAlpha(1000) { etClue.isEnabled = true }
-                ranges.tvRangeLeft.showAlpha(1000)
-                ranges.tvRangeRight.showAlpha(1000)
+                tvQuestion.showAlpha(1000)
+                arrowVisibility(isVisible = true)
+
+                controller.isEnabled = true
+                controllerInfoVisibility(true)
 
                 buttonHide.root.animateY(0f, 1000)
             }
@@ -238,28 +230,16 @@ class RangesFragment : BaseFragment<FragmentRangesBinding, RangesViewModel>() {
 
     private fun secondPhase() {
         binding.apply {
-            val clue = etClue.text.toString()
-
-            tvTopText.hideAlpha(500)
-            etClue.isEnabled = false
-            etClue.hideAlpha(500) { etClue.text = null }
-            tvClue.text = clue
+            tvQuestion.hideAlpha(500)
 
             buttonHide.root.animateY(500f, 500)
             curtainVisibility(isVisible = true) {
-                bullseyeVisibility(isVisible = false)
+//                bullseyeVisibility(isVisible = false)
             }
 
             countDown(1500) {
-                if (clue.isBlank()) {
-                    tvClue.text = getString(R.string.ranges_no_clue)
-                } else {
-                    tvClue.text = clue
-                    tvTopText.text = getString(R.string.ranges_clue_title)
-                    tvTopText.showAlpha(1000)
-                }
-                tvClue.showAlpha(1000)
-                controllerInfo.root.handleAlpha(0.35f, 1000)
+                tvQuestion.showAlpha(1000)
+                controllerInfoVisibility(true)
 
                 controller.isEnabled = true
                 curtainVisibility(isVisible = false)
@@ -272,9 +252,9 @@ class RangesFragment : BaseFragment<FragmentRangesBinding, RangesViewModel>() {
     private fun thirdPhase() {
         binding.apply {
             controller.isEnabled = false
-            controllerInfo.root.hideAlpha(350)
+            controllerInfoVisibility(false)
             buttonCheck.root.animateY(500f, 500)
-            bullseyeVisibility(isVisible = true)
+//            bullseyeVisibility(isVisible = true)
 
             checkPoints()
 
@@ -293,52 +273,31 @@ class RangesFragment : BaseFragment<FragmentRangesBinding, RangesViewModel>() {
             position++
             curtainVisibility(isVisible = true)
 
-            if (position > rangesList.size - 1) position = 0
-            val actualRange = rangesList[position]
-            ranges.apply {
-                tvRangeLeft.hideAlpha(350) { tvRangeLeft.text = actualRange.leftRange }
-                tvRangeRight.hideAlpha(350) { tvRangeRight.text = actualRange.rightRange }
-            }
+            if (position > questionList.size - 1) position = 0
+            val actualRange = questionList[position]
+//            ranges.apply {
+//                tvRangeLeft.hideAlpha(350) { tvRangeLeft.text = actualRange.leftRange }
+//                tvRangeRight.hideAlpha(350) { tvRangeRight.text = actualRange.rightRange }
+//            }
 
             showRound { firstPhase() }
         }
     }
 
-    private fun setBullsEye() {
-        binding.apply {
-            val parent = rlSlider
-            val child = bullsEye.root
-
-            val parentWidth = parent.width
-            val bullseyeWidth = child.width
-
-            parent.post {
-                val centerOffset = (0.2f * bullseyeWidth) + (0.35f * bullseyeWidth) / 2f
-
-                val minX = -centerOffset
-                val maxX = parentWidth - (bullseyeWidth - centerOffset)
-
-                val randomX = (minX.toInt()..maxX.toInt()).random()
-                child.x = randomX.toFloat()
-//                child.x = minX
-            }
-        }
-    }
-
     private fun checkPoints() {
         binding.apply {
-            val points = if (areViewsColliding(target, bullsEye.centerBullseye)) 5
-            else if (areViewsColliding(target, bullsEye.rightBullseye)) 2
-            else if (areViewsColliding(target, bullsEye.leftBullseye)) 2
-            else 0
-
-            if (points != 0) binding.konfetti.start(getKonfettiParty())
-
-            scoreboardRangesAdapter?.updateScore(
-                newScoreRange = ScoreRange(
-                    discovered = true, points = points
-                ), position = round - 1
-            )
+//            val points = if (areViewsColliding(target, bullsEye.centerBullseye)) 5
+//            else if (areViewsColliding(target, bullsEye.rightBullseye)) 2
+//            else if (areViewsColliding(target, bullsEye.leftBullseye)) 2
+//            else 0
+//
+//            if (points != 0) binding.konfetti.start(getKonfettiParty())
+//
+//            scoreboardRangesAdapter?.updateScore(
+//                newScoreRange = ScoreRange(
+//                    discovered = true, points = points
+//                ), position = round - 1
+//            )
         }
     }
 
@@ -355,7 +314,7 @@ class RangesFragment : BaseFragment<FragmentRangesBinding, RangesViewModel>() {
     private fun arrowVisibility(isVisible: Boolean) {
         binding.apply {
             val view = if (isVisible) View.VISIBLE else View.INVISIBLE
-            target.visibility = view
+            firstOpinion.visibility = view
             arrow.visibility = view
         }
     }
@@ -376,10 +335,10 @@ class RangesFragment : BaseFragment<FragmentRangesBinding, RangesViewModel>() {
         }
     }
 
-    private fun bullseyeVisibility(isVisible: Boolean) {
-        val bullsEye = binding.bullsEye.root
-        if (isVisible) bullsEye.showAlpha(500)
-        else bullsEye.hideAlpha(1)
+    private fun controllerInfoVisibility(isVisible: Boolean) {
+        val cInfo = binding.controllerInfo.root
+        if (isVisible) cInfo.handleAlpha(0.35f, 350)
+        else cInfo.hideAlpha(350)
     }
 
     private fun endGame() {
@@ -398,10 +357,10 @@ class RangesFragment : BaseFragment<FragmentRangesBinding, RangesViewModel>() {
     private fun endGameStates() {
         binding.apply {
             curtainVisibility(isVisible = true)
-            ranges.apply {
-                tvRangeLeft.hideAlpha(200)
-                tvRangeRight.hideAlpha(200)
-            }
+//            ranges.apply {
+//                tvRangeLeft.hideAlpha(200)
+//                tvRangeRight.hideAlpha(200)
+//            }
             initialStates()
         }
     }

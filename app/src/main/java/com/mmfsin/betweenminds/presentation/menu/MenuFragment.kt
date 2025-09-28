@@ -42,14 +42,14 @@ class MenuFragment : BaseFragment<FragmentMenuBinding, MenuViewModel>() {
 
 //            findNavController().navigate(actionToChooseFragment())
 //            navigateTo(R.navigation.nav_graph_ranges)
-//            navigateTo(R.navigation.nav_graph_questions)
+            navigateTo(R.navigation.nav_graph_questions)
         }
     }
 
     override fun setListeners() {
         binding.apply {
 //            btnPlay.setOnClickListener { findNavController().navigate(actionToChooseFragment()) }
-            btnPlay.setOnClickListener { navigateTo(R.navigation.nav_graph_ranges) }
+            btnPlay.setOnClickListener { navigateTo(R.navigation.nav_graph_questions) }
             btnHowToPlay.setOnClickListener {}
         }
     }

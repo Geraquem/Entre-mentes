@@ -12,9 +12,7 @@ import android.widget.EditText
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
-import com.mmfsin.betweenminds.R
 import com.mmfsin.betweenminds.base.BaseFragment
-import com.mmfsin.betweenminds.base.bedrock.BedRockActivity
 import com.mmfsin.betweenminds.databinding.FragmentQuestionBinding
 import com.mmfsin.betweenminds.databinding.IncludeSliderQuestionsBinding
 import com.mmfsin.betweenminds.domain.models.Question
@@ -204,7 +202,7 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
     override fun observe() {
         viewModel.event.observe(this) { event ->
             when (event) {
-                is QuestionEvent.Questions -> setPhrases(event.phrases)
+                is QuestionEvent.Questions -> setPhrases(event.questions)
                 is QuestionEvent.SomethingWentWrong -> error()
             }
         }
