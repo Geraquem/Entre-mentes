@@ -1,4 +1,4 @@
-package com.mmfsin.betweenminds.presentation.auxiliar.dialogs
+package com.mmfsin.betweenminds.presentation.ranges.dialogs
 
 import android.app.Dialog
 import android.view.LayoutInflater
