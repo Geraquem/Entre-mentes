@@ -50,6 +50,7 @@
     <string name="ranges_see_points">Ver puntos</string>
 
     <!-- SCOREBOARD -->
+    <string name="scoreboard_rounds">Rondas</string>
     <string name="scoreboard_pts">pts</string>
 
     <!-- ENDGAME -->

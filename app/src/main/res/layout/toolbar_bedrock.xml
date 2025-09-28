@@ -5,46 +5,32 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/background_black"
-    android:paddingTop="8dp">
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/gl_left"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.05" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/gl_right"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.95" />
+    android:paddingTop="24dp">
 
     <TextView
         android:id="@+id/btn_back"
-        style="@style/MediumTextView_Bold"
+        style="@style/MediumTextView"
+        android:textSize="14sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:fontFamily="@font/kineks"
-        android:padding="16dp"
         android:text="@string/back"
         android:textColor="@color/white"
-        app:layout_constraintLeft_toLeftOf="@id/gl_left"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:textSize="14sp"
         android:id="@+id/btn_instructions"
         style="@style/MediumTextView_Bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:fontFamily="@font/kineks"
-        android:padding="16dp"
         android:text="@string/how_to_play"
         android:textColor="@color/white"
-        app:layout_constraintRight_toRightOf="@id/gl_right"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

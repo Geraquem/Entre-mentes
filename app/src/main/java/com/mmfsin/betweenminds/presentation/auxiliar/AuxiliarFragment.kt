@@ -68,6 +68,11 @@ class AuxiliarFragment : BaseFragment<FragmentAuxiliarBinding, RangesViewModel>(
         binding.apply {
             loading.root.isVisible = true
 
+            buttonHide.button.text = getString(R.string.btn_hide)
+            buttonCheck.button.text = getString(R.string.btn_check)
+            buttonNextRound.button.text = getString(R.string.btn_next_round)
+
+            llRound.showAlpha(1)
             roundNumber.text = "$round"
 
             tvTopText.hideAlpha(1)
@@ -84,9 +89,9 @@ class AuxiliarFragment : BaseFragment<FragmentAuxiliarBinding, RangesViewModel>(
                 tvRangeRight.hideAlpha(1)
             }
 
-            buttonHide.animateY(500f, 1)
-            buttonCheck.animateY(500f, 1)
-            buttonNextRound.animateY(500f, 1)
+            buttonHide.root.animateY(500f, 1)
+            buttonCheck.root.animateY(500f, 1)
+            buttonNextRound.root.animateY(500f, 1)
 
             arrowVisibility(isVisible = false)
             curtainVisibility(isVisible = true)
@@ -102,19 +107,19 @@ class AuxiliarFragment : BaseFragment<FragmentAuxiliarBinding, RangesViewModel>(
                 btnInstructions.setOnClickListener { openInstructions() }
             }
 
-            buttonHide.setOnClickListener {
-                buttonHide.isEnabled = false
+            buttonHide.root.setOnClickListener {
+                buttonHide.root.isEnabled = false
                 secondPhase()
             }
 
-            buttonCheck.setOnClickListener {
-                buttonCheck.isEnabled = false
+            buttonCheck.root.setOnClickListener {
+                buttonCheck.root.isEnabled = false
                 thirdPhase()
             }
 
-            buttonNextRound.setOnClickListener {
-                buttonNextRound.isEnabled = false
-                buttonNextRound.animateY(500f, 500)
+            buttonNextRound.root.setOnClickListener {
+                buttonNextRound.root.isEnabled = false
+                buttonNextRound.root.animateY(500f, 500)
                 if (round > 3) endGame() else nextRange()
             }
 
@@ -167,12 +172,17 @@ class AuxiliarFragment : BaseFragment<FragmentAuxiliarBinding, RangesViewModel>(
     }
 
     private fun showRound(onEnd: () -> Unit) {
-        binding.apply {
-            llRound.showAlpha(500) {
-                countDown(500) {
-                    llRound.hideAlpha(500) { onEnd() }
+        try {
+
+            binding.apply {
+                llRound.showAlpha(500) {
+                    countDown(500) {
+                        llRound.hideAlpha(500) { onEnd() }
+                    }
                 }
             }
+        }catch (e:Exception){
+            println("Error with binding not attached")
         }
     }
 
@@ -197,16 +207,15 @@ class AuxiliarFragment : BaseFragment<FragmentAuxiliarBinding, RangesViewModel>(
             }
             tvClue.hideAlpha(350)
             arrowVisibility(isVisible = false)
-            controllerInfo.root.hideAlpha(350)
 
             arrow.translationX = 0f
             target.translationX = 0f
 
-            buttonHide.isEnabled = true
-            buttonCheck.isEnabled = true
-            buttonNextRound.isEnabled = true
+            buttonHide.root.isEnabled = true
+            buttonCheck.root.isEnabled = true
+            buttonNextRound.root.isEnabled = true
 
-            if (round > 3) buttonNextRound.text = getString(R.string.ranges_see_points)
+            if (round > 3) buttonNextRound.button.text = getString(R.string.ranges_see_points)
         }
     }
 
@@ -223,7 +232,7 @@ class AuxiliarFragment : BaseFragment<FragmentAuxiliarBinding, RangesViewModel>(
                 ranges.tvRangeLeft.showAlpha(1000)
                 ranges.tvRangeRight.showAlpha(1000)
 
-                buttonHide.animateY(0f, 1000)
+                buttonHide.root.animateY(0f, 1000)
             }
         }
     }
@@ -237,7 +246,7 @@ class AuxiliarFragment : BaseFragment<FragmentAuxiliarBinding, RangesViewModel>(
             etClue.hideAlpha(500) { etClue.text = null }
             tvClue.text = clue
 
-            buttonHide.animateY(500f, 500)
+            buttonHide.root.animateY(500f, 500)
             curtainVisibility(isVisible = true) {
                 bullseyeVisibility(isVisible = false)
             }
@@ -256,7 +265,7 @@ class AuxiliarFragment : BaseFragment<FragmentAuxiliarBinding, RangesViewModel>(
                 controller.isEnabled = true
                 curtainVisibility(isVisible = false)
                 arrowVisibility(isVisible = true)
-                buttonCheck.animateY(0f, 500)
+                buttonCheck.root.animateY(0f, 500)
             }
         }
     }
@@ -264,13 +273,14 @@ class AuxiliarFragment : BaseFragment<FragmentAuxiliarBinding, RangesViewModel>(
     private fun thirdPhase() {
         binding.apply {
             controller.isEnabled = false
-            buttonCheck.animateY(500f, 500)
+            controllerInfo.root.hideAlpha(350)
+            buttonCheck.root.animateY(500f, 500)
             bullseyeVisibility(isVisible = true)
 
             checkPoints()
 
             countDown(1000) {
-                buttonNextRound.animateY(0f, 500)
+                buttonNextRound.root.animateY(0f, 500)
             }
         }
     }

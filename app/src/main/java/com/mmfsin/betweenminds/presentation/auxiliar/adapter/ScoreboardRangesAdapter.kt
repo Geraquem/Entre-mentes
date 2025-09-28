@@ -20,8 +20,10 @@ class ScoreboardRangesAdapter(
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding = ItemScoreRangeBinding.bind(view)
         val c: Context = binding.root.context
-        fun bind(data: ScoreRange, position: Int) {
+        fun bind(data: ScoreRange, position: Int, hideBarrier: Boolean) {
             binding.apply {
+                if(hideBarrier) barrier.visibility = View.GONE
+
                 tvRound.text = "$position"
                 if (data.discovered) discovered.hideAlpha(500)
                 else discovered.showAlpha(1)
@@ -29,7 +31,16 @@ class ScoreboardRangesAdapter(
                 if (data.activeRound) tvRound.setTextColor(getColor(c, R.color.dark_red))
                 else tvRound.setTextColor(getColor(c, R.color.dark_grey))
 
-                data.points?.let { tvPoints.text = "$it" }
+                data.points?.let { p ->
+                    val color = when (p) {
+                        2 -> R.color.dark_orange
+                        5 -> R.color.green
+                        else -> R.color.dark_grey
+                    }
+                    tvPoints.setTextColor(getColor(c, color))
+                    tvPtsText.setTextColor(getColor(c, color))
+                    tvPoints.text = "$p"
+                }
             }
         }
     }
@@ -73,7 +84,7 @@ class ScoreboardRangesAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(scoreRanges[position], position + 1)
+        holder.bind(scoreRanges[position], position + 1, (position == itemCount - 1))
     }
 
     override fun getItemCount(): Int = scoreRanges.size

@@ -26,17 +26,26 @@
     <include
         android:id="@+id/toolbar"
         layout="@layout/toolbar_bedrock"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintLeft_toLeftOf="@id/gl_left"
+        app:layout_constraintRight_toRightOf="@id/gl_right" />
+
+    <include
+        android:id="@+id/scoreboard"
+        layout="@layout/include_scoreboard"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        app:layout_constraintLeft_toLeftOf="@id/gl_left"
+        app:layout_constraintRight_toRightOf="@id/gl_right"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_clue"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        app:layout_constraintBottom_toTopOf="@id/cl_slier"
+        android:layout_marginTop="36dp"
         app:layout_constraintLeft_toLeftOf="@id/gl_left"
         app:layout_constraintRight_toRightOf="@id/gl_right"
         app:layout_constraintTop_toBottomOf="@id/scoreboard">
@@ -83,9 +92,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
             android:gravity="center"
+            android:paddingVertical="8dp"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -99,10 +107,11 @@
         android:id="@+id/cl_slier"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/controller_info"
+        android:layout_marginTop="42dp"
+        app:layout_constraintBottom_toTopOf="@id/ranges"
         app:layout_constraintLeft_toLeftOf="@id/gl_left"
         app:layout_constraintRight_toRightOf="@id/gl_right"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/cl_clue">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/rl_slider"
@@ -182,7 +191,7 @@
         layout="@layout/include_ranges"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         app:layout_constraintLeft_toLeftOf="@id/gl_left"
         app:layout_constraintRight_toRightOf="@id/gl_right"
         app:layout_constraintTop_toBottomOf="@id/cl_slier" />
@@ -193,100 +202,65 @@
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        tools:visibility="gone" />
 
     <include
         android:id="@+id/controller_info"
         layout="@layout/include_controller"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toTopOf="@id/button_hide"
         app:layout_constraintLeft_toLeftOf="@id/gl_left"
         app:layout_constraintRight_toRightOf="@id/gl_right" />
 
-    <TextView
+    <include
         android:id="@+id/button_hide"
+        layout="@layout/include_button_white"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:layout_marginBottom="32dp"
-        android:background="@drawable/click_effect_button"
-        android:backgroundTint="@color/white"
-        android:elevation="4dp"
-        android:fontFamily="@font/alphazet"
-        android:gravity="center"
-        android:paddingVertical="12dp"
-        android:text="@string/btn_hide"
-        android:textAllCaps="true"
-        android:textColor="@color/black"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="@id/gl_left"
-        app:layout_constraintRight_toRightOf="@id/gl_right" />
-
-    <TextView
-        android:id="@+id/button_check"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginBottom="32dp"
-        android:background="@drawable/click_effect_button"
-        android:backgroundTint="@color/white"
-        android:elevation="4dp"
-        android:fontFamily="@font/alphazet"
-        android:gravity="center"
-        android:paddingVertical="12dp"
-        android:text="@string/btn_check"
-        android:textAllCaps="true"
-        android:textColor="@color/black"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="@id/gl_left"
-        app:layout_constraintRight_toRightOf="@id/gl_right" />
-
-    <TextView
-        android:id="@+id/button_next_round"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginBottom="32dp"
-        android:background="@drawable/click_effect_button"
-        android:backgroundTint="@color/white"
-        android:elevation="4dp"
-        android:fontFamily="@font/alphazet"
-        android:gravity="center"
-        android:paddingVertical="12dp"
-        android:text="@string/btn_next_round"
-        android:textAllCaps="true"
-        android:textColor="@color/black"
-        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="@id/gl_left"
         app:layout_constraintRight_toRightOf="@id/gl_right" />
 
     <include
-        android:id="@+id/scoreboard"
-        layout="@layout/include_scoreboard"
-        android:layout_width="match_parent"
+        android:id="@+id/button_check"
+        layout="@layout/include_button_white"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="@id/gl_left"
+        app:layout_constraintRight_toRightOf="@id/gl_right" />
+
+    <include
+        android:id="@+id/button_next_round"
+        layout="@layout/include_button_white"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="@id/gl_left"
+        app:layout_constraintRight_toRightOf="@id/gl_right" />
 
     <nl.dionsegijn.konfetti.xml.KonfettiView
         android:id="@+id/konfetti"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        tools:visibility="gone" />
 
     <LinearLayout
         android:id="@+id/ll_round"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:alpha="0"
+        android:alpha="1"
         android:background="@color/black"
         android:elevation="10dp"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:visibility="gone">
 
         <TextView
             style="@style/BigTextView"
