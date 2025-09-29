@@ -28,6 +28,7 @@
     <string name="fifty">50</string>
     <string name="question">\?</string>
     <string name="percent">\%</string>
+    <string name="set_percent">%1s\%</string>
     <string name="slash">/</string>
     <string name="curtain_text">Top secret</string>
     <string name="btn_hide">Ocultar</string>

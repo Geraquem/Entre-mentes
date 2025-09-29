@@ -17,8 +17,8 @@ import com.mmfsin.betweenminds.base.bedrock.BedRockActivity
 import com.mmfsin.betweenminds.databinding.FragmentRangesBinding
 import com.mmfsin.betweenminds.domain.models.Range
 import com.mmfsin.betweenminds.domain.models.ScoreRange
-import com.mmfsin.betweenminds.presentation.common.dialogs.EndGameDialog
 import com.mmfsin.betweenminds.presentation.ranges.adapter.ScoreboardRangesAdapter
+import com.mmfsin.betweenminds.presentation.ranges.dialogs.EndRangesDialog
 import com.mmfsin.betweenminds.presentation.ranges.dialogs.RangesStartDialog
 import com.mmfsin.betweenminds.utils.animateX
 import com.mmfsin.betweenminds.utils.animateY
@@ -387,9 +387,8 @@ class RangesFragment : BaseFragment<FragmentRangesBinding, RangesViewModel>() {
         val points = scoreboardRangesAdapter?.getTotalPoints()
         points?.let {
             activity?.showFragmentDialog(
-                EndGameDialog(points = points,
+                EndRangesDialog(points = points,
                     restartGame = { restartGame() },
-                    saveScore = {  /*showSaveScoreDialog(points)*/ },
                     exit = { activity?.onBackPressedDispatcher?.onBackPressed() })
             )
         } ?: run { error() }

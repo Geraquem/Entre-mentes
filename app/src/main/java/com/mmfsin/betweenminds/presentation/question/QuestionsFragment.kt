@@ -281,9 +281,7 @@ class QuestionsFragment :
             }
 
             countDown(1500) {
-                curtainVisibility(isVisible = false) {
-                    controller.isEnabled = true
-                }
+                curtainVisibility(isVisible = false)
                 secondArrowVisibility(isVisible = true)
                 buttonCheck.root.animateY(0f, 500)
             }
@@ -339,7 +337,6 @@ class QuestionsFragment :
                     bottomNumbers = Pair(opinion2, opinion2?.let { 100 - it }),
                     points = points
                 )
-                val a = 2
 
                 scoreboardQuestionAdapter?.updateScore(
                     newScore = newScore,

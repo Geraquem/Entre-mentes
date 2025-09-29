@@ -1,10 +1,10 @@
 package com.mmfsin.betweenminds.presentation.question.adapter
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.mmfsin.betweenminds.R
 import com.mmfsin.betweenminds.databinding.ItemEndQuestionBinding
@@ -23,14 +23,19 @@ class QuestionAnswersAdapter(
                 tvPosition.text = pos
                 tvQuestion.text = data.actualQuestion
                 data.topNumbers?.let {
-                    tvPercentOneBlue.text = it.first.toString()
-                    tvPercentOneOrange.text = it.second.toString()
+                    it.first?.let { p -> setPercent(tvPercentOneBlue, p) }
+                    it.second?.let { p -> setPercent(tvPercentOneOrange, p) }
                 }
                 data.bottomNumbers?.let {
-                    tvPercentTwoBlue.text = it.first.toString()
-                    tvPercentTwoOrange.text = it.second.toString()
+                    it.first?.let { p -> setPercent(tvPercentTwoBlue, p) }
+                    it.second?.let { p -> setPercent(tvPercentTwoOrange, p) }
                 }
             }
+        }
+
+        private fun setPercent(tv: TextView, percent: Int) {
+            val txt = "$percent%"
+            tv.text = txt
         }
     }
 
