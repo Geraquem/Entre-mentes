@@ -38,6 +38,9 @@ class ScoreboardQuestionAdapter(
     fun updateScore(newScore: ScoreQuestion, position: Int) {
         val score = scores[position]
         score.discovered = newScore.discovered
+        score.actualQuestion = newScore.actualQuestion
+        score.topNumbers = newScore.topNumbers
+        score.bottomNumbers = newScore.bottomNumbers
         score.points = newScore.points
         notifyItemChanged(position)
     }
@@ -46,17 +49,15 @@ class ScoreboardQuestionAdapter(
     fun resetScores() {
         scores.forEach {
             it.discovered = false
+            it.actualQuestion = null
+            it.topNumbers = null
+            it.bottomNumbers = null
+            it.activeRound = false
         }
         notifyDataSetChanged()
     }
 
-    fun getTotalPoints(): Int {
-        var totalPoints = 0
-        scores.forEach {
-            it.points?.let { points -> totalPoints += points }
-        }
-        return totalPoints
-    }
+    fun getTotalData(): List<ScoreQuestion> = scores
 
     fun roundColor(position: Int) {
         val score = scores[position]

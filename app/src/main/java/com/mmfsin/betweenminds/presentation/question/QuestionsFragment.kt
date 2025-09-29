@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo.IME_ACTION_DONE
+import android.widget.EditText
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
@@ -16,8 +18,8 @@ import com.mmfsin.betweenminds.base.bedrock.BedRockActivity
 import com.mmfsin.betweenminds.databinding.FragmentQuestionAuxiliarBinding
 import com.mmfsin.betweenminds.domain.models.Question
 import com.mmfsin.betweenminds.domain.models.ScoreQuestion
-import com.mmfsin.betweenminds.presentation.common.dialogs.EndGameDialog
 import com.mmfsin.betweenminds.presentation.question.adapter.ScoreboardQuestionAdapter
+import com.mmfsin.betweenminds.presentation.question.dialogs.EndQuestionsDialog
 import com.mmfsin.betweenminds.presentation.ranges.dialogs.RangesStartDialog
 import com.mmfsin.betweenminds.utils.animateX
 import com.mmfsin.betweenminds.utils.animateY
@@ -37,10 +39,10 @@ import com.mmfsin.betweenminds.utils.updatePercents
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class QuestionAuxiliarFragment :
-    BaseFragment<FragmentQuestionAuxiliarBinding, QuestionViewModel>() {
+class QuestionsFragment :
+    BaseFragment<FragmentQuestionAuxiliarBinding, QuestionsViewModel>() {
 
-    override val viewModel: QuestionViewModel by viewModels()
+    override val viewModel: QuestionsViewModel by viewModels()
 
     private lateinit var mContext: Context
 
@@ -87,6 +89,9 @@ class QuestionAuxiliarFragment :
 
             tvQuestion.hideAlpha(1)
             handlePercentsPlayerTwo(people, show = false)
+
+            handleEditText(people.etPlayerBlue)
+            handleEditText(people.etPlayerOrange)
 
             controllerInfo.root.hideAlpha(1)
             controller.isEnabled = false
@@ -159,14 +164,25 @@ class QuestionAuxiliarFragment :
     override fun observe() {
         viewModel.event.observe(this) { event ->
             when (event) {
-                is QuestionEvent.Questions -> {
+                is QuestionsEvent.Questions -> {
                     binding.loading.root.isVisible = false
                     questionList = event.questions
                     showInitialDialog()
                 }
 
-                is QuestionEvent.SomethingWentWrong -> error()
+                is QuestionsEvent.SomethingWentWrong -> error()
             }
+        }
+    }
+
+    private fun handleEditText(editText: EditText) {
+        editText.setOnFocusChangeListener { _, hasFocus ->
+            editText.isCursorVisible = hasFocus
+        }
+
+        editText.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == IME_ACTION_DONE) editText.clearFocus()
+            false
         }
     }
 
@@ -265,8 +281,9 @@ class QuestionAuxiliarFragment :
             }
 
             countDown(1500) {
-                controller.isEnabled = true
-                curtainVisibility(isVisible = false)
+                curtainVisibility(isVisible = false) {
+                    controller.isEnabled = true
+                }
                 secondArrowVisibility(isVisible = true)
                 buttonCheck.root.animateY(0f, 500)
             }
@@ -314,14 +331,19 @@ class QuestionAuxiliarFragment :
             val points = getQuestionModePoints(opinion1, opinion2)
             points?.let {
                 if (points > 10) binding.konfetti.start(getKonfettiParty())
+
+                val newScore = ScoreQuestion(
+                    discovered = true,
+                    actualQuestion = questionList[position].text,
+                    topNumbers = Pair(opinion1, opinion1?.let { 100 - it }),
+                    bottomNumbers = Pair(opinion2, opinion2?.let { 100 - it }),
+                    points = points
+                )
+                val a = 2
+
                 scoreboardQuestionAdapter?.updateScore(
-                    newScore = ScoreQuestion(
-                        discovered = true,
-                        actualQuestion = questionList[position].text,
-                        topNumbers = Pair(opinion1, opinion1?.let { 100 - it }),
-                        bottomNumbers = Pair(opinion2, opinion2?.let { 100 - it }),
-                        points = points
-                    ), position = round - 1
+                    newScore = newScore,
+                    position = round - 1
                 )
             } ?: run { error() }
         }
@@ -371,13 +393,14 @@ class QuestionAuxiliarFragment :
 
     private fun endGame() {
         endGameStates()
-        val points = scoreboardQuestionAdapter?.getTotalPoints()
-        points?.let {
+        val data = scoreboardQuestionAdapter?.getTotalData()
+        data?.let {
             activity?.showFragmentDialog(
-                EndGameDialog(points = points,
+                EndQuestionsDialog(
+                    data = data,
                     restartGame = { restartGame() },
-                    saveScore = {  /*showSaveScoreDialog(points)*/ },
-                    exit = { activity?.onBackPressedDispatcher?.onBackPressed() })
+                    exit = { activity?.onBackPressedDispatcher?.onBackPressed() }
+                )
             )
         } ?: run { error() }
     }

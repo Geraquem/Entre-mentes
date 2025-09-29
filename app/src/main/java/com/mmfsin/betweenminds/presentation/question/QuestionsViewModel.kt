@@ -6,15 +6,15 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class QuestionViewModel @Inject constructor(
+class QuestionsViewModel @Inject constructor(
     private val getQuestionsUseCase: GetQuestionsUseCase
-) : BaseViewModel<QuestionEvent>() {
+) : BaseViewModel<QuestionsEvent>() {
 
     fun getQuestions() {
         executeUseCase(
             { getQuestionsUseCase.execute() },
-            { result -> _event.value = QuestionEvent.Questions(result) },
-            { _event.value = QuestionEvent.SomethingWentWrong }
+            { result -> _event.value = QuestionsEvent.Questions(result) },
+            { _event.value = QuestionsEvent.SomethingWentWrong }
         )
     }
 }
