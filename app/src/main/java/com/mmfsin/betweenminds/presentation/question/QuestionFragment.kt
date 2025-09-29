@@ -25,7 +25,7 @@ import com.mmfsin.betweenminds.utils.animateY
 import com.mmfsin.betweenminds.utils.countDown
 import com.mmfsin.betweenminds.utils.getEmptyScoreQuestionList
 import com.mmfsin.betweenminds.utils.getKonfettiParty
-import com.mmfsin.betweenminds.utils.getPoints
+import com.mmfsin.betweenminds.utils.getQuestionModePoints
 import com.mmfsin.betweenminds.utils.handleAlpha
 import com.mmfsin.betweenminds.utils.hideAlpha
 import com.mmfsin.betweenminds.utils.moveHumans
@@ -260,14 +260,14 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, QuestionViewModel
     }
 
     private fun setScoreRound() {
-        val points = getPoints(topLeftNumber, bottomLeftNumber)
-        if (points > 10) binding.konfetti.start(getKonfettiParty())
+        val points = getQuestionModePoints(topLeftNumber, bottomLeftNumber)
+        if (points !!> 10) binding.konfetti.start(getKonfettiParty())
 
         scoreboardAdapter?.updateScore(
             newScore = ScoreQuestion(
                 discovered = true,
-                topNumber = Pair(topLeftNumber, topRightNumber),
-                bottomNumber = Pair(bottomLeftNumber, bottomRightNumber),
+                topNumbers = Pair(topLeftNumber, topRightNumber),
+                bottomNumbers = Pair(bottomLeftNumber, bottomRightNumber),
                 points = points
             ), position = round
         )

@@ -27,6 +27,6 @@
         android:backgroundTint="@color/background"
         android:paddingVertical="6dp"
         tools:itemCount="1"
-        tools:listitem="@layout/item_score_range" />
+        tools:listitem="@layout/item_score" />
 
 </LinearLayout>

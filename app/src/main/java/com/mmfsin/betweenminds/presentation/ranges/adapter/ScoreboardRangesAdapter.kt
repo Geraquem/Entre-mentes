@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat.getColor
 import androidx.recyclerview.widget.RecyclerView
 import com.mmfsin.betweenminds.R
-import com.mmfsin.betweenminds.databinding.ItemScoreRangeBinding
+import com.mmfsin.betweenminds.databinding.ItemScoreBinding
 import com.mmfsin.betweenminds.domain.models.ScoreRange
 import com.mmfsin.betweenminds.utils.hideAlpha
 import com.mmfsin.betweenminds.utils.showAlpha
@@ -18,11 +18,11 @@ class ScoreboardRangesAdapter(
 ) : RecyclerView.Adapter<ScoreboardRangesAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val binding = ItemScoreRangeBinding.bind(view)
+        val binding = ItemScoreBinding.bind(view)
         val c: Context = binding.root.context
         fun bind(data: ScoreRange, position: Int, hideBarrier: Boolean) {
             binding.apply {
-                if(hideBarrier) barrier.visibility = View.GONE
+                if (hideBarrier) barrier.visibility = View.GONE
 
                 tvRound.text = "$position"
                 if (data.discovered) discovered.hideAlpha(500)
@@ -76,12 +76,8 @@ class ScoreboardRangesAdapter(
         return totalPoints
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(
-            LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_score_range, parent, false)
-        )
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
+        ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_score, parent, false))
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(scoreRanges[position], position + 1, (position == itemCount - 1))

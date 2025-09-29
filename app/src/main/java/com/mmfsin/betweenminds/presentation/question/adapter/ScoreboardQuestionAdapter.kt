@@ -5,40 +5,32 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import androidx.core.content.ContextCompat.getColor
 import androidx.recyclerview.widget.RecyclerView
 import com.mmfsin.betweenminds.R
-import com.mmfsin.betweenminds.databinding.ItemScoreQuestionBinding
+import com.mmfsin.betweenminds.databinding.ItemScoreBinding
 import com.mmfsin.betweenminds.domain.models.ScoreQuestion
 import com.mmfsin.betweenminds.utils.hideAlpha
 import com.mmfsin.betweenminds.utils.showAlpha
-import kotlin.math.absoluteValue
 
 class ScoreboardQuestionAdapter(
     private val scores: List<ScoreQuestion>,
 ) : RecyclerView.Adapter<ScoreboardQuestionAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val binding = ItemScoreQuestionBinding.bind(view)
+        val binding = ItemScoreBinding.bind(view)
         val c: Context = binding.root.context
-        fun bind(data: ScoreQuestion, position: Int) {
+        fun bind(data: ScoreQuestion, position: Int, hideBarrier: Boolean) {
             binding.apply {
+                if (hideBarrier) barrier.visibility = View.GONE
+
+                if (data.activeRound) tvRound.setTextColor(getColor(c, R.color.dark_red))
+                else tvRound.setTextColor(getColor(c, R.color.dark_grey))
+
                 tvRound.text = "$position"
                 if (data.discovered) discovered.hideAlpha(500)
                 else discovered.showAlpha(1)
-
-                data.topNumber?.first?.let { setSliderNumbers(tvTopLeftNumber, it) }
-                data.topNumber?.second?.let { setSliderNumbers(tvTopRightNumber, it) }
-                data.bottomNumber?.first?.let { setSliderNumbers(tvBottomLeftNumber, it) }
-                data.bottomNumber?.second?.let { setSliderNumbers(tvBottomRightNumber, it) }
                 data.points?.let { tvPoints.text = "$it" }
-            }
-        }
-
-        private fun setSliderNumbers(textView: TextView, number: Int?) {
-            number?.let {
-                textView.text = "${number.absoluteValue}"
-//                textView.setTextColor(getColor(c, getNumberColor(number)))
             }
         }
     }
@@ -46,8 +38,6 @@ class ScoreboardQuestionAdapter(
     fun updateScore(newScore: ScoreQuestion, position: Int) {
         val score = scores[position]
         score.discovered = newScore.discovered
-        score.topNumber = newScore.topNumber
-        score.bottomNumber = newScore.bottomNumber
         score.points = newScore.points
         notifyItemChanged(position)
     }
@@ -56,8 +46,6 @@ class ScoreboardQuestionAdapter(
     fun resetScores() {
         scores.forEach {
             it.discovered = false
-            it.topNumber = Pair(0, 0)
-            it.bottomNumber = Pair(0, 0)
         }
         notifyDataSetChanged()
     }
@@ -70,14 +58,17 @@ class ScoreboardQuestionAdapter(
         return totalPoints
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.item_score_question, parent, false)
-        )
+    fun roundColor(position: Int) {
+        val score = scores[position]
+        if (!score.discovered) score.activeRound = true
+        notifyItemChanged(position)
     }
 
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+        ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_score, parent, false))
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(scores[position], position + 1)
+        holder.bind(scores[position], position + 1, (position == itemCount - 1))
     }
 
     override fun getItemCount(): Int = scores.size

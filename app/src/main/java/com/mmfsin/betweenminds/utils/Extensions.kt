@@ -183,13 +183,15 @@ fun getEmptyScoreQuestionList() =
 
 fun getEmptyScoreRangesList() = listOf(ScoreRange(), ScoreRange(), ScoreRange(), ScoreRange())
 
-fun getPoints(num1: Int, num2: Int): Int {
-    val diff = kotlin.math.abs(num1 - num2)
-
-    return when {
-        diff > 15 -> 0
-        diff == 0 -> 20
-        else -> 16 - diff
+fun getQuestionModePoints(num1: Int?, num2: Int?): Int? {
+    if (num1 == null || num2 == null) return null
+    else {
+        val diff = kotlin.math.abs(num1 - num2)
+        return when {
+            diff > 15 -> 0
+            diff == 0 -> 20
+            else -> 16 - diff
+        }
     }
 }
 
@@ -217,6 +219,21 @@ fun getKonfettiParty() = Party(
     emitter = Emitter(duration = 100, TimeUnit.MILLISECONDS).max(100),
     position = Position.Relative(0.5, 0.3)
 )
+
+fun updatePercents(people: IncludePeopleBinding, phase: Int, percentX: Int) {
+    people.apply {
+        val percentLeft = "${(100 - percentX)}"
+        val percentRight = "$percentX"
+        if (phase == 1) {
+            percentOneBlue.text = percentLeft
+            percentOneOrange.text = percentRight
+        } else {
+            percentTwoBlue.text = percentLeft
+            percentTwoOrange.text = percentRight
+        }
+        moveHumans(this, percentX)
+    }
+}
 
 fun scaleHumans(binding: IncludePeopleBinding, value: Int) {
     binding.apply {

@@ -2,7 +2,6 @@ package com.mmfsin.betweenminds.presentation.question
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Rect
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -16,12 +15,16 @@ import com.mmfsin.betweenminds.base.BaseFragment
 import com.mmfsin.betweenminds.base.bedrock.BedRockActivity
 import com.mmfsin.betweenminds.databinding.FragmentQuestionAuxiliarBinding
 import com.mmfsin.betweenminds.domain.models.Question
+import com.mmfsin.betweenminds.domain.models.ScoreQuestion
 import com.mmfsin.betweenminds.presentation.common.dialogs.EndGameDialog
-import com.mmfsin.betweenminds.presentation.ranges.adapter.ScoreboardRangesAdapter
+import com.mmfsin.betweenminds.presentation.question.adapter.ScoreboardQuestionAdapter
+import com.mmfsin.betweenminds.presentation.ranges.dialogs.RangesStartDialog
 import com.mmfsin.betweenminds.utils.animateX
 import com.mmfsin.betweenminds.utils.animateY
 import com.mmfsin.betweenminds.utils.countDown
-import com.mmfsin.betweenminds.utils.getEmptyScoreRangesList
+import com.mmfsin.betweenminds.utils.getEmptyScoreQuestionList
+import com.mmfsin.betweenminds.utils.getKonfettiParty
+import com.mmfsin.betweenminds.utils.getQuestionModePoints
 import com.mmfsin.betweenminds.utils.handleAlpha
 import com.mmfsin.betweenminds.utils.handlePercentsPlayerOne
 import com.mmfsin.betweenminds.utils.handlePercentsPlayerTwo
@@ -30,6 +33,7 @@ import com.mmfsin.betweenminds.utils.moveHumans
 import com.mmfsin.betweenminds.utils.showAlpha
 import com.mmfsin.betweenminds.utils.showErrorDialog
 import com.mmfsin.betweenminds.utils.showFragmentDialog
+import com.mmfsin.betweenminds.utils.updatePercents
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -45,7 +49,10 @@ class QuestionAuxiliarFragment :
     private var round = 1
     private var phase = 1
 
-    private var scoreboardRangesAdapter: ScoreboardRangesAdapter? = null
+    private var opinion1: Int? = null
+    private var opinion2: Int? = null
+
+    private var scoreboardQuestionAdapter: ScoreboardQuestionAdapter? = null
 
     override fun inflateView(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentQuestionAuxiliarBinding.inflate(inflater, container, false)
@@ -60,8 +67,8 @@ class QuestionAuxiliarFragment :
         binding.apply {
             scoreboard.rvScore.apply {
                 layoutManager = GridLayoutManager(mContext, 4)
-                scoreboardRangesAdapter = ScoreboardRangesAdapter(getEmptyScoreRangesList())
-                adapter = scoreboardRangesAdapter
+                scoreboardQuestionAdapter = ScoreboardQuestionAdapter(getEmptyScoreQuestionList())
+                adapter = scoreboardQuestionAdapter
             }
         }
     }
@@ -141,7 +148,7 @@ class QuestionAuxiliarFragment :
                         arrow.x = view.x + (view.width - arrow.width) / 2f
 
                         val percentX = ((view.x / (parent.width - view.width)) * 100).toInt()
-                        updatePercents(percentX)
+                        updatePercents(people, phase, percentX)
                     }
                 }
                 true
@@ -164,14 +171,12 @@ class QuestionAuxiliarFragment :
     }
 
     private fun showInitialDialog() {
-        binding.llRound.hideAlpha(1)
-        setFirstRanges()
-//        activity?.showFragmentDialog(
-//            RangesStartDialog(
-//                start = { showRound { setFirstRanges() } },
-//                instructions = { openInstructions() }
-//            )
-//        )
+        activity?.showFragmentDialog(
+            RangesStartDialog(
+                start = { showRound { setFirstRanges() } },
+                instructions = { openInstructions() }
+            )
+        )
     }
 
     private fun showRound(onEnd: () -> Unit) {
@@ -207,6 +212,7 @@ class QuestionAuxiliarFragment :
                 percentOneOrange.text = getString(R.string.fifty)
                 percentTwoOrange.text = getString(R.string.fifty)
                 moveHumans(this, 50)
+                handlePercentsPlayerTwo(this, show = false)
             }
 
             firstArrowVisibility(isVisible = false)
@@ -228,7 +234,7 @@ class QuestionAuxiliarFragment :
     private fun firstPhase() {
         binding.apply {
             phase = 1
-            scoreboardRangesAdapter?.roundColor(round - 1)
+            scoreboardQuestionAdapter?.roundColor(round - 1)
             countDown(500) {
                 curtainVisibility(isVisible = false)
                 tvQuestion.showAlpha(1000)
@@ -245,10 +251,14 @@ class QuestionAuxiliarFragment :
     private fun secondPhase() {
         binding.apply {
             phase = 2
+            opinion1 = (people.percentOneBlue.text as String).toIntOrNull()
+
             handlePercentsPlayerOne(people, show = false)
             buttonHide.root.animateY(500f, 500)
 
             moveHumans(people, 50)
+
+            firstArrow.hideAlpha(350)
             curtainVisibility(isVisible = true) {
                 firstArrowVisibility(isVisible = false)
                 handlePercentsPlayerTwo(people, show = true)
@@ -265,6 +275,7 @@ class QuestionAuxiliarFragment :
 
     private fun thirdPhase() {
         binding.apply {
+            opinion2 = (people.percentTwoBlue.text as String).toIntOrNull()
             controller.isEnabled = false
             controllerInfoVisibility(false)
             buttonCheck.root.animateY(500f, 500)
@@ -300,29 +311,20 @@ class QuestionAuxiliarFragment :
 
     private fun checkPoints() {
         binding.apply {
-//            val points = if (areViewsColliding(target, bullsEye.centerBullseye)) 5
-//            else if (areViewsColliding(target, bullsEye.rightBullseye)) 2
-//            else if (areViewsColliding(target, bullsEye.leftBullseye)) 2
-//            else 0
-//
-//            if (points != 0) binding.konfetti.start(getKonfettiParty())
-//
-//            scoreboardRangesAdapter?.updateScore(
-//                newScoreRange = ScoreRange(
-//                    discovered = true, points = points
-//                ), position = round - 1
-//            )
+            val points = getQuestionModePoints(opinion1, opinion2)
+            points?.let {
+                if (points > 10) binding.konfetti.start(getKonfettiParty())
+                scoreboardQuestionAdapter?.updateScore(
+                    newScore = ScoreQuestion(
+                        discovered = true,
+                        actualQuestion = questionList[position].text,
+                        topNumbers = Pair(opinion1, opinion1?.let { 100 - it }),
+                        bottomNumbers = Pair(opinion2, opinion2?.let { 100 - it }),
+                        points = points
+                    ), position = round - 1
+                )
+            } ?: run { error() }
         }
-    }
-
-    private fun areViewsColliding(view1: View, view2: View): Boolean {
-        val rect1 = Rect()
-        val rect2 = Rect()
-
-        val isVisible1 = view1.getGlobalVisibleRect(rect1)
-        val isVisible2 = view2.getGlobalVisibleRect(rect2)
-
-        return isVisible1 && isVisible2 && Rect.intersects(rect1, rect2)
     }
 
     private fun firstArrowVisibility(isVisible: Boolean) {
@@ -367,24 +369,9 @@ class QuestionAuxiliarFragment :
         else cInfo.hideAlpha(350)
     }
 
-    private fun updatePercents(percentX: Int) {
-        binding.people.apply {
-            val percentLeft = "${(100 - percentX)}"
-            val percentRight = "$percentX"
-            if (phase == 1) {
-                percentOneBlue.text = percentLeft
-                percentOneOrange.text = percentRight
-            } else {
-                percentTwoBlue.text = percentLeft
-                percentTwoOrange.text = percentRight
-            }
-            moveHumans(this, percentX)
-        }
-    }
-
     private fun endGame() {
         endGameStates()
-        val points = scoreboardRangesAdapter?.getTotalPoints()
+        val points = scoreboardQuestionAdapter?.getTotalPoints()
         points?.let {
             activity?.showFragmentDialog(
                 EndGameDialog(points = points,
@@ -398,11 +385,7 @@ class QuestionAuxiliarFragment :
     private fun endGameStates() {
         binding.apply {
             curtainVisibility(isVisible = true)
-//            ranges.apply {
-//                tvRangeLeft.hideAlpha(200)
-//                tvRangeRight.hideAlpha(200)
-//            }
-            initialStates()
+            tvQuestion.hideAlpha(350) { initialStates() }
         }
     }
 
@@ -410,13 +393,13 @@ class QuestionAuxiliarFragment :
         round = 1
         binding.roundNumber.text = "$round"
         position++
-        scoreboardRangesAdapter?.resetScores()
+        scoreboardQuestionAdapter?.resetScores()
 
         showRound { setFirstRanges() }
     }
 
     private fun openInstructions() =
-        (activity as BedRockActivity).openBedRockActivity(R.navigation.nav_graph_instr_ranges)
+        (activity as BedRockActivity).openBedRockActivity(R.navigation.nav_graph_instr_questions)
 
     private fun error() = activity?.showErrorDialog()
 
