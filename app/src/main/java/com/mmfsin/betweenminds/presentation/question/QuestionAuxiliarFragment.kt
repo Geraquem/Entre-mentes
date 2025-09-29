@@ -23,7 +23,10 @@ import com.mmfsin.betweenminds.utils.animateY
 import com.mmfsin.betweenminds.utils.countDown
 import com.mmfsin.betweenminds.utils.getEmptyScoreRangesList
 import com.mmfsin.betweenminds.utils.handleAlpha
+import com.mmfsin.betweenminds.utils.handlePercentsPlayerOne
+import com.mmfsin.betweenminds.utils.handlePercentsPlayerTwo
 import com.mmfsin.betweenminds.utils.hideAlpha
+import com.mmfsin.betweenminds.utils.moveHumans
 import com.mmfsin.betweenminds.utils.showAlpha
 import com.mmfsin.betweenminds.utils.showErrorDialog
 import com.mmfsin.betweenminds.utils.showFragmentDialog
@@ -40,6 +43,7 @@ class QuestionAuxiliarFragment :
     private var questionList: List<Question> = emptyList()
     private var position = 0
     private var round = 1
+    private var phase = 1
 
     private var scoreboardRangesAdapter: ScoreboardRangesAdapter? = null
 
@@ -71,23 +75,21 @@ class QuestionAuxiliarFragment :
             buttonNextRound.button.text = getString(R.string.btn_next_round)
 
             llRound.showAlpha(1)
+
             roundNumber.text = "$round"
 
             tvQuestion.hideAlpha(1)
+            handlePercentsPlayerTwo(people, show = false)
 
             controllerInfo.root.hideAlpha(1)
             controller.isEnabled = false
-
-//            ranges.apply {
-//                tvRangeLeft.hideAlpha(1)
-//                tvRangeRight.hideAlpha(1)
-//            }
 
             buttonHide.root.animateY(500f, 1)
             buttonCheck.root.animateY(500f, 1)
             buttonNextRound.root.animateY(500f, 1)
 
-            arrowVisibility(isVisible = false)
+            firstArrowVisibility(isVisible = false)
+            secondArrowVisibility(isVisible = false)
             curtainVisibility(isVisible = true)
         }
     }
@@ -95,7 +97,6 @@ class QuestionAuxiliarFragment :
     @SuppressLint("ClickableViewAccessibility")
     override fun setListeners() {
         binding.apply {
-
             toolbar.apply {
                 btnBack.setOnClickListener { activity?.onBackPressedDispatcher?.onBackPressed() }
                 btnInstructions.setOnClickListener { openInstructions() }
@@ -121,19 +122,26 @@ class QuestionAuxiliarFragment :
             controller.setOnTouchListener { _, event ->
                 when (event.action) {
                     MotionEvent.ACTION_DOWN -> {
-                        firstOpinion.tag = event.rawX - firstOpinion.x
+                        val view = if (phase == 1) firstOpinion else secondOpinion
+                        view.tag = event.rawX - view.x
                     }
 
                     MotionEvent.ACTION_MOVE -> {
-                        val offsetX = firstOpinion.tag as Float
+                        val view = if (phase == 1) firstOpinion else secondOpinion
+                        val arrow = if (phase == 1) firstArrow else secondArrow
+
+                        val offsetX = view.tag as Float
                         var newX = event.rawX - offsetX
 
                         if (newX < 0f) newX = 0f
-                        if (newX + firstOpinion.width > parent.width) {
-                            newX = (parent.width - firstOpinion.width).toFloat()
+                        if (newX + view.width > parent.width) {
+                            newX = (parent.width - view.width).toFloat()
                         }
-                        firstOpinion.x = newX
-                        arrow.x = firstOpinion.x + (firstOpinion.width - arrow.width) / 2f
+                        view.x = newX
+                        arrow.x = view.x + (view.width - arrow.width) / 2f
+
+                        val percentX = ((view.x / (parent.width - view.width)) * 100).toInt()
+                        updatePercents(percentX)
                     }
                 }
                 true
@@ -183,9 +191,7 @@ class QuestionAuxiliarFragment :
     private fun setFirstRanges() {
         binding.apply {
             try {
-                val actualQuestion = questionList[position]
-                tvQuestion.text = actualQuestion.text
-
+                tvQuestion.text = questionList[position].text
                 countDown(500) { firstPhase() }
             } catch (e: Exception) {
                 error()
@@ -195,14 +201,21 @@ class QuestionAuxiliarFragment :
 
     private fun initialStates() {
         binding.apply {
-            tvQuestion.hideAlpha(350) {
-                tvQuestion.text = getString(R.string.ranges_write_a_clue)
+            people.apply {
+                percentOneBlue.text = getString(R.string.fifty)
+                percentTwoBlue.text = getString(R.string.fifty)
+                percentOneOrange.text = getString(R.string.fifty)
+                percentTwoOrange.text = getString(R.string.fifty)
+                moveHumans(this, 50)
             }
-            tvQuestion.hideAlpha(350)
-            arrowVisibility(isVisible = false)
 
-            arrow.translationX = 0f
+            firstArrowVisibility(isVisible = false)
+            secondArrowVisibility(isVisible = false)
+
+            firstArrow.translationX = 0f
             firstOpinion.translationX = 0f
+            secondArrow.translationX = 0f
+            secondOpinion.translationX = 0f
 
             buttonHide.root.isEnabled = true
             buttonCheck.root.isEnabled = true
@@ -214,11 +227,12 @@ class QuestionAuxiliarFragment :
 
     private fun firstPhase() {
         binding.apply {
+            phase = 1
             scoreboardRangesAdapter?.roundColor(round - 1)
             countDown(500) {
                 curtainVisibility(isVisible = false)
                 tvQuestion.showAlpha(1000)
-                arrowVisibility(isVisible = true)
+                firstArrowVisibility(isVisible = true)
 
                 controller.isEnabled = true
                 controllerInfoVisibility(true)
@@ -230,20 +244,20 @@ class QuestionAuxiliarFragment :
 
     private fun secondPhase() {
         binding.apply {
-            tvQuestion.hideAlpha(500)
-
+            phase = 2
+            handlePercentsPlayerOne(people, show = false)
             buttonHide.root.animateY(500f, 500)
+
+            moveHumans(people, 50)
             curtainVisibility(isVisible = true) {
-//                bullseyeVisibility(isVisible = false)
+                firstArrowVisibility(isVisible = false)
+                handlePercentsPlayerTwo(people, show = true)
             }
 
             countDown(1500) {
-                tvQuestion.showAlpha(1000)
-                controllerInfoVisibility(true)
-
                 controller.isEnabled = true
                 curtainVisibility(isVisible = false)
-                arrowVisibility(isVisible = true)
+                secondArrowVisibility(isVisible = true)
                 buttonCheck.root.animateY(0f, 500)
             }
         }
@@ -254,7 +268,9 @@ class QuestionAuxiliarFragment :
             controller.isEnabled = false
             controllerInfoVisibility(false)
             buttonCheck.root.animateY(500f, 500)
-//            bullseyeVisibility(isVisible = true)
+
+            firstArrowVisibility(isVisible = true)
+            handlePercentsPlayerOne(people, show = true)
 
             checkPoints()
 
@@ -269,16 +285,14 @@ class QuestionAuxiliarFragment :
             round++
             roundNumber.text = "$round"
 
-            initialStates()
             position++
-            curtainVisibility(isVisible = true)
+            curtainVisibility(isVisible = true) {
+                handlePercentsPlayerTwo(people, show = false)
+                initialStates()
+            }
 
             if (position > questionList.size - 1) position = 0
-            val actualRange = questionList[position]
-//            ranges.apply {
-//                tvRangeLeft.hideAlpha(350) { tvRangeLeft.text = actualRange.leftRange }
-//                tvRangeRight.hideAlpha(350) { tvRangeRight.text = actualRange.rightRange }
-//            }
+            tvQuestion.hideAlpha(350) { tvQuestion.text = questionList[position].text }
 
             showRound { firstPhase() }
         }
@@ -311,11 +325,23 @@ class QuestionAuxiliarFragment :
         return isVisible1 && isVisible2 && Rect.intersects(rect1, rect2)
     }
 
-    private fun arrowVisibility(isVisible: Boolean) {
+    private fun firstArrowVisibility(isVisible: Boolean) {
+        binding.apply {
+            if (isVisible) {
+                firstOpinion.showAlpha(350)
+                firstArrow.showAlpha(350)
+            } else {
+                firstOpinion.hideAlpha(10)
+                firstArrow.hideAlpha(100)
+            }
+        }
+    }
+
+    private fun secondArrowVisibility(isVisible: Boolean) {
         binding.apply {
             val view = if (isVisible) View.VISIBLE else View.INVISIBLE
-            firstOpinion.visibility = view
-            arrow.visibility = view
+            secondOpinion.visibility = view
+            if (isVisible) secondArrow.showAlpha(350) else secondArrow.hideAlpha(10)
         }
     }
 
@@ -339,6 +365,21 @@ class QuestionAuxiliarFragment :
         val cInfo = binding.controllerInfo.root
         if (isVisible) cInfo.handleAlpha(0.35f, 350)
         else cInfo.hideAlpha(350)
+    }
+
+    private fun updatePercents(percentX: Int) {
+        binding.people.apply {
+            val percentLeft = "${(100 - percentX)}"
+            val percentRight = "$percentX"
+            if (phase == 1) {
+                percentOneBlue.text = percentLeft
+                percentOneOrange.text = percentRight
+            } else {
+                percentTwoBlue.text = percentLeft
+                percentTwoOrange.text = percentRight
+            }
+            moveHumans(this, percentX)
+        }
     }
 
     private fun endGame() {

@@ -237,7 +237,7 @@ fun scaleHumans(binding: IncludePeopleBinding, value: Int) {
 
 fun moveHumans(binding: IncludePeopleBinding, value: Int) {
     binding.apply {
-        if (value > 50) {
+        if (value < 50) {
             ivLeft.setImageResource(R.drawable.ic_human_up)
             ivRight.setImageResource(R.drawable.ic_human_down)
         } else if (value == 50) {
@@ -249,6 +249,31 @@ fun moveHumans(binding: IncludePeopleBinding, value: Int) {
         }
     }
 }
+
+fun handlePercentsPlayerOne(people: IncludePeopleBinding, show: Boolean) {
+    people.apply {
+        if (show) {
+            icQuestionOneBlue.hideAlpha(350) { llPercentOneBlue.showAlpha(350) }
+            icQuestionOneOrange.hideAlpha(350) { llPercentOneOrange.showAlpha(350) }
+        } else {
+            llPercentOneBlue.hideAlpha(350) { icQuestionOneBlue.showAlpha(350) }
+            llPercentOneOrange.hideAlpha(350) { icQuestionOneOrange.showAlpha(350) }
+        }
+    }
+}
+
+fun handlePercentsPlayerTwo(people: IncludePeopleBinding, show: Boolean) {
+    people.apply {
+        if (show) {
+            icQuestionTwoBlue.hideAlpha(350) { llPercentTwoBlue.showAlpha(350) }
+            icQuestionTwoOrange.hideAlpha(350) { llPercentTwoOrange.showAlpha(350) }
+        } else {
+            llPercentTwoBlue.hideAlpha(100) { icQuestionTwoBlue.showAlpha(100) }
+            llPercentTwoOrange.hideAlpha(100) { icQuestionTwoOrange.showAlpha(100) }
+        }
+    }
+}
+
 
 //fun FragmentActivity.shouldShowInterstitial(position: Int) =
 //    (this as MainActivity).showInterstitial(position)
