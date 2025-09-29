@@ -36,10 +36,16 @@
     <string name="btn_next_round">Siguiente ronda</string>
     <string name="name_blue">Nombre azul</string>
     <string name="name_orange">Nombre naranja</string>
+    <string name="controller_limited">Desliza desde aquí para mover la flecha y opinar</string>
     <string name="controller_text">Desliza desde cualquier parte de la pantalla para mover la flecha</string>
     <string name="round">Ronda</string>
     <string name="back">Volver</string>
     <string name="how_to_play">Cómo jugar</string>
+
+    <!-- QUESTIONS -->
+    <string name="questions_welcome">En este modo juegan dos personas para ver si opinan igual sobre ellos mismos o sobre otras personas.</string>
+    <string name="questions_welcome_two">El objetivo es obtener la mayor puntuación.</string>
+    <string name="questions_welcome_three">¿Qué dos personas van a ser juzgadas?</string>
 
     <!-- RANGES -->
     <string name="ranges_start_play">Empezar</string>

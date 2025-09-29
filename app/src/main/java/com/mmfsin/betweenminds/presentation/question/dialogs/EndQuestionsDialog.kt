@@ -28,8 +28,6 @@ class EndQuestionsDialog(
         binding.apply {
             tvPoints.text = if (points == 1) getString(R.string.endgame_one_point)
             else getString(R.string.endgame_pts, "$points")
-
-            tvPhrase.text = getString(getPhrase(points))
         }
     }
 

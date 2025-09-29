@@ -15,12 +15,12 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.mmfsin.betweenminds.R
 import com.mmfsin.betweenminds.base.BaseFragment
 import com.mmfsin.betweenminds.base.bedrock.BedRockActivity
-import com.mmfsin.betweenminds.databinding.FragmentQuestionAuxiliarBinding
+import com.mmfsin.betweenminds.databinding.FragmentQuestionsBinding
 import com.mmfsin.betweenminds.domain.models.Question
 import com.mmfsin.betweenminds.domain.models.ScoreQuestion
 import com.mmfsin.betweenminds.presentation.question.adapter.ScoreboardQuestionAdapter
 import com.mmfsin.betweenminds.presentation.question.dialogs.EndQuestionsDialog
-import com.mmfsin.betweenminds.presentation.ranges.dialogs.RangesStartDialog
+import com.mmfsin.betweenminds.presentation.question.dialogs.QuestionsStartDialog
 import com.mmfsin.betweenminds.utils.animateX
 import com.mmfsin.betweenminds.utils.animateY
 import com.mmfsin.betweenminds.utils.countDown
@@ -40,7 +40,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class QuestionsFragment :
-    BaseFragment<FragmentQuestionAuxiliarBinding, QuestionsViewModel>() {
+    BaseFragment<FragmentQuestionsBinding, QuestionsViewModel>() {
 
     override val viewModel: QuestionsViewModel by viewModels()
 
@@ -57,7 +57,7 @@ class QuestionsFragment :
     private var scoreboardQuestionAdapter: ScoreboardQuestionAdapter? = null
 
     override fun inflateView(inflater: LayoutInflater, container: ViewGroup?) =
-        FragmentQuestionAuxiliarBinding.inflate(inflater, container, false)
+        FragmentQuestionsBinding.inflate(inflater, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -93,6 +93,7 @@ class QuestionsFragment :
             handleEditText(people.etPlayerBlue)
             handleEditText(people.etPlayerOrange)
 
+            controllerInfo.tvControllerText.text = getString(R.string.controller_limited)
             controllerInfo.root.hideAlpha(1)
             controller.isEnabled = false
 
@@ -134,6 +135,8 @@ class QuestionsFragment :
             controller.setOnTouchListener { _, event ->
                 when (event.action) {
                     MotionEvent.ACTION_DOWN -> {
+                        people.etPlayerBlue.clearFocus()
+                        people.etPlayerOrange.clearFocus()
                         val view = if (phase == 1) firstOpinion else secondOpinion
                         view.tag = event.rawX - view.x
                     }
@@ -188,8 +191,12 @@ class QuestionsFragment :
 
     private fun showInitialDialog() {
         activity?.showFragmentDialog(
-            RangesStartDialog(
-                start = { showRound { setFirstRanges() } },
+            QuestionsStartDialog(
+                start = { blueName, orangeName ->
+                    if (blueName.isNotEmpty()) binding.people.etPlayerBlue.setText(blueName)
+                    if (orangeName.isNotEmpty()) binding.people.etPlayerOrange.setText(orangeName)
+                    showRound { setFirstRanges() }
+                },
                 instructions = { openInstructions() }
             )
         )

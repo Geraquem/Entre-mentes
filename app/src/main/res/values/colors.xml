@@ -20,6 +20,7 @@
 
     <color name="darkest_orange">#C28832</color>
     <color name="dark_orange">#EAAC50</color>
+    <color name="orange_hint">#73EAAC50</color>
     <color name="orange">#FDCA7F</color>
     <color name="soft_orange">#FADAAC</color>
 
@@ -27,6 +28,7 @@
     <color name="grey">#DFDFDF</color>
 
     <color name="blue">#4C8CEB</color>
+    <color name="blue_hint">#804C8CEB</color>
     <color name="soft_blue">#4C8CEB</color>
 
     <color name="dark_red">#C63C3C</color>

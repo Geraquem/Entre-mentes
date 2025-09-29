@@ -10,6 +10,7 @@
 
     <TextView
         style="@style/SmallTextView"
+        android:id="@+id/tv_controller_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

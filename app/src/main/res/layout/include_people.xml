@@ -69,7 +69,7 @@
             android:maxLines="1"
             android:paddingHorizontal="16dp"
             android:textColor="@color/blue"
-            android:textColorHint="@color/blue"
+            android:textColorHint="@color/blue_hint"
             android:textStyle="bold"
             tools:ignore="LabelFor" />
 
@@ -90,7 +90,7 @@
             android:maxLines="1"
             android:paddingHorizontal="16dp"
             android:textColor="@color/dark_orange"
-            android:textColorHint="@color/dark_orange"
+            android:textColorHint="@color/orange_hint"
             android:textStyle="bold"
             tools:ignore="LabelFor" />
 

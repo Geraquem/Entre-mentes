@@ -9,6 +9,6 @@
         android:id="@+id/questionFragment"
         android:name="com.mmfsin.betweenminds.presentation.question.QuestionsFragment"
         android:label="questionFragment"
-        tools:layout="@layout/fragment_question" />
+        tools:layout="@layout/fragment_questions" />
 
 </navigation>
