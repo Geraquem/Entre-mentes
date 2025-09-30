@@ -93,20 +93,12 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent">
 
-                    <androidx.constraintlayout.widget.Guideline
-                        android:id="@+id/gl_medium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="0dp"
-                        android:orientation="vertical"
-                        app:layout_constraintGuide_percent="0.5" />
-
                     <include
                         android:id="@+id/bulls_eye"
                         layout="@layout/include_ranges_bullseye"
-                        android:layout_width="wrap_content"
+                        android:layout_width="45dp"
                         android:layout_height="match_parent"
                         android:layout_marginStart="64dp"
-                        android:background="@color/blue"
                         app:layout_constraintLeft_toLeftOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -305,7 +297,7 @@
 
                 <Space
                     android:layout_width="match_parent"
-                    android:layout_height="42dp"/>
+                    android:layout_height="42dp" />
 
             </LinearLayout>
 

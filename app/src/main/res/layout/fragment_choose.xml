@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background">
+    android:background="@color/background_black">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/gl_left"
@@ -20,43 +20,24 @@
         app:layout_constraintGuide_percent="0.95" />
 
     <include
-        android:id="@+id/particles"
-        layout="@layout/fragment_waves" />
-
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/bg_back"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="6dp"
-        android:background="@color/white"
-        app:layout_constraintLeft_toLeftOf="@id/gl_left"
-        app:layout_constraintTop_toTopOf="parent"
-        app:shapeAppearanceOverlay="@style/circular_image" />
-
-    <ImageView
-        android:id="@+id/iv_back"
-        android:layout_width="wrap_content"
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_bedrock"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:contentDescription="@string/content_description"
-        android:src="@drawable/ic_arrow_back"
-        app:layout_constraintBottom_toBottomOf="@id/bg_back"
-        app:layout_constraintLeft_toLeftOf="@id/bg_back"
-        app:layout_constraintRight_toRightOf="@id/bg_back"
-        app:layout_constraintTop_toTopOf="@id/bg_back"
-        app:tint="@color/black" />
+        app:layout_constraintLeft_toLeftOf="@id/gl_left"
+        app:layout_constraintRight_toRightOf="@id/gl_right"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="12dp"
         android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="@id/gl_left"
         app:layout_constraintRight_toRightOf="@id/gl_right"
-        app:layout_constraintTop_toBottomOf="@id/bg_back">
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
 
         <LinearLayout
             android:id="@+id/btn_questions"
@@ -88,12 +69,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp" />
-
-            <include
-                android:id="@+id/slider_questions"
-                layout="@layout/include_slider_questions"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
 
         </LinearLayout>
 

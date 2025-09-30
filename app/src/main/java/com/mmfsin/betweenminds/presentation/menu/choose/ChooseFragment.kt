@@ -1,7 +1,6 @@
 package com.mmfsin.betweenminds.presentation.menu.choose
 
 import android.content.Context
-import android.util.TypedValue.COMPLEX_UNIT_SP
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
@@ -9,8 +8,6 @@ import com.mmfsin.betweenminds.R
 import com.mmfsin.betweenminds.base.BaseFragmentNoVM
 import com.mmfsin.betweenminds.databinding.FragmentChooseBinding
 import com.mmfsin.betweenminds.presentation.MainActivity
-import com.mmfsin.betweenminds.utils.moveHumans
-import com.mmfsin.betweenminds.utils.scaleHumans
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -24,18 +21,7 @@ class ChooseFragment : BaseFragmentNoVM<FragmentChooseBinding>() {
 
     override fun setUI() {
         binding.apply {
-            sliderQuestions.apply {
-                val value = 80
-                scaleHumans(people, value)
-                moveHumans(people, value)
-                slider.isEnabled = false
-                slider.isVisible = false
-                bgSlider.isVisible = false
-                bgSliderTwo.isVisible = false
-                tvPercentLeft.text = "$value"
-                tvPercentLeft.setTextSize(COMPLEX_UNIT_SP, 36f)
-                tvPercentRight.setTextSize(COMPLEX_UNIT_SP, 36f)
-            }
+            toolbar.btnInstructions.isVisible = false
 
             people.apply {
                 etPlayerBlue.isEnabled = false
@@ -53,8 +39,7 @@ class ChooseFragment : BaseFragmentNoVM<FragmentChooseBinding>() {
 
     override fun setListeners() {
         binding.apply {
-            ivBack.setOnClickListener { activity?.onBackPressedDispatcher?.onBackPressed() }
-            bgBack.setOnClickListener { activity?.onBackPressedDispatcher?.onBackPressed() }
+            toolbar.btnBack.setOnClickListener { activity?.onBackPressedDispatcher?.onBackPressed() }
 
             btnQuestions.setOnClickListener { navigateTo(R.navigation.nav_graph_questions) }
             btnRanges.setOnClickListener { navigateTo(R.navigation.nav_graph_ranges) }
