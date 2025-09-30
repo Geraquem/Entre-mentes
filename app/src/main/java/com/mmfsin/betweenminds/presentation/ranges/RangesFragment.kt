@@ -152,7 +152,7 @@ class RangesFragment : BaseFragment<FragmentRangesBinding, RangesViewModel>() {
             when (event) {
                 is RangesEvent.Ranges -> {
                     binding.loading.root.isVisible = false
-                    rangesList = event.ranges
+                    rangesList = event.ranges.shuffled()
                     showInitialDialog()
                 }
 

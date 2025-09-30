@@ -169,7 +169,7 @@ class QuestionsFragment :
             when (event) {
                 is QuestionsEvent.Questions -> {
                     binding.loading.root.isVisible = false
-                    questionList = event.questions
+                    questionList = event.questions.shuffled()
                     showInitialDialog()
                 }
 
