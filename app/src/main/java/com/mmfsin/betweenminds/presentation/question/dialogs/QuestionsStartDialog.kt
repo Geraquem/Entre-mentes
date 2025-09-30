@@ -9,6 +9,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class QuestionsStartDialog(
+    private val close: () -> Unit,
     private val start: (blueName: String, orangeName: String) -> Unit,
     private val instructions: () -> Unit,
 ) : BaseDialog<DialogStartQuestionsBinding>() {
@@ -28,6 +29,11 @@ class QuestionsStartDialog(
 
     override fun setListeners() {
         binding.apply {
+            tvBack.setOnClickListener {
+                close()
+                dismiss()
+            }
+
             btnStart.root.setOnClickListener {
                 val blueName = etPlayerBlue.text.toString()
                 val orangeName = etPlayerOrange.text.toString()

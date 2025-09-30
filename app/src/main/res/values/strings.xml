@@ -44,10 +44,15 @@
 
     <!-- QUESTIONS -->
     <string name="questions_welcome">En este modo juegan dos personas para ver si opinan igual sobre ellos mismos o sobre otras personas.</string>
-    <string name="questions_welcome_two">El objetivo es obtener la mayor puntuación.</string>
-    <string name="questions_welcome_three">¿Qué dos personas van a ser juzgadas?</string>
+    <string name="questions_welcome_two">Se lee una pregunta, primero opina una persona, se oculta su respuesta y después opina la otra persona.</string>
+    <string name="questions_welcome_three">El objetivo es <b>coincidir</b> para obtener la mayor puntuación.</string>
+    <string name="questions_welcome_four">¿Qué dos personas van a ser juzgadas?</string>
 
     <!-- RANGES -->
+    <string name="ranges_start_quick_resume">Resumen rápido</string>
+    <string name="ranges_start_resume">Un jugador ve en secreto la zona de puntos dentro de un segmento con dos conceptos opuestos y da una pista para orientar al resto.</string>
+    <string name="ranges_start_resume_two">Los demás, usando esa pista, deben mover una flecha para intentar acertar la posición.</string>
+    <string name="ranges_start_resume_three">Entre todos hay que tratar de obtener la mayor puntuación posible en <b>4 rondas</b>.</string>
     <string name="ranges_start_play">Empezar</string>
     <string name="ranges_start_instructions">Cómo se juega</string>
 

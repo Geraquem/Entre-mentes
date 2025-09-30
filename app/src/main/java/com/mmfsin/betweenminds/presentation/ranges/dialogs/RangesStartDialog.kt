@@ -9,6 +9,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class RangesStartDialog(
+    private val close: () -> Unit,
     private val start: () -> Unit,
     private val instructions: () -> Unit,
 ) : BaseDialog<DialogStartRangesBinding>() {
@@ -27,6 +28,11 @@ class RangesStartDialog(
 
     override fun setListeners() {
         binding.apply {
+            tvBack.setOnClickListener {
+                close()
+                dismiss()
+            }
+
             btnStart.root.setOnClickListener {
                 start()
                 dismiss()

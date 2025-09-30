@@ -192,6 +192,7 @@ class QuestionsFragment :
     private fun showInitialDialog() {
         activity?.showFragmentDialog(
             QuestionsStartDialog(
+                close = { activity?.onBackPressedDispatcher?.onBackPressed() },
                 start = { blueName, orangeName ->
                     if (blueName.isNotEmpty()) binding.people.etPlayerBlue.setText(blueName)
                     if (orangeName.isNotEmpty()) binding.people.etPlayerOrange.setText(orangeName)

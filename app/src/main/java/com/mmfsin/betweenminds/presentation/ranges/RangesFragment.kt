@@ -162,17 +162,21 @@ class RangesFragment : BaseFragment<FragmentRangesBinding, RangesViewModel>() {
     }
 
     private fun showInitialDialog() {
-        activity?.showFragmentDialog(
-            RangesStartDialog(
-                start = { showRound { setFirstRanges() } },
-                instructions = { openInstructions() }
+        try {
+            activity?.showFragmentDialog(
+                RangesStartDialog(
+                    close = { activity?.onBackPressedDispatcher?.onBackPressed() },
+                    start = { showRound { setFirstRanges() } },
+                    instructions = { openInstructions() }
+                )
             )
-        )
+        } catch (e: Exception) {
+            println("Error with binding not attached")
+        }
     }
 
     private fun showRound(onEnd: () -> Unit) {
         try {
-
             binding.apply {
                 llRound.showAlpha(500) {
                     countDown(500) {
@@ -191,8 +195,7 @@ class RangesFragment : BaseFragment<FragmentRangesBinding, RangesViewModel>() {
                 val actualRange = rangesList[position]
                 ranges.tvRangeLeft.text = actualRange.leftRange
                 ranges.tvRangeRight.text = actualRange.rightRange
-
-                countDown(500) { firstPhase() }
+                firstPhase()
             } catch (e: Exception) {
                 error()
             }
@@ -220,9 +223,7 @@ class RangesFragment : BaseFragment<FragmentRangesBinding, RangesViewModel>() {
 
     private fun firstPhase() {
         binding.apply {
-
             scoreboardRangesAdapter?.roundColor(round - 1)
-
             setBullsEye()
             countDown(500) {
                 curtainVisibility(isVisible = false)
