@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.DecelerateInterpolator
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.mmfsin.betweenminds.R
@@ -47,7 +48,24 @@ class MenuFragment : BaseFragment<FragmentMenuBinding, MenuViewModel>(), ISelect
         }
     }
 
-    private fun openSelector() = activity?.showFragmentDialog(SelectorSheet(this@MenuFragment))
+    private fun openSelector() {
+        rotateImage {
+            activity?.showFragmentDialog(SelectorSheet(this@MenuFragment))
+        }
+    }
+
+    private fun rotateImage(onEnd: (() -> Unit)? = null) {
+        val image = binding.icPlay
+        image.animate()
+            .rotation(-90f)
+            .setInterpolator(DecelerateInterpolator())
+            .setDuration(150)
+            .withEndAction {
+                onEnd?.invoke()
+                countDown(300) { image.rotation = 0f }
+            }
+            .start()
+    }
 
     override fun observe() {
         viewModel.event.observe(this) { event ->

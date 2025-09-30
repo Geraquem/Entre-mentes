@@ -72,7 +72,6 @@ class RangesFragment : BaseFragment<FragmentRangesBinding, RangesViewModel>() {
             buttonCheck.button.text = getString(R.string.btn_check)
             buttonNextRound.button.text = getString(R.string.btn_next_round)
 
-            llRound.showAlpha(1)
             roundNumber.text = "$round"
 
             tvTopText.hideAlpha(1)
