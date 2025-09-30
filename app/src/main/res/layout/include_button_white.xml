@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/button"
     style="@style/BigTextView"
+    android:textSize="18sp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/click_effect_button"

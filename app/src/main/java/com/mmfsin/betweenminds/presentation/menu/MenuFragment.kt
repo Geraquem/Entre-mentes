@@ -7,20 +7,20 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
+import com.mmfsin.betweenminds.R
 import com.mmfsin.betweenminds.base.BaseFragment
 import com.mmfsin.betweenminds.databinding.FragmentMenuBinding
 import com.mmfsin.betweenminds.presentation.MainActivity
-import com.mmfsin.betweenminds.presentation.menu.MenuFragmentDirections.Companion.actionToChooseFragment
-import com.mmfsin.betweenminds.utils.animateY
+import com.mmfsin.betweenminds.presentation.menu.dialogs.SelectorSheet
+import com.mmfsin.betweenminds.presentation.menu.interfaces.ISelectorListener
 import com.mmfsin.betweenminds.utils.countDown
-import com.mmfsin.betweenminds.utils.hideAlpha
 import com.mmfsin.betweenminds.utils.showAlpha
 import com.mmfsin.betweenminds.utils.showErrorDialog
+import com.mmfsin.betweenminds.utils.showFragmentDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MenuFragment : BaseFragment<FragmentMenuBinding, MenuViewModel>() {
+class MenuFragment : BaseFragment<FragmentMenuBinding, MenuViewModel>(), ISelectorListener {
 
     override val viewModel: MenuViewModel by viewModels()
     private lateinit var mContext: Context
@@ -37,18 +37,17 @@ class MenuFragment : BaseFragment<FragmentMenuBinding, MenuViewModel>() {
     override fun setUI() {
         binding.apply {
             loading.root.isVisible = true
-
-            llTitle.hideAlpha(1)
-            llButtons.animateY(1000f, 1)
         }
     }
 
     override fun setListeners() {
         binding.apply {
-            btnPlay.setOnClickListener { findNavController().navigate(actionToChooseFragment()) }
-            btnHowToPlay.setOnClickListener {}
+            tvAppName.setOnClickListener { openSelector() }
+            icPlay.setOnClickListener { openSelector() }
         }
     }
+
+    private fun openSelector() = activity?.showFragmentDialog(SelectorSheet(this@MenuFragment))
 
     override fun observe() {
         viewModel.event.observe(this) { event ->
@@ -66,16 +65,21 @@ class MenuFragment : BaseFragment<FragmentMenuBinding, MenuViewModel>() {
                 if ((activity as MainActivity).firstInit) {
                     (activity as MainActivity).firstInit = false
                     countDown(500) {
-                        llTitle.showAlpha(2000)
-                        llButtons.animateY(0f, 1000)
+                        tvAppName.showAlpha(1500) { icPlay.showAlpha(1000) }
                     }
                 } else {
-                    llTitle.showAlpha(10)
-                    llButtons.animateY(0f, 10)
+                    tvAppName.showAlpha(10)
+                    icPlay.showAlpha(10)
                 }
             }
         }
     }
+
+    override fun openQuestionsMode() = navigateTo(R.navigation.nav_graph_questions)
+    override fun openQuestionsInstructions() = navigateTo(R.navigation.nav_graph_instr_questions)
+
+    override fun openRangesMode() = navigateTo(R.navigation.nav_graph_ranges)
+    override fun openRangesInstructions() = navigateTo(R.navigation.nav_graph_instr_ranges)
 
     private fun navigateTo(navGraph: Int, strArgs: String? = null, booleanArgs: Boolean? = null) {
         (activity as MainActivity).openBedRockActivity(

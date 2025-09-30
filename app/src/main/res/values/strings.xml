@@ -1,8 +1,5 @@
 <resources>
     <string name="app_name">Entre mentes</string>
-    <string name="app_name_one">Entre</string>
-    <string name="app_name_two">Mentes</string>
-
     <string name="content_description">image</string>
 
     <!-- ERROR -->
@@ -11,8 +8,11 @@
     <string name="error_btn">Aceptar</string>
 
     <!-- MENU -->
-    <string name="menu_play">Jugar</string>
-    <string name="menu_how_to_play">¿Cómo se juega?</string>
+    <string name="selector_play">Jugar</string>
+    <string name="selector_how_to_play">Aprender</string>
+    <string name="selector_questions">Preguntas</string>
+    <string name="selector_ranges">Escalas</string>
+
     <string name="choose_title">Modo de juego</string>
     <string name="choose_questions">Modo preguntas</string>
     <string name="choose_questions_desc">Responde a preguntas tipo <i>¿Quién es más probable…?</i> asignando un porcentaje a cada jugador. Es importante acertar pero también descubir si tu compañero piensa igual que tú.</string>
@@ -43,15 +43,17 @@
     <string name="how_to_play">Cómo jugar</string>
 
     <!-- QUESTIONS -->
-    <string name="questions_welcome">En este modo juegan dos personas para ver si opinan igual sobre ellos mismos o sobre otras personas.</string>
+    <string name="questions_welcome">Dos personas juegan para ver si opinan igual sobre ellos mismos o sobre otras personas.</string>
     <string name="questions_welcome_two">Se lee una pregunta, primero opina una persona, se oculta su respuesta y después opina la otra persona.</string>
     <string name="questions_welcome_three">El objetivo es <b>coincidir</b> para obtener la mayor puntuación.</string>
+    <string name="questions_welcome_three_extra">El objetivo es <b>coincidir</b> para obtener la mayor puntuación en las <b>4 rondas</b> que dura la partida.</string>
     <string name="questions_welcome_four">¿Qué dos personas van a ser juzgadas?</string>
 
     <!-- RANGES -->
     <string name="ranges_start_quick_resume">Resumen rápido</string>
     <string name="ranges_start_resume">Un jugador ve en secreto la zona de puntos dentro de un segmento con dos conceptos opuestos y da una pista para orientar al resto.</string>
-    <string name="ranges_start_resume_two">Los demás, usando esa pista, deben mover una flecha para intentar acertar la posición.</string>
+    <string name="ranges_start_resume_other">Un jugador da una pista para ayudar al resto a conseguir puntos.</string>
+    <string name="ranges_start_resume_two">Usando esa pista, hay que mover una flecha para intentar acertar la posición.</string>
     <string name="ranges_start_resume_three">Entre todos hay que tratar de obtener la mayor puntuación posible en <b>4 rondas</b>.</string>
     <string name="ranges_start_play">Empezar</string>
     <string name="ranges_start_instructions">Cómo se juega</string>

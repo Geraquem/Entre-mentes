@@ -2,17 +2,13 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    android:alpha="0.5"
     android:layout_height="match_parent">
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/background_black" />
 
     <com.doctoror.particlesdrawable.ParticlesView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:density="300"
+        app:density="200"
         app:frameDelayMillis="10"
         app:lineColor="@color/dark_orange"
         app:lineLength="100dp"
@@ -20,13 +16,13 @@
         app:particleColor="@color/white"
         app:particleRadiusMax="2dp"
         app:particleRadiusMin="1dp"
-        app:speedFactor="1" />
+        app:speedFactor="0.25" />
 
     <com.doctoror.particlesdrawable.ParticlesView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleY="-1"
-        app:density="200"
+        app:density="150"
         app:frameDelayMillis="10"
         app:lineColor="@color/soft_blue"
         app:lineLength="100dp"
@@ -34,6 +30,6 @@
         app:particleColor="@color/white"
         app:particleRadiusMax="2dp"
         app:particleRadiusMin="1dp"
-        app:speedFactor="1.5" />
+        app:speedFactor="0.75" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
