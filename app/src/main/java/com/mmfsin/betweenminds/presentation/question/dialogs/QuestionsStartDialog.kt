@@ -1,6 +1,7 @@
 package com.mmfsin.betweenminds.presentation.question.dialogs
 
 import android.app.Dialog
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import com.mmfsin.betweenminds.R
 import com.mmfsin.betweenminds.base.BaseDialog
@@ -29,11 +30,6 @@ class QuestionsStartDialog(
 
     override fun setListeners() {
         binding.apply {
-            tvBack.setOnClickListener {
-                close()
-                dismiss()
-            }
-
             btnStart.root.setOnClickListener {
                 val blueName = etPlayerBlue.text.toString()
                 val orangeName = etPlayerOrange.text.toString()
@@ -42,6 +38,13 @@ class QuestionsStartDialog(
             }
 
             btnInstructions.root.setOnClickListener { instructions() }
+
+            dialog?.setOnKeyListener { _, keyCode, event ->
+                if (keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_UP) {
+                    close()
+                    true
+                } else false
+            }
         }
     }
 }

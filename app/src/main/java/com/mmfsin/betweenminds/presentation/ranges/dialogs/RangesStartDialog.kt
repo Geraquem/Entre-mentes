@@ -1,6 +1,7 @@
 package com.mmfsin.betweenminds.presentation.ranges.dialogs
 
 import android.app.Dialog
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import com.mmfsin.betweenminds.R
 import com.mmfsin.betweenminds.base.BaseDialog
@@ -28,17 +29,19 @@ class RangesStartDialog(
 
     override fun setListeners() {
         binding.apply {
-            tvBack.setOnClickListener {
-                close()
-                dismiss()
-            }
-
             btnStart.root.setOnClickListener {
                 start()
                 dismiss()
             }
 
             btnInstructions.root.setOnClickListener { instructions() }
+
+            dialog?.setOnKeyListener { _, keyCode, event ->
+                if (keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_UP) {
+                    close()
+                    true
+                } else false
+            }
         }
     }
 }

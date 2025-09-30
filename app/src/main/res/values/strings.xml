@@ -92,19 +92,42 @@
     <string name="delete_score_delete">Eliminar</string>
 
     <!-- INSTRUCTIONS -->
-    <string name="toolbar_instructions">Cómo jugar</string>
-    <string name="instr_questions_1">Como todo es más fácil con ejemplos, aquí va uno de <b>cómo se juega</b>:</string>
-    <string name="instr_questions_1_1">Lo primero de todo es que necesitáis ser <i>dos personas</i>, para este ejemplo serán <b>María</b> y <b>Juan</b>.</string>
-    <string name="instr_questions_2">María lee la pregunta y tras pensar un ratito, pone el marcador de la barra de arriba donde cree ella que está orientada la respuesta de la pregunta.</string>
-    <string name="instr_questions_3"><b>La respuesta depende de quién tenga más color en la barra de selección.</b></string>
-    <string name="instr_questions_4">Por ejemplo, si la pregunta es <i>“¿Quién es más ordenado?”</i> Y la barra está así:</string>
-    <string name="instr_questions_6">Significa que <b><i>María es 80% más ordenada que Juan</i></b>.</string>
-    <string name="instr_questions_7">Una vez María ha hecho su suposición, pulsa el botón <b>Ocultar</b> y le pasa el móvil a Juan.</string>
-    <string name="instr_questions_8">Ahora <b>Juan debe</b> leer la pregunta y <b>tratar de poner la barra de abajo en la misma posición que la dejó María la barra de arriba</b>.</string>
-    <string name="instr_questions_8_1">Una vez tiene la posición que él cree que es la correcta, pulsa el botón <b>Comprobar</b> para ver y comparar sus resultados con los de María.</string>
-    <string name="instr_questions_9">Si la diferencia de valores es mayor de 15, no se suma ningún punto. Cuánto más os acerquéis más puntos conseguiréis.</string>
-    <string name="instr_questions_11">A ver cuántos puntos podéis conseguir en <b>4 rondas</b>.</string>
+    <string name="instr_questions_1">Dos o más personas juegan para ver si opinan lo mismo sobre ellas mismas (o sobre otras personas)</string>
+    <string name="instr_questions_2">Lo primero de todo es dar nombre a las dos personas principales, puedes introducir los nombres al principio o cambiarlos durante cualquier momento de la partida pulsando sobre ellos.</string>
+    <string name="instr_questions_3">Fase 1</string>
+    <string name="instr_questions_4">Una persona lee en silencio la pregunta que aparece.</string>
+    <string name="instr_questions_5">Primero opina un jugador sin que el resto de jugadores le vea.</string>
+    <string name="instr_questions_6"><i>En este ejemplo, María es un 80% más ordenada que Juan</i>.</string>
+    <string name="instr_questions_7">Este icono significa que es la primera opinión</string>
+    <string name="instr_questions_8">Cuando tiene su respuesta completada, pulsa el botón <b><i>Ocultar</i></b>.</string>
+    <string name="instr_questions_9">Fase 2</string>
+    <string name="instr_questions_10">Con la primera opinión oculta, le toca al otro jugador opinar sobre la misma pregunta.</string>
+    <string name="instr_questions_10_1">Este icono significa que es la segunda opinión</string>
+    <string name="instr_questions_11">Cuando tenga su respuesta completa, pulsa el botón <b><i>Comprobar</i></b> para ver ambas opiniones y compararlas.</string>
+    <string name="instr_questions_12">Cuanto más se parezcan más puntos obtendréis.</string>
+    <string name="instr_questions_13">Fase 3</string>
+    <string name="instr_questions_14">Darle al botón <b><i>Siguiente ronda</i></b>, turnarse y volver a empezar.</string>
+    <string name="instr_questions_15">El objetivo es obtener la máxima puntuación en las 4 rondas que dura la partida.</string>
     <string name="instr_questions_maria">María</string>
     <string name="instr_questions_juan">Juan</string>
+    <string name="instr_questions_percent_eighty">80</string>
+    <string name="instr_questions_percent_twenty">20</string>
+    <string name="instr_questions_percent_sixty_two">62</string>
+    <string name="instr_questions_percent_thirty_eight">38</string>
+    <string name="instr_questions_question">¿Quién es más ordenado?</string>
+
+    <string name="instr_ranges_1">Fase 1</string>
+    <string name="instr_ranges_2">Un jugador ve en secreto dónde está la zona para ganar puntos dentro de un segmento con dos conceptos opuestos en los extremos.\n<i>(Ejemplo: frío – caliente, sucio – limpio)</i>.</string>
+    <string name="instr_ranges_3">Ese jugador escribe una pista (una palabra o idea) para <b>ayudar a que el resto de jugadores coloque el marcador</b> en el punto donde se encuentra la zona para ganar puntos.</string>
+    <string name="instr_ranges_4">Después pulsa el botón <b><i>Ocultar</i></b>.</string>
+    <string name="instr_ranges_5">Fase 2</string>
+    <string name="instr_ranges_6">El resto de jugadores, con la pista dada por el anterior jugador tienen que desplazar la flecha para intentar colocar el marcador en el lugar donde el primer jugador vio la zona donde se ganan puntos.</string>
+    <string name="instr_ranges_7">Una vez está colocado el marcador, pulsan el botón <b><i>Comprobar</i></b> para ver si colocaron bien el marcador y obtuvieron algún punto.</string>
+    <string name="instr_ranges_8">Fase 3</string>
+    <string name="instr_ranges_9">Darle al botón <b><i>Siguiente ronda</i></b>, turnarse y volver a empezar.</string>
+    <string name="instr_ranges_10">El <b>objetivo es obtener la máxima puntuación</b> en las 4 rondas que dura la partida.</string>
+    <string name="instr_ranges_example_left">Villano</string>
+    <string name="instr_ranges_example_right">Héroe</string>
+    <string name="instr_ranges_example_clue">Anastasia</string>
 
 </resources>

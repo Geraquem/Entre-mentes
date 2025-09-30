@@ -1,13 +1,15 @@
 package com.mmfsin.betweenminds.presentation.question.instructions
 
 import android.content.Context
-import android.content.res.ColorStateList
-import android.graphics.Color.WHITE
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
+import com.mmfsin.betweenminds.R
 import com.mmfsin.betweenminds.base.BaseFragmentNoVM
-import com.mmfsin.betweenminds.base.bedrock.BedRockActivity
 import com.mmfsin.betweenminds.databinding.FragmentInstrQuestionsBinding
+import com.mmfsin.betweenminds.utils.handlePercentsPlayerOne
+import com.mmfsin.betweenminds.utils.handlePercentsPlayerTwo
+import com.mmfsin.betweenminds.utils.moveHumans
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -20,28 +22,42 @@ class InstrQuestionFragment : BaseFragmentNoVM<FragmentInstrQuestionsBinding>() 
 
     override fun setUI() {
         binding.apply {
-//            (activity as BedRockActivity).setUpToolbar(
-//                instructionsVisible = false
-//            )
+            toolbar.btnInstructions.isVisible = false
+            people1.apply {
+                etPlayerBlue.isEnabled = false
+                etPlayerOrange.isEnabled = false
+                etPlayerBlue.setText(R.string.instr_questions_maria)
+                etPlayerOrange.setText(R.string.instr_questions_juan)
+                opinionOne.isVisible = false
+                opinionTwo.isVisible = false
+            }
 
-            exampleSlider.apply {
-                bgSlider.value = 80f
+            people2.apply {
+                moveHumans(people2,20)
+                etPlayerBlue.isEnabled = false
+                etPlayerOrange.isEnabled = false
+                etPlayerBlue.setText(R.string.instr_questions_maria)
+                etPlayerOrange.setText(R.string.instr_questions_juan)
+                percentOneBlue.text = getString(R.string.instr_questions_percent_eighty)
+                percentOneOrange.text = getString(R.string.instr_questions_percent_twenty)
+            }
 
-                slider.apply {
-                    isEnabled = false
-                    thumbTintList = ColorStateList.valueOf(WHITE)
-                    value = 80f
-                }
-
-                tvPercentLeft.text = getPercents().first
-                tvPercentRight.text = getPercents().second
+            people3.apply {
+                moveHumans(people3,38)
+                handlePercentsPlayerOne(people3, show = false)
+                handlePercentsPlayerTwo(people3, show = true)
+                etPlayerBlue.isEnabled = false
+                etPlayerOrange.isEnabled = false
+                etPlayerBlue.setText(R.string.instr_questions_maria)
+                etPlayerOrange.setText(R.string.instr_questions_juan)
+                percentTwoBlue.text = getString(R.string.instr_questions_percent_sixty_two)
+                percentTwoOrange.text = getString(R.string.instr_questions_percent_thirty_eight)
             }
         }
     }
 
-    private fun getPercents(): Pair<String, String> {
-        val value = 80
-        return Pair("$value", "${(100 - value)}")
+    override fun setListeners() {
+        binding.toolbar.btnBack.setOnClickListener { activity?.onBackPressedDispatcher?.onBackPressed() }
     }
 
     override fun onAttach(context: Context) {
