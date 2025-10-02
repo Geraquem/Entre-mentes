@@ -10,7 +10,7 @@ import androidx.viewbinding.ViewBinding
 
 abstract class BaseFragment<VB : ViewBinding, VM : ViewModel> : Fragment() {
 
-    private var _binding: ViewBinding? = null
+    var _binding: ViewBinding? = null
 
     @Suppress("UNCHECKED_CAST")
     protected val binding
@@ -46,8 +46,8 @@ abstract class BaseFragment<VB : ViewBinding, VM : ViewModel> : Fragment() {
     open fun observe() {}
     open fun getBundleArgs() {}
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
     }
 }

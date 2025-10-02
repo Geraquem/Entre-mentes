@@ -164,34 +164,25 @@ class RangesFragment : BaseFragment<FragmentRangesBinding, RangesViewModel>() {
         activity?.showFragmentDialog(
             RangesStartDialog(
                 close = { activity?.onBackPressedDispatcher?.onBackPressed() },
-                start = { showRound { binding?.let { setFirstRanges() } } },
-                instructions = { openInstructions() }
-            )
+                start = { showRound { setFirstRanges() } },
+                instructions = { openInstructions() })
         )
     }
 
     private fun showRound(onEnd: () -> Unit) {
         binding.apply {
             llRound.showAlpha(500) {
-                countDown(500) {
-                    llRound.hideAlpha(500) { onEnd() }
-                }
+                llRound.hideAlpha(500) { onEnd() }
             }
         }
     }
 
     private fun setFirstRanges() {
-        binding?.let { b ->
-            b.apply {
-                try {
-                    val actualRange = rangesList[position]
-                    ranges.tvRangeLeft.text = actualRange.leftRange
-                    ranges.tvRangeRight.text = actualRange.rightRange
-                    firstPhase()
-                } catch (e: Exception) {
-                    error()
-                }
-            }
+        binding.apply {
+            val actualRange = rangesList[position]
+            ranges.tvRangeLeft.text = actualRange.leftRange
+            ranges.tvRangeRight.text = actualRange.rightRange
+            firstPhase()
         }
     }
 
@@ -355,31 +346,21 @@ class RangesFragment : BaseFragment<FragmentRangesBinding, RangesViewModel>() {
     }
 
     private fun curtainVisibility(isVisible: Boolean, onEnd: () -> Unit = {}) {
-        try {
-            binding.apply {
-                if (isVisible) {
-                    curtainLeft.animateX(0f, 1000) { onEnd() }
-                    curtainRight.animateX(0f, 1000) { onEnd() }
-                } else {
-                    curtainLeft.animateX(-1000f, 1000) { onEnd() }
-                    curtainRight.animateX(1000f, 1000) { onEnd() }
-                }
+        binding.apply {
+            if (isVisible) {
+                curtainLeft.animateX(0f, 1000) { onEnd() }
+                curtainRight.animateX(0f, 1000) { onEnd() }
+            } else {
+                curtainLeft.animateX(-1000f, 1000) { onEnd() }
+                curtainRight.animateX(1000f, 1000) { onEnd() }
             }
-        } catch (e: Exception) {
-            println("Error with binding not attached")
         }
     }
 
     private fun bullseyeVisibility(isVisible: Boolean) {
-        try {
-
-
-        val bullsEye = binding.bullsEye.root
-        if (isVisible) bullsEye.showAlpha(500)
-        else bullsEye.hideAlpha(1)
-    }catch (e:Exception){
-        println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
-    }
+        val bullsEye = if(_binding!= null) binding.bullsEye.root else null
+        if (isVisible) bullsEye?.showAlpha(500)
+        else bullsEye?.hideAlpha(1)
     }
 
     private fun endGame() {
@@ -387,7 +368,8 @@ class RangesFragment : BaseFragment<FragmentRangesBinding, RangesViewModel>() {
         val points = scoreboardRangesAdapter?.getTotalPoints()
         points?.let {
             activity?.showFragmentDialog(
-                EndRangesDialog(points = points,
+                EndRangesDialog(
+                    points = points,
                     restartGame = { restartGame() },
                     exit = { activity?.onBackPressedDispatcher?.onBackPressed() })
             )

@@ -204,27 +204,17 @@ class QuestionsFragment :
     }
 
     private fun showRound(onEnd: () -> Unit) {
-        try {
-            binding.apply {
-                llRound.showAlpha(500) {
-                    countDown(500) {
-                        llRound.hideAlpha(500) { onEnd() }
-                    }
-                }
+        binding.apply {
+            llRound.showAlpha(500) {
+                countDown(500) { llRound.hideAlpha(500) { onEnd() } }
             }
-        } catch (e: Exception) {
-            println("Error with binding not attached")
         }
     }
 
     private fun setFirstRanges() {
         binding.apply {
-            try {
-                tvQuestion.text = questionList[position].text
-                countDown(500) { firstPhase() }
-            } catch (e: Exception) {
-                error()
-            }
+            tvQuestion.text = questionList[position].text
+            countDown(500) { firstPhase() }
         }
     }
 
@@ -375,25 +365,21 @@ class QuestionsFragment :
     }
 
     private fun curtainVisibility(isVisible: Boolean, onEnd: () -> Unit = {}) {
-        try {
-            binding.apply {
-                if (isVisible) {
-                    curtainLeft.animateX(0f, 1000) { onEnd() }
-                    curtainRight.animateX(0f, 1000) { onEnd() }
-                } else {
-                    curtainLeft.animateX(-1000f, 1000) { onEnd() }
-                    curtainRight.animateX(1000f, 1000) { onEnd() }
-                }
+        binding.apply {
+            if (isVisible) {
+                curtainLeft.animateX(0f, 1000) { onEnd() }
+                curtainRight.animateX(0f, 1000) { onEnd() }
+            } else {
+                curtainLeft.animateX(-1000f, 1000) { onEnd() }
+                curtainRight.animateX(1000f, 1000) { onEnd() }
             }
-        } catch (e: Exception) {
-            println("Error with binding not attached")
         }
     }
 
     private fun controllerInfoVisibility(isVisible: Boolean) {
-        val cInfo = binding.controllerInfo.root
-        if (isVisible) cInfo.handleAlpha(0.35f, 350)
-        else cInfo.hideAlpha(350)
+        val cInfo = if (_binding != null) binding.controllerInfo.root else null
+        if (isVisible) cInfo?.handleAlpha(0.35f, 350)
+        else cInfo?.hideAlpha(350)
     }
 
     private fun endGame() {

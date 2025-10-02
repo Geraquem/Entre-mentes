@@ -22,7 +22,9 @@ import androidx.core.animation.doOnEnd
 import androidx.core.content.ContextCompat.getColor
 import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -34,6 +36,8 @@ import com.mmfsin.betweenminds.base.dialog.ErrorDialog
 import com.mmfsin.betweenminds.databinding.IncludePeopleBinding
 import com.mmfsin.betweenminds.domain.models.ScoreQuestion
 import com.mmfsin.betweenminds.domain.models.ScoreRange
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.core.Position
 import nl.dionsegijn.konfetti.core.emitter.Emitter
@@ -70,19 +74,30 @@ fun countDown(millis: Long, action: () -> Unit) {
     }.start()
 }
 
+fun Fragment.countDown(millis: Long, action: () -> Unit) {
+    viewLifecycleOwner.lifecycleScope.launch {
+        delay(millis)
+        action()
+    }
+}
+
 fun FragmentActivity?.showFragmentDialog(dialog: DialogFragment) =
     this?.let { dialog.show(it.supportFragmentManager, "") }
 
-fun View.animateY(pos: Float, duration: Long, endAction: () -> Unit = {}) =
-    this.animate().translationY(pos).setDuration(duration).withEndAction { endAction() }
+fun View.animateY(pos: Float, duration: Long, onEnd: () -> Unit = {}) =
+    this.animate().translationY(pos).setDuration(duration).withEndAction {
+        if (isAttachedToWindow) onEnd()
+    }
 
-fun View.animateX(pos: Float, duration: Long, endAction: () -> Unit = {}) =
-    this.animate().translationX(pos).setDuration(duration).withEndAction { endAction() }
+fun View.animateX(pos: Float, duration: Long, onEnd: () -> Unit = {}) =
+    this.animate().translationX(pos).setDuration(duration).withEndAction {
+        if (isAttachedToWindow) onEnd()
+    }
 
 fun View.hideAlpha(duration: Long, onEnd: () -> Unit = {}) =
     this.animate().alpha(0f).setDuration(duration).setListener(object : AnimatorListenerAdapter() {
         override fun onAnimationEnd(animation: Animator) {
-            onEnd()
+            if (isAttachedToWindow) onEnd()
         }
     })
 
@@ -90,19 +105,17 @@ fun View.handleAlpha(alpha: Float, duration: Long, onEnd: () -> Unit = {}) =
     this.animate().alpha(alpha).setDuration(duration)
         .setListener(object : AnimatorListenerAdapter() {
             override fun onAnimationEnd(animation: Animator) {
-                onEnd()
+                if (isAttachedToWindow) onEnd()
             }
         })
 
 fun View.showAlpha(duration: Long, onEnd: () -> Unit = {}) =
     this.animate().alpha(1f).setDuration(duration).setListener(object : AnimatorListenerAdapter() {
         override fun onAnimationEnd(animation: Animator) {
-            onEnd()
+            if (isAttachedToWindow) onEnd()
         }
     })
 
-fun View.showCustomAlpha(alpha: Float, duration: Long) =
-    this.animate().alpha(alpha).setDuration(duration)
 
 fun Dialog.animateDialog() {
     val dialogView = this.window?.decorView

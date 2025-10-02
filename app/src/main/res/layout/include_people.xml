@@ -129,7 +129,7 @@
                 android:fontFamily="@font/kineks"
                 android:text="@string/fifty"
                 android:textColor="@color/blue"
-                android:textSize="22sp" />
+                android:textSize="26sp" />
 
             <TextView
                 style="@style/MediumTextView"
@@ -176,7 +176,7 @@
                 android:fontFamily="@font/kineks"
                 android:text="@string/fifty"
                 android:textColor="@color/dark_orange"
-                android:textSize="22sp" />
+                android:textSize="26sp" />
 
             <TextView
                 style="@style/MediumTextView"
@@ -252,7 +252,7 @@
                 android:fontFamily="@font/kineks"
                 android:text="@string/fifty"
                 android:textColor="@color/blue"
-                android:textSize="22sp" />
+                android:textSize="26sp" />
 
             <TextView
                 style="@style/MediumTextView"
@@ -299,7 +299,7 @@
                 android:fontFamily="@font/kineks"
                 android:text="@string/fifty"
                 android:textColor="@color/dark_orange"
-                android:textSize="22sp" />
+                android:textSize="26sp" />
 
             <TextView
                 style="@style/MediumTextView"
