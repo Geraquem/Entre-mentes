@@ -206,7 +206,7 @@ class QuestionsFragment :
     private fun showRound(onEnd: () -> Unit) {
         binding.apply {
             llRound.showAlpha(500) {
-                countDown(500) { llRound.hideAlpha(500) { onEnd() } }
+                countDown(750) { llRound.hideAlpha(500) { onEnd() } }
             }
         }
     }
