@@ -30,52 +30,42 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp">
 
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/dot_questions"
-                android:layout_width="6dp"
-                android:layout_height="6dp"
-                android:background="@color/white"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:shapeAppearanceOverlay="@style/circular_image" />
-
-            <TextView
-                style="@style/MediumTextView_Bold"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:layout_gravity="center"
-                android:layout_marginHorizontal="6dp"
-                android:text="@string/selector_questions"
-                android:textAllCaps="true"
-                android:textColor="@color/white"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toRightOf="@id/dot_questions"
-                app:layout_constraintRight_toLeftOf="@id/human_blue"
-                app:layout_constraintTop_toTopOf="parent" />
-
             <ImageView
                 android:id="@+id/human_blue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
                 android:contentDescription="@string/content_description"
                 android:src="@drawable/ic_human_down"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toLeftOf="@id/human_orange"
+                app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:tint="@color/blue" />
 
             <ImageView
                 android:id="@+id/human_orange"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginStart="4dp"
                 android:contentDescription="@string/content_description"
                 android:src="@drawable/ic_human_down"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/human_blue"
                 app:layout_constraintTop_toTopOf="parent"
                 app:tint="@color/dark_orange" />
+
+            <TextView
+                style="@style/MediumTextView_Bold"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="8dp"
+                android:text="@string/selector_questions"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/human_orange"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -91,7 +81,7 @@
             style="@style/MediumTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="16dp"
             android:text="@string/questions_welcome_three"
             android:textColor="@color/white" />
 
@@ -101,23 +91,42 @@
             android:orientation="horizontal"
             android:weightSum="1">
 
-            <TextView
+            <LinearLayout
                 android:id="@+id/btn_questions_instr"
-                style="@style/MediumTextView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_weight="0.5"
+                android:layout_weight="0.475"
                 android:background="@drawable/click_effect"
-                android:backgroundTint="@color/transparent"
-                android:drawablePadding="6dp"
-                android:gravity="start"
-                android:paddingVertical="6dp"
-                android:text="@string/selector_how_to_play"
-                android:textAllCaps="true"
-                android:textColor="@color/white"
-                app:drawableStartCompat="@drawable/ic_book"
-                app:drawableTint="@color/white" />
+                android:elevation="6dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="6dp"
+                    android:contentDescription="@string/content_description"
+                    android:src="@drawable/ic_book"
+                    app:tint="@color/background_black" />
+
+                <TextView
+                    style="@style/MediumTextView_Bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:paddingVertical="6dp"
+                    android:text="@string/selector_how_to_play"
+                    android:textAllCaps="true"
+                    android:textColor="@color/background_black" />
+
+            </LinearLayout>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.05" />
 
             <TextView
                 android:id="@+id/btn_questions"
@@ -125,14 +134,14 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_weight="0.5"
+                android:layout_weight="0.475"
                 android:background="@drawable/click_effect"
-                android:backgroundTint="@color/transparent"
-                android:gravity="end"
+                android:elevation="6dp"
+                android:gravity="center"
                 android:paddingVertical="6dp"
                 android:text="@string/selector_play"
                 android:textAllCaps="true"
-                android:textColor="@color/white" />
+                android:textColor="@color/background_black" />
 
         </LinearLayout>
 
@@ -156,40 +165,14 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp">
 
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/dot_ranges"
-                android:layout_width="6dp"
-                android:layout_height="6dp"
-                android:background="@color/white"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:shapeAppearanceOverlay="@style/circular_image" />
-
-            <TextView
-                style="@style/MediumTextView_Bold"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:layout_gravity="center"
-                android:layout_marginHorizontal="6dp"
-                android:text="@string/selector_ranges"
-                android:textAllCaps="true"
-                android:textColor="@color/white"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toRightOf="@id/dot_ranges"
-                app:layout_constraintRight_toLeftOf="@id/arrow_left"
-                app:layout_constraintTop_toTopOf="parent" />
-
             <ImageView
                 android:id="@+id/arrow_left"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="4dp"
                 android:contentDescription="@string/content_description"
                 android:src="@drawable/ic_arrow"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toLeftOf="@id/arrow_right"
+                app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:tint="@color/white" />
 
@@ -197,13 +180,28 @@
                 android:id="@+id/arrow_right"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
                 android:contentDescription="@string/content_description"
                 android:scaleX="-1"
                 android:src="@drawable/ic_arrow"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/arrow_left"
                 app:layout_constraintTop_toTopOf="parent"
                 app:tint="@color/white" />
+
+            <TextView
+                style="@style/MediumTextView_Bold"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="8dp"
+                android:text="@string/selector_ranges"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/arrow_right"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -219,7 +217,7 @@
             style="@style/MediumTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="16dp"
             android:text="@string/ranges_start_resume_two"
             android:textColor="@color/white" />
 
@@ -229,23 +227,42 @@
             android:orientation="horizontal"
             android:weightSum="1">
 
-            <TextView
+            <LinearLayout
                 android:id="@+id/btn_ranges_instr"
-                style="@style/MediumTextView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_weight="0.5"
+                android:layout_weight="0.475"
                 android:background="@drawable/click_effect"
-                android:backgroundTint="@color/transparent"
-                android:drawablePadding="6dp"
-                android:gravity="start"
-                android:paddingVertical="6dp"
-                android:text="@string/selector_how_to_play"
-                android:textAllCaps="true"
-                android:textColor="@color/white"
-                app:drawableStartCompat="@drawable/ic_book"
-                app:drawableTint="@color/white" />
+                android:elevation="6dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="6dp"
+                    android:contentDescription="@string/content_description"
+                    android:src="@drawable/ic_book"
+                    app:tint="@color/background_black" />
+
+                <TextView
+                    style="@style/MediumTextView_Bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:paddingVertical="6dp"
+                    android:text="@string/selector_how_to_play"
+                    android:textAllCaps="true"
+                    android:textColor="@color/background_black" />
+
+            </LinearLayout>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.05" />
 
             <TextView
                 android:id="@+id/btn_ranges"
@@ -253,14 +270,14 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_weight="0.5"
+                android:layout_weight="0.475"
                 android:background="@drawable/click_effect"
-                android:backgroundTint="@color/transparent"
-                android:gravity="end"
+                android:elevation="6dp"
+                android:gravity="center"
                 android:paddingVertical="6dp"
                 android:text="@string/selector_play"
                 android:textAllCaps="true"
-                android:textColor="@color/white" />
+                android:textColor="@color/background_black" />
 
         </LinearLayout>
 
