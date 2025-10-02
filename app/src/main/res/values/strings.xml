@@ -122,6 +122,6 @@
     <string name="instr_ranges_10">El <b>objetivo es obtener la máxima puntuación</b> en las <b>4 rondas que dura la partida</b>.</string>
     <string name="instr_ranges_example_left">Villano</string>
     <string name="instr_ranges_example_right">Héroe</string>
-    <string name="instr_ranges_example_clue">Anastasia</string>
+    <string name="instr_ranges_example_clue">Gollum</string>
 
 </resources>
