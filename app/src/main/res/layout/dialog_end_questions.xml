@@ -43,7 +43,7 @@
                 android:layout_marginBottom="12dp"
                 android:fontFamily="@font/august_shining"
                 android:gravity="center"
-                android:textSize="28sp"
+                android:textSize="26sp"
                 tools:text="27 puntos" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -51,7 +51,6 @@
                 android:layout_width="match_parent"
                 style="@style/scroll_no_effects"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 tools:itemCount="4"
                 tools:listitem="@layout/item_end_question" />
 
