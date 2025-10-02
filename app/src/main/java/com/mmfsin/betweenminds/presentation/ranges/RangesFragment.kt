@@ -161,42 +161,36 @@ class RangesFragment : BaseFragment<FragmentRangesBinding, RangesViewModel>() {
     }
 
     private fun showInitialDialog() {
-        try {
-            activity?.showFragmentDialog(
-                RangesStartDialog(
-                    close = { activity?.onBackPressedDispatcher?.onBackPressed() },
-                    start = { showRound { setFirstRanges() } },
-                    instructions = { openInstructions() }
-                )
+        activity?.showFragmentDialog(
+            RangesStartDialog(
+                close = { activity?.onBackPressedDispatcher?.onBackPressed() },
+                start = { showRound { binding?.let { setFirstRanges() } } },
+                instructions = { openInstructions() }
             )
-        } catch (e: Exception) {
-            println("Error with binding not attached")
-        }
+        )
     }
 
     private fun showRound(onEnd: () -> Unit) {
-        try {
-            binding.apply {
-                llRound.showAlpha(500) {
-                    countDown(500) {
-                        llRound.hideAlpha(500) { onEnd() }
-                    }
+        binding.apply {
+            llRound.showAlpha(500) {
+                countDown(500) {
+                    llRound.hideAlpha(500) { onEnd() }
                 }
             }
-        } catch (e: Exception) {
-            println("Error with binding not attached")
         }
     }
 
     private fun setFirstRanges() {
-        binding.apply {
-            try {
-                val actualRange = rangesList[position]
-                ranges.tvRangeLeft.text = actualRange.leftRange
-                ranges.tvRangeRight.text = actualRange.rightRange
-                firstPhase()
-            } catch (e: Exception) {
-                error()
+        binding?.let { b ->
+            b.apply {
+                try {
+                    val actualRange = rangesList[position]
+                    ranges.tvRangeLeft.text = actualRange.leftRange
+                    ranges.tvRangeRight.text = actualRange.rightRange
+                    firstPhase()
+                } catch (e: Exception) {
+                    error()
+                }
             }
         }
     }
@@ -377,9 +371,15 @@ class RangesFragment : BaseFragment<FragmentRangesBinding, RangesViewModel>() {
     }
 
     private fun bullseyeVisibility(isVisible: Boolean) {
+        try {
+
+
         val bullsEye = binding.bullsEye.root
         if (isVisible) bullsEye.showAlpha(500)
         else bullsEye.hideAlpha(1)
+    }catch (e:Exception){
+        println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+    }
     }
 
     private fun endGame() {
