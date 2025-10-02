@@ -9,18 +9,6 @@
         android:id="@+id/menuFragment"
         android:name="com.mmfsin.betweenminds.presentation.menu.MenuFragment"
         android:label="menuFragment"
-        tools:layout="@layout/fragment_menu">
-
-        <action
-            android:id="@+id/action_to_choose_fragment"
-            app:destination="@id/chooseFragment" />
-
-    </fragment>
-
-    <fragment
-        android:id="@+id/chooseFragment"
-        android:name="com.mmfsin.betweenminds.presentation.menu.choose.ChooseFragment"
-        android:label="chooseFragment"
-        tools:layout="@layout/fragment_choose" />
+        tools:layout="@layout/fragment_menu" />
 
 </navigation>

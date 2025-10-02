@@ -44,13 +44,14 @@
 
     <ImageView
         android:id="@+id/ic_play"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_marginBottom="32dp"
         android:alpha="0"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/content_description"
-        android:src="@drawable/ic_play"
+        android:scaleX="-1"
+        android:src="@drawable/ic_arrow_back"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="@id/gl_right"
         app:tint="@color/white"

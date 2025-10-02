@@ -192,8 +192,8 @@
 
         <ImageView
             android:id="@+id/ic_question_one_blue"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:alpha="0"
             android:contentDescription="@string/content_description"
             android:src="@drawable/ic_question"
@@ -205,8 +205,8 @@
 
         <ImageView
             android:id="@+id/ic_question_one_orange"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:alpha="0"
             android:contentDescription="@string/content_description"
             android:src="@drawable/ic_question"
@@ -315,8 +315,8 @@
 
         <ImageView
             android:id="@+id/ic_question_two_blue"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:alpha="1"
             android:contentDescription="@string/content_description"
             android:src="@drawable/ic_question"
@@ -328,8 +328,8 @@
 
         <ImageView
             android:id="@+id/ic_question_two_orange"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:alpha="1"
             android:contentDescription="@string/content_description"
             android:src="@drawable/ic_question"

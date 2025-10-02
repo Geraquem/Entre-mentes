@@ -44,6 +44,7 @@
                 style="@style/MediumTextView_Bold"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:textSize="20sp"
                 android:layout_gravity="center"
                 android:layout_marginHorizontal="6dp"
                 android:text="@string/selector_questions"
@@ -109,11 +110,14 @@
                 android:layout_weight="0.5"
                 android:background="@drawable/click_effect"
                 android:backgroundTint="@color/transparent"
+                android:drawablePadding="6dp"
                 android:gravity="start"
                 android:paddingVertical="6dp"
                 android:text="@string/selector_how_to_play"
                 android:textAllCaps="true"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                app:drawableStartCompat="@drawable/ic_book"
+                app:drawableTint="@color/white" />
 
             <TextView
                 android:id="@+id/btn_questions"
@@ -166,6 +170,7 @@
                 style="@style/MediumTextView_Bold"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:textSize="20sp"
                 android:layout_gravity="center"
                 android:layout_marginHorizontal="6dp"
                 android:text="@string/selector_ranges"
@@ -233,11 +238,14 @@
                 android:layout_weight="0.5"
                 android:background="@drawable/click_effect"
                 android:backgroundTint="@color/transparent"
+                android:drawablePadding="6dp"
                 android:gravity="start"
                 android:paddingVertical="6dp"
                 android:text="@string/selector_how_to_play"
                 android:textAllCaps="true"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                app:drawableStartCompat="@drawable/ic_book"
+                app:drawableTint="@color/white" />
 
             <TextView
                 android:id="@+id/btn_ranges"
@@ -260,6 +268,6 @@
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="24dp" />
+        android:layout_height="16dp" />
 
 </LinearLayout>
