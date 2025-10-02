@@ -71,7 +71,7 @@ dependencies {
     implementation("com.airbnb.android:lottie:4.2.2")
 
     // Splash screen
-    implementation("androidx.core:core-splashscreen:1.0.1")
+    implementation(libs.androidx.core.splashscreen)
 
     // Firebase + Realm
     implementation("io.reactivex.rxjava2:rxjava:2.1.8")
