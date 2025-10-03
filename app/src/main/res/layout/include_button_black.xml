@@ -13,7 +13,8 @@
     android:gravity="center"
     android:paddingVertical="12dp"
     android:textAllCaps="true"
-    android:textColor="@color/white"
+    android:textColor="@color/grey"
     android:textSize="18sp"
+    android:textStyle="bold"
     app:layout_constraintTop_toTopOf="parent"
     tools:text="@string/btn_next_round" />

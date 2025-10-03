@@ -25,29 +25,29 @@
             android:layout_gravity="center"
             android:layout_marginBottom="4dp"
             android:gravity="center"
-            android:text="@string/endgame_top_text" />
+            android:text="Vas a crear una sala en " />
 
-        <TextView
-            android:id="@+id/tv_points"
-            style="@style/BigTextView"
-            android:layout_width="wrap_content"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_name"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="12dp"
-            android:fontFamily="@font/august_shining"
-            android:gravity="center"
-            android:textSize="28sp"
-            tools:text="27 puntos" />
+            app:cursorColor="@color/blue"
+            android:hint="@string/app_name"
+            app:boxStrokeColor="@color/blue"
+            app:hintTextColor="@color/blue">
 
-        <TextView
-            android:id="@+id/tv_phrase"
-            style="@style/MediumTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            tools:text="¡No está nada mal!" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_name"
+                style="@style/MediumTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textShortMessage|textCapSentences"
+                android:lines="1"
+                android:maxLength="40"
+                android:maxLines="1" />
 
+        </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
 
