@@ -21,6 +21,20 @@
         android:id="@+id/chooseFragment"
         android:name="com.mmfsin.betweenminds.presentation.choose.ChooseFragment"
         android:label="chooseFragment"
-        tools:layout="@layout/fragment_choose" />
+        tools:layout="@layout/fragment_choose">
+        <action
+            android:id="@+id/action_to_room_code_fragment"
+            app:destination="@id/roomCodeFragment">
+            <argument
+                android:name="roomId"
+                app:argType="string" />
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/roomCodeFragment"
+        android:name="com.mmfsin.betweenminds.presentation.choose.roomcode.RoomCodeFragment"
+        android:label="roomCodeFragment"
+        tools:layout="@layout/fragment_room_code" />
 
 </navigation>

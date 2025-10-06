@@ -4,9 +4,9 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
@@ -14,9 +14,12 @@ import com.mmfsin.betweenminds.R
 import com.mmfsin.betweenminds.base.BaseFragment
 import com.mmfsin.betweenminds.databinding.FragmentChooseBinding
 import com.mmfsin.betweenminds.presentation.MainActivity
+import com.mmfsin.betweenminds.presentation.choose.ChooseFragmentDirections.Companion.actionToRoomCodeFragment
 import com.mmfsin.betweenminds.presentation.choose.adapter.ViewPagerOnlineAdapter
+import com.mmfsin.betweenminds.presentation.choose.dialogs.NotAbleToJoinDialog
 import com.mmfsin.betweenminds.presentation.choose.interfaces.IHandleRoomListener
 import com.mmfsin.betweenminds.utils.showErrorDialog
+import com.mmfsin.betweenminds.utils.showFragmentDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -47,10 +50,24 @@ class ChooseFragment : BaseFragment<FragmentChooseBinding, ChooseViewModel>(), I
         viewModel.event.observe(this) { event ->
             when (event) {
                 is ChooseEvent.RoomCreated -> {
-                    Toast.makeText(mContext, event.roomId, Toast.LENGTH_SHORT).show()
+                    println("Room created with code: ${event.roomId}")
+                    binding.loading.root.isVisible = false
+                    event.roomId?.let { id ->
+                        findNavController().navigate(actionToRoomCodeFragment(id))
+                    }
+                    event.roomId = null
                 }
 
-                is ChooseEvent.SomethingWentWrong -> error()
+                is ChooseEvent.JoinedToRoom -> {
+                    binding.loading.root.isVisible = false
+                    if (event.joined) navigateTo(R.navigation.nav_graph_online_ranges_joined)
+                    else activity?.showFragmentDialog(NotAbleToJoinDialog())
+                }
+
+                is ChooseEvent.SomethingWentWrong -> {
+                    binding.loading.root.isVisible = false
+                    error()
+                }
             }
         }
     }
@@ -78,10 +95,6 @@ class ChooseFragment : BaseFragment<FragmentChooseBinding, ChooseViewModel>(), I
         }
     }
 
-    override fun joinRoom(roomCode: String, userName: String) {
-
-    }
-
     override fun createRoom(userName: String) {
         binding.apply {
             loading.root.isVisible = true
@@ -89,6 +102,12 @@ class ChooseFragment : BaseFragment<FragmentChooseBinding, ChooseViewModel>(), I
         }
     }
 
+    override fun joinRoom(userName: String, roomId: String) {
+        binding.apply {
+            loading.root.isVisible = true
+            viewModel.joinRoom(userName, roomId)
+        }
+    }
 
     private fun navigateTo(navGraph: Int, strArgs: String? = null, booleanArgs: Boolean? = null) {
         (activity as MainActivity).openBedRockActivity(
@@ -96,7 +115,7 @@ class ChooseFragment : BaseFragment<FragmentChooseBinding, ChooseViewModel>(), I
         )
     }
 
-    private fun error() = activity?.showErrorDialog()
+    private fun error() = activity?.showErrorDialog(goBack = false)
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

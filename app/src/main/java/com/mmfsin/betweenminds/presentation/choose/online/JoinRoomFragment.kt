@@ -26,9 +26,11 @@ class JoinRoomFragment(private val listener: IHandleRoomListener) :
 
     override fun setListeners() {
         binding.apply {
-            val roomCode = tietRoomCode.text.toString()
-            val userName = tietUsername.text.toString()
-            btnContinue.button.setOnClickListener { listener.joinRoom(roomCode, userName) }
+            btnContinue.button.setOnClickListener {
+                val userName = tietUsername.text.toString()
+                val roomId = tietRoomCode.text.toString().uppercase()
+                if (roomId.isNotEmpty()) listener.joinRoom(userName, roomId)
+            }
         }
     }
 

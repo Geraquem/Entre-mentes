@@ -13,6 +13,7 @@ import com.mmfsin.betweenminds.R
 import com.mmfsin.betweenminds.base.BaseFragment
 import com.mmfsin.betweenminds.databinding.FragmentMenuBinding
 import com.mmfsin.betweenminds.presentation.MainActivity
+import com.mmfsin.betweenminds.presentation.menu.MenuFragmentDirections.Companion.actionToChooseFragment
 import com.mmfsin.betweenminds.presentation.menu.dialogs.SelectorSheet
 import com.mmfsin.betweenminds.presentation.menu.interfaces.ISelectorListener
 import com.mmfsin.betweenminds.utils.countDown
@@ -39,7 +40,7 @@ class MenuFragment : BaseFragment<FragmentMenuBinding, MenuViewModel>(), ISelect
     override fun setUI() {
         binding.apply {
             loading.root.isVisible = true
-            findNavController().navigate(MenuFragmentDirections.actionToChooseFragment())
+            findNavController().navigate(actionToChooseFragment())
         }
     }
 

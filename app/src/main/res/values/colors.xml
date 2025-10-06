@@ -42,6 +42,7 @@
 
     <color name="background">#EDEDED</color>
     <color name="background_black">#353741</color>
+    <color name="background_black_soft">#4C4F5C</color>
     <color name="background_logo">#72737A</color>
 
     <color name="instructions_color">#ACD7FF</color>

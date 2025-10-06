@@ -12,6 +12,7 @@ const val ID = "id"
 const val VERSION = "version"
 const val RANGES = "ranges"
 const val QUESTIONS = "questions"
+const val ROOM_ID = "roomId"
 
 /** SHARED PREFS */
 const val SHARED_PREFS = "sharedPrefs"
@@ -21,3 +22,4 @@ const val SERVER_QUESTIONS = "serverQuestions"
 
 /** FIREBASE */
 const val ROOMS = "rooms"
+const val PLAYERS = "players"

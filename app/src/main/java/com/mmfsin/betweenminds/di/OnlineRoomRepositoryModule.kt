@@ -1,0 +1,15 @@
+package com.mmfsin.betweenminds.di
+
+import com.mmfsin.betweenminds.data.repository.OnlineRoomRoomRepository
+import com.mmfsin.betweenminds.domain.interfaces.IOnlineRoomRepository
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ViewModelComponent
+
+@Module
+@InstallIn(ViewModelComponent::class)
+interface OnlineRoomRepositoryModule {
+    @Binds
+    fun bind(repository: OnlineRoomRoomRepository): IOnlineRoomRepository
+}
