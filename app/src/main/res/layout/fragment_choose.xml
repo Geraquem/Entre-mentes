@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_black"
@@ -40,16 +41,41 @@
         app:layout_constraintRight_toRightOf="@id/gl_right"
         app:layout_constraintTop_toBottomOf="@id/toolbar">
 
-        <TextView
-            style="@style/BigTextView"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
             android:layout_marginBottom="8dp"
-            android:fontFamily="@font/alphazet"
-            android:text="@string/online_mode"
-            android:textAllCaps="true"
-            android:textColor="@color/grey" />
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/BigTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="12dp"
+                android:gravity="center"
+                android:text="@string/online_mode"
+                android:textAllCaps="true"
+                android:textColor="@color/grey"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:contentDescription="@string/content_description"
+                android:src="@drawable/ic_mobile"
+                app:tint="@color/grey" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:contentDescription="@string/content_description"
+                android:src="@drawable/ic_mobile"
+                app:tint="@color/grey" />
+
+        </LinearLayout>
 
         <TextView
             style="@style/MediumTextView"
@@ -64,29 +90,53 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
-            app:tabTextColor="@android:color/white"
-            app:tabSelectedTextColor="@android:color/white"
+            app:tabBackground="@android:color/transparent"
             app:tabIndicatorColor="@color/blue"
-            app:tabIndicatorHeight="4dp"
             app:tabIndicatorFullWidth="false"
-            app:tabBackground="@android:color/transparent"/>
+            app:tabIndicatorHeight="6dp"
+            app:tabSelectedTextColor="@android:color/white"
+            app:tabTextColor="@android:color/white" />
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <TextView
-            style="@style/BigTextView"
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginVertical="24dp"
+            android:background="@color/white" />
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="64dp"
             android:layout_marginBottom="8dp"
-            android:fontFamily="@font/alphazet"
-            android:textStyle="bold"
-            android:text="@string/online_offline"
-            android:textAllCaps="true"
-            android:textColor="@color/grey" />
+            android:orientation="horizontal"
+            tools:ignore="UseCompoundDrawables">
+
+            <TextView
+                style="@style/BigTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="12dp"
+                android:gravity="center"
+                android:text="@string/online_offline"
+                android:textAllCaps="true"
+                android:textColor="@color/grey"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:contentDescription="@string/content_description"
+                android:src="@drawable/ic_mobile"
+                app:tint="@color/grey" />
+
+        </LinearLayout>
 
         <TextView
             style="@style/MediumTextView"
@@ -101,5 +151,12 @@
             layout="@layout/include_button_white" />
 
     </LinearLayout>
+
+    <include
+        android:id="@+id/loading"
+        layout="@layout/include_loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:visibility="gone" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

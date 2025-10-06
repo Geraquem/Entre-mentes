@@ -84,6 +84,19 @@
     <string name="online_room_code">Código de la sala</string>
     <string name="online_username">Introduce tu nombre</string>
 
+    <string-array name="random_names">
+        <item>Tronchifurcio</item>
+        <item>Escaramuzcasco</item>
+        <item>Perrifláutico</item>
+        <item>Zamborondongo</item>
+        <item>Cachivachelo</item>
+        <item>Trompizángano</item>
+        <item>Pelechusco</item>
+        <item>Garambainas</item>
+        <item>Chisguetardo</item>
+        <item>Rimbombárdico</item>
+    </string-array>
+
     <!-- INSTRUCTIONS -->
     <string name="instr_mode_questions">Modo preguntas</string>
     <string name="instr_questions_1">Dos o más personas juegan para ver si opinan lo mismo sobre ellas mismas (o sobre otras personas)</string>

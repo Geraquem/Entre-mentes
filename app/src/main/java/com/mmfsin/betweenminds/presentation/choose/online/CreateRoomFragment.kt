@@ -7,12 +7,13 @@ import androidx.core.view.isVisible
 import com.mmfsin.betweenminds.R
 import com.mmfsin.betweenminds.base.BaseFragmentNoVM
 import com.mmfsin.betweenminds.databinding.FragmentHandleRoomBinding
-import com.mmfsin.betweenminds.presentation.MainActivity
-import com.mmfsin.betweenminds.utils.showErrorDialog
+import com.mmfsin.betweenminds.presentation.choose.interfaces.IHandleRoomListener
+import com.mmfsin.betweenminds.utils.closeKeyboard
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class CreateRoomFragment : BaseFragmentNoVM<FragmentHandleRoomBinding>() {
+class CreateRoomFragment(private val listener: IHandleRoomListener) :
+    BaseFragmentNoVM<FragmentHandleRoomBinding>() {
 
     private lateinit var mContext: Context
 
@@ -28,24 +29,15 @@ class CreateRoomFragment : BaseFragmentNoVM<FragmentHandleRoomBinding>() {
 
     override fun setListeners() {
         binding.apply {
+            btnContinue.button.setOnClickListener {
+                activity?.closeKeyboard()
+                tietUsername.clearFocus()
+
+                val userName = tietUsername.text.toString()
+                listener.createRoom(userName)
+            }
         }
     }
-
-//    override fun observe() {
-//        viewModel.event.observe(this) { event ->
-//            when (event) {
-//                is ChooseEvent.SomethingWentWrong -> error()
-//            }
-//        }
-//    }
-
-    private fun navigateTo(navGraph: Int, strArgs: String? = null, booleanArgs: Boolean? = null) {
-        (activity as MainActivity).openBedRockActivity(
-            navGraph = navGraph, strArgs = strArgs, booleanArgs = booleanArgs
-        )
-    }
-
-    private fun error() = activity?.showErrorDialog()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
