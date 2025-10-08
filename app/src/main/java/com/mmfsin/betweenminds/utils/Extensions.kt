@@ -90,6 +90,7 @@ fun getEmptyScoreQuestionList() =
     listOf(ScoreQuestion(), ScoreQuestion(), ScoreQuestion(), ScoreQuestion())
 
 fun getEmptyScoreRangesList() = listOf(ScoreRange(), ScoreRange(), ScoreRange(), ScoreRange())
+fun getEmptyOScoreRangesList() = listOf(ScoreRange(), ScoreRange(), ScoreRange())
 
 fun getQuestionModePoints(num1: Int?, num2: Int?): Int? {
     if (num1 == null || num2 == null) return null

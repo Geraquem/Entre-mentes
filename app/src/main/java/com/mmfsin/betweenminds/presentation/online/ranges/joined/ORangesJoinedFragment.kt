@@ -122,8 +122,7 @@ class ORangesJoinedFragment :
 
                 is ORangesJoinedEvent.OtherPlayerRanges -> {
                     waitingDialog?.dismiss()
-                    Toast.makeText(mContext, "Other player ranges obtained", Toast.LENGTH_SHORT)
-                        .show()
+                    startGuessingPhase()
                 }
 
                 is ORangesJoinedEvent.SomethingWentWrong -> error()
@@ -192,6 +191,10 @@ class ORangesJoinedFragment :
                 startCluePhase()
             }
         }
+    }
+
+    private fun startGuessingPhase(){
+
     }
 
     private fun setBullsEye() {
