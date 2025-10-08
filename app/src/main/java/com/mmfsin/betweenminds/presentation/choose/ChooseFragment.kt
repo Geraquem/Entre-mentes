@@ -102,14 +102,8 @@ class ChooseFragment : BaseFragment<FragmentChooseBinding, ChooseViewModel>(), I
 
     override fun createRoom(userName: String) {
         binding.apply {
-
-            /*****/
-            navigateTo(R.navigation.nav_graph_online_ranges_creator)
-            /*****/
-
-
-//            loading.root.isVisible = true
-//            viewModel.createRoom(userName)
+            loading.root.isVisible = true
+            viewModel.createRoom(userName)
         }
     }
 

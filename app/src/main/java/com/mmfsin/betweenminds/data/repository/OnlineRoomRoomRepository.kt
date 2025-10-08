@@ -2,17 +2,18 @@ package com.mmfsin.betweenminds.data.repository
 
 import android.content.Context
 import com.google.firebase.firestore.FieldValue
-import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.mmfsin.betweenminds.R
 import com.mmfsin.betweenminds.domain.interfaces.IOnlineRoomRepository
 import com.mmfsin.betweenminds.domain.models.OnlineData
+import com.mmfsin.betweenminds.domain.models.OnlineRoundData
 import com.mmfsin.betweenminds.utils.PLAYERS
 import com.mmfsin.betweenminds.utils.PLAYER_1
 import com.mmfsin.betweenminds.utils.PLAYER_2
 import com.mmfsin.betweenminds.utils.ROOMS
 import com.mmfsin.betweenminds.utils.ROUNDS
+import com.mmfsin.betweenminds.utils.ROUND_DATA
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -21,6 +22,8 @@ import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import java.util.concurrent.CountDownLatch
 import javax.inject.Inject
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
 import kotlin.random.Random
 
 class OnlineRoomRoomRepository @Inject constructor(
@@ -148,23 +151,60 @@ class OnlineRoomRoomRepository @Inject constructor(
         cont.invokeOnCancellation { listener.remove() }
     }
 
-    override suspend fun sendDataToOtherPlayer(data: OnlineData) {
+    override suspend fun sendMyORangesDataToRoom(onlineData: OnlineData) {
         val db = Firebase.firestore
-        val playerData = mapOf(
-            "bullseyePosition" to data.bullseyePosition,
-            "hint" to data.hint,
-            "leftRange" to data.leftRange,
-            "rightRange" to data.rightRange
-        )
+        val playerId = if (onlineData.isCreator) PLAYER_1 else PLAYER_2
 
-        val playerId = if (data.isCreator) PLAYER_1 else PLAYER_2
-        db.collection(ROOMS)
-            .document(data.roomId)
-            .collection(ROUNDS)
-            .document(data.round.toString())
-            .set(
-                mapOf(playerId to playerData),
-                SetOptions.merge()
-            ).await()
+        val data = onlineData.data.map { round ->
+            mapOf(
+                "round" to round.round,
+                "bullseyePosition" to round.bullseyePosition,
+                "hint" to round.hint,
+                "leftRange" to round.leftRange,
+                "rightRange" to round.rightRange
+            )
+        }
+
+        db.collection(ROOMS).document(onlineData.roomId).collection(playerId).document(ROUNDS)
+            .set(mapOf(ROUND_DATA to data)).await()
+    }
+
+    override suspend fun waitOtherPlayerORanges(
+        roomId: String, isCreator: Boolean
+    ): List<OnlineRoundData> = suspendCancellableCoroutine { cont ->
+        val db = Firebase.firestore
+        val opponentId = if (isCreator) PLAYER_2 else PLAYER_1
+
+        val docRef = db.collection(ROOMS).document(roomId).collection(opponentId).document(ROUNDS)
+
+        val listener = docRef.addSnapshotListener { snapshot, error ->
+            if (error != null) {
+                cont.resumeWithException(error)
+                return@addSnapshotListener
+            }
+
+            if (snapshot != null && snapshot.exists()) {
+                val roundsList = snapshot.get(ROUND_DATA) as? List<Map<String, Any>>
+                if (roundsList != null && roundsList.size == 3) {
+                    val parsedRounds = roundsList.mapNotNull { map ->
+                        try {
+                            OnlineRoundData(
+                                round = (map["round"] as? Long)?.toInt() ?: 0,
+                                bullseyePosition = (map["bullseyePosition"] as? Long)?.toInt() ?: 0,
+                                hint = map["hint"] as? String ?: "",
+                                leftRange = map["leftRange"] as? String ?: "",
+                                rightRange = map["rightRange"] as? String ?: ""
+                            )
+                        } catch (e: Exception) {
+                            null
+                        }
+                    }
+
+                    cont.resume(parsedRounds)
+                }
+            }
+        }
+
+        cont.invokeOnCancellation { listener.remove() }
     }
 }

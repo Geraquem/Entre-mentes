@@ -87,6 +87,8 @@
     <string name="online_room_code">Código de la sala</string>
     <string name="online_username">Introduce tu nombre</string>
     <string name="online_wainting_other_player">Esperando al otro jugador</string>
+    <string name="online_btn_save_answer">Guardar respuesta</string>
+    <string name="online_btn_send_answer">Enviar respuestas</string>
 
     <string-array name="random_names">
         <item>Tronchifurcio</item>

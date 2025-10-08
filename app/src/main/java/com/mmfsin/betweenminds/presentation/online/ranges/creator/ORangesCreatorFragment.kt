@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.mmfsin.betweenminds.R
@@ -13,6 +14,7 @@ import com.mmfsin.betweenminds.base.BaseFragment
 import com.mmfsin.betweenminds.base.bedrock.BedRockActivity
 import com.mmfsin.betweenminds.databinding.FragmentRangesOnlineCreatorBinding
 import com.mmfsin.betweenminds.domain.models.OnlineData
+import com.mmfsin.betweenminds.domain.models.OnlineRoundData
 import com.mmfsin.betweenminds.domain.models.Range
 import com.mmfsin.betweenminds.presentation.online.common.dialog.WaitingOtherPlayerDialog
 import com.mmfsin.betweenminds.presentation.ranges.adapter.ScoreboardRangesAdapter
@@ -42,6 +44,9 @@ class ORangesCreatorFragment :
     private var bullseyePosition = 0
     private var round = 1
 
+    private val data = mutableListOf<OnlineRoundData>()
+    private var waitingDialog: WaitingOtherPlayerDialog? = null
+
     private var scoreboardRangesAdapter: ScoreboardRangesAdapter? = null
 
     override fun inflateView(inflater: LayoutInflater, container: ViewGroup?) =
@@ -54,7 +59,7 @@ class ORangesCreatorFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpScoreboard()
-        viewModel.getRanges()
+        roomId?.let { viewModel.getRanges() } ?: run { error() }
     }
 
     private fun setUpScoreboard() {
@@ -69,11 +74,9 @@ class ORangesCreatorFragment :
 
     override fun setUI() {
         binding.apply {
-            buttonHide.button.text = getString(R.string.btn_hide)
+            buttonHide.button.text = getString(R.string.online_btn_save_answer)
             buttonCheck.button.text = getString(R.string.btn_check)
             buttonNextRound.button.text = getString(R.string.btn_next_round)
-
-            roundNumber.text = "$round"
 
             controllerInfo.root.hideAlpha(1)
             controller.isEnabled = false
@@ -101,18 +104,9 @@ class ORangesCreatorFragment :
             }
 
             buttonHide.button.setOnClickListener {
-                roomId?.let { id ->
-                    val data = OnlineData(
-                        roomId = id,
-                        round = round,
-                        isCreator = true,
-                        bullseyePosition = bullseyePosition,
-                        hint = etClue.text.toString(),
-                        leftRange = rangesList[position].leftRange,
-                        rightRange = rangesList[position].rightRange
-                    )
-                    viewModel.sendDataToOtherPlayer(data)
-                    activity?.showFragmentDialog(WaitingOtherPlayerDialog())
+                if (etClue.text.isNotEmpty()) {
+                    buttonHide.button.isEnabled = false
+                    saveData()
                 }
             }
         }
@@ -123,7 +117,13 @@ class ORangesCreatorFragment :
             when (event) {
                 is ORangesCreatorEvent.GetRanges -> {
                     rangesList = event.ranges.shuffled()
-                    setRangesUI()
+                    startCluePhase()
+                }
+
+                is ORangesCreatorEvent.OtherPlayerRanges -> {
+                    waitingDialog?.dismiss()
+                    Toast.makeText(mContext, "Other player ranges obtained", Toast.LENGTH_SHORT)
+                        .show()
                 }
 
                 is ORangesCreatorEvent.SomethingWentWrong -> error()
@@ -131,21 +131,65 @@ class ORangesCreatorFragment :
         }
     }
 
-    private fun setRangesUI() {
+    private fun startCluePhase() {
         binding.apply {
-            val actualRange = rangesList[position]
-            ranges.tvRangeLeft.text = actualRange.leftRange
-            ranges.tvRangeRight.text = actualRange.rightRange
-            setBullsEye()
-            countDown(500) {
-                buttonHide.root.animateY(0f, 350)
-                curtainVisibility(isVisible = false)
-                llRound.hideAlpha(1000) {
+            if (round <= 3) {
+                if (round == 2) buttonHide.button.text = getString(R.string.online_btn_save_answer)
+                buttonHide.button.isEnabled = true
+
+                val actualRange = rangesList[position]
+                ranges.tvRangeLeft.text = actualRange.leftRange
+                ranges.tvRangeRight.text = actualRange.rightRange
+                setBullsEye()
+                countDown(1000) {
+                    clClue.showAlpha(350)
+                    buttonHide.root.animateY(0f, 350)
+                    curtainVisibility(isVisible = false)
                     ranges.apply {
                         tvRangeLeft.showAlpha(350)
                         tvRangeRight.showAlpha(350)
                     }
                 }
+            } else {
+                waitingDialog = WaitingOtherPlayerDialog()
+                waitingDialog?.let { d -> activity?.showFragmentDialog(d) }
+
+                roomId?.let { id ->
+                    val onlineData = OnlineData(
+                        roomId = id,
+                        isCreator = true,
+                        data = data
+                    )
+                    viewModel.sendMyDataToRoom(onlineData)
+                }
+            }
+        }
+    }
+
+    private fun saveData() {
+        binding.apply {
+            data.add(
+                OnlineRoundData(
+                    round = round,
+                    bullseyePosition = bullseyePosition,
+                    hint = etClue.text.toString(),
+                    leftRange = rangesList[position].leftRange,
+                    rightRange = rangesList[position].rightRange
+                )
+            )
+
+            buttonHide.root.animateY(500f, 350)
+            curtainVisibility(isVisible = true) { setBullsEye() }
+            ranges.apply {
+                tvRangeLeft.hideAlpha(350)
+                tvRangeRight.hideAlpha(350)
+            }
+            clClue.hideAlpha(350) { etClue.text = null }
+
+            round++
+            position++
+            countDown(1000) {
+                startCluePhase()
             }
         }
     }
