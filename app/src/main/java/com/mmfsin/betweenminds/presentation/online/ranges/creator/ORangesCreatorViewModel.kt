@@ -4,6 +4,7 @@ import com.mmfsin.betweenminds.base.BaseViewModel
 import com.mmfsin.betweenminds.domain.models.OnlineData
 import com.mmfsin.betweenminds.domain.usecases.GetRangesUseCase
 import com.mmfsin.betweenminds.domain.usecases.SendMyORangesDataToRoomUseCase
+import com.mmfsin.betweenminds.domain.usecases.SendMyORangesPointsUseCase
 import com.mmfsin.betweenminds.domain.usecases.WaitOtherPlayerORangesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -13,6 +14,7 @@ class ORangesCreatorViewModel @Inject constructor(
     private val getRangesUseCase: GetRangesUseCase,
     private val sendMyORangesDataToRoomUseCase: SendMyORangesDataToRoomUseCase,
     private val waitOtherPlayerORangesUseCase: WaitOtherPlayerORangesUseCase,
+    private val sendMyORangesPointsUseCase: SendMyORangesPointsUseCase
 ) : BaseViewModel<ORangesCreatorEvent>() {
 
     fun getRanges() {
@@ -37,5 +39,21 @@ class ORangesCreatorViewModel @Inject constructor(
             { result -> _event.value = ORangesCreatorEvent.OtherPlayerRanges(result) },
             { _event.value = ORangesCreatorEvent.SomethingWentWrong }
         )
+    }
+
+    fun sendMyPoints(roomId: String, isCreator: Boolean, points: Int) {
+        executeUseCase(
+            { sendMyORangesPointsUseCase.execute(roomId, isCreator, points) },
+            { waitOtherPlayerToFinish() },
+            { _event.value = ORangesCreatorEvent.SomethingWentWrong }
+        )
+    }
+
+    private fun waitOtherPlayerToFinish() {
+//        executeUseCase(
+//            { waitOtherPlayerORangesUseCase.execute(roomId, isCreator) },
+//            { result -> _event.value = ORangesCreatorEvent.OtherPlayerRanges(result) },
+//            { _event.value = ORangesCreatorEvent.SomethingWentWrong }
+//        )
     }
 }

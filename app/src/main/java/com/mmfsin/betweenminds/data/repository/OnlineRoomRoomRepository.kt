@@ -11,6 +11,7 @@ import com.mmfsin.betweenminds.domain.models.OnlineRoundData
 import com.mmfsin.betweenminds.utils.PLAYERS
 import com.mmfsin.betweenminds.utils.PLAYER_1
 import com.mmfsin.betweenminds.utils.PLAYER_2
+import com.mmfsin.betweenminds.utils.POINTS
 import com.mmfsin.betweenminds.utils.ROOMS
 import com.mmfsin.betweenminds.utils.ROUNDS
 import com.mmfsin.betweenminds.utils.ROUND_DATA
@@ -206,5 +207,19 @@ class OnlineRoomRoomRepository @Inject constructor(
         }
 
         cont.invokeOnCancellation { listener.remove() }
+    }
+
+    override suspend fun sendPoints(
+        roomId: String,
+        isCreator: Boolean,
+        points: Int
+    ) {
+        val db = Firebase.firestore
+        val playerId = if (isCreator) PLAYER_1 else PLAYER_2
+
+        val data = mapOf("points" to points)
+
+        db.collection(ROOMS).document(roomId).collection(playerId).document(POINTS)
+            .set(mapOf(ROUND_DATA to data)).await()
     }
 }

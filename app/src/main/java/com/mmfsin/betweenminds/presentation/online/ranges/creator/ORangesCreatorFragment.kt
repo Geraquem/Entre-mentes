@@ -21,9 +21,11 @@ import com.mmfsin.betweenminds.domain.models.ScoreRange
 import com.mmfsin.betweenminds.presentation.online.common.dialog.WaitingOtherPlayerDialog
 import com.mmfsin.betweenminds.presentation.ranges.adapter.ScoreboardRangesAdapter
 import com.mmfsin.betweenminds.presentation.ranges.dialogs.EndRangesDialog
+import com.mmfsin.betweenminds.utils.BEDROCK_BOOLEAN_ARGS
 import com.mmfsin.betweenminds.utils.BEDROCK_STR_ARGS
 import com.mmfsin.betweenminds.utils.animateX
 import com.mmfsin.betweenminds.utils.animateY
+import com.mmfsin.betweenminds.utils.checkNotNulls
 import com.mmfsin.betweenminds.utils.countDown
 import com.mmfsin.betweenminds.utils.getEmptyOScoreRangesList
 import com.mmfsin.betweenminds.utils.getKonfettiParty
@@ -42,6 +44,7 @@ class ORangesCreatorFragment :
     private lateinit var mContext: Context
 
     var roomId: String? = null
+    var isCreator: Boolean? = null
 
     private var rangesList: List<Range> = emptyList()
     private var position = 0
@@ -52,6 +55,7 @@ class ORangesCreatorFragment :
 
     private var otherPlayerData: List<OnlineRoundData> = emptyList()
     private var otherPlayerPosition = 0
+    private var pointsObtained = 0
 
     private var waitingDialog: WaitingOtherPlayerDialog? = null
 
@@ -61,13 +65,16 @@ class ORangesCreatorFragment :
         FragmentRangesOnlineCreatorBinding.inflate(inflater, container, false)
 
     override fun getBundleArgs() {
-        roomId = activity?.intent?.getStringExtra(BEDROCK_STR_ARGS)
+        activity?.intent?.apply {
+            roomId = getStringExtra(BEDROCK_STR_ARGS)
+            isCreator = getBooleanExtra(BEDROCK_BOOLEAN_ARGS, false)
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpScoreboard()
-        roomId?.let { viewModel.getRanges() } ?: run { error() }
+        checkNotNulls(roomId, isCreator) { _, _ -> viewModel.getRanges() } ?: run { error() }
     }
 
     private fun setUpScoreboard() {
@@ -201,9 +208,9 @@ class ORangesCreatorFragment :
                 waitingDialog = WaitingOtherPlayerDialog()
                 waitingDialog?.let { d -> activity?.showFragmentDialog(d) }
 
-                roomId?.let { id ->
+                checkNotNulls(roomId, isCreator) { id, creator ->
                     val onlineData = OnlineData(
-                        roomId = id, isCreator = true, data = data
+                        roomId = id, isCreator = creator, data = data
                     )
                     viewModel.sendMyDataToRoom(onlineData)
                 }
@@ -269,7 +276,12 @@ class ORangesCreatorFragment :
                         tvRangeRight.showAlpha(350)
                     }
                 }
-            } else endGame()
+            } else {
+                activity?.showFragmentDialog(WaitingOtherPlayerDialog())
+                checkNotNulls(roomId, isCreator) { id, creator ->
+                    viewModel.sendMyPoints(id, creator, pointsObtained)
+                }
+            }
         }
     }
 
@@ -319,6 +331,7 @@ class ORangesCreatorFragment :
             else 0
 
             if (points != 0) binding.konfetti.start(getKonfettiParty())
+            pointsObtained += points
 
             scoreboardRangesAdapter?.updateScore(
                 newScoreRange = ScoreRange(
@@ -392,8 +405,7 @@ class ORangesCreatorFragment :
         val points = scoreboardRangesAdapter?.getTotalPoints()
         points?.let {
             activity?.showFragmentDialog(
-                EndRangesDialog(
-                    points = points,
+                EndRangesDialog(points = points,
                     restartGame = {/*restartGame() */ },
                     exit = { activity?.onBackPressedDispatcher?.onBackPressed() })
             )

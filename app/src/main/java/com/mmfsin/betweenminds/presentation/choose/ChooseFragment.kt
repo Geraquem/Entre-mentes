@@ -63,8 +63,9 @@ class ChooseFragment : BaseFragment<FragmentChooseBinding, ChooseViewModel>(), I
                     binding.loading.root.isVisible = false
                     if (event.joined) {
                         navigateTo(
-                            navGraph = R.navigation.nav_graph_online_ranges_joined,
-                            strArgs = event.roomId
+                            navGraph = R.navigation.nav_graph_online_ranges_creator,
+                            strArgs = event.roomId,
+                            booleanArgs = false
                         )
                     } else activity?.showFragmentDialog(NotAbleToJoinDialog())
                 }

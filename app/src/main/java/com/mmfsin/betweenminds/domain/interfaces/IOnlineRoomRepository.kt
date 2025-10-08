@@ -10,4 +10,5 @@ interface IOnlineRoomRepository {
 
     suspend fun sendMyORangesDataToRoom(onlineData: OnlineData)
     suspend fun waitOtherPlayerORanges(roomId: String, isCreator: Boolean): List<OnlineRoundData>
+    suspend fun sendPoints(roomId: String, isCreator: Boolean, points: Int)
 }

@@ -55,7 +55,8 @@ class RoomCodeFragment : BaseFragment<FragmentRoomCodeBinding, RoomCodeViewModel
                     roomId?.let { id ->
                         (activity as MainActivity).openBedRockActivity(
                             navGraph = R.navigation.nav_graph_online_ranges_creator,
-                            strArgs = id
+                            strArgs = id,
+                            booleanArgs = true
                         )
                         activity?.onBackPressedDispatcher?.onBackPressed()
                     }
