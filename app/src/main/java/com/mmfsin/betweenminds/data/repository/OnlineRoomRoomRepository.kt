@@ -2,16 +2,22 @@ package com.mmfsin.betweenminds.data.repository
 
 import android.content.Context
 import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.mmfsin.betweenminds.R
 import com.mmfsin.betweenminds.domain.interfaces.IOnlineRoomRepository
+import com.mmfsin.betweenminds.domain.models.OnlineData
 import com.mmfsin.betweenminds.utils.PLAYERS
+import com.mmfsin.betweenminds.utils.PLAYER_1
+import com.mmfsin.betweenminds.utils.PLAYER_2
 import com.mmfsin.betweenminds.utils.ROOMS
+import com.mmfsin.betweenminds.utils.ROUNDS
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import java.util.concurrent.CountDownLatch
 import javax.inject.Inject
@@ -121,7 +127,7 @@ class OnlineRoomRoomRepository @Inject constructor(
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    override suspend fun waitToJoinRoom(roomId: String)= suspendCancellableCoroutine<Unit> { cont ->
+    override suspend fun waitToJoinRoom(roomId: String) = suspendCancellableCoroutine { cont ->
         val db = Firebase.firestore
         val roomRef = db.collection(ROOMS).document(roomId)
 
@@ -140,5 +146,25 @@ class OnlineRoomRoomRepository @Inject constructor(
         }
 
         cont.invokeOnCancellation { listener.remove() }
+    }
+
+    override suspend fun sendDataToOtherPlayer(data: OnlineData) {
+        val db = Firebase.firestore
+        val playerData = mapOf(
+            "bullseyePosition" to data.bullseyePosition,
+            "hint" to data.hint,
+            "leftRange" to data.leftRange,
+            "rightRange" to data.rightRange
+        )
+
+        val playerId = if (data.isCreator) PLAYER_1 else PLAYER_2
+        db.collection(ROOMS)
+            .document(data.roomId)
+            .collection(ROUNDS)
+            .document(data.round.toString())
+            .set(
+                mapOf(playerId to playerData),
+                SetOptions.merge()
+            ).await()
     }
 }

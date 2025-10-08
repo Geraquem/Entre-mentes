@@ -43,6 +43,7 @@ class ChooseFragment : BaseFragment<FragmentChooseBinding, ChooseViewModel>(), I
     override fun setListeners() {
         binding.apply {
             toolbar.btnBack.setOnClickListener { activity?.onBackPressedDispatcher?.onBackPressed() }
+            btnOffline.button.setOnClickListener { navigateTo(R.navigation.nav_graph_ranges) }
         }
     }
 
@@ -60,8 +61,12 @@ class ChooseFragment : BaseFragment<FragmentChooseBinding, ChooseViewModel>(), I
 
                 is ChooseEvent.JoinedToRoom -> {
                     binding.loading.root.isVisible = false
-                    if (event.joined) navigateTo(R.navigation.nav_graph_online_ranges_joined)
-                    else activity?.showFragmentDialog(NotAbleToJoinDialog())
+                    if (event.joined) {
+                        navigateTo(
+                            navGraph = R.navigation.nav_graph_online_ranges_joined,
+                            strArgs = event.roomId
+                        )
+                    } else activity?.showFragmentDialog(NotAbleToJoinDialog())
                 }
 
                 is ChooseEvent.SomethingWentWrong -> {
@@ -97,8 +102,14 @@ class ChooseFragment : BaseFragment<FragmentChooseBinding, ChooseViewModel>(), I
 
     override fun createRoom(userName: String) {
         binding.apply {
-            loading.root.isVisible = true
-            viewModel.createRoom(userName)
+
+            /*****/
+            navigateTo(R.navigation.nav_graph_online_ranges_creator)
+            /*****/
+
+
+//            loading.root.isVisible = true
+//            viewModel.createRoom(userName)
         }
     }
 

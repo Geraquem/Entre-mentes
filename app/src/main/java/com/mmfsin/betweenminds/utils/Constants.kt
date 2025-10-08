@@ -23,3 +23,6 @@ const val SERVER_QUESTIONS = "serverQuestions"
 /** FIREBASE */
 const val ROOMS = "rooms"
 const val PLAYERS = "players"
+const val ROUNDS = "rounds"
+const val PLAYER_1 = "player_one"
+const val PLAYER_2 = "player_two"

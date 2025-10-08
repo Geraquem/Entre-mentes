@@ -26,7 +26,7 @@ class ChooseViewModel @Inject constructor(
     fun joinRoom(userName: String, roomId: String) {
         executeUseCase(
             { joinRoomUseCase.execute(userName, roomId) },
-            { result -> _event.value = ChooseEvent.JoinedToRoom(result) },
+            { result -> _event.value = ChooseEvent.JoinedToRoom(result, roomId) },
             { _event.value = ChooseEvent.SomethingWentWrong }
         )
     }

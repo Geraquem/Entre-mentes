@@ -47,6 +47,16 @@
             android:layout_marginBottom="8dp"
             android:orientation="horizontal">
 
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:layout_gravity="center"
+                android:layout_marginEnd="8dp"
+                android:background="@color/grey"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearanceOverlay="@style/circular_image" />
+
             <TextView
                 style="@style/BigTextView"
                 android:layout_width="wrap_content"
@@ -106,7 +116,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginHorizontal="24dp"
-            android:layout_marginVertical="24dp"
+            android:layout_marginVertical="32dp"
             android:background="@color/white" />
 
         <LinearLayout
@@ -115,6 +125,16 @@
             android:layout_marginBottom="8dp"
             android:orientation="horizontal"
             tools:ignore="UseCompoundDrawables">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:layout_gravity="center"
+                android:layout_marginEnd="8dp"
+                android:background="@color/grey"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearanceOverlay="@style/circular_image" />
 
             <TextView
                 style="@style/BigTextView"
