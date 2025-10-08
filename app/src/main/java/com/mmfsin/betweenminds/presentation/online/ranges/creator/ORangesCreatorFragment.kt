@@ -242,7 +242,7 @@ class ORangesCreatorFragment :
     private fun startGuessingPhase() {
         binding.apply {
             if (round <= 3) {
-                if (round == 2) buttonCheck.button.text = getString(R.string.online_btn_save_answer)
+                if (round == 3) buttonNextRound.button.text = getString(R.string.ranges_see_points)
                 buttonCheck.button.isEnabled = true
 
                 scoreboard.root.visibility = View.VISIBLE
