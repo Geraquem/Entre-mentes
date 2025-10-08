@@ -19,8 +19,8 @@ import com.mmfsin.betweenminds.domain.models.OnlineRoundData
 import com.mmfsin.betweenminds.domain.models.Range
 import com.mmfsin.betweenminds.domain.models.ScoreRange
 import com.mmfsin.betweenminds.presentation.online.common.dialog.WaitingOtherPlayerDialog
+import com.mmfsin.betweenminds.presentation.online.ranges.dialogs.EndGameORangesDialog
 import com.mmfsin.betweenminds.presentation.ranges.adapter.ScoreboardRangesAdapter
-import com.mmfsin.betweenminds.presentation.ranges.dialogs.EndRangesDialog
 import com.mmfsin.betweenminds.utils.BEDROCK_BOOLEAN_ARGS
 import com.mmfsin.betweenminds.utils.BEDROCK_STR_ARGS
 import com.mmfsin.betweenminds.utils.animateX
@@ -172,12 +172,17 @@ class ORangesCreatorFragment :
                     startCluePhase()
                 }
 
-                is ORangesCreatorEvent.OtherPlayerRanges -> {
+                is ORangesCreatorEvent.OtherPlayerData -> {
                     waitingDialog?.dismiss()
-                    otherPlayerData = event.ranges
+                    otherPlayerData = event.data
 
                     round = 1
                     startGuessingPhase()
+                }
+
+                is ORangesCreatorEvent.OtherPlayerPoints -> {
+                    waitingDialog?.dismiss()
+                    endGame(event.otherPlayerPoints)
                 }
 
                 is ORangesCreatorEvent.SomethingWentWrong -> error()
@@ -240,9 +245,7 @@ class ORangesCreatorFragment :
 
             round++
             position++
-            countDown(1000) {
-                startCluePhase()
-            }
+            countDown(1000) { startCluePhase() }
         }
     }
 
@@ -277,7 +280,9 @@ class ORangesCreatorFragment :
                     }
                 }
             } else {
-                activity?.showFragmentDialog(WaitingOtherPlayerDialog())
+                waitingDialog = WaitingOtherPlayerDialog()
+                waitingDialog?.let { d -> activity?.showFragmentDialog(d) }
+
                 checkNotNulls(roomId, isCreator) { id, creator ->
                     viewModel.sendMyPoints(id, creator, pointsObtained)
                 }
@@ -335,7 +340,8 @@ class ORangesCreatorFragment :
 
             scoreboardRangesAdapter?.updateScore(
                 newScoreRange = ScoreRange(
-                    discovered = true, points = points
+                    discovered = true,
+                    points = points
                 ), position = round - 1
             )
         }
@@ -367,6 +373,7 @@ class ORangesCreatorFragment :
                     val maxX = parentWidth - (bullseyeWidth - centerOffset)
 
                     val randomX = (minX.toInt()..maxX.toInt()).random()
+                    bullseyePosition = randomX
                     child.x = randomX.toFloat()
 
                 } else child.x = position.toFloat()
@@ -400,16 +407,15 @@ class ORangesCreatorFragment :
         else bullsEye?.hideAlpha(1)
     }
 
-    private fun endGame() {
-//        endGameStates()
-        val points = scoreboardRangesAdapter?.getTotalPoints()
-        points?.let {
-            activity?.showFragmentDialog(
-                EndRangesDialog(points = points,
-                    restartGame = {/*restartGame() */ },
-                    exit = { activity?.onBackPressedDispatcher?.onBackPressed() })
+    private fun endGame(otherPlayerPoints: Int) {
+        activity?.showFragmentDialog(
+            EndGameORangesDialog(
+                myPoints = pointsObtained,
+                otherPlayerPoints = otherPlayerPoints,
+                exit = { activity?.onBackPressedDispatcher?.onBackPressed() },
+                replay = {}
             )
-        } ?: run { error() }
+        )
     }
 
     private fun openInstructions() =

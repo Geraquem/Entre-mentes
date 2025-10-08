@@ -74,6 +74,10 @@
     <string name="endgame_save">Guardar</string>
     <string name="endgame_replay">Volver a jugar</string>
 
+    <string name="endgame_online_ranges_you">Tú has conseguido</string>
+    <string name="endgame_online_ranges_your_teammate">Tu compañero ha conseguido</string>
+    <string name="endgame_online_ranges_total_points">Puntuación total</string>
+
     <!-- ONLINE -->
     <string name="online_join_room">Unirse a sala</string>
     <string name="online_create_room">Crear sala</string>

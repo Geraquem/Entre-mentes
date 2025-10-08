@@ -217,9 +217,36 @@ class OnlineRoomRoomRepository @Inject constructor(
         val db = Firebase.firestore
         val playerId = if (isCreator) PLAYER_1 else PLAYER_2
 
-        val data = mapOf("points" to points)
+        val data = mapOf(POINTS to points)
 
-        db.collection(ROOMS).document(roomId).collection(playerId).document(POINTS)
-            .set(mapOf(ROUND_DATA to data)).await()
+        db.collection(ROOMS).document(roomId).collection(playerId).document(POINTS).set(data)
+            .await()
     }
+
+    override suspend fun waitOtherPlayerPoints(roomId: String, isCreator: Boolean): Int =
+        suspendCancellableCoroutine { cont ->
+            val db = Firebase.firestore
+            val opponentId = if (isCreator) PLAYER_2 else PLAYER_1
+
+            val opponentRef = db.collection(ROOMS)
+                .document(roomId)
+                .collection(opponentId)
+                .document(POINTS)
+
+            val listener = opponentRef.addSnapshotListener { snapshot, error ->
+                if (error != null) {
+                    cont.resumeWithException(error)
+                    return@addSnapshotListener
+                }
+
+                if (snapshot?.exists() == true) {
+                    val points = (snapshot.get(POINTS) as? Long)?.toInt()
+                    if (points != null && cont.isActive) {
+                        cont.resume(points)
+                    }
+                }
+            }
+
+            cont.invokeOnCancellation { listener.remove() }
+        }
 }
