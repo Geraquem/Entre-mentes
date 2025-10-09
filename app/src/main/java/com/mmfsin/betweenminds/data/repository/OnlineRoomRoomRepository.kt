@@ -4,7 +4,6 @@ import android.content.Context
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.mmfsin.betweenminds.R
 import com.mmfsin.betweenminds.domain.interfaces.IOnlineRoomRepository
 import com.mmfsin.betweenminds.domain.models.OnlineData
 import com.mmfsin.betweenminds.domain.models.OnlineRoundData
@@ -24,16 +23,14 @@ import java.util.concurrent.CountDownLatch
 import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
-import kotlin.random.Random
 
 class OnlineRoomRoomRepository @Inject constructor(
     @ApplicationContext val context: Context,
 ) : IOnlineRoomRepository {
 
-    override suspend fun createRoom(userName: String): String? {
+    override suspend fun createRoom(): String? {
         val db = Firebase.firestore
         val latch = CountDownLatch(1)
-        val userId = userName.ifEmpty { getRandomName() }
 
         var roomCodeCreated: String? = null
 
@@ -55,10 +52,7 @@ class OnlineRoomRoomRepository @Inject constructor(
                 transaction.set(
                     roomRef, hashMapOf(
                         "roomId" to roomId,
-                        "createdBy" to userId,
-                        "players" to listOf(userId),
-                        "turn" to userId,
-                        "round" to 1,
+                        "players" to listOf(PLAYER_1),
                         "createdAt" to FieldValue.serverTimestamp()
                     )
                 )
@@ -86,9 +80,8 @@ class OnlineRoomRoomRepository @Inject constructor(
         return (1..6).map { chars.random() }.joinToString("")
     }
 
-    override suspend fun joinRoom(userName: String, roomId: String): Boolean {
+    override suspend fun joinRoom(roomId: String): Boolean {
         val db = Firebase.firestore
-        val userId = userName.ifEmpty { getRandomName() }
         var joined = false
         val latch = CountDownLatch(1)
 
@@ -107,7 +100,7 @@ class OnlineRoomRoomRepository @Inject constructor(
                 latch.countDown()
                 return@addOnSuccessListener
             } else {
-                players.add(userId)
+                players.add(PLAYER_2)
                 roomRef.update(PLAYERS, players).addOnSuccessListener {
                     joined = true
                     println("Joined succesfully to room: $roomId")
@@ -122,11 +115,6 @@ class OnlineRoomRoomRepository @Inject constructor(
 
         withContext(Dispatchers.IO) { latch.await() }
         return joined
-    }
-
-    private fun getRandomName(): String {
-        val names = context.resources.getStringArray(R.array.random_names)
-        return names.random(Random(System.nanoTime()))
     }
 
     override suspend fun waitToJoinRoom(roomId: String) = suspendCancellableCoroutine { cont ->
@@ -156,7 +144,6 @@ class OnlineRoomRoomRepository @Inject constructor(
 
         val data = onlineData.data.map { round ->
             mapOf(
-                "round" to round.round,
                 "bullseyePosition" to round.bullseyePosition,
                 "hint" to round.hint,
                 "leftRange" to round.leftRange,

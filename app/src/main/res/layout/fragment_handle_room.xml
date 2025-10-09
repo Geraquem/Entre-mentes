@@ -6,33 +6,6 @@
     android:orientation="vertical">
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/til_username"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:hint="@string/online_username"
-        android:textColorHint="@color/grey"
-        app:boxStrokeColor="@color/edit_text_color"
-        app:boxStrokeWidth="2dp">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/tiet_username"
-            style="@style/MediumTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_edit_text"
-            android:imeOptions="actionDone"
-            android:inputType="textShortMessage|textCapWords"
-            android:lines="1"
-            android:maxLength="40"
-            android:maxLines="1"
-            android:textAllCaps="true"
-            android:textColor="@color/grey" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_room_code"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"

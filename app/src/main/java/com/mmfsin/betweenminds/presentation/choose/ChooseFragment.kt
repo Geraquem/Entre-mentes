@@ -101,17 +101,17 @@ class ChooseFragment : BaseFragment<FragmentChooseBinding, ChooseViewModel>(), I
         }
     }
 
-    override fun createRoom(userName: String) {
+    override fun createRoom() {
         binding.apply {
             loading.root.isVisible = true
-            viewModel.createRoom(userName)
+            viewModel.createRoom()
         }
     }
 
-    override fun joinRoom(userName: String, roomId: String) {
+    override fun joinRoom(roomId: String) {
         binding.apply {
             loading.root.isVisible = true
-            viewModel.joinRoom(userName, roomId)
+            viewModel.joinRoom(roomId)
         }
     }
 

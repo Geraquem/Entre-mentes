@@ -1,4 +1,4 @@
-package com.mmfsin.betweenminds.presentation.online.ranges.creator
+package com.mmfsin.betweenminds.presentation.online.ranges
 
 import android.annotation.SuppressLint
 import android.content.Context

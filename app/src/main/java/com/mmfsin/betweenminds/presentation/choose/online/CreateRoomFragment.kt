@@ -31,10 +31,7 @@ class CreateRoomFragment(private val listener: IHandleRoomListener) :
         binding.apply {
             btnContinue.button.setOnClickListener {
                 activity?.closeKeyboard()
-                tietUsername.clearFocus()
-
-                val userName = tietUsername.text.toString()
-                listener.createRoom(userName)
+                listener.createRoom()
             }
         }
     }

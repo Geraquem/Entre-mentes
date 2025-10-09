@@ -1,4 +1,4 @@
-package com.mmfsin.betweenminds.presentation.online.ranges.creator
+package com.mmfsin.betweenminds.presentation.online.ranges
 
 import com.mmfsin.betweenminds.base.BaseViewModel
 import com.mmfsin.betweenminds.domain.models.OnlineData
