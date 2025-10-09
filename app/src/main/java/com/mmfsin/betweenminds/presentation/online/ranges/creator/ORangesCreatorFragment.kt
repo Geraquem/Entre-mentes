@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.mmfsin.betweenminds.R
@@ -89,8 +90,15 @@ class ORangesCreatorFragment :
 
     override fun setUI() {
         binding.apply {
-            scoreboard.root.visibility = View.INVISIBLE
+            loading.root.isVisible = true
+
             scoreboard.root.hideAlpha(10)
+
+            clClue.showAlpha(350)
+            tvTopText.text = getString(R.string.ranges_write_a_clue)
+            etClue.text = null
+            etClue.showAlpha(350)
+            tvClue.hideAlpha(10) { tvClue.text = null }
 
             buttonHide.button.text = getString(R.string.online_btn_save_answer)
             buttonCheck.button.text = getString(R.string.btn_check)
@@ -185,6 +193,7 @@ class ORangesCreatorFragment :
                     endGame(event.otherPlayerPoints)
                 }
 
+                is ORangesCreatorEvent.GameRestarted -> restartGame()
                 is ORangesCreatorEvent.SomethingWentWrong -> error()
             }
         }
@@ -192,6 +201,7 @@ class ORangesCreatorFragment :
 
     private fun startCluePhase() {
         binding.apply {
+            loading.root.isVisible = false
             if (round <= 3) {
                 if (round == 2) buttonHide.button.text = getString(R.string.online_btn_save_answer)
                 buttonHide.button.isEnabled = true
@@ -255,9 +265,9 @@ class ORangesCreatorFragment :
                 if (round == 3) buttonNextRound.button.text = getString(R.string.ranges_see_points)
                 buttonCheck.button.isEnabled = true
 
-                scoreboard.root.visibility = View.VISIBLE
-                etClue.visibility = View.INVISIBLE
-                tvClue.visibility = View.VISIBLE
+                scoreboard.root.alpha = 0f
+                etClue.alpha = 0f
+                tvClue.alpha = 1f
                 tvTopText.text = getString(R.string.ranges_clue_title)
 
                 val actualRange = otherPlayerData[otherPlayerPosition]
@@ -340,8 +350,7 @@ class ORangesCreatorFragment :
 
             scoreboardRangesAdapter?.updateScore(
                 newScoreRange = ScoreRange(
-                    discovered = true,
-                    points = points
+                    discovered = true, points = points
                 ), position = round - 1
             )
         }
@@ -409,13 +418,35 @@ class ORangesCreatorFragment :
 
     private fun endGame(otherPlayerPoints: Int) {
         activity?.showFragmentDialog(
-            EndGameORangesDialog(
-                myPoints = pointsObtained,
+            EndGameORangesDialog(myPoints = pointsObtained,
                 otherPlayerPoints = otherPlayerPoints,
                 exit = { activity?.onBackPressedDispatcher?.onBackPressed() },
-                replay = {}
-            )
+                replay = {
+                    binding.loading.root.isVisible = true
+                    checkNotNulls(roomId, isCreator) { id, creator ->
+                        if (creator) viewModel.restartGame(id)
+                        else {
+                            waitingDialog = WaitingOtherPlayerDialog()
+                            waitingDialog?.let { d -> activity?.showFragmentDialog(d) }
+                            viewModel.waitToCreatorToRestart(id)
+                        }
+                    }
+                })
         )
+    }
+
+    private fun restartGame() {
+        position++
+        round = 1
+        otherPlayerPosition = 0
+        pointsObtained = 0
+
+        data.clear()
+        otherPlayerData = emptyList()
+
+        waitingDialog?.dismiss()
+        setUI()
+        startCluePhase()
     }
 
     private fun openInstructions() =

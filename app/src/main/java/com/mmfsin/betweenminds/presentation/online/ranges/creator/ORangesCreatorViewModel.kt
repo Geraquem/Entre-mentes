@@ -3,10 +3,12 @@ package com.mmfsin.betweenminds.presentation.online.ranges.creator
 import com.mmfsin.betweenminds.base.BaseViewModel
 import com.mmfsin.betweenminds.domain.models.OnlineData
 import com.mmfsin.betweenminds.domain.usecases.GetRangesUseCase
+import com.mmfsin.betweenminds.domain.usecases.RestartGameORangesUseCase
 import com.mmfsin.betweenminds.domain.usecases.SendMyORangesDataToRoomUseCase
 import com.mmfsin.betweenminds.domain.usecases.SendMyORangesPointsUseCase
 import com.mmfsin.betweenminds.domain.usecases.WaitOtherPlayerORangesPointsUseCase
 import com.mmfsin.betweenminds.domain.usecases.WaitOtherPlayerORangesUseCase
+import com.mmfsin.betweenminds.domain.usecases.WaitToRestartORangesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -16,7 +18,9 @@ class ORangesCreatorViewModel @Inject constructor(
     private val sendMyORangesDataToRoomUseCase: SendMyORangesDataToRoomUseCase,
     private val waitOtherPlayerORangesUseCase: WaitOtherPlayerORangesUseCase,
     private val sendMyORangesPointsUseCase: SendMyORangesPointsUseCase,
-    private val waitOtherPlayerORangesPointsUseCase: WaitOtherPlayerORangesPointsUseCase
+    private val waitOtherPlayerORangesPointsUseCase: WaitOtherPlayerORangesPointsUseCase,
+    private val restartGameORangesUseCase: RestartGameORangesUseCase,
+    private val waitToRestartORangesUseCase: WaitToRestartORangesUseCase,
 ) : BaseViewModel<ORangesCreatorEvent>() {
 
     fun getRanges() {
@@ -55,6 +59,22 @@ class ORangesCreatorViewModel @Inject constructor(
         executeUseCase(
             { waitOtherPlayerORangesPointsUseCase.execute(roomId, isCreator) },
             { result -> _event.value = ORangesCreatorEvent.OtherPlayerPoints(result) },
+            { _event.value = ORangesCreatorEvent.SomethingWentWrong }
+        )
+    }
+
+    fun restartGame(roomId: String) {
+        executeUseCase(
+            { restartGameORangesUseCase.execute(roomId) },
+            { _event.value = ORangesCreatorEvent.GameRestarted },
+            { _event.value = ORangesCreatorEvent.SomethingWentWrong }
+        )
+    }
+
+    fun waitToCreatorToRestart(roomId: String) {
+        executeUseCase(
+            { waitToRestartORangesUseCase.execute(roomId) },
+            { _event.value = ORangesCreatorEvent.GameRestarted },
             { _event.value = ORangesCreatorEvent.SomethingWentWrong }
         )
     }

@@ -12,6 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_white_box"
+        android:clipChildren="false"
+        android:clipToPadding="false"
         android:orientation="vertical"
         android:padding="24dp"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -25,7 +27,6 @@
             android:layout_gravity="center"
             android:layout_marginBottom="4dp"
             android:gravity="center"
-            android:textSize="22sp"
             android:text="@string/endgame_online_ranges_you" />
 
         <TextView
@@ -37,7 +38,6 @@
             android:layout_marginBottom="12dp"
             android:fontFamily="@font/august_shining"
             android:gravity="center"
-            android:textSize="22sp"
             tools:text="27 puntos" />
 
         <TextView
@@ -45,7 +45,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textSize="22sp"
             android:layout_marginBottom="4dp"
             android:gravity="center"
             android:text="@string/endgame_online_ranges_your_teammate" />
@@ -59,7 +58,6 @@
             android:layout_marginBottom="24dp"
             android:fontFamily="@font/august_shining"
             android:gravity="center"
-            android:textSize="22sp"
             tools:text="27 puntos" />
 
         <TextView
@@ -89,7 +87,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:background="@drawable/bg_white_box"
+            android:backgroundTint="@color/grey"
+            android:elevation="4dp"
             android:gravity="center"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="8dp"
+            android:textColor="@color/background_black"
             tools:text="¡No está nada mal!" />
 
     </LinearLayout>

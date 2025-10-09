@@ -17,7 +17,6 @@ import com.mmfsin.betweenminds.utils.ROUNDS
 import com.mmfsin.betweenminds.utils.ROUND_DATA
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
@@ -130,7 +129,6 @@ class OnlineRoomRoomRepository @Inject constructor(
         return names.random(Random(System.nanoTime()))
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     override suspend fun waitToJoinRoom(roomId: String) = suspendCancellableCoroutine { cont ->
         val db = Firebase.firestore
         val roomRef = db.collection(ROOMS).document(roomId)
@@ -178,6 +176,8 @@ class OnlineRoomRoomRepository @Inject constructor(
 
         val docRef = db.collection(ROOMS).document(roomId).collection(opponentId).document(ROUNDS)
 
+        var hasResumed = false
+
         val listener = docRef.addSnapshotListener { snapshot, error ->
             if (error != null) {
                 cont.resumeWithException(error)
@@ -186,7 +186,8 @@ class OnlineRoomRoomRepository @Inject constructor(
 
             if (snapshot != null && snapshot.exists()) {
                 val roundsList = snapshot.get(ROUND_DATA) as? List<Map<String, Any>>
-                if (roundsList != null && roundsList.size == 3) {
+                if (roundsList != null && roundsList.size == 3 && !hasResumed && cont.isActive) {
+                    hasResumed = true
                     val parsedRounds = roundsList.mapNotNull { map ->
                         try {
                             OnlineRoundData(
@@ -244,6 +245,40 @@ class OnlineRoomRoomRepository @Inject constructor(
                     if (points != null && cont.isActive) {
                         cont.resume(points)
                     }
+                }
+            }
+
+            cont.invokeOnCancellation { listener.remove() }
+        }
+
+    override suspend fun restartGame(roomId: String) {
+        val db = Firebase.firestore
+        val roomRef = db.collection(ROOMS).document(roomId)
+
+        suspend fun clearPlayerData(playerId: String) {
+            val playerRef = roomRef.collection(playerId)
+            val snapshot = playerRef.get().await()
+            for (doc in snapshot.documents) {
+                playerRef.document(doc.id).delete().await()
+            }
+        }
+        clearPlayerData(PLAYER_1)
+        clearPlayerData(PLAYER_2)
+    }
+
+    override suspend fun waitCreatorToRestartGame(roomId: String) =
+        suspendCancellableCoroutine { cont ->
+            val db = Firebase.firestore
+            val roomRef = db.collection(ROOMS).document(roomId).collection(PLAYER_1)
+
+            val listener = roomRef.addSnapshotListener { snapshot, e ->
+                if (e != null) {
+                    if (cont.isActive) cont.resumeWith(Result.failure(e))
+                    return@addSnapshotListener
+                }
+
+                if (snapshot != null && snapshot.isEmpty) {
+                    if (cont.isActive) cont.resumeWith(Result.success(Unit))
                 }
             }
 

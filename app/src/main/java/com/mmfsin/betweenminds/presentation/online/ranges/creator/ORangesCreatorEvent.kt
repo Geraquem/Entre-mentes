@@ -7,5 +7,6 @@ sealed class ORangesCreatorEvent {
     data class GetRanges(val ranges: List<Range>) : ORangesCreatorEvent()
     data class OtherPlayerData(val data: List<OnlineRoundData>) : ORangesCreatorEvent()
     data class OtherPlayerPoints(val otherPlayerPoints: Int) : ORangesCreatorEvent()
+    data object GameRestarted : ORangesCreatorEvent()
     data object SomethingWentWrong : ORangesCreatorEvent()
 }
