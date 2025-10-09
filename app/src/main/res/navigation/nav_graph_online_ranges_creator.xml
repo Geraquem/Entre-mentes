@@ -7,8 +7,8 @@
 
     <fragment
         android:id="@+id/rangesOnlineCreatorFragment"
-        android:name="com.mmfsin.betweenminds.presentation.online.ranges.creator.ORangesCreatorFragment"
+        android:name="com.mmfsin.betweenminds.presentation.online.ranges.creator.ORangesFragment"
         android:label="rangesOnlineCreatorFragment"
-        tools:layout="@layout/fragment_ranges_online_creator" />
+        tools:layout="@layout/fragment_ranges_online" />
 
 </navigation>

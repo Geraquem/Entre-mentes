@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.mmfsin.betweenminds.R
 import com.mmfsin.betweenminds.base.BaseFragment
 import com.mmfsin.betweenminds.base.bedrock.BedRockActivity
-import com.mmfsin.betweenminds.databinding.FragmentRangesOnlineCreatorBinding
+import com.mmfsin.betweenminds.databinding.FragmentRangesOnlineBinding
 import com.mmfsin.betweenminds.domain.models.OnlineData
 import com.mmfsin.betweenminds.domain.models.OnlineRoundData
 import com.mmfsin.betweenminds.domain.models.Range
@@ -37,10 +37,10 @@ import com.mmfsin.betweenminds.utils.showFragmentDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ORangesCreatorFragment :
-    BaseFragment<FragmentRangesOnlineCreatorBinding, ORangesCreatorViewModel>() {
+class ORangesFragment :
+    BaseFragment<FragmentRangesOnlineBinding, ORangesViewModel>() {
 
-    override val viewModel: ORangesCreatorViewModel by viewModels()
+    override val viewModel: ORangesViewModel by viewModels()
 
     private lateinit var mContext: Context
 
@@ -63,7 +63,7 @@ class ORangesCreatorFragment :
     private var scoreboardRangesAdapter: ScoreboardRangesAdapter? = null
 
     override fun inflateView(inflater: LayoutInflater, container: ViewGroup?) =
-        FragmentRangesOnlineCreatorBinding.inflate(inflater, container, false)
+        FragmentRangesOnlineBinding.inflate(inflater, container, false)
 
     override fun getBundleArgs() {
         activity?.intent?.apply {
@@ -74,7 +74,6 @@ class ORangesCreatorFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setUpScoreboard()
         checkNotNulls(roomId, isCreator) { _, _ -> viewModel.getRanges() } ?: run { error() }
     }
 
@@ -92,6 +91,7 @@ class ORangesCreatorFragment :
         binding.apply {
             loading.root.isVisible = true
 
+            setUpScoreboard()
             scoreboard.root.hideAlpha(10)
 
             clClue.showAlpha(350)
@@ -175,12 +175,12 @@ class ORangesCreatorFragment :
     override fun observe() {
         viewModel.event.observe(this) { event ->
             when (event) {
-                is ORangesCreatorEvent.GetRanges -> {
+                is ORangesEvent.GetRanges -> {
                     rangesList = event.ranges.shuffled()
                     startCluePhase()
                 }
 
-                is ORangesCreatorEvent.OtherPlayerData -> {
+                is ORangesEvent.OtherPlayerData -> {
                     waitingDialog?.dismiss()
                     otherPlayerData = event.data
 
@@ -188,13 +188,13 @@ class ORangesCreatorFragment :
                     startGuessingPhase()
                 }
 
-                is ORangesCreatorEvent.OtherPlayerPoints -> {
+                is ORangesEvent.OtherPlayerPoints -> {
                     waitingDialog?.dismiss()
                     endGame(event.otherPlayerPoints)
                 }
 
-                is ORangesCreatorEvent.GameRestarted -> restartGame()
-                is ORangesCreatorEvent.SomethingWentWrong -> error()
+                is ORangesEvent.GameRestarted -> restartGame()
+                is ORangesEvent.SomethingWentWrong -> error()
             }
         }
     }
