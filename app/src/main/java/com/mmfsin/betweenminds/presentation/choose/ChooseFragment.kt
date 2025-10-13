@@ -18,6 +18,10 @@ import com.mmfsin.betweenminds.presentation.choose.ChooseFragmentDirections.Comp
 import com.mmfsin.betweenminds.presentation.choose.adapter.ViewPagerOnlineAdapter
 import com.mmfsin.betweenminds.presentation.choose.dialogs.NotAbleToJoinDialog
 import com.mmfsin.betweenminds.presentation.choose.interfaces.IHandleRoomListener
+import com.mmfsin.betweenminds.utils.GAME_TYPE
+import com.mmfsin.betweenminds.utils.QUESTIONS_TYPE
+import com.mmfsin.betweenminds.utils.RANGES_TYPE
+import com.mmfsin.betweenminds.utils.checkNotNulls
 import com.mmfsin.betweenminds.utils.showErrorDialog
 import com.mmfsin.betweenminds.utils.showFragmentDialog
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,8 +32,14 @@ class ChooseFragment : BaseFragment<FragmentChooseBinding, ChooseViewModel>(), I
     override val viewModel: ChooseViewModel by viewModels()
     private lateinit var mContext: Context
 
+    private var gameType: String? = null
+
     override fun inflateView(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentChooseBinding.inflate(inflater, container, false)
+
+    override fun getBundleArgs() {
+        arguments?.let { gameType = it.getString(GAME_TYPE) } ?: run { error(goBack = true) }
+    }
 
     override fun setUI() {
         setUpViewPager()
@@ -53,26 +63,34 @@ class ChooseFragment : BaseFragment<FragmentChooseBinding, ChooseViewModel>(), I
                 is ChooseEvent.RoomCreated -> {
                     println("Room created with code: ${event.roomId}")
                     binding.loading.root.isVisible = false
-                    event.roomId?.let { id ->
-                        findNavController().navigate(actionToRoomCodeFragment(id))
+                    checkNotNulls(event.roomId, gameType) { id, type ->
+                        findNavController().navigate(actionToRoomCodeFragment(id, type))
+                        event.roomId = null
                     }
-                    event.roomId = null
                 }
 
                 is ChooseEvent.JoinedToRoom -> {
                     binding.loading.root.isVisible = false
                     if (event.joined) {
-                        navigateTo(
-                            navGraph = R.navigation.nav_graph_online_ranges_creator,
-                            strArgs = event.roomId,
-                            booleanArgs = false
-                        )
+                        val navGraph = when (gameType) {
+                            QUESTIONS_TYPE -> R.navigation.nav_graph_online_questions
+                            RANGES_TYPE -> R.navigation.nav_graph_online_ranges
+                            else -> null
+                        }
+                        navGraph?.let { ng ->
+                            navigateTo(
+                                navGraph = ng,
+                                strArgs = event.roomId,
+                                booleanArgs = false
+                            )
+                        } ?: run { error(goBack = false) }
+
                     } else activity?.showFragmentDialog(NotAbleToJoinDialog())
                 }
 
                 is ChooseEvent.SomethingWentWrong -> {
                     binding.loading.root.isVisible = false
-                    error()
+                    error(goBack = false)
                 }
             }
         }
@@ -121,7 +139,7 @@ class ChooseFragment : BaseFragment<FragmentChooseBinding, ChooseViewModel>(), I
         )
     }
 
-    private fun error() = activity?.showErrorDialog(goBack = false)
+    private fun error(goBack: Boolean) = activity?.showErrorDialog(goBack)
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

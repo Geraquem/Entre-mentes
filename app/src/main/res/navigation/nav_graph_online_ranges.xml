@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_online_ranges"
+    app:startDestination="@id/rangesOnlineFragment">
+
+    <fragment
+        android:id="@+id/rangesOnlineFragment"
+        android:name="com.mmfsin.betweenminds.presentation.online.ranges.ORangesFragment"
+        android:label="rangesOnlineFragment"
+        tools:layout="@layout/fragment_ranges_online" />
+
+</navigation>

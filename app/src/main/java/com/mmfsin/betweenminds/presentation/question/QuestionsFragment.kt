@@ -367,8 +367,8 @@ class QuestionsFragment :
     private fun curtainVisibility(isVisible: Boolean, onEnd: () -> Unit = {}) {
         binding.apply {
             if (isVisible) {
-                curtainLeft.animateX(0f, 1000) { onEnd() }
-                curtainRight.animateX(0f, 1000) { onEnd() }
+                curtainLeft.animateX(0f, 500) { onEnd() }
+                curtainRight.animateX(0f, 500) { onEnd() }
             } else {
                 curtainLeft.animateX(-1000f, 1000) { onEnd() }
                 curtainRight.animateX(1000f, 1000) { onEnd() }

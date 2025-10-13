@@ -11,6 +11,9 @@ import com.mmfsin.betweenminds.R
 import com.mmfsin.betweenminds.base.BaseFragment
 import com.mmfsin.betweenminds.databinding.FragmentRoomCodeBinding
 import com.mmfsin.betweenminds.presentation.MainActivity
+import com.mmfsin.betweenminds.utils.GAME_TYPE
+import com.mmfsin.betweenminds.utils.QUESTIONS_TYPE
+import com.mmfsin.betweenminds.utils.RANGES_TYPE
 import com.mmfsin.betweenminds.utils.ROOM_ID
 import com.mmfsin.betweenminds.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,12 +25,14 @@ class RoomCodeFragment : BaseFragment<FragmentRoomCodeBinding, RoomCodeViewModel
     private lateinit var mContext: Context
 
     private var roomId: String? = null
+    private var gameType: String? = null
 
     override fun inflateView(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentRoomCodeBinding.inflate(inflater, container, false)
 
     override fun getBundleArgs() {
         roomId = arguments?.getString(ROOM_ID)
+        gameType = arguments?.getString(GAME_TYPE)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -53,12 +58,20 @@ class RoomCodeFragment : BaseFragment<FragmentRoomCodeBinding, RoomCodeViewModel
             when (event) {
                 is RoomCodeEvent.ListeningOtherPlayer -> {
                     roomId?.let { id ->
-                        (activity as MainActivity).openBedRockActivity(
-                            navGraph = R.navigation.nav_graph_online_ranges_creator,
-                            strArgs = id,
-                            booleanArgs = true
-                        )
-                        activity?.onBackPressedDispatcher?.onBackPressed()
+                        val navGraph = when (gameType) {
+                            QUESTIONS_TYPE -> R.navigation.nav_graph_online_questions
+                            RANGES_TYPE -> R.navigation.nav_graph_online_ranges
+                            else -> null
+                        }
+                        navGraph?.let { ng ->
+                            (activity as MainActivity).openBedRockActivity(
+                                navGraph = ng,
+                                strArgs = id,
+                                booleanArgs = true
+                            )
+                            activity?.onBackPressedDispatcher?.onBackPressed()
+
+                        } ?: run { error() }
                     }
                 }
 

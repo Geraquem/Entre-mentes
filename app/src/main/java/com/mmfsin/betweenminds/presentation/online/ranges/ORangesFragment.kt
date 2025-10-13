@@ -37,8 +37,7 @@ import com.mmfsin.betweenminds.utils.showFragmentDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ORangesFragment :
-    BaseFragment<FragmentRangesOnlineBinding, ORangesViewModel>() {
+class ORangesFragment : BaseFragment<FragmentRangesOnlineBinding, ORangesViewModel>() {
 
     override val viewModel: ORangesViewModel by viewModels()
 

@@ -1,6 +1,6 @@
 package com.mmfsin.betweenminds.di
 
-import com.mmfsin.betweenminds.data.repository.OnlineRoomRoomRepository
+import com.mmfsin.betweenminds.data.repository.OnlineRoomRepository
 import com.mmfsin.betweenminds.domain.interfaces.IOnlineRoomRepository
 import dagger.Binds
 import dagger.Module
@@ -11,5 +11,5 @@ import dagger.hilt.android.components.ViewModelComponent
 @InstallIn(ViewModelComponent::class)
 interface OnlineRoomRepositoryModule {
     @Binds
-    fun bind(repository: OnlineRoomRoomRepository): IOnlineRoomRepository
+    fun bind(repository: OnlineRoomRepository): IOnlineRoomRepository
 }

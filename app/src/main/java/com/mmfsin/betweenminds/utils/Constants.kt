@@ -13,6 +13,10 @@ const val VERSION = "version"
 const val RANGES = "ranges"
 const val QUESTIONS = "questions"
 const val ROOM_ID = "roomId"
+const val GAME_TYPE = "gameType"
+
+const val QUESTIONS_TYPE = "questionsType"
+const val RANGES_TYPE = "rangesType"
 
 /** SHARED PREFS */
 const val SHARED_PREFS = "sharedPrefs"

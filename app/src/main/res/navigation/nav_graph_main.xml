@@ -13,7 +13,11 @@
 
         <action
             android:id="@+id/action_to_choose_fragment"
-            app:destination="@id/chooseFragment" />
+            app:destination="@id/chooseFragment">
+            <argument
+                android:name="gameType"
+                app:argType="string" />
+        </action>
 
     </fragment>
 
@@ -27,6 +31,9 @@
             app:destination="@id/roomCodeFragment">
             <argument
                 android:name="roomId"
+                app:argType="string" />
+            <argument
+                android:name="gameType"
                 app:argType="string" />
         </action>
     </fragment>
