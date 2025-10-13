@@ -59,7 +59,7 @@ class RoomCodeFragment : BaseFragment<FragmentRoomCodeBinding, RoomCodeViewModel
                 is RoomCodeEvent.ListeningOtherPlayer -> {
                     roomId?.let { id ->
                         val navGraph = when (gameType) {
-                            QUESTIONS_TYPE -> R.navigation.nav_graph_online_questions
+                            QUESTIONS_TYPE -> R.navigation.nav_graph_online_questions_creator
                             RANGES_TYPE -> R.navigation.nav_graph_online_ranges
                             else -> null
                         }

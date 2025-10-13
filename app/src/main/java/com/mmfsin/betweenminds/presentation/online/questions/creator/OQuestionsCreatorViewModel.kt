@@ -1,4 +1,4 @@
-package com.mmfsin.betweenminds.presentation.online.questions
+package com.mmfsin.betweenminds.presentation.online.questions.creator
 
 import com.mmfsin.betweenminds.base.BaseViewModel
 import com.mmfsin.betweenminds.domain.models.Question
@@ -13,7 +13,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class OQuestionsViewModel @Inject constructor(
+class OQuestionsCreatorViewModel @Inject constructor(
     private val getQuestionsUseCase: GetQuestionsUseCase,
     private val setOQuestionsInRoomUseCase: SetOQuestionsInRoomUseCase,
     private val waitOtherPlayerORangesUseCase: WaitOtherPlayerORangesUseCase,
@@ -21,21 +21,21 @@ class OQuestionsViewModel @Inject constructor(
     private val waitOtherPlayerORangesPointsUseCase: WaitOtherPlayerORangesPointsUseCase,
     private val restartGameORangesUseCase: RestartGameORangesUseCase,
     private val waitToRestartORangesUseCase: WaitToRestartORangesUseCase,
-) : BaseViewModel<OQuestionsEvent>() {
+) : BaseViewModel<OQuestionsCreatorEvent>() {
 
     fun getQuestions() {
         executeUseCase(
             { getQuestionsUseCase.execute() },
-            { result -> _event.value = OQuestionsEvent.GetQuestions(result) },
-            { _event.value = OQuestionsEvent.SomethingWentWrong }
+            { result -> _event.value = OQuestionsCreatorEvent.GetQuestionsCreator(result) },
+            { _event.value = OQuestionsCreatorEvent.SomethingWentWrong }
         )
     }
 
     fun setQuestionsInRoom(roomId: String, names: Pair<String, String>, questions: List<Question>) {
         executeUseCase(
             { setOQuestionsInRoomUseCase.execute(roomId, names, questions) },
-            { _event.value = OQuestionsEvent.QuestionsSetInRoom },
-            { _event.value = OQuestionsEvent.SomethingWentWrong }
+            { _event.value = OQuestionsCreatorEvent.QuestionsCreatorSetInRoom },
+            { _event.value = OQuestionsCreatorEvent.SomethingWentWrong }
         )
     }
 }

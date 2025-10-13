@@ -73,7 +73,7 @@ class ChooseFragment : BaseFragment<FragmentChooseBinding, ChooseViewModel>(), I
                     binding.loading.root.isVisible = false
                     if (event.joined) {
                         val navGraph = when (gameType) {
-                            QUESTIONS_TYPE -> R.navigation.nav_graph_online_questions
+                            QUESTIONS_TYPE -> R.navigation.nav_graph_online_questions_joined
                             RANGES_TYPE -> R.navigation.nav_graph_online_ranges
                             else -> null
                         }

@@ -1,4 +1,4 @@
-package com.mmfsin.betweenminds.presentation.online.questions
+package com.mmfsin.betweenminds.presentation.online.questions.creator
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -29,11 +29,14 @@ import com.mmfsin.betweenminds.utils.updatePercents
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class OQuestionsFragment : BaseFragment<FragmentQuestionsOnlineBinding, OQuestionsViewModel>() {
+class OQuestionsCreatorFragment : BaseFragment<FragmentQuestionsOnlineBinding, OQuestionsCreatorViewModel>() {
 
-    override val viewModel: OQuestionsViewModel by viewModels()
+    override val viewModel: OQuestionsCreatorViewModel by viewModels()
 
     private lateinit var mContext: Context
+
+    val blueName = "Manolito"
+    val orangeName = "Menganito"
 
     var roomId: String? = null
 
@@ -63,7 +66,7 @@ class OQuestionsFragment : BaseFragment<FragmentQuestionsOnlineBinding, OQuestio
     private fun setUpScoreboard() {
         binding.apply {
             scoreboard.rvScore.apply {
-                layoutManager = GridLayoutManager(mContext, 3)
+                layoutManager = GridLayoutManager(mContext, 4)
                 scoreboardQuestionAdapter = ScoreboardQuestionAdapter(getEmptyScoreQuestionList())
                 adapter = scoreboardQuestionAdapter
             }
@@ -76,20 +79,18 @@ class OQuestionsFragment : BaseFragment<FragmentQuestionsOnlineBinding, OQuestio
             llRound.isVisible = false
             people.apply {
                 etPlayerBlue.isEnabled = false
+                etPlayerBlue.setText(blueName)
                 etPlayerOrange.isEnabled = false
+                etPlayerOrange.setText(orangeName)
             }
             secondOpinion.isVisible = false
             secondArrow.isVisible = false
 
             setUpScoreboard()
-            scoreboard.root.hideAlpha(10)
 
             buttonHide.button.text = getString(R.string.online_btn_save_answer)
             buttonCheck.button.text = getString(R.string.btn_check)
             buttonNextRound.button.text = getString(R.string.btn_next_round)
-
-            controllerInfo.root.hideAlpha(1)
-            controller.isEnabled = false
 
             tvQuestion.hideAlpha(1)
             handlePercentsPlayerTwo(people, show = false)
@@ -161,26 +162,28 @@ class OQuestionsFragment : BaseFragment<FragmentQuestionsOnlineBinding, OQuestio
     override fun observe() {
         viewModel.event.observe(this) { event ->
             when (event) {
-                is OQuestionsEvent.GetQuestions -> {
+                is OQuestionsCreatorEvent.GetQuestionsCreator -> {
                     questionList = event.questions.shuffled()
                     getQuestionsAndSendToRoom()
                 }
 
-                is OQuestionsEvent.QuestionsSetInRoom -> {
+                is OQuestionsCreatorEvent.QuestionsCreatorSetInRoom -> {
+                    binding.loading.root.isVisible = false
+                    setFirstPhase()
                     println("-*-*--*-*--*-*--*-*--*-*--*-*--*-*--*-*--*-*--*-*--*-*--*-*--*-*--*-*--*-*--*-*--*-*--*-*--*-*-")
                     println("-*-*--*-*--*-*--*-*--*-*--*-*--*-*--*-*--*-*--*-*--*-*--*-*--*-*--*-*--*-*--*-*--*-*--*-*--*-*-")
                     println("-*-*--*-*--*-*--*-*--*-*--*-*--*-*--*-*--*-*--*-*--*-*--*-*--*-*--*-*--*-*--*-*--*-*--*-*--*-*-")
                     println("-*-*--*-*--*-*--*-*--*-*--*-*--*-*--*-*--*-*--*-*--*-*--*-*--*-*--*-*--*-*--*-*--*-*--*-*--*-*-")
                 }
 
-                is OQuestionsEvent.SomethingWentWrong -> error()
+                is OQuestionsCreatorEvent.SomethingWentWrong -> error()
             }
         }
     }
 
     private fun getQuestionsAndSendToRoom() {
         roomId?.let { id ->
-            viewModel.setQuestionsInRoom(id, Pair("Manolito", "Francisquito"), getQuestionsToRoom())
+            viewModel.setQuestionsInRoom(id, Pair(blueName, orangeName), getQuestionsToRoom())
         }
     }
 
@@ -192,6 +195,18 @@ class OQuestionsFragment : BaseFragment<FragmentQuestionsOnlineBinding, OQuestio
         )
         questionPosition += 4
         return result
+    }
+
+    private fun setFirstPhase() {
+        binding.apply {
+            tvQuestion.text = questionList[position].text
+            tvQuestion.showAlpha(500)
+            firstArrowVisibility(isVisible = true)
+            curtainVisibility(isVisible = false)
+            controller.isEnabled = true
+            controllerInfo.root.showAlpha(500)
+            buttonHide.root.animateY(0f, 500)
+        }
     }
 
     private fun firstArrowVisibility(isVisible: Boolean) {
