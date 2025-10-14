@@ -29,7 +29,8 @@ import com.mmfsin.betweenminds.utils.updatePercents
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class OQuestionsCreatorFragment : BaseFragment<FragmentQuestionsOnlineBinding, OQuestionsCreatorViewModel>() {
+class OQuestionsCreatorFragment :
+    BaseFragment<FragmentQuestionsOnlineBinding, OQuestionsCreatorViewModel>() {
 
     override val viewModel: OQuestionsCreatorViewModel by viewModels()
 
@@ -104,6 +105,7 @@ class OQuestionsCreatorFragment : BaseFragment<FragmentQuestionsOnlineBinding, O
             buttonNextRound.root.animateY(500f, 1)
 
             firstArrowVisibility(isVisible = false)
+            secondArrowVisibility(isVisible = false)
             curtainVisibility(isVisible = true)
         }
     }
@@ -218,6 +220,14 @@ class OQuestionsCreatorFragment : BaseFragment<FragmentQuestionsOnlineBinding, O
                 firstOpinion.hideAlpha(10)
                 firstArrow.hideAlpha(100)
             }
+        }
+    }
+
+    private fun secondArrowVisibility(isVisible: Boolean) {
+        binding.apply {
+            val view = if (isVisible) View.VISIBLE else View.INVISIBLE
+            secondOpinion.visibility = view
+            if (isVisible) secondArrow.showAlpha(350) else secondArrow.hideAlpha(10)
         }
     }
 

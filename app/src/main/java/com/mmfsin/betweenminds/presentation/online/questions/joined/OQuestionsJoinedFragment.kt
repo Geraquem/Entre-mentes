@@ -22,6 +22,7 @@ import com.mmfsin.betweenminds.utils.BEDROCK_STR_ARGS
 import com.mmfsin.betweenminds.utils.animateX
 import com.mmfsin.betweenminds.utils.animateY
 import com.mmfsin.betweenminds.utils.getEmptyScoreQuestionList
+import com.mmfsin.betweenminds.utils.handlePercentsPlayerOne
 import com.mmfsin.betweenminds.utils.handlePercentsPlayerTwo
 import com.mmfsin.betweenminds.utils.hideAlpha
 import com.mmfsin.betweenminds.utils.showAlpha
@@ -84,12 +85,14 @@ class OQuestionsJoinedFragment :
 
             setUpScoreboard()
 
+            tvQuestion.hideAlpha(1)
+
+            handlePercentsPlayerOne(people, show = false)
+            handlePercentsPlayerTwo(people, show = true)
+
             buttonHide.button.text = getString(R.string.online_btn_save_answer)
             buttonCheck.button.text = getString(R.string.btn_check)
             buttonNextRound.button.text = getString(R.string.btn_next_round)
-
-            tvQuestion.hideAlpha(1)
-            handlePercentsPlayerTwo(people, show = false)
 
             controllerInfo.tvControllerText.text = getString(R.string.controller_limited)
             controllerInfo.root.hideAlpha(1)
@@ -100,6 +103,7 @@ class OQuestionsJoinedFragment :
             buttonNextRound.root.animateY(500f, 1)
 
             firstArrowVisibility(isVisible = false)
+            secondArrowVisibility(isVisible = false)
             curtainVisibility(isVisible = true)
         }
     }
@@ -125,29 +129,31 @@ class OQuestionsJoinedFragment :
                 buttonNextRound.root.animateY(500f, 500)
             }
 
-            val parent = firstOpinion.parent as View
+
+            val parent = secondOpinion.parent as View
             controller.setOnTouchListener { _, event ->
                 when (event.action) {
                     MotionEvent.ACTION_DOWN -> {
                         people.etPlayerBlue.clearFocus()
                         people.etPlayerOrange.clearFocus()
-                        firstOpinion.tag = event.rawX - firstOpinion.x
+                        secondOpinion.tag = event.rawX - secondOpinion.x
                     }
 
                     MotionEvent.ACTION_MOVE -> {
-                        val offsetX = firstOpinion.tag as Float
+                        val offsetX = secondOpinion.tag as Float
                         var newX = event.rawX - offsetX
 
                         if (newX < 0f) newX = 0f
-                        if (newX + firstOpinion.width > parent.width) {
-                            newX = (parent.width - firstOpinion.width).toFloat()
+                        if (newX + secondOpinion.width > parent.width) {
+                            newX = (parent.width - secondOpinion.width).toFloat()
                         }
-                        firstOpinion.x = newX
-                        firstArrow.x = firstOpinion.x + (firstOpinion.width - firstArrow.width) / 2f
+                        secondOpinion.x = newX
+                        secondArrow.x =
+                            secondOpinion.x + (secondOpinion.width - secondArrow.width) / 2f
 
                         val percentX =
-                            ((firstOpinion.x / (parent.width - firstOpinion.width)) * 100).toInt()
-                        updatePercents(people, 1, percentX)
+                            ((secondOpinion.x / (parent.width - secondOpinion.width)) * 100).toInt()
+                        updatePercents(people, 2, percentX)
                     }
                 }
                 true
@@ -176,7 +182,7 @@ class OQuestionsJoinedFragment :
                 etPlayerOrange.setText(data.orangeName)
             }
             tvQuestion.showAlpha(500)
-            firstArrowVisibility(isVisible = true)
+            secondArrowVisibility(isVisible = true)
             curtainVisibility(isVisible = false)
             controller.isEnabled = true
             controllerInfo.root.showAlpha(500)
@@ -193,6 +199,14 @@ class OQuestionsJoinedFragment :
                 firstOpinion.hideAlpha(10)
                 firstArrow.hideAlpha(100)
             }
+        }
+    }
+
+    private fun secondArrowVisibility(isVisible: Boolean) {
+        binding.apply {
+            val view = if (isVisible) View.VISIBLE else View.INVISIBLE
+            secondOpinion.visibility = view
+            if (isVisible) secondArrow.showAlpha(350) else secondArrow.hideAlpha(10)
         }
     }
 
