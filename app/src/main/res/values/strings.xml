@@ -23,6 +23,7 @@
     <string name="percent">\%</string>
     <string name="set_percent">%1s\%</string>
     <string name="slash">/</string>
+    <string name="three_dots">…</string>
     <string name="curtain_text">Top secret</string>
     <string name="btn_hide">Ocultar</string>
     <string name="btn_check">Comprobar</string>

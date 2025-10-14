@@ -1,36 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/til_room_code"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+    <TextView
+        android:id="@+id/tv_room_code"
+        style="@style/MediumTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/online_room_code"
+        android:textColor="@color/white"
+        tools:textColor="@color/background_black" />
+
+    <EditText
+        android:id="@+id/et_room_code"
+        style="@style/BigTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:hint="@string/online_room_code"
-        android:textColorHint="@color/grey"
-        app:boxStrokeColor="@color/edit_text_color"
-        app:boxStrokeWidth="2dp">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/tiet_room_code"
-            style="@style/MediumTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_edit_text"
-            android:imeOptions="actionDone"
-            android:inputType="textShortMessage|textCapCharacters"
-            android:lines="1"
-            android:maxLength="40"
-            android:maxLines="1"
-            android:textAllCaps="true"
-            android:textColor="@color/grey" />
-
-    </com.google.android.material.textfield.TextInputLayout>
+        android:autofillHints="null"
+        android:background="@drawable/bg_edit_text"
+        android:fontFamily="@font/inconsolata"
+        android:imeOptions="actionDone"
+        android:inputType="textShortMessage|textCapCharacters"
+        android:labelFor="@id/et_room_code"
+        android:letterSpacing="0.3"
+        android:lines="1"
+        android:maxLength="10"
+        android:maxLines="1"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="12dp"
+        android:textAllCaps="true"
+        android:textColor="@color/grey"
+        android:textSize="28sp"
+        tools:ignore="LabelFor"
+        tools:text="AFWD0O" />
 
     <include
         android:id="@+id/btn_continue"

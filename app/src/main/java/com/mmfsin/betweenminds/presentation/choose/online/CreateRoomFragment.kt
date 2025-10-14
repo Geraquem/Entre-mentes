@@ -22,7 +22,8 @@ class CreateRoomFragment(private val listener: IHandleRoomListener) :
 
     override fun setUI() {
         binding.apply {
-            tilRoomCode.isVisible = false
+            tvRoomCode.isVisible = false
+            etRoomCode.isVisible = false
             btnContinue.button.text = getString(R.string.online_btn_create)
         }
     }

@@ -3,6 +3,7 @@ package com.mmfsin.betweenminds.presentation.choose.online
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import com.mmfsin.betweenminds.R
 import com.mmfsin.betweenminds.base.BaseFragmentNoVM
 import com.mmfsin.betweenminds.databinding.FragmentHandleRoomBinding
@@ -20,6 +21,8 @@ class JoinRoomFragment(private val listener: IHandleRoomListener) :
 
     override fun setUI() {
         binding.apply {
+            tvRoomCode.isVisible = true
+            etRoomCode.isVisible = true
             btnContinue.button.text = getString(R.string.online_btn_join)
         }
     }
@@ -27,7 +30,7 @@ class JoinRoomFragment(private val listener: IHandleRoomListener) :
     override fun setListeners() {
         binding.apply {
             btnContinue.button.setOnClickListener {
-                val roomId = tietRoomCode.text.toString().uppercase()
+                val roomId = etRoomCode.text.toString().uppercase()
                 if (roomId.isNotEmpty()) listener.joinRoom(roomId)
             }
         }
