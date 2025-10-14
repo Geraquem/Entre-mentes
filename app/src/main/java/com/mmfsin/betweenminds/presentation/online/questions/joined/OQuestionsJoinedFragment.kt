@@ -82,8 +82,6 @@ class OQuestionsJoinedFragment :
                 etPlayerBlue.isEnabled = false
                 etPlayerOrange.isEnabled = false
             }
-            firstOpinion.isVisible = false
-            firstArrow.isVisible = false
 
             setUpScoreboard()
 
@@ -92,7 +90,7 @@ class OQuestionsJoinedFragment :
             handlePercentsPlayerOne(people, show = false)
             handlePercentsPlayerTwo(people, show = true)
 
-            buttonHide.button.text = getString(R.string.online_btn_save_answer)
+            buttonHide.button.text = getString(R.string.online_btn_compare)
             buttonCheck.button.text = getString(R.string.btn_check)
             buttonNextRound.button.text = getString(R.string.btn_next_round)
 
@@ -120,7 +118,10 @@ class OQuestionsJoinedFragment :
 
             buttonHide.button.setOnClickListener {
                 buttonHide.button.isEnabled = false
+                buttonHide.root.animateY(500f, 500)
                 controller.isEnabled = false
+                binding.controllerInfo.root.hideAlpha(350)
+
                 waitingDialog = WaitingOtherPlayerDialog()
                 waitingDialog?.let { d -> activity?.showFragmentDialog(d) }
                 roomId?.let { id -> viewModel.sendOpinionToRoom(id, round, myOpinion) }
@@ -178,6 +179,8 @@ class OQuestionsJoinedFragment :
 
                 is OQuestionsJoinedEvent.OtherPlayerOpinion -> {
                     waitingDialog?.dismiss()
+                    binding.buttonNextRound.root.animateY(0f, 500)
+                    moveOtherOpinionArrow(event.otherOpinion)
                     updatePercents(binding.people, 1, event.otherOpinion)
                     handlePercentsPlayerOne(binding.people, show = true)
                 }
@@ -232,6 +235,20 @@ class OQuestionsJoinedFragment :
                 curtainLeft.animateX(-1000f, 1000) { onEnd() }
                 curtainRight.animateX(1000f, 1000) { onEnd() }
             }
+        }
+    }
+
+    private fun moveOtherOpinionArrow(otherOpinion: Int) {
+        binding.apply {
+            val parent = firstOpinion.parent as View
+
+            val clamped = otherOpinion.coerceIn(0, 100)
+            val maxX = (parent.width - firstOpinion.width).toFloat()
+            val newX = (clamped / 100f) * maxX
+
+            firstOpinion.x = newX
+            firstArrow.x = newX + (firstOpinion.width - firstArrow.width) / 2f
+            firstArrowVisibility(isVisible = true)
         }
     }
 

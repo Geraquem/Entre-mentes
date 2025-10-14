@@ -21,7 +21,6 @@ import com.mmfsin.betweenminds.utils.BEDROCK_STR_ARGS
 import com.mmfsin.betweenminds.utils.animateX
 import com.mmfsin.betweenminds.utils.animateY
 import com.mmfsin.betweenminds.utils.getEmptyScoreQuestionList
-import com.mmfsin.betweenminds.utils.handlePercentsPlayerOne
 import com.mmfsin.betweenminds.utils.handlePercentsPlayerTwo
 import com.mmfsin.betweenminds.utils.hideAlpha
 import com.mmfsin.betweenminds.utils.showAlpha
@@ -87,8 +86,6 @@ class OQuestionsCreatorFragment :
                 etPlayerOrange.isEnabled = false
                 etPlayerOrange.setText(orangeName)
             }
-            secondOpinion.isVisible = false
-            secondArrow.isVisible = false
 
             setUpScoreboard()
 
@@ -123,7 +120,10 @@ class OQuestionsCreatorFragment :
 
             buttonHide.button.setOnClickListener {
                 buttonHide.button.isEnabled = false
+                buttonHide.root.animateY(500f, 500)
                 controller.isEnabled = false
+                binding.controllerInfo.root.hideAlpha(350)
+
                 waitingDialog = WaitingOtherPlayerDialog()
                 waitingDialog?.let { d -> activity?.showFragmentDialog(d) }
                 roomId?.let { id -> viewModel.sendOpinionToRoom(id, round, myOpinion) }
@@ -184,6 +184,8 @@ class OQuestionsCreatorFragment :
 
                 is OQuestionsCreatorEvent.OtherPlayerOpinion -> {
                     waitingDialog?.dismiss()
+                    binding.buttonNextRound.root.animateY(0f, 500)
+                    moveOtherOpinionArrow(event.otherOpinion)
                     updatePercents(binding.people, 2, event.otherOpinion)
                     handlePercentsPlayerTwo(binding.people, show = true)
                 }
@@ -250,6 +252,20 @@ class OQuestionsCreatorFragment :
                 curtainLeft.animateX(-1000f, 1000) { onEnd() }
                 curtainRight.animateX(1000f, 1000) { onEnd() }
             }
+        }
+    }
+
+    private fun moveOtherOpinionArrow(otherOpinion: Int) {
+        binding.apply {
+            val parent = secondOpinion.parent as View
+
+            val clamped = otherOpinion.coerceIn(0, 100)
+            val maxX = (parent.width - secondOpinion.width).toFloat()
+            val newX = (clamped / 100f) * maxX
+
+            secondOpinion.x = newX
+            secondArrow.x = newX + (secondOpinion.width - secondArrow.width) / 2f
+            secondArrowVisibility(isVisible = true)
         }
     }
 

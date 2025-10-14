@@ -91,6 +91,7 @@
     <string name="online_room_code">Código de la sala</string>
     <string name="online_wainting_other_player">Esperando al otro jugador</string>
     <string name="online_btn_save_answer">Guardar respuesta</string>
+    <string name="online_btn_compare">Comparar respuesta</string>
     <string name="online_room_code_waiting">Esperando a que se una el otro jugador</string>
 
     <!-- INSTRUCTIONS -->
