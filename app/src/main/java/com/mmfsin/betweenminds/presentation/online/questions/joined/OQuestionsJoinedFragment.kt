@@ -120,6 +120,7 @@ class OQuestionsJoinedFragment :
 
             buttonHide.button.setOnClickListener {
                 buttonHide.button.isEnabled = false
+                controller.isEnabled = false
                 waitingDialog = WaitingOtherPlayerDialog()
                 waitingDialog?.let { d -> activity?.showFragmentDialog(d) }
                 roomId?.let { id -> viewModel.sendOpinionToRoom(id, round, myOpinion) }
@@ -173,6 +174,12 @@ class OQuestionsJoinedFragment :
                 is OQuestionsJoinedEvent.GetQuestionsAndNames -> {
                     binding.loading.root.isVisible = false
                     setFirstPhase(event.data)
+                }
+
+                is OQuestionsJoinedEvent.OtherPlayerOpinion -> {
+                    waitingDialog?.dismiss()
+                    updatePercents(binding.people, 1, event.otherOpinion)
+                    handlePercentsPlayerOne(binding.people, show = true)
                 }
 
                 is OQuestionsJoinedEvent.SomethingWentWrong -> error()

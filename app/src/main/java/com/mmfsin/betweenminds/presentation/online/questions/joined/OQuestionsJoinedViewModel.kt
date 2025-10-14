@@ -2,13 +2,9 @@ package com.mmfsin.betweenminds.presentation.online.questions.joined
 
 import com.mmfsin.betweenminds.base.BaseViewModel
 import com.mmfsin.betweenminds.domain.usecases.GetOQuestionsAndNamesUseCase
-import com.mmfsin.betweenminds.domain.usecases.RestartGameORangesUseCase
-import com.mmfsin.betweenminds.domain.usecases.SendMyORangesPointsUseCase
 import com.mmfsin.betweenminds.domain.usecases.SendOpinionOQuestionsToRoomUseCase
-import com.mmfsin.betweenminds.domain.usecases.SetOQuestionsInRoomUseCase
-import com.mmfsin.betweenminds.domain.usecases.WaitOtherPlayerORangesPointsUseCase
-import com.mmfsin.betweenminds.domain.usecases.WaitOtherPlayerORangesUseCase
-import com.mmfsin.betweenminds.domain.usecases.WaitToRestartORangesUseCase
+import com.mmfsin.betweenminds.domain.usecases.WaitOtherPlayerOpinionOQuestionsUseCase
+import com.mmfsin.betweenminds.presentation.online.questions.creator.OQuestionsCreatorEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -16,12 +12,7 @@ import javax.inject.Inject
 class OQuestionsJoinedViewModel @Inject constructor(
     private val getOQuestionsAndNamesUseCase: GetOQuestionsAndNamesUseCase,
     private val sendOpinionOQuestionsToRoomUseCase: SendOpinionOQuestionsToRoomUseCase,
-    private val setOQuestionsInRoomUseCase: SetOQuestionsInRoomUseCase,
-    private val waitOtherPlayerORangesUseCase: WaitOtherPlayerORangesUseCase,
-    private val sendMyORangesPointsUseCase: SendMyORangesPointsUseCase,
-    private val waitOtherPlayerORangesPointsUseCase: WaitOtherPlayerORangesPointsUseCase,
-    private val restartGameORangesUseCase: RestartGameORangesUseCase,
-    private val waitToRestartORangesUseCase: WaitToRestartORangesUseCase,
+    private val waitOtherPlayerOpinionOQuestionsUseCase: WaitOtherPlayerOpinionOQuestionsUseCase,
 ) : BaseViewModel<OQuestionsJoinedEvent>() {
 
     fun getQuestionsAndNames(roomId: String) {
@@ -42,7 +33,15 @@ class OQuestionsJoinedViewModel @Inject constructor(
                     orangeOpinion
                 )
             },
-            {},
+            { waitToOtherPlayerOpinion(roomId, round) },
+            { _event.value = OQuestionsJoinedEvent.SomethingWentWrong }
+        )
+    }
+
+    private fun waitToOtherPlayerOpinion(roomId: String, round: Int) {
+        executeUseCase(
+            { waitOtherPlayerOpinionOQuestionsUseCase.execute(roomId, isCreator = false, round) },
+            { result -> _event.value = OQuestionsJoinedEvent.OtherPlayerOpinion(result) },
             { _event.value = OQuestionsJoinedEvent.SomethingWentWrong }
         )
     }

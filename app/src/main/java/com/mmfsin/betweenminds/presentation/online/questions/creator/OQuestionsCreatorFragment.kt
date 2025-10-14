@@ -21,6 +21,7 @@ import com.mmfsin.betweenminds.utils.BEDROCK_STR_ARGS
 import com.mmfsin.betweenminds.utils.animateX
 import com.mmfsin.betweenminds.utils.animateY
 import com.mmfsin.betweenminds.utils.getEmptyScoreQuestionList
+import com.mmfsin.betweenminds.utils.handlePercentsPlayerOne
 import com.mmfsin.betweenminds.utils.handlePercentsPlayerTwo
 import com.mmfsin.betweenminds.utils.hideAlpha
 import com.mmfsin.betweenminds.utils.showAlpha
@@ -122,6 +123,7 @@ class OQuestionsCreatorFragment :
 
             buttonHide.button.setOnClickListener {
                 buttonHide.button.isEnabled = false
+                controller.isEnabled = false
                 waitingDialog = WaitingOtherPlayerDialog()
                 waitingDialog?.let { d -> activity?.showFragmentDialog(d) }
                 roomId?.let { id -> viewModel.sendOpinionToRoom(id, round, myOpinion) }
@@ -178,6 +180,12 @@ class OQuestionsCreatorFragment :
                 is OQuestionsCreatorEvent.QuestionsCreatorSetInRoom -> {
                     binding.loading.root.isVisible = false
                     setFirstPhase()
+                }
+
+                is OQuestionsCreatorEvent.OtherPlayerOpinion -> {
+                    waitingDialog?.dismiss()
+                    updatePercents(binding.people, 2, event.otherOpinion)
+                    handlePercentsPlayerTwo(binding.people, show = true)
                 }
 
                 is OQuestionsCreatorEvent.SomethingWentWrong -> error()

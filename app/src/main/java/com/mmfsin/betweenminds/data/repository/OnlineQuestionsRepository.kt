@@ -16,6 +16,7 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
 
 class OnlineQuestionsRepository @Inject constructor(
     @ApplicationContext val context: Context,
@@ -77,7 +78,7 @@ class OnlineQuestionsRepository @Inject constructor(
                 }
             }
 
-            cont.invokeOnCancellation { listener?.remove() }
+            cont.invokeOnCancellation { listener.remove() }
         }
 
     override suspend fun sendOpinionOQuestionsToRoomUseCase(
@@ -90,11 +91,38 @@ class OnlineQuestionsRepository @Inject constructor(
         val playerId = if (isCreator) PLAYER_1 else PLAYER_2
 
         val data = mapOf(
-            "round" to round,
             "orangeOpinion" to orangeOpinion,
         )
 
         db.collection(ROOMS).document(roomId).collection(playerId).document("$round")
             .set(data).await()
+    }
+
+    override suspend fun waitOtherPlayerOpinion(
+        roomId: String,
+        isCreator: Boolean,
+        round: Int
+    ): Int = suspendCancellableCoroutine { cont ->
+        val db = Firebase.firestore
+        val opponentId = if (isCreator) PLAYER_2 else PLAYER_1
+
+        val docRef = db.collection(ROOMS)
+            .document(roomId)
+            .collection(opponentId)
+            .document("$round")
+
+        val listener = docRef.addSnapshotListener { snapshot, error ->
+            if (error != null) {
+                cont.resumeWithException(error)
+                return@addSnapshotListener
+            }
+
+            val orangeOpinion = snapshot?.getLong("orangeOpinion")?.toInt()
+            if (orangeOpinion != null) {
+                cont.resume(orangeOpinion)
+            }
+        }
+
+        cont.invokeOnCancellation { listener.remove() }
     }
 }

@@ -17,6 +17,9 @@ interface IOnlineQuestionsRepository {
         round: Int,
         orangeOpinion: Int
     )
+
+    suspend fun waitOtherPlayerOpinion(roomId: String, isCreator: Boolean, round: Int): Int
+
 //    suspend fun sendPoints(roomId: String, isCreator: Boolean, points: Int)
 //    suspend fun waitOtherPlayerPoints(roomId: String, isCreator: Boolean): Int
 //    suspend fun restartGame(roomId: String)
