@@ -11,6 +11,12 @@ interface IOnlineQuestionsRepository {
     )
 
     suspend fun getQuestionsAndNames(roomId: String): OnlineQuestionsAndNames
+    suspend fun sendOpinionOQuestionsToRoomUseCase(
+        roomId: String,
+        isCreator: Boolean,
+        round: Int,
+        orangeOpinion: Int
+    )
 //    suspend fun sendPoints(roomId: String, isCreator: Boolean, points: Int)
 //    suspend fun waitOtherPlayerPoints(roomId: String, isCreator: Boolean): Int
 //    suspend fun restartGame(roomId: String)

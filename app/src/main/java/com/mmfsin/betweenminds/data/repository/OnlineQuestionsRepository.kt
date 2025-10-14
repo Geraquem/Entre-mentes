@@ -8,6 +8,8 @@ import com.google.firebase.ktx.Firebase
 import com.mmfsin.betweenminds.domain.interfaces.IOnlineQuestionsRepository
 import com.mmfsin.betweenminds.domain.models.OnlineQuestionsAndNames
 import com.mmfsin.betweenminds.domain.models.Question
+import com.mmfsin.betweenminds.utils.PLAYER_1
+import com.mmfsin.betweenminds.utils.PLAYER_2
 import com.mmfsin.betweenminds.utils.ROOMS
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.suspendCancellableCoroutine
@@ -77,4 +79,22 @@ class OnlineQuestionsRepository @Inject constructor(
 
             cont.invokeOnCancellation { listener?.remove() }
         }
+
+    override suspend fun sendOpinionOQuestionsToRoomUseCase(
+        roomId: String,
+        isCreator: Boolean,
+        round: Int,
+        orangeOpinion: Int
+    ) {
+        val db = Firebase.firestore
+        val playerId = if (isCreator) PLAYER_1 else PLAYER_2
+
+        val data = mapOf(
+            "round" to round,
+            "orangeOpinion" to orangeOpinion,
+        )
+
+        db.collection(ROOMS).document(roomId).collection(playerId).document("$round")
+            .set(data).await()
+    }
 }

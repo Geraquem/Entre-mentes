@@ -5,6 +5,7 @@ import com.mmfsin.betweenminds.domain.models.Question
 import com.mmfsin.betweenminds.domain.usecases.GetQuestionsUseCase
 import com.mmfsin.betweenminds.domain.usecases.RestartGameORangesUseCase
 import com.mmfsin.betweenminds.domain.usecases.SendMyORangesPointsUseCase
+import com.mmfsin.betweenminds.domain.usecases.SendOpinionOQuestionsToRoomUseCase
 import com.mmfsin.betweenminds.domain.usecases.SetOQuestionsInRoomUseCase
 import com.mmfsin.betweenminds.domain.usecases.WaitOtherPlayerORangesPointsUseCase
 import com.mmfsin.betweenminds.domain.usecases.WaitOtherPlayerORangesUseCase
@@ -16,6 +17,7 @@ import javax.inject.Inject
 class OQuestionsCreatorViewModel @Inject constructor(
     private val getQuestionsUseCase: GetQuestionsUseCase,
     private val setOQuestionsInRoomUseCase: SetOQuestionsInRoomUseCase,
+    private val sendOpinionOQuestionsToRoomUseCase: SendOpinionOQuestionsToRoomUseCase,
     private val waitOtherPlayerORangesUseCase: WaitOtherPlayerORangesUseCase,
     private val sendMyORangesPointsUseCase: SendMyORangesPointsUseCase,
     private val waitOtherPlayerORangesPointsUseCase: WaitOtherPlayerORangesPointsUseCase,
@@ -35,6 +37,21 @@ class OQuestionsCreatorViewModel @Inject constructor(
         executeUseCase(
             { setOQuestionsInRoomUseCase.execute(roomId, names, questions) },
             { _event.value = OQuestionsCreatorEvent.QuestionsCreatorSetInRoom },
+            { _event.value = OQuestionsCreatorEvent.SomethingWentWrong }
+        )
+    }
+
+    fun sendOpinionToRoom(roomId: String, round: Int, blueOpinion: Int) {
+        executeUseCase(
+            {
+                sendOpinionOQuestionsToRoomUseCase.execute(
+                    roomId,
+                    isCreator = true,
+                    round,
+                    blueOpinion
+                )
+            },
+            {},
             { _event.value = OQuestionsCreatorEvent.SomethingWentWrong }
         )
     }

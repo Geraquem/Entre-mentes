@@ -27,6 +27,7 @@ import com.mmfsin.betweenminds.utils.handlePercentsPlayerTwo
 import com.mmfsin.betweenminds.utils.hideAlpha
 import com.mmfsin.betweenminds.utils.showAlpha
 import com.mmfsin.betweenminds.utils.showErrorDialog
+import com.mmfsin.betweenminds.utils.showFragmentDialog
 import com.mmfsin.betweenminds.utils.updatePercents
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -43,6 +44,7 @@ class OQuestionsJoinedFragment :
     private var questionList: List<Question> = emptyList()
     private var position = 0
     private var round = 1
+    private var myOpinion = 50
 
     private var waitingDialog: WaitingOtherPlayerDialog? = null
 
@@ -118,6 +120,9 @@ class OQuestionsJoinedFragment :
 
             buttonHide.button.setOnClickListener {
                 buttonHide.button.isEnabled = false
+                waitingDialog = WaitingOtherPlayerDialog()
+                waitingDialog?.let { d -> activity?.showFragmentDialog(d) }
+                roomId?.let { id -> viewModel.sendOpinionToRoom(id, round, myOpinion) }
             }
 
             buttonCheck.button.setOnClickListener {
@@ -153,6 +158,7 @@ class OQuestionsJoinedFragment :
 
                         val percentX =
                             ((secondOpinion.x / (parent.width - secondOpinion.width)) * 100).toInt()
+                        myOpinion = percentX
                         updatePercents(people, 2, percentX)
                     }
                 }
