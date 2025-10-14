@@ -6,6 +6,7 @@ import com.mmfsin.betweenminds.domain.usecases.GetQuestionsUseCase
 import com.mmfsin.betweenminds.domain.usecases.RestartGameAndResetRoomUseCase
 import com.mmfsin.betweenminds.domain.usecases.SendOpinionOQuestionsToRoomUseCase
 import com.mmfsin.betweenminds.domain.usecases.SetOQuestionsInRoomUseCase
+import com.mmfsin.betweenminds.domain.usecases.UpdateOQuestionsInRoomUseCase
 import com.mmfsin.betweenminds.domain.usecases.WaitOtherPlayerOpinionOQuestionsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -14,6 +15,7 @@ import javax.inject.Inject
 class OQuestionsCreatorViewModel @Inject constructor(
     private val getQuestionsUseCase: GetQuestionsUseCase,
     private val setOQuestionsInRoomUseCase: SetOQuestionsInRoomUseCase,
+    private val updateOQuestionsInRoomUseCase: UpdateOQuestionsInRoomUseCase,
     private val sendOpinionOQuestionsToRoomUseCase: SendOpinionOQuestionsToRoomUseCase,
     private val waitOtherPlayerOpinionOQuestionsUseCase: WaitOtherPlayerOpinionOQuestionsUseCase,
     private val restartGameAndResetRoomUseCase: RestartGameAndResetRoomUseCase,
@@ -27,9 +29,22 @@ class OQuestionsCreatorViewModel @Inject constructor(
         )
     }
 
-    fun setQuestionsInRoom(roomId: String, names: Pair<String, String>, questions: List<Question>) {
+    fun setQuestionsInRoom(
+        roomId: String,
+        names: Pair<String, String>,
+        questions: List<Question>,
+        gameNumber: Int
+    ) {
         executeUseCase(
-            { setOQuestionsInRoomUseCase.execute(roomId, names, questions) },
+            { setOQuestionsInRoomUseCase.execute(roomId, names, questions, gameNumber) },
+            { _event.value = OQuestionsCreatorEvent.QuestionsSetInRoom },
+            { _event.value = OQuestionsCreatorEvent.SomethingWentWrong }
+        )
+    }
+
+    fun updateQuestions(roomId: String, questions: List<Question>, gameNumber: Int) {
+        executeUseCase(
+            { updateOQuestionsInRoomUseCase.execute(roomId, questions, gameNumber) },
             { _event.value = OQuestionsCreatorEvent.QuestionsSetInRoom },
             { _event.value = OQuestionsCreatorEvent.SomethingWentWrong }
         )
@@ -58,7 +73,7 @@ class OQuestionsCreatorViewModel @Inject constructor(
         )
     }
 
-    fun restartGame(roomId:String){
+    fun restartGame(roomId: String) {
         executeUseCase(
             { restartGameAndResetRoomUseCase.execute(roomId) },
             { _event.value = OQuestionsCreatorEvent.GameRestarted },

@@ -7,7 +7,14 @@ interface IOnlineQuestionsRepository {
     suspend fun setQuestionsInRoom(
         roomId: String,
         names: Pair<String, String>,
-        questions: List<Question>
+        questions: List<Question>,
+        gameNumber: Int
+    )
+
+    suspend fun updateQuestions(
+        roomId: String,
+        questions: List<Question>,
+        gameNumber: Int
     )
 
     suspend fun getQuestionsAndNames(roomId: String): OnlineQuestionsAndNames
@@ -19,4 +26,5 @@ interface IOnlineQuestionsRepository {
     )
 
     suspend fun waitOtherPlayerOpinion(roomId: String, isCreator: Boolean, round: Int): Int
+    suspend fun waitCreatorToRestartGame(roomId: String, gameNumber: Int): Int
 }

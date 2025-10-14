@@ -48,6 +48,8 @@ class OQuestionsCreatorFragment :
 
     var roomId: String? = null
 
+    private var gameNumber: Int = 1
+
     private var questionList: List<Question> = emptyList()
     private var position = 0
     private var questionPosition = 0
@@ -181,7 +183,14 @@ class OQuestionsCreatorFragment :
             when (event) {
                 is OQuestionsCreatorEvent.GetQuestions -> {
                     questionList = event.questions.shuffled()
-                    getQuestionsAndSendToRoom()
+                    roomId?.let { id ->
+                        viewModel.setQuestionsInRoom(
+                            roomId = id,
+                            names = Pair(blueName, orangeName),
+                            questions = getQuestionsToRoom(),
+                            gameNumber = gameNumber
+                        )
+                    }
                 }
 
                 is OQuestionsCreatorEvent.QuestionsSetInRoom -> {
@@ -190,7 +199,13 @@ class OQuestionsCreatorFragment :
                 }
 
                 is OQuestionsCreatorEvent.GameRestarted -> {
-                    getQuestionsAndSendToRoom()
+                    roomId?.let { id ->
+                        viewModel.updateQuestions(
+                            roomId = id,
+                            questions = getQuestionsToRoom(),
+                            gameNumber = gameNumber
+                        )
+                    }
                 }
 
                 is OQuestionsCreatorEvent.OtherPlayerOpinion -> {
@@ -207,12 +222,6 @@ class OQuestionsCreatorFragment :
         }
     }
 
-    private fun getQuestionsAndSendToRoom() {
-        roomId?.let { id ->
-            viewModel.setQuestionsInRoom(id, Pair(blueName, orangeName), getQuestionsToRoom())
-        }
-    }
-
     private fun getQuestionsToRoom(): List<Question> {
         if (questionPosition >= questionList.size) error()
 
@@ -225,6 +234,7 @@ class OQuestionsCreatorFragment :
 
     private fun setFirstPhase() {
         binding.apply {
+            if (position >= questionList.size) position = 0
             tvQuestion.text = questionList[position].text
             tvQuestion.showAlpha(500)
             firstArrowVisibility(isVisible = true)
@@ -264,7 +274,6 @@ class OQuestionsCreatorFragment :
 
             if (round >= 5) {
                 round = 1
-                position = 0
                 endGame()
 
             } else countDown(1000) { setFirstPhase() }
@@ -353,6 +362,7 @@ class OQuestionsCreatorFragment :
     }
 
     private fun restartGame() {
+        gameNumber++
         scoreboardQuestionAdapter?.resetScores()
         binding.loading.root.isVisible = true
         roomId?.let { id -> viewModel.restartGame(id) }

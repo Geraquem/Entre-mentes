@@ -25,15 +25,31 @@ class OnlineQuestionsRepository @Inject constructor(
     override suspend fun setQuestionsInRoom(
         roomId: String,
         names: Pair<String, String>,
-        questions: List<Question>
+        questions: List<Question>,
+        gameNumber: Int
     ) {
         val db = Firebase.firestore
         val data = mapOf(
             "blueName" to names.first,
             "orangeName" to names.second,
-            "questions" to questions
+            "questions" to questions,
+            "gameNumber" to gameNumber
         )
         db.collection(ROOMS).document(roomId).set(data, SetOptions.merge()).await()
+    }
+
+    override suspend fun updateQuestions(
+        roomId: String,
+        questions: List<Question>,
+        gameNumber: Int
+    ) {
+        val db = Firebase.firestore
+        val roomRef = db.collection(ROOMS).document(roomId)
+
+        db.runTransaction { transaction ->
+            transaction.update(roomRef, "questions", questions)
+            transaction.update(roomRef, "gameNumber", gameNumber)
+        }.await()
     }
 
     override suspend fun getQuestionsAndNames(roomId: String): OnlineQuestionsAndNames =
@@ -106,6 +122,8 @@ class OnlineQuestionsRepository @Inject constructor(
         val db = Firebase.firestore
         val opponentId = if (isCreator) PLAYER_2 else PLAYER_1
 
+        var hasResumed = false
+
         val docRef = db.collection(ROOMS)
             .document(roomId)
             .collection(opponentId)
@@ -118,11 +136,34 @@ class OnlineQuestionsRepository @Inject constructor(
             }
 
             val orangeOpinion = snapshot?.getLong("orangeOpinion")?.toInt()
-            if (orangeOpinion != null) {
+            if (orangeOpinion != null && !hasResumed && cont.isActive) {
+                hasResumed = true
                 cont.resume(orangeOpinion)
             }
         }
 
         cont.invokeOnCancellation { listener.remove() }
     }
+
+    override suspend fun waitCreatorToRestartGame(roomId: String, gameNumber: Int): Int =
+        suspendCancellableCoroutine { cont ->
+            val db = Firebase.firestore
+            val roomRef = db.collection(ROOMS).document(roomId)
+
+            var hasResumed = false
+
+            val listener = roomRef.addSnapshotListener { snapshot, e ->
+                if (e != null) {
+                    if (cont.isActive) cont.resumeWith(Result.failure(e))
+                    return@addSnapshotListener
+                }
+
+                val serverGameNumber = snapshot?.getLong("gameNumber")?.toInt()
+                if (serverGameNumber != null && serverGameNumber == gameNumber + 1 && !hasResumed && cont.isActive) {
+                    hasResumed = true
+                    cont.resume(serverGameNumber)
+                }
+            }
+            cont.invokeOnCancellation { listener.remove() }
+        }
 }

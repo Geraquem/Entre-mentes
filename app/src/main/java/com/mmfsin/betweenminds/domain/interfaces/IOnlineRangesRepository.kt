@@ -8,4 +8,5 @@ interface IOnlineRangesRepository {
     suspend fun waitOtherPlayerORanges(roomId: String, isCreator: Boolean): List<OnlineRoundData>
     suspend fun sendPoints(roomId: String, isCreator: Boolean, points: Int)
     suspend fun waitOtherPlayerPoints(roomId: String, isCreator: Boolean): Int
+    suspend fun waitCreatorToRestartGame(roomId: String)
 }

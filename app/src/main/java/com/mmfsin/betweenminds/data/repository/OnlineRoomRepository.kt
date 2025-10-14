@@ -145,23 +145,4 @@ class OnlineRoomRepository @Inject constructor(
         clearPlayerData(PLAYER_1)
         clearPlayerData(PLAYER_2)
     }
-
-    override suspend fun waitCreatorToRestartGameAndResetRoom(roomId: String) =
-        suspendCancellableCoroutine { cont ->
-            val db = Firebase.firestore
-            val roomRef = db.collection(ROOMS).document(roomId).collection(PLAYER_2)
-
-            val listener = roomRef.addSnapshotListener { snapshot, e ->
-                if (e != null) {
-                    if (cont.isActive) cont.resumeWith(Result.failure(e))
-                    return@addSnapshotListener
-                }
-
-                if (snapshot != null && snapshot.isEmpty) {
-                    if (cont.isActive) cont.resumeWith(Result.success(Unit))
-                }
-            }
-
-            cont.invokeOnCancellation { listener.remove() }
-        }
 }

@@ -6,5 +6,4 @@ interface IOnlineRoomRepository {
     suspend fun waitToJoinRoom(roomId: String)
 
     suspend fun restartGameAndResetRoom(roomId: String)
-    suspend fun waitCreatorToRestartGameAndResetRoom(roomId: String)
 }

@@ -47,6 +47,8 @@ class OQuestionsJoinedFragment :
 
     var roomId: String? = null
 
+    private var gameNumber: Int = 1
+
     private var questionList: List<Question> = emptyList()
     private var serverData: OnlineQuestionsAndNames? = null
     private var position = 0
@@ -197,6 +199,7 @@ class OQuestionsJoinedFragment :
                 }
 
                 is OQuestionsJoinedEvent.GameRestarted -> {
+                    gameNumber = event.serverGameNumber
                     roomId?.let { id -> viewModel.getQuestionsAndNames(id) }
                 }
 
@@ -328,7 +331,6 @@ class OQuestionsJoinedFragment :
 
     private fun endGame() {
         val data = scoreboardQuestionAdapter?.getTotalData()
-        scoreboardQuestionAdapter?.resetScores()
         data?.let {
             activity?.showFragmentDialog(
                 EndQuestionsDialog(
@@ -344,7 +346,7 @@ class OQuestionsJoinedFragment :
         scoreboardQuestionAdapter?.resetScores()
         waitingDialog = WaitingOtherPlayerDialog()
         waitingDialog?.let { d -> activity?.showFragmentDialog(d) }
-        roomId?.let { id -> viewModel.waitCreatorToRestartGame(id) }
+        roomId?.let { id -> viewModel.waitCreatorToRestartGame(id, gameNumber) }
     }
 
     private fun openInstructions() =

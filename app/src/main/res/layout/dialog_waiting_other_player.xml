@@ -13,6 +13,15 @@
     app:layout_constraintRight_toRightOf="parent"
     app:layout_constraintTop_toTopOf="parent">
 
+    <ImageView
+        android:id="@+id/ic_exit"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_gravity="start"
+        android:contentDescription="@string/content_description"
+        android:src="@drawable/ic_exit"
+        app:tint="@color/dark_grey" />
+
     <com.airbnb.lottie.LottieAnimationView
         android:layout_width="140dp"
         android:layout_height="140dp"

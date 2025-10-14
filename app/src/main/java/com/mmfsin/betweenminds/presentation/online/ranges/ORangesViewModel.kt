@@ -8,7 +8,7 @@ import com.mmfsin.betweenminds.domain.usecases.SendMyORangesDataToRoomUseCase
 import com.mmfsin.betweenminds.domain.usecases.SendMyORangesPointsUseCase
 import com.mmfsin.betweenminds.domain.usecases.WaitOtherPlayerORangesPointsUseCase
 import com.mmfsin.betweenminds.domain.usecases.WaitOtherPlayerORangesUseCase
-import com.mmfsin.betweenminds.domain.usecases.WaitToRestartGameUseCase
+import com.mmfsin.betweenminds.domain.usecases.WaitCreatorToRestartORangesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -20,7 +20,7 @@ class ORangesViewModel @Inject constructor(
     private val sendMyORangesPointsUseCase: SendMyORangesPointsUseCase,
     private val waitOtherPlayerORangesPointsUseCase: WaitOtherPlayerORangesPointsUseCase,
     private val restartGameAndResetRoomUseCase: RestartGameAndResetRoomUseCase,
-    private val waitToRestartGameUseCase: WaitToRestartGameUseCase,
+    private val waitCreatorToRestartORangesUseCase: WaitCreatorToRestartORangesUseCase,
 ) : BaseViewModel<ORangesEvent>() {
 
     fun getRanges() {
@@ -73,7 +73,7 @@ class ORangesViewModel @Inject constructor(
 
     fun waitCreatorToRestart(roomId: String) {
         executeUseCase(
-            { waitToRestartGameUseCase.execute(roomId) },
+            { waitCreatorToRestartORangesUseCase.execute(roomId) },
             { _event.value = ORangesEvent.GameRestarted },
             { _event.value = ORangesEvent.SomethingWentWrong }
         )

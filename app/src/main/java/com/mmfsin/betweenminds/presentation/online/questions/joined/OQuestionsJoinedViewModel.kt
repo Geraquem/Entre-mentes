@@ -3,8 +3,8 @@ package com.mmfsin.betweenminds.presentation.online.questions.joined
 import com.mmfsin.betweenminds.base.BaseViewModel
 import com.mmfsin.betweenminds.domain.usecases.GetOQuestionsAndNamesUseCase
 import com.mmfsin.betweenminds.domain.usecases.SendOpinionOQuestionsToRoomUseCase
+import com.mmfsin.betweenminds.domain.usecases.WaitCreatorToRestartOQuestionsUseCase
 import com.mmfsin.betweenminds.domain.usecases.WaitOtherPlayerOpinionOQuestionsUseCase
-import com.mmfsin.betweenminds.domain.usecases.WaitToRestartGameUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -13,7 +13,7 @@ class OQuestionsJoinedViewModel @Inject constructor(
     private val getOQuestionsAndNamesUseCase: GetOQuestionsAndNamesUseCase,
     private val sendOpinionOQuestionsToRoomUseCase: SendOpinionOQuestionsToRoomUseCase,
     private val waitOtherPlayerOpinionOQuestionsUseCase: WaitOtherPlayerOpinionOQuestionsUseCase,
-    private val waitToRestartGameUseCase: WaitToRestartGameUseCase,
+    private val waitCreatorToRestartOQuestionsUseCase: WaitCreatorToRestartOQuestionsUseCase
 ) : BaseViewModel<OQuestionsJoinedEvent>() {
 
     fun getQuestionsAndNames(roomId: String) {
@@ -47,10 +47,10 @@ class OQuestionsJoinedViewModel @Inject constructor(
         )
     }
 
-    fun waitCreatorToRestartGame(roomId: String) {
+    fun waitCreatorToRestartGame(roomId: String, gameNumber: Int) {
         executeUseCase(
-            { waitToRestartGameUseCase.execute(roomId) },
-            { _event.value = OQuestionsJoinedEvent.GameRestarted },
+            { waitCreatorToRestartOQuestionsUseCase.execute(roomId, gameNumber) },
+            { result->_event.value = OQuestionsJoinedEvent.GameRestarted(result) },
             { _event.value = OQuestionsJoinedEvent.SomethingWentWrong }
         )
     }

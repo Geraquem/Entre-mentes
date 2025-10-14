@@ -18,4 +18,11 @@ class WaitingOtherPlayerDialog(
     override fun setUI() {
         isCancelable = false
     }
+
+    override fun setListeners() {
+        binding.icExit.setOnClickListener {
+            dismiss()
+            activity?.finish()
+        }
+    }
 }
