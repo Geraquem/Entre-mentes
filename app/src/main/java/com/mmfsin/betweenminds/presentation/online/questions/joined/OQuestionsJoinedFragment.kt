@@ -16,15 +16,21 @@ import com.mmfsin.betweenminds.base.bedrock.BedRockActivity
 import com.mmfsin.betweenminds.databinding.FragmentQuestionsOnlineBinding
 import com.mmfsin.betweenminds.domain.models.OnlineQuestionsAndNames
 import com.mmfsin.betweenminds.domain.models.Question
+import com.mmfsin.betweenminds.domain.models.ScoreQuestion
 import com.mmfsin.betweenminds.presentation.online.common.dialog.WaitingOtherPlayerDialog
 import com.mmfsin.betweenminds.presentation.question.adapter.ScoreboardQuestionAdapter
+import com.mmfsin.betweenminds.presentation.question.dialogs.EndQuestionsDialog
 import com.mmfsin.betweenminds.utils.BEDROCK_STR_ARGS
 import com.mmfsin.betweenminds.utils.animateX
 import com.mmfsin.betweenminds.utils.animateY
+import com.mmfsin.betweenminds.utils.countDown
 import com.mmfsin.betweenminds.utils.getEmptyScoreQuestionList
+import com.mmfsin.betweenminds.utils.getKonfettiParty
+import com.mmfsin.betweenminds.utils.getQuestionModePoints
 import com.mmfsin.betweenminds.utils.handlePercentsPlayerOne
 import com.mmfsin.betweenminds.utils.handlePercentsPlayerTwo
 import com.mmfsin.betweenminds.utils.hideAlpha
+import com.mmfsin.betweenminds.utils.moveHumans
 import com.mmfsin.betweenminds.utils.showAlpha
 import com.mmfsin.betweenminds.utils.showErrorDialog
 import com.mmfsin.betweenminds.utils.showFragmentDialog
@@ -42,6 +48,7 @@ class OQuestionsJoinedFragment :
     var roomId: String? = null
 
     private var questionList: List<Question> = emptyList()
+    private var serverData: OnlineQuestionsAndNames? = null
     private var position = 0
     private var round = 1
     private var myOpinion = 50
@@ -134,6 +141,7 @@ class OQuestionsJoinedFragment :
             buttonNextRound.root.setOnClickListener {
                 buttonNextRound.root.isEnabled = false
                 buttonNextRound.root.animateY(500f, 500)
+                nextRound()
             }
 
 
@@ -174,12 +182,15 @@ class OQuestionsJoinedFragment :
             when (event) {
                 is OQuestionsJoinedEvent.GetQuestionsAndNames -> {
                     binding.loading.root.isVisible = false
-                    setFirstPhase(event.data)
+                    serverData = event.data
+                    questionList = event.data.questions
+                    setFirstPhase()
                 }
 
                 is OQuestionsJoinedEvent.OtherPlayerOpinion -> {
                     waitingDialog?.dismiss()
                     binding.buttonNextRound.root.animateY(0f, 500)
+                    checkPoints(event.otherOpinion)
                     moveOtherOpinionArrow(event.otherOpinion)
                     updatePercents(binding.people, 1, event.otherOpinion)
                     handlePercentsPlayerOne(binding.people, show = true)
@@ -190,12 +201,12 @@ class OQuestionsJoinedFragment :
         }
     }
 
-    private fun setFirstPhase(data: OnlineQuestionsAndNames) {
+    private fun setFirstPhase() {
         binding.apply {
-            tvQuestion.text = data.questions[position].text
+            tvQuestion.text = questionList[position].text
             people.apply {
-                etPlayerBlue.setText(data.blueName)
-                etPlayerOrange.setText(data.orangeName)
+                etPlayerBlue.setText(serverData?.blueName)
+                etPlayerOrange.setText(serverData?.orangeName)
             }
             tvQuestion.showAlpha(500)
             secondArrowVisibility(isVisible = true)
@@ -203,6 +214,64 @@ class OQuestionsJoinedFragment :
             controller.isEnabled = true
             controllerInfo.root.showAlpha(500)
             buttonHide.root.animateY(0f, 500)
+        }
+    }
+
+    private fun nextRound() {
+        binding.apply {
+            round++
+            position++
+
+            tvQuestion.hideAlpha(350)
+            curtainVisibility(isVisible = true)
+            firstArrowVisibility(isVisible = false)
+            secondArrowVisibility(isVisible = false)
+            buttonHide.button.isEnabled = true
+            buttonNextRound.button.isEnabled = true
+
+            people.apply {
+                percentOneBlue.text = getString(R.string.fifty)
+                percentTwoBlue.text = getString(R.string.fifty)
+                percentOneOrange.text = getString(R.string.fifty)
+                percentTwoOrange.text = getString(R.string.fifty)
+                moveHumans(this, 50)
+                handlePercentsPlayerOne(this, show = false)
+            }
+
+            firstArrow.translationX = 0f
+            firstOpinion.translationX = 0f
+            secondArrow.translationX = 0f
+            secondOpinion.translationX = 0f
+            myOpinion = 50
+
+            if (round >= 5) {
+                round = 1
+                position = 0
+                endGame()
+
+            } else countDown(1000) { setFirstPhase() }
+        }
+    }
+
+    private fun checkPoints(otherOpinion: Int) {
+        binding.apply {
+            val points = getQuestionModePoints(myOpinion, otherOpinion)
+            points?.let {
+                if (points > 10) binding.konfetti.start(getKonfettiParty())
+
+                val newScore = ScoreQuestion(
+                    discovered = true,
+                    actualQuestion = questionList[position].text,
+                    topNumbers = Pair((100 - otherOpinion), otherOpinion),
+                    bottomNumbers = Pair((100 - myOpinion), myOpinion),
+                    points = points
+                )
+
+                scoreboardQuestionAdapter?.updateScore(
+                    newScore = newScore,
+                    position = round - 1
+                )
+            } ?: run { error() }
         }
     }
 
@@ -250,6 +319,24 @@ class OQuestionsJoinedFragment :
             firstArrow.x = newX + (firstOpinion.width - firstArrow.width) / 2f
             firstArrowVisibility(isVisible = true)
         }
+    }
+
+    private fun endGame() {
+        val data = scoreboardQuestionAdapter?.getTotalData()
+        scoreboardQuestionAdapter?.resetScores()
+        data?.let {
+            activity?.showFragmentDialog(
+                EndQuestionsDialog(
+                    data = data,
+                    restartGame = { restartGame() },
+                    exit = { activity?.onBackPressedDispatcher?.onBackPressed() }
+                )
+            )
+        } ?: run { error() }
+    }
+
+    private fun restartGame() {
+        scoreboardQuestionAdapter?.resetScores()
     }
 
     private fun openInstructions() =

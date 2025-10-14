@@ -15,14 +15,20 @@ import com.mmfsin.betweenminds.base.BaseFragment
 import com.mmfsin.betweenminds.base.bedrock.BedRockActivity
 import com.mmfsin.betweenminds.databinding.FragmentQuestionsOnlineBinding
 import com.mmfsin.betweenminds.domain.models.Question
+import com.mmfsin.betweenminds.domain.models.ScoreQuestion
 import com.mmfsin.betweenminds.presentation.online.common.dialog.WaitingOtherPlayerDialog
 import com.mmfsin.betweenminds.presentation.question.adapter.ScoreboardQuestionAdapter
+import com.mmfsin.betweenminds.presentation.question.dialogs.EndQuestionsDialog
 import com.mmfsin.betweenminds.utils.BEDROCK_STR_ARGS
 import com.mmfsin.betweenminds.utils.animateX
 import com.mmfsin.betweenminds.utils.animateY
+import com.mmfsin.betweenminds.utils.countDown
 import com.mmfsin.betweenminds.utils.getEmptyScoreQuestionList
+import com.mmfsin.betweenminds.utils.getKonfettiParty
+import com.mmfsin.betweenminds.utils.getQuestionModePoints
 import com.mmfsin.betweenminds.utils.handlePercentsPlayerTwo
 import com.mmfsin.betweenminds.utils.hideAlpha
+import com.mmfsin.betweenminds.utils.moveHumans
 import com.mmfsin.betweenminds.utils.showAlpha
 import com.mmfsin.betweenminds.utils.showErrorDialog
 import com.mmfsin.betweenminds.utils.showFragmentDialog
@@ -136,6 +142,7 @@ class OQuestionsCreatorFragment :
             buttonNextRound.root.setOnClickListener {
                 buttonNextRound.root.isEnabled = false
                 buttonNextRound.root.animateY(500f, 500)
+                nextRound()
             }
 
             val parent = firstOpinion.parent as View
@@ -185,6 +192,7 @@ class OQuestionsCreatorFragment :
                 is OQuestionsCreatorEvent.OtherPlayerOpinion -> {
                     waitingDialog?.dismiss()
                     binding.buttonNextRound.root.animateY(0f, 500)
+                    checkPoints(event.otherOpinion)
                     moveOtherOpinionArrow(event.otherOpinion)
                     updatePercents(binding.people, 2, event.otherOpinion)
                     handlePercentsPlayerTwo(binding.people, show = true)
@@ -220,6 +228,64 @@ class OQuestionsCreatorFragment :
             controller.isEnabled = true
             controllerInfo.root.showAlpha(500)
             buttonHide.root.animateY(0f, 500)
+        }
+    }
+
+    private fun nextRound() {
+        binding.apply {
+            round++
+            position++
+
+            tvQuestion.hideAlpha(350)
+            curtainVisibility(isVisible = true)
+            firstArrowVisibility(isVisible = false)
+            secondArrowVisibility(isVisible = false)
+            buttonHide.button.isEnabled = true
+            buttonNextRound.button.isEnabled = true
+
+            people.apply {
+                percentOneBlue.text = getString(R.string.fifty)
+                percentTwoBlue.text = getString(R.string.fifty)
+                percentOneOrange.text = getString(R.string.fifty)
+                percentTwoOrange.text = getString(R.string.fifty)
+                moveHumans(this, 50)
+                handlePercentsPlayerTwo(this, show = false)
+            }
+
+            firstArrow.translationX = 0f
+            firstOpinion.translationX = 0f
+            secondArrow.translationX = 0f
+            secondOpinion.translationX = 0f
+            myOpinion = 50
+
+            if (round >= 5) {
+                round = 1
+                position = 0
+                endGame()
+
+            } else countDown(1000) { setFirstPhase() }
+        }
+    }
+
+    private fun checkPoints(otherOpinion: Int) {
+        binding.apply {
+            val points = getQuestionModePoints(myOpinion, otherOpinion)
+            points?.let {
+                if (points > 10) binding.konfetti.start(getKonfettiParty())
+
+                val newScore = ScoreQuestion(
+                    discovered = true,
+                    actualQuestion = questionList[position].text,
+                    topNumbers = Pair((100 - myOpinion), myOpinion),
+                    bottomNumbers = Pair((100 - otherOpinion), otherOpinion),
+                    points = points
+                )
+
+                scoreboardQuestionAdapter?.updateScore(
+                    newScore = newScore,
+                    position = round - 1
+                )
+            } ?: run { error() }
         }
     }
 
@@ -267,6 +333,23 @@ class OQuestionsCreatorFragment :
             secondArrow.x = newX + (secondOpinion.width - secondArrow.width) / 2f
             secondArrowVisibility(isVisible = true)
         }
+    }
+
+    private fun endGame() {
+        val data = scoreboardQuestionAdapter?.getTotalData()
+        data?.let {
+            activity?.showFragmentDialog(
+                EndQuestionsDialog(
+                    data = data,
+                    restartGame = { restartGame() },
+                    exit = { activity?.onBackPressedDispatcher?.onBackPressed() }
+                )
+            )
+        } ?: run { error() }
+    }
+
+    private fun restartGame() {
+        scoreboardQuestionAdapter?.resetScores()
     }
 
     private fun openInstructions() =
