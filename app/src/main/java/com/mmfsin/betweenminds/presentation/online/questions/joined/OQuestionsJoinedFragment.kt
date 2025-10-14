@@ -196,6 +196,10 @@ class OQuestionsJoinedFragment :
                     handlePercentsPlayerOne(binding.people, show = true)
                 }
 
+                is OQuestionsJoinedEvent.GameRestarted -> {
+                    roomId?.let { id -> viewModel.getQuestionsAndNames(id) }
+                }
+
                 is OQuestionsJoinedEvent.SomethingWentWrong -> error()
             }
         }
@@ -203,6 +207,7 @@ class OQuestionsJoinedFragment :
 
     private fun setFirstPhase() {
         binding.apply {
+            waitingDialog?.dismiss()
             tvQuestion.text = questionList[position].text
             people.apply {
                 etPlayerBlue.setText(serverData?.blueName)
@@ -337,6 +342,9 @@ class OQuestionsJoinedFragment :
 
     private fun restartGame() {
         scoreboardQuestionAdapter?.resetScores()
+        waitingDialog = WaitingOtherPlayerDialog()
+        waitingDialog?.let { d -> activity?.showFragmentDialog(d) }
+        roomId?.let { id -> viewModel.waitCreatorToRestartGame(id) }
     }
 
     private fun openInstructions() =

@@ -12,6 +12,7 @@ import com.mmfsin.betweenminds.utils.ROOMS
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import java.util.concurrent.CountDownLatch
 import javax.inject.Inject
@@ -129,4 +130,38 @@ class OnlineRoomRepository @Inject constructor(
 
         cont.invokeOnCancellation { listener.remove() }
     }
+
+    override suspend fun restartGameAndResetRoom(roomId: String) {
+        val db = Firebase.firestore
+        val roomRef = db.collection(ROOMS).document(roomId)
+
+        suspend fun clearPlayerData(playerId: String) {
+            val playerRef = roomRef.collection(playerId)
+            val snapshot = playerRef.get().await()
+            for (doc in snapshot.documents) {
+                playerRef.document(doc.id).delete().await()
+            }
+        }
+        clearPlayerData(PLAYER_1)
+        clearPlayerData(PLAYER_2)
+    }
+
+    override suspend fun waitCreatorToRestartGameAndResetRoom(roomId: String) =
+        suspendCancellableCoroutine { cont ->
+            val db = Firebase.firestore
+            val roomRef = db.collection(ROOMS).document(roomId).collection(PLAYER_2)
+
+            val listener = roomRef.addSnapshotListener { snapshot, e ->
+                if (e != null) {
+                    if (cont.isActive) cont.resumeWith(Result.failure(e))
+                    return@addSnapshotListener
+                }
+
+                if (snapshot != null && snapshot.isEmpty) {
+                    if (cont.isActive) cont.resumeWith(Result.success(Unit))
+                }
+            }
+
+            cont.invokeOnCancellation { listener.remove() }
+        }
 }

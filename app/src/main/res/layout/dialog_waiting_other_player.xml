@@ -24,7 +24,7 @@
 
     <TextView
         android:id="@+id/tv_description"
-        style="@style/SmallTextView"
+        style="@style/MediumTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/alphazet"

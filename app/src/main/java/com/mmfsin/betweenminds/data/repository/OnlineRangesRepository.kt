@@ -122,38 +122,4 @@ class OnlineRangesRepository @Inject constructor(
 
             cont.invokeOnCancellation { listener.remove() }
         }
-
-    override suspend fun restartGame(roomId: String) {
-        val db = Firebase.firestore
-        val roomRef = db.collection(ROOMS).document(roomId)
-
-        suspend fun clearPlayerData(playerId: String) {
-            val playerRef = roomRef.collection(playerId)
-            val snapshot = playerRef.get().await()
-            for (doc in snapshot.documents) {
-                playerRef.document(doc.id).delete().await()
-            }
-        }
-        clearPlayerData(PLAYER_1)
-        clearPlayerData(PLAYER_2)
-    }
-
-    override suspend fun waitCreatorToRestartGame(roomId: String) =
-        suspendCancellableCoroutine { cont ->
-            val db = Firebase.firestore
-            val roomRef = db.collection(ROOMS).document(roomId).collection(PLAYER_1)
-
-            val listener = roomRef.addSnapshotListener { snapshot, e ->
-                if (e != null) {
-                    if (cont.isActive) cont.resumeWith(Result.failure(e))
-                    return@addSnapshotListener
-                }
-
-                if (snapshot != null && snapshot.isEmpty) {
-                    if (cont.isActive) cont.resumeWith(Result.success(Unit))
-                }
-            }
-
-            cont.invokeOnCancellation { listener.remove() }
-        }
 }

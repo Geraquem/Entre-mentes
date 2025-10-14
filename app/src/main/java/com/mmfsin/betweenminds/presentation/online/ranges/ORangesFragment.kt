@@ -427,7 +427,7 @@ class ORangesFragment : BaseFragment<FragmentRangesOnlineBinding, ORangesViewMod
                         else {
                             waitingDialog = WaitingOtherPlayerDialog()
                             waitingDialog?.let { d -> activity?.showFragmentDialog(d) }
-                            viewModel.waitToCreatorToRestart(id)
+                            viewModel.waitCreatorToRestart(id)
                         }
                     }
                 })

@@ -179,14 +179,18 @@ class OQuestionsCreatorFragment :
     override fun observe() {
         viewModel.event.observe(this) { event ->
             when (event) {
-                is OQuestionsCreatorEvent.GetQuestionsCreator -> {
+                is OQuestionsCreatorEvent.GetQuestions -> {
                     questionList = event.questions.shuffled()
                     getQuestionsAndSendToRoom()
                 }
 
-                is OQuestionsCreatorEvent.QuestionsCreatorSetInRoom -> {
+                is OQuestionsCreatorEvent.QuestionsSetInRoom -> {
                     binding.loading.root.isVisible = false
                     setFirstPhase()
+                }
+
+                is OQuestionsCreatorEvent.GameRestarted -> {
+                    getQuestionsAndSendToRoom()
                 }
 
                 is OQuestionsCreatorEvent.OtherPlayerOpinion -> {
@@ -350,6 +354,8 @@ class OQuestionsCreatorFragment :
 
     private fun restartGame() {
         scoreboardQuestionAdapter?.resetScores()
+        binding.loading.root.isVisible = true
+        roomId?.let { id -> viewModel.restartGame(id) }
     }
 
     private fun openInstructions() =
