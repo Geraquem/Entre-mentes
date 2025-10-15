@@ -21,7 +21,7 @@ class OnlineRoomRepository @Inject constructor(
     @ApplicationContext val context: Context,
 ) : IOnlineRoomRepository {
 
-    override suspend fun createRoom(): String? {
+    override suspend fun createRoom(gameType: String): String? {
         val db = Firebase.firestore
         val latch = CountDownLatch(1)
 
@@ -44,6 +44,7 @@ class OnlineRoomRepository @Inject constructor(
 
                 transaction.set(
                     roomRef, hashMapOf(
+                        "gameType" to gameType,
                         "roomId" to roomId,
                         "players" to listOf(PLAYER_1),
                         "createdAt" to FieldValue.serverTimestamp()
@@ -73,7 +74,7 @@ class OnlineRoomRepository @Inject constructor(
         return (1..4).map { chars.random() }.joinToString("")
     }
 
-    override suspend fun joinRoom(roomId: String): Boolean {
+    override suspend fun joinRoom(roomId: String, gameType: String): Boolean {
         val db = Firebase.firestore
         var joined = false
         val latch = CountDownLatch(1)
@@ -86,20 +87,24 @@ class OnlineRoomRepository @Inject constructor(
                 return@addOnSuccessListener
             }
 
-            val players =
-                (snapshot.get(PLAYERS) as? List<String>)?.toMutableList() ?: mutableListOf()
+            val type = snapshot.get("gameType")
+            if (gameType != type) latch.countDown()
+            else {
+                val players =
+                    (snapshot.get(PLAYERS) as? List<String>)?.toMutableList() ?: mutableListOf()
 
-            if (players.size >= 2) {
-                latch.countDown()
-                return@addOnSuccessListener
-            } else {
-                players.add(PLAYER_2)
-                roomRef.update(PLAYERS, players).addOnSuccessListener {
-                    joined = true
-                    println("Joined succesfully to room: $roomId")
+                if (players.size >= 2) {
                     latch.countDown()
+                    return@addOnSuccessListener
+                } else {
+                    players.add(PLAYER_2)
+                    roomRef.update(PLAYERS, players).addOnSuccessListener {
+                        joined = true
+                        println("Joined succesfully to room: $roomId")
+                        latch.countDown()
 
-                }.addOnFailureListener { latch.countDown() }
+                    }.addOnFailureListener { latch.countDown() }
+                }
             }
         }.addOnFailureListener {
             println("Error: ${it.message}")

@@ -12,9 +12,9 @@ class ChooseViewModel @Inject constructor(
     private val joinRoomUseCase: JoinRoomUseCase
 ) : BaseViewModel<ChooseEvent>() {
 
-    fun createRoom() {
+    fun createRoom(gameType: String) {
         executeUseCase(
-            { createRoomUseCase.execute() },
+            { createRoomUseCase.execute(gameType) },
             { result ->
                 if (result == null) _event.value = ChooseEvent.SomethingWentWrong
                 else _event.value = ChooseEvent.RoomCreated(result)
@@ -23,9 +23,9 @@ class ChooseViewModel @Inject constructor(
         )
     }
 
-    fun joinRoom(roomId: String) {
+    fun joinRoom(roomId: String, gameType: String) {
         executeUseCase(
-            { joinRoomUseCase.execute(roomId) },
+            { joinRoomUseCase.execute(roomId, gameType) },
             { result -> _event.value = ChooseEvent.JoinedToRoom(result, roomId) },
             { _event.value = ChooseEvent.SomethingWentWrong }
         )

@@ -87,9 +87,7 @@ class ChooseFragment : BaseFragment<FragmentChooseBinding, ChooseViewModel>(), I
                         }
                         navGraph?.let { ng ->
                             navigateTo(
-                                navGraph = ng,
-                                strArgs = event.roomId,
-                                booleanArgs = false
+                                navGraph = ng, strArgs = event.roomId, booleanArgs = false
                             )
                         } ?: run { error(goBack = false) }
 
@@ -130,14 +128,14 @@ class ChooseFragment : BaseFragment<FragmentChooseBinding, ChooseViewModel>(), I
     override fun createRoom() {
         binding.apply {
             loading.root.isVisible = true
-            viewModel.createRoom()
+            gameType?.let { type -> viewModel.createRoom(type) } ?: run { error(false) }
         }
     }
 
     override fun joinRoom(roomId: String) {
         binding.apply {
             loading.root.isVisible = true
-            viewModel.joinRoom(roomId)
+            gameType?.let { type -> viewModel.joinRoom(roomId, type) } ?: run { error(false) }
         }
     }
 

@@ -43,12 +43,20 @@
         app:layout_constraintTop_toBottomOf="@id/rl_top">
 
         <TextView
-            android:id="@+id/tv_description"
+            style="@style/SmallTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:gravity="center"
+            android:text="@string/error_joining_room_description" />
+
+        <TextView
             style="@style/SmallTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
-            android:text="@string/error_joining_room_description" />
+            android:gravity="center"
+            android:text="@string/error_joining_room_description_2" />
 
         <include
             android:id="@+id/btn_accept"

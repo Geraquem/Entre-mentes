@@ -8,7 +8,8 @@
     <string name="error_btn">Aceptar</string>
 
     <string name="error_joining_room_title">Algo ha salido mal</string>
-    <string name="error_joining_room_description">Parece que no ha sido posible unirte a la sala. Revisa el código o tu conexión a internet y vuelve a intentarlo.</string>
+    <string name="error_joining_room_description">Parece que no ha sido posible unirte.</string>
+    <string name="error_joining_room_description_2">Revisa el código de la sala, que estéis en el mismo modo de juego o tu conexión a internet y vuelve a intentarlo.</string>
 
     <!-- MENU -->
     <string name="selector_play">Jugar</string>
