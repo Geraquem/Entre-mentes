@@ -20,8 +20,8 @@ import com.mmfsin.betweenminds.domain.models.OnlineRoundData
 import com.mmfsin.betweenminds.domain.models.Range
 import com.mmfsin.betweenminds.domain.models.ScoreRange
 import com.mmfsin.betweenminds.presentation.common.dialog.WaitingOtherPlayerDialog
-import com.mmfsin.betweenminds.presentation.ranges.dialogs.EndGameORangesDialog
 import com.mmfsin.betweenminds.presentation.ranges.adapter.ScoreboardRangesAdapter
+import com.mmfsin.betweenminds.presentation.ranges.dialogs.EndGameORangesDialog
 import com.mmfsin.betweenminds.utils.BEDROCK_BOOLEAN_ARGS
 import com.mmfsin.betweenminds.utils.BEDROCK_STR_ARGS
 import com.mmfsin.betweenminds.utils.RANGES_TYPE
@@ -210,7 +210,7 @@ class ORangesFragment : BaseFragment<FragmentRangesOnlineBinding, ORangesViewMod
                 ranges.tvRangeLeft.text = actualRange.leftRange
                 ranges.tvRangeRight.text = actualRange.rightRange
                 setBullsEye()
-                countDown(1000) {
+                countDown(750) {
                     clClue.showAlpha(350)
                     buttonHide.root.animateY(0f, 350)
                     curtainVisibility(isVisible = false)
@@ -255,7 +255,7 @@ class ORangesFragment : BaseFragment<FragmentRangesOnlineBinding, ORangesViewMod
 
             round++
             position++
-            countDown(1000) { startCluePhase() }
+            countDown(750) { startCluePhase() }
         }
     }
 
@@ -265,7 +265,6 @@ class ORangesFragment : BaseFragment<FragmentRangesOnlineBinding, ORangesViewMod
                 if (round == 3) buttonNextRound.button.text = getString(R.string.ranges_see_points)
                 buttonCheck.button.isEnabled = true
 
-                scoreboard.root.alpha = 0f
                 etClue.alpha = 0f
                 tvClue.alpha = 1f
                 tvTopText.text = getString(R.string.ranges_clue_title)
@@ -276,7 +275,7 @@ class ORangesFragment : BaseFragment<FragmentRangesOnlineBinding, ORangesViewMod
                 ranges.tvRangeRight.text = actualRange.rightRange
                 setBullsEye(position = actualRange.bullseyePosition)
                 bullseyeVisibility(isVisible = false)
-                countDown(1000) {
+                countDown(750) {
                     scoreboard.root.showAlpha(350)
                     clClue.showAlpha(350)
                     buttonCheck.root.animateY(0f, 350)
@@ -330,7 +329,7 @@ class ORangesFragment : BaseFragment<FragmentRangesOnlineBinding, ORangesViewMod
                 tvRangeRight.hideAlpha(350)
             }
 
-            countDown(1000) {
+            countDown(750) {
                 arrow.translationX = 0f
                 target.translationX = 0f
                 startGuessingPhase()

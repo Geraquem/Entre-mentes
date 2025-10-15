@@ -89,7 +89,6 @@
             android:layout_gravity="center"
             android:background="@drawable/bg_white_box"
             android:backgroundTint="@color/grey"
-            android:elevation="4dp"
             android:gravity="center"
             android:paddingHorizontal="16dp"
             android:paddingVertical="8dp"
