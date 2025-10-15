@@ -111,7 +111,7 @@ class OQuestionsCreatorFragment :
 
             setUpScoreboard()
 
-            buttonHide.button.text = getString(R.string.online_btn_save_answer)
+            buttonHide.button.text = getString(R.string.online_btn_compare)
             buttonCheck.button.text = getString(R.string.btn_check)
             buttonNextRound.button.text = getString(R.string.btn_next_round)
 

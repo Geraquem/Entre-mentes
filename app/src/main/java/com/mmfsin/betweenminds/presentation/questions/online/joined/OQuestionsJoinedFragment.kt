@@ -111,7 +111,6 @@ class OQuestionsJoinedFragment :
             handlePercentsPlayerTwo(people, show = true)
 
             buttonHide.button.text = getString(R.string.online_btn_compare)
-            buttonCheck.button.text = getString(R.string.btn_check)
             buttonNextRound.button.text = getString(R.string.btn_next_round)
 
             controllerInfo.tvControllerText.text = getString(R.string.controller_limited)
@@ -119,7 +118,6 @@ class OQuestionsJoinedFragment :
             controller.isEnabled = false
 
             buttonHide.root.animateY(500f, 1)
-            buttonCheck.root.animateY(500f, 1)
             buttonNextRound.root.animateY(500f, 1)
 
             firstArrowVisibility(isVisible = false)
@@ -145,10 +143,6 @@ class OQuestionsJoinedFragment :
                 waitingDialog = WaitingOtherPlayerDialog()
                 waitingDialog?.let { d -> activity?.showFragmentDialog(d) }
                 roomId?.let { id -> viewModel.sendOpinionToRoom(id, round, myOpinion) }
-            }
-
-            buttonCheck.button.setOnClickListener {
-                buttonCheck.button.isEnabled = false
             }
 
             buttonNextRound.root.setOnClickListener {
