@@ -44,8 +44,8 @@ class MenuFragment : BaseFragment<FragmentMenuBinding, MenuViewModel>(), ISelect
             loading.root.isVisible = true
 
             /*********************************************************************************/
-            findNavController().navigate(actionToChooseFragment(QUESTIONS_TYPE))
-//            findNavController().navigate(actionToChooseFragment(RANGES_TYPE))
+//            findNavController().navigate(actionToChooseFragment(QUESTIONS_TYPE))
+            findNavController().navigate(actionToChooseFragment(RANGES_TYPE))
             /*********************************************************************************/
         }
     }
@@ -65,15 +65,11 @@ class MenuFragment : BaseFragment<FragmentMenuBinding, MenuViewModel>(), ISelect
 
     private fun rotateImage(onEnd: (() -> Unit)? = null) {
         val image = binding.icPlay
-        image.animate()
-            .rotation(-90f)
-            .setInterpolator(DecelerateInterpolator())
-            .setDuration(150)
+        image.animate().rotation(-90f).setInterpolator(DecelerateInterpolator()).setDuration(150)
             .withEndAction {
                 onEnd?.invoke()
                 countDown(300) { image.rotation = 0f }
-            }
-            .start()
+            }.start()
     }
 
     override fun observe() {
@@ -102,16 +98,18 @@ class MenuFragment : BaseFragment<FragmentMenuBinding, MenuViewModel>(), ISelect
         }
     }
 
-    override fun openQuestionsMode() = navigateTo(R.navigation.nav_graph_questions)
+    override fun openQuestionsMode() =
+        findNavController().navigate(actionToChooseFragment(QUESTIONS_TYPE))
+
     override fun openQuestionsInstructions() = navigateTo(
-        navGraph = R.navigation.nav_graph_instructions,
-        strArgs = QUESTIONS_TYPE
+        navGraph = R.navigation.nav_graph_instructions, strArgs = QUESTIONS_TYPE
     )
 
-    override fun openRangesMode() = navigateTo(R.navigation.nav_graph_ranges)
-    override fun openRangesInstructions()  = navigateTo(
-        navGraph = R.navigation.nav_graph_instructions,
-        strArgs = RANGES_TYPE
+    override fun openRangesMode() =
+        findNavController().navigate(actionToChooseFragment(RANGES_TYPE))
+
+    override fun openRangesInstructions() = navigateTo(
+        navGraph = R.navigation.nav_graph_instructions, strArgs = RANGES_TYPE
     )
 
     private fun navigateTo(navGraph: Int, strArgs: String? = null, booleanArgs: Boolean? = null) {

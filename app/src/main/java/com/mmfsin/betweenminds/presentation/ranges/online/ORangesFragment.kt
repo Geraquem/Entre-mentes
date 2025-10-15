@@ -22,6 +22,7 @@ import com.mmfsin.betweenminds.domain.models.ScoreRange
 import com.mmfsin.betweenminds.presentation.common.dialog.WaitingOtherPlayerDialog
 import com.mmfsin.betweenminds.presentation.ranges.adapter.ScoreboardRangesAdapter
 import com.mmfsin.betweenminds.presentation.ranges.dialogs.EndGameORangesDialog
+import com.mmfsin.betweenminds.presentation.ranges.dialogs.ORangesStartDialog
 import com.mmfsin.betweenminds.utils.BEDROCK_BOOLEAN_ARGS
 import com.mmfsin.betweenminds.utils.BEDROCK_STR_ARGS
 import com.mmfsin.betweenminds.utils.RANGES_TYPE
@@ -74,7 +75,14 @@ class ORangesFragment : BaseFragment<FragmentRangesOnlineBinding, ORangesViewMod
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        checkNotNulls(roomId, isCreator) { _, _ -> viewModel.getRanges() } ?: run { error() }
+        checkNotNulls(roomId, isCreator) { _, _ -> } ?: run { error() }
+
+        activity?.showFragmentDialog(
+            ORangesStartDialog(
+                close = { activity?.onBackPressedDispatcher?.onBackPressed() },
+                start = { viewModel.getRanges() },
+                instructions = { openInstructions() })
+        )
     }
 
     private fun setUpScoreboard() {

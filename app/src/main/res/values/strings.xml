@@ -59,6 +59,11 @@
     <string name="ranges_start_play">Empezar</string>
     <string name="ranges_start_instructions">Cómo se juega</string>
 
+    <string name="ranges_start_online"><b>Objetivo:</b> Ayudar a vuestro compañero a conseguir puntos.</string>
+    <string name="ranges_start_online_1">Para ello deberéis mandar pistas para orientar al otro jugador a poner la flecha en la zona marcada para ganar puntos, y luego mover la flecha en función de la pista recibida.</string>
+    <string name="ranges_start_online_2"><b>3 rondas</b> seguidas de mandar pistas, <b>3 rondas</b> seguidas de conseguir puntos con la pista de vuestro compañero.</string>
+    <string name="ranges_start_online_3">Hay que tratar de obtener la <b>mayor puntuación posible</b>.</string>
+
     <string name="ranges_no_clue">No hay pista</string>
     <string name="ranges_write_a_clue">Escribe una pista</string>
     <string name="ranges_clue_title">La pista es:</string>
