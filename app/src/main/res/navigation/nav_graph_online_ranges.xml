@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/rangesOnlineFragment"
-        android:name="com.mmfsin.betweenminds.presentation.online.ranges.ORangesFragment"
+        android:name="com.mmfsin.betweenminds.presentation.ranges.online.ORangesFragment"
         android:label="rangesOnlineFragment"
         tools:layout="@layout/fragment_ranges_online" />
 

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/questionsJoinedOnlineFragment"
-        android:name="com.mmfsin.betweenminds.presentation.online.questions.joined.OQuestionsJoinedFragment"
+        android:name="com.mmfsin.betweenminds.presentation.questions.online.joined.OQuestionsJoinedFragment"
         android:label="questionsJoinedFragment"
         tools:layout="@layout/fragment_questions_online" />
 

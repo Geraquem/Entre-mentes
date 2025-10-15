@@ -8,7 +8,7 @@
     <string name="error_btn">Aceptar</string>
 
     <string name="error_joining_room_title">Algo ha salido mal</string>
-    <string name="error_joining_room_description">Parece que no ha sido del todo posible unirte a la sala, prueba intentándolo de nuevo más tarde.</string>
+    <string name="error_joining_room_description">Parece que no ha sido posible unirte a la sala. Revisa el código o tu conexión a internet y vuelve a intentarlo.</string>
 
     <!-- MENU -->
     <string name="selector_play">Jugar</string>
@@ -83,7 +83,7 @@
     <string name="online_join_room">Unirse a sala</string>
     <string name="online_create_room">Crear sala</string>
     <string name="online_mode">Jugar online</string>
-    <string name="online_mode_desc">Una persona crea una sala y otra se une. Juegan con dos móviles distintos. Recomendable estar en videollamada. blabla</string>
+    <string name="online_mode_desc">Una persona crea una sala y otra se une. Juegan con dos móviles distintos. Recomendable estar en videollamada.</string>
     <string name="online_offline">Jugar con un móvil</string>
     <string name="online_offline_desc">Sin conxiones a internet. Dos personas jugando con el mismo móvil pasándoselo mano a mano.</string>
     <string name="online_btn_start">Empezar</string>
