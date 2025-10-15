@@ -21,6 +21,7 @@ import com.mmfsin.betweenminds.domain.models.ScoreQuestion
 import com.mmfsin.betweenminds.presentation.question.adapter.ScoreboardQuestionAdapter
 import com.mmfsin.betweenminds.presentation.question.dialogs.EndQuestionsDialog
 import com.mmfsin.betweenminds.presentation.question.dialogs.QuestionsStartDialog
+import com.mmfsin.betweenminds.utils.QUESTIONS_TYPE
 import com.mmfsin.betweenminds.utils.animateX
 import com.mmfsin.betweenminds.utils.animateY
 import com.mmfsin.betweenminds.utils.countDown
@@ -412,8 +413,11 @@ class QuestionsFragment :
         showRound { setFirstRanges() }
     }
 
-    private fun openInstructions() =
-        (activity as BedRockActivity).openBedRockActivity(R.navigation.nav_graph_instr_questions)
+    private fun openInstructions() = (activity as BedRockActivity).openBedRockActivity(
+        navGraph = R.navigation.nav_graph_instructions,
+        strArgs = QUESTIONS_TYPE,
+        booleanArgs = false
+    )
 
     private fun error() = activity?.showErrorDialog()
 

@@ -103,10 +103,16 @@ class MenuFragment : BaseFragment<FragmentMenuBinding, MenuViewModel>(), ISelect
     }
 
     override fun openQuestionsMode() = navigateTo(R.navigation.nav_graph_questions)
-    override fun openQuestionsInstructions() = navigateTo(R.navigation.nav_graph_instr_questions)
+    override fun openQuestionsInstructions() = navigateTo(
+        navGraph = R.navigation.nav_graph_instructions,
+        strArgs = QUESTIONS_TYPE
+    )
 
     override fun openRangesMode() = navigateTo(R.navigation.nav_graph_ranges)
-    override fun openRangesInstructions() = navigateTo(R.navigation.nav_graph_instr_ranges)
+    override fun openRangesInstructions()  = navigateTo(
+        navGraph = R.navigation.nav_graph_instructions,
+        strArgs = RANGES_TYPE
+    )
 
     private fun navigateTo(navGraph: Int, strArgs: String? = null, booleanArgs: Boolean? = null) {
         (activity as MainActivity).openBedRockActivity(

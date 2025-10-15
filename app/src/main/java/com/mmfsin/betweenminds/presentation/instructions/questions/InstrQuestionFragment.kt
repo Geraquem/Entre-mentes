@@ -1,4 +1,4 @@
-package com.mmfsin.betweenminds.presentation.question.instructions
+package com.mmfsin.betweenminds.presentation.instructions.questions
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -22,7 +22,6 @@ class InstrQuestionFragment : BaseFragmentNoVM<FragmentInstrQuestionsBinding>() 
 
     override fun setUI() {
         binding.apply {
-            toolbar.btnInstructions.isVisible = false
             people1.apply {
                 etPlayerBlue.isEnabled = false
                 etPlayerOrange.isEnabled = false
@@ -54,10 +53,6 @@ class InstrQuestionFragment : BaseFragmentNoVM<FragmentInstrQuestionsBinding>() 
                 percentTwoOrange.text = getString(R.string.instr_questions_percent_thirty_eight)
             }
         }
-    }
-
-    override fun setListeners() {
-        binding.toolbar.btnBack.setOnClickListener { activity?.onBackPressedDispatcher?.onBackPressed() }
     }
 
     override fun onAttach(context: Context) {

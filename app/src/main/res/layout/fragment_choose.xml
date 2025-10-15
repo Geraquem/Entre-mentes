@@ -96,7 +96,7 @@
             android:textColor="@color/grey" />
 
         <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tabLayout"
+            android:id="@+id/tl_room"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
@@ -108,7 +108,7 @@
             app:tabTextColor="@android:color/white" />
 
         <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/viewPager"
+            android:id="@+id/view_pager"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 

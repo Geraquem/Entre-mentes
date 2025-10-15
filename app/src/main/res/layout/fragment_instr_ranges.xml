@@ -20,21 +20,12 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.95" />
 
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar_bedrock"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="@id/gl_left"
-        app:layout_constraintRight_toRightOf="@id/gl_right" />
-
     <ScrollView
         style="@style/scroll_no_effects"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar">
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -64,17 +55,6 @@
                 app:layout_constraintLeft_toLeftOf="@id/gl_left2"
                 app:layout_constraintRight_toRightOf="@id/gl_right2"
                 app:layout_constraintTop_toTopOf="parent">
-
-                <TextView
-                    style="@style/MediumTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginBottom="32dp"
-                    android:text="@string/instr_mode_ranges"
-                    android:textAllCaps="true"
-                    android:textColor="@color/white"
-                    android:textSize="26sp" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"

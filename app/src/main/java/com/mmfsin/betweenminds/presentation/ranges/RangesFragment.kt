@@ -20,6 +20,7 @@ import com.mmfsin.betweenminds.domain.models.ScoreRange
 import com.mmfsin.betweenminds.presentation.ranges.adapter.ScoreboardRangesAdapter
 import com.mmfsin.betweenminds.presentation.ranges.dialogs.EndRangesDialog
 import com.mmfsin.betweenminds.presentation.ranges.dialogs.RangesStartDialog
+import com.mmfsin.betweenminds.utils.RANGES_TYPE
 import com.mmfsin.betweenminds.utils.animateX
 import com.mmfsin.betweenminds.utils.animateY
 import com.mmfsin.betweenminds.utils.countDown
@@ -358,7 +359,7 @@ class RangesFragment : BaseFragment<FragmentRangesBinding, RangesViewModel>() {
     }
 
     private fun bullseyeVisibility(isVisible: Boolean) {
-        val bullsEye = if(_binding!= null) binding.bullsEye.root else null
+        val bullsEye = if (_binding != null) binding.bullsEye.root else null
         if (isVisible) bullsEye?.showAlpha(500)
         else bullsEye?.hideAlpha(1)
     }
@@ -396,8 +397,11 @@ class RangesFragment : BaseFragment<FragmentRangesBinding, RangesViewModel>() {
         showRound { setFirstRanges() }
     }
 
-    private fun openInstructions() =
-        (activity as BedRockActivity).openBedRockActivity(R.navigation.nav_graph_instr_ranges)
+    private fun openInstructions() = (activity as BedRockActivity).openBedRockActivity(
+        navGraph = R.navigation.nav_graph_instructions,
+        strArgs = RANGES_TYPE,
+        booleanArgs = false
+    )
 
     private fun error() = activity?.showErrorDialog()
 

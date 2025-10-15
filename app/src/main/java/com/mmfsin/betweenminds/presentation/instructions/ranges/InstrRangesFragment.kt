@@ -1,4 +1,4 @@
-package com.mmfsin.betweenminds.presentation.ranges.instructions
+package com.mmfsin.betweenminds.presentation.instructions.ranges
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -19,7 +19,6 @@ class InstrRangesFragment : BaseFragmentNoVM<FragmentInstrRangesBinding>() {
 
     override fun setUI() {
         binding.apply {
-            toolbar.btnInstructions.isVisible = false
             etClue.isEnabled = false
             ranges.apply {
                 tvRangeLeft.text = getString(R.string.instr_ranges_example_left)
@@ -35,10 +34,6 @@ class InstrRangesFragment : BaseFragmentNoVM<FragmentInstrRangesBinding>() {
                 tvRangeRight.setLines(1)
             }
         }
-    }
-
-    override fun setListeners() {
-        binding.toolbar.btnBack.setOnClickListener { activity?.onBackPressedDispatcher?.onBackPressed() }
     }
 
     override fun onAttach(context: Context) {

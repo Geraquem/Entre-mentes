@@ -20,6 +20,7 @@ import com.mmfsin.betweenminds.presentation.online.common.dialog.WaitingOtherPla
 import com.mmfsin.betweenminds.presentation.question.adapter.ScoreboardQuestionAdapter
 import com.mmfsin.betweenminds.presentation.question.dialogs.EndQuestionsDialog
 import com.mmfsin.betweenminds.utils.BEDROCK_STR_ARGS
+import com.mmfsin.betweenminds.utils.QUESTIONS_TYPE
 import com.mmfsin.betweenminds.utils.animateX
 import com.mmfsin.betweenminds.utils.animateY
 import com.mmfsin.betweenminds.utils.countDown
@@ -368,8 +369,10 @@ class OQuestionsCreatorFragment :
         roomId?.let { id -> viewModel.restartGame(id) }
     }
 
-    private fun openInstructions() =
-        (activity as BedRockActivity).openBedRockActivity(R.navigation.nav_graph_instr_questions)
+    private fun openInstructions() = (activity as BedRockActivity).openBedRockActivity(
+        navGraph = R.navigation.nav_graph_instructions,
+        strArgs = QUESTIONS_TYPE
+    )
 
     private fun error() = activity?.showErrorDialog()
 

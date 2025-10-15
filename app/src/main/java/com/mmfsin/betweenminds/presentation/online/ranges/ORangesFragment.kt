@@ -24,6 +24,7 @@ import com.mmfsin.betweenminds.presentation.online.ranges.dialogs.EndGameORanges
 import com.mmfsin.betweenminds.presentation.ranges.adapter.ScoreboardRangesAdapter
 import com.mmfsin.betweenminds.utils.BEDROCK_BOOLEAN_ARGS
 import com.mmfsin.betweenminds.utils.BEDROCK_STR_ARGS
+import com.mmfsin.betweenminds.utils.RANGES_TYPE
 import com.mmfsin.betweenminds.utils.animateX
 import com.mmfsin.betweenminds.utils.animateY
 import com.mmfsin.betweenminds.utils.checkNotNulls
@@ -448,8 +449,10 @@ class ORangesFragment : BaseFragment<FragmentRangesOnlineBinding, ORangesViewMod
         startCluePhase()
     }
 
-    private fun openInstructions() =
-        (activity as BedRockActivity).openBedRockActivity(R.navigation.nav_graph_instr_ranges)
+    private fun openInstructions() = (activity as BedRockActivity).openBedRockActivity(
+        navGraph = R.navigation.nav_graph_instructions,
+        strArgs = RANGES_TYPE
+    )
 
     private fun error() = activity?.showErrorDialog()
 

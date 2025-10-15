@@ -101,7 +101,7 @@ class ChooseFragment : BaseFragment<FragmentChooseBinding, ChooseViewModel>(), I
             activity?.let {
                 viewPager.adapter =
                     ViewPagerOnlineAdapter(fragmentActivity = it, this@ChooseFragment)
-                TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+                TabLayoutMediator(tlRoom, viewPager) { tab, position ->
                     when (position) {
                         0 -> tab.text = getString(R.string.online_join_room)
                         1 -> tab.text = getString(R.string.online_create_room)
