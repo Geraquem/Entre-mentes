@@ -53,7 +53,15 @@ class ChooseFragment : BaseFragment<FragmentChooseBinding, ChooseViewModel>(), I
     override fun setListeners() {
         binding.apply {
             toolbar.btnBack.setOnClickListener { activity?.onBackPressedDispatcher?.onBackPressed() }
-            btnOffline.button.setOnClickListener { navigateTo(R.navigation.nav_graph_ranges) }
+
+            btnOffline.button.setOnClickListener {
+                val navGraph = when (gameType) {
+                    QUESTIONS_TYPE -> R.navigation.nav_graph_questions
+                    RANGES_TYPE -> R.navigation.nav_graph_ranges
+                    else -> null
+                }
+                navGraph?.let { ng -> navigateTo(navGraph = ng) } ?: run { error(goBack = false) }
+            }
         }
     }
 
