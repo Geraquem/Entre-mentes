@@ -3,8 +3,10 @@ package com.mmfsin.betweenminds.presentation.instructions.adapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.mmfsin.betweenminds.presentation.instructions.ranges.InstrRangesFragment
+import com.mmfsin.betweenminds.presentation.instructions.questions.InstrOQuestionFragment
 import com.mmfsin.betweenminds.presentation.instructions.questions.InstrQuestionFragment
+import com.mmfsin.betweenminds.presentation.instructions.ranges.InstrORangesFragment
+import com.mmfsin.betweenminds.presentation.instructions.ranges.InstrRangesFragment
 import com.mmfsin.betweenminds.utils.QUESTIONS_TYPE
 import com.mmfsin.betweenminds.utils.RANGES_TYPE
 
@@ -21,10 +23,10 @@ class ViewPagerInstrAdapter(
 
         val fragments = when (gameType) {
             /** Questions */
-            QUESTIONS_TYPE -> Pair(InstrQuestionFragment(), InstrQuestionFragment())
+            QUESTIONS_TYPE -> Pair(InstrOQuestionFragment(), InstrQuestionFragment())
 
             /** Ranges */
-            else -> Pair(InstrRangesFragment(), InstrRangesFragment())
+            else -> Pair(InstrORangesFragment(), InstrRangesFragment())
         }
 
         return when (position) {

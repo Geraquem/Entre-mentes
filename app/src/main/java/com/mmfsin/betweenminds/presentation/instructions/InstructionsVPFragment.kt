@@ -73,6 +73,11 @@ class InstructionsVPFragment : BaseFragmentNoVM<FragmentInstructionsVpBinding>()
                     }
                 }.attach()
             }
+
+            if(!onlineModeFirst){
+                viewPager.currentItem = 1
+                tlInstructions.getTabAt(1)?.select()
+            }
         }
     }
 
