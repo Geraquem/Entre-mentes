@@ -70,7 +70,7 @@ class OnlineRoomRepository @Inject constructor(
 
     private fun generateRoomId(): String {
         val chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-        return (1..6).map { chars.random() }.joinToString("")
+        return (1..4).map { chars.random() }.joinToString("")
     }
 
     override suspend fun joinRoom(roomId: String): Boolean {

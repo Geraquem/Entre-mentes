@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_black">
@@ -58,8 +59,16 @@
                     style="@style/MediumTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:text="@string/instr_offline_first"
+                    android:layout_marginBottom="4dp"
+                    android:text="@string/instr_online_first"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    style="@style/MediumTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:text="@string/instr_online_second"
                     android:textColor="@color/white" />
 
                 <TextView
@@ -67,7 +76,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:text="@string/instr_questions_1"
+                    android:text="@string/instr_online_questions_1"
                     android:textColor="@color/white" />
 
                 <TextView
@@ -75,58 +84,75 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="24dp"
-                    android:text="@string/instr_questions_2"
+                    android:text="@string/instr_online_questions_2"
                     android:textColor="@color/white" />
 
-                <include
-                    android:id="@+id/people1"
-                    layout="@layout/include_people"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="32dp"
-                    app:layout_constraintLeft_toLeftOf="@id/gl_left"
-                    app:layout_constraintRight_toRightOf="@id/gl_right"
-                    app:layout_constraintTop_toBottomOf="@id/tv_question" />
+                    android:layout_marginBottom="8dp"
+                    android:orientation="horizontal"
+                    tools:ignore="UseCompoundDrawables">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:orientation="horizontal">
-
-                    <FrameLayout
-                        android:layout_width="0dp"
-                        android:layout_height="2dp"
-                        android:layout_marginEnd="12dp"
-                        android:background="@color/white"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintRight_toLeftOf="@id/phase1"
-                        app:layout_constraintTop_toTopOf="parent" />
+                    <ImageView
+                        android:layout_width="42dp"
+                        android:layout_height="42dp"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="8dp"
+                        android:contentDescription="@string/content_description"
+                        android:src="@drawable/ic_human_down"
+                        app:tint="@color/blue" />
 
                     <TextView
-                        android:id="@+id/phase1"
-                        style="@style/MediumTextView_Bold"
-                        android:layout_width="wrap_content"
+                        style="@style/MediumTextView"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/kineks"
-                        android:text="@string/instr_questions_3"
-                        android:textAllCaps="true"
-                        android:textColor="@color/white"
+                        android:layout_weight="0.5"
+                        android:background="@drawable/bg_white_box_border_grey"
+                        android:padding="16dp"
+                        android:text="@string/instr_questions_maria"
+                        android:textColor="@color/blue"
                         android:textSize="18sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        android:textStyle="bold" />
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="24dp"
+                    android:orientation="horizontal"
+                    tools:ignore="UseCompoundDrawables">
+
+                    <ImageView
+                        android:layout_width="42dp"
+                        android:layout_height="42dp"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="8dp"
+                        android:contentDescription="@string/content_description"
+                        android:src="@drawable/ic_human_down"
+                        app:tint="@color/dark_orange" />
+
+                    <TextView
+                        style="@style/MediumTextView"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:background="@drawable/bg_white_box_border_grey"
+                        android:padding="16dp"
+                        android:text="@string/instr_questions_juan"
+                        android:textColor="@color/dark_orange"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
 
                 <TextView
                     style="@style/MediumTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:text="@string/instr_questions_4"
+                    android:text="@string/instr_online_questions_3"
                     android:textColor="@color/white" />
 
                 <TextView
@@ -150,11 +176,113 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:text="@string/instr_questions_5"
+                    android:text="@string/instr_online_questions_4"
+                    android:textColor="@color/white" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center|bottom"
+                        android:layout_marginEnd="8dp"
+                        android:contentDescription="@string/content_description"
+                        android:src="@drawable/ic_player_one" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="26dp"
+                            android:layout_height="26dp"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="-4dp"
+                            android:contentDescription="@string/content_description"
+                            android:src="@drawable/ic_triangle_pointing"
+                            app:layout_constraintBottom_toTopOf="@id/rl_slider"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:tint="@color/white" />
+
+                        <View
+                            android:layout_width="10dp"
+                            android:layout_height="32dp"
+                            android:layout_gravity="center"
+                            android:alpha="0.75"
+                            android:background="@color/white" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <TextView
+                    style="@style/MediumTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:text="@string/instr_online_questions_5"
+                    android:textColor="@color/white" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="24dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center|bottom"
+                        android:layout_marginEnd="8dp"
+                        android:contentDescription="@string/content_description"
+                        android:src="@drawable/ic_player_two" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="26dp"
+                            android:layout_height="26dp"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="-4dp"
+                            android:contentDescription="@string/content_description"
+                            android:src="@drawable/ic_triangle_pointing"
+                            app:layout_constraintBottom_toTopOf="@id/rl_slider"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:tint="@color/dark_red" />
+
+                        <View
+                            android:layout_width="10dp"
+                            android:layout_height="32dp"
+                            android:layout_gravity="center"
+                            android:alpha="0.75"
+                            android:background="@color/dark_red" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <TextView
+                    style="@style/MediumTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:text="@string/instr_online_questions_6"
                     android:textColor="@color/white" />
 
                 <include
-                    android:id="@+id/people2"
+                    android:id="@+id/people1"
                     layout="@layout/include_people"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -227,7 +355,7 @@
                     style="@style/MediumTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="12dp"
+                    android:layout_marginBottom="24dp"
                     android:text="@string/instr_questions_6"
                     android:textColor="@color/white" />
 
@@ -235,64 +363,12 @@
                     style="@style/MediumTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="12dp"
-                    android:drawablePadding="8dp"
-                    android:gravity="center"
-                    android:text="@string/instr_questions_7"
-                    android:textColor="@color/white"
-                    app:drawableStartCompat="@drawable/ic_player_one" />
-
-                <TextView
-                    style="@style/MediumTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:layout_marginBottom="32dp"
-                    android:text="@string/instr_questions_8"
-                    android:textColor="@color/white" />
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:orientation="horizontal">
-
-                    <FrameLayout
-                        android:layout_width="0dp"
-                        android:layout_height="2dp"
-                        android:layout_marginEnd="12dp"
-                        android:background="@color/white"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintRight_toLeftOf="@id/phase2"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/phase2"
-                        style="@style/MediumTextView_Bold"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/kineks"
-                        android:text="@string/instr_questions_9"
-                        android:textAllCaps="true"
-                        android:textColor="@color/white"
-                        android:textSize="18sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <TextView
-                    style="@style/MediumTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:text="@string/instr_questions_10"
+                    android:text="@string/instr_online_questions_7"
                     android:textColor="@color/white" />
 
                 <include
-                    android:id="@+id/people3"
+                    android:id="@+id/people2"
                     layout="@layout/include_people"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -306,14 +382,21 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:layout_marginBottom="24dp">
+                    android:layout_marginBottom="32dp">
 
                     <androidx.constraintlayout.widget.Guideline
                         android:id="@+id/guide2"
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
                         android:orientation="vertical"
-                        app:layout_constraintGuide_percent="0.38" />
+                        app:layout_constraintGuide_percent="0.2" />
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/guide3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.3" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/rl_slider2"
@@ -331,32 +414,61 @@
                             android:layout_width="wrap_content"
                             android:layout_height="0dp"
                             android:orientation="vertical"
-                            app:layout_constraintGuide_percent="0.38" />
+                            app:layout_constraintGuide_percent="0.2" />
+
+                        <androidx.constraintlayout.widget.Guideline
+                            android:id="@+id/gl_medium3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:orientation="vertical"
+                            app:layout_constraintGuide_percent="0.3" />
 
                         <View
-                            android:id="@+id/second_opinion"
+                            android:layout_width="10dp"
+                            android:layout_height="match_parent"
+                            android:layout_centerInParent="true"
+                            android:layout_marginEnd="250dp"
+                            android:alpha="0.75"
+                            android:background="@color/white"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintLeft_toLeftOf="@id/gl_medium2"
+                            app:layout_constraintRight_toRightOf="@id/gl_medium2"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <View
                             android:layout_width="10dp"
                             android:layout_height="match_parent"
                             android:layout_centerInParent="true"
                             android:alpha="0.75"
                             android:background="@color/dark_red"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintLeft_toLeftOf="@id/gl_medium2"
-                            app:layout_constraintRight_toRightOf="@id/gl_medium2"
+                            app:layout_constraintLeft_toLeftOf="@id/gl_medium3"
+                            app:layout_constraintRight_toRightOf="@id/gl_medium3"
                             app:layout_constraintTop_toTopOf="parent" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <ImageView
-                        android:id="@+id/second_arrow"
                         android:layout_width="26dp"
                         android:layout_height="26dp"
+                        android:layout_marginEnd="250dp"
                         android:layout_marginBottom="-4dp"
                         android:contentDescription="@string/content_description"
                         android:src="@drawable/ic_triangle_pointing"
                         app:layout_constraintBottom_toTopOf="@id/rl_slider2"
                         app:layout_constraintLeft_toLeftOf="@id/guide2"
                         app:layout_constraintRight_toRightOf="@id/guide2"
+                        app:tint="@color/white" />
+
+                    <ImageView
+                        android:layout_width="26dp"
+                        android:layout_height="26dp"
+                        android:layout_marginBottom="-4dp"
+                        android:contentDescription="@string/content_description"
+                        android:src="@drawable/ic_triangle_pointing"
+                        app:layout_constraintBottom_toTopOf="@id/rl_slider2"
+                        app:layout_constraintLeft_toLeftOf="@id/guide3"
+                        app:layout_constraintRight_toRightOf="@id/guide3"
                         app:tint="@color/dark_red" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -365,75 +477,15 @@
                     style="@style/MediumTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="24dp"
-                    android:drawablePadding="8dp"
-                    android:gravity="center"
-                    android:text="@string/instr_questions_10_1"
-                    android:textColor="@color/white"
-                    app:drawableStartCompat="@drawable/ic_player_two" />
-
-                <TextView
-                    style="@style/MediumTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:text="@string/instr_questions_11"
+                    android:text="@string/instr_online_questions_8"
                     android:textColor="@color/white" />
 
                 <TextView
                     style="@style/MediumTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="32dp"
-                    android:text="@string/instr_questions_12"
-                    android:textColor="@color/white" />
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:orientation="horizontal">
-
-                    <FrameLayout
-                        android:layout_width="0dp"
-                        android:layout_height="2dp"
-                        android:layout_marginEnd="12dp"
-                        android:background="@color/white"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintRight_toLeftOf="@id/phase3"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/phase3"
-                        style="@style/MediumTextView_Bold"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/kineks"
-                        android:text="@string/instr_questions_13"
-                        android:textAllCaps="true"
-                        android:textColor="@color/white"
-                        android:textSize="18sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <TextView
-                    style="@style/MediumTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="24dp"
-                    android:text="@string/instr_questions_14"
-                    android:textColor="@color/white" />
-
-                <TextView
-                    style="@style/MediumTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/instr_questions_15"
+                    android:text="@string/instr_online_questions_9"
                     android:textColor="@color/white" />
 
                 <Space

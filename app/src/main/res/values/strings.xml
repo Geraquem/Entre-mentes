@@ -97,7 +97,7 @@
 
     <!-- INSTRUCTIONS -->
     <string name="instr_mode_questions">Modo preguntas</string>
-    <string name="instr_questions_1">Dos o más personas juegan para ver si opinan lo mismo sobre ellas mismas (o sobre otras personas)</string>
+    <string name="instr_questions_1">Dos personas juegan para ver si tienen la misma opinión sobre ellas mismas (o sobre otras personas)</string>
     <string name="instr_questions_2">Lo primero de todo es dar nombre a las dos personas principales, puedes introducir los nombres al principio o cambiarlos durante cualquier momento de la partida pulsando sobre ellos.</string>
     <string name="instr_questions_3">Fase 1</string>
     <string name="instr_questions_4">Una persona lee en silencio la pregunta que aparece.</string>
@@ -109,7 +109,7 @@
     <string name="instr_questions_10">Con la primera opinión oculta, le toca al otro jugador opinar sobre la misma pregunta.</string>
     <string name="instr_questions_10_1">Este icono significa que es la segunda opinión</string>
     <string name="instr_questions_11">Cuando tenga su respuesta completa, pulsa el botón <b><i>Comprobar</i></b> para ver ambas opiniones y compararlas.</string>
-    <string name="instr_questions_12">Cuanto más se parezcan más puntos obtendréis.</string>
+    <string name="instr_questions_12">Cuanto más se parezcan, más puntos obtendréis.</string>
     <string name="instr_questions_13">Fase 3</string>
     <string name="instr_questions_14">Darle al botón <b><i>Siguiente ronda</i></b>, turnarse y volver a empezar.</string>
     <string name="instr_questions_15">El objetivo es obtener la máxima puntuación en las <b>4 rondas que dura la partida</b>.</string>
@@ -120,6 +120,16 @@
     <string name="instr_questions_percent_sixty_two">62</string>
     <string name="instr_questions_percent_thirty_eight">38</string>
     <string name="instr_questions_question">¿Quién es más ordenado?</string>
+
+    <string name="instr_online_questions_1">Dos personas juegan para ver si tienen la misma opinión sobre ellas mismas (o sobre otras personas)</string>
+    <string name="instr_online_questions_2">Lo primero de todo es dar nombre a las dos personas principales. El jugador que crea la sala deberá introducir los nombres al inicio del juego.</string>
+    <string name="instr_online_questions_3">Ahora, a ambos jugadores les aparecerá la misma pregunta en la pantalla.</string>
+    <string name="instr_online_questions_4">El <b>jugador 1</b> (el que ha creado la sala) maneja los porcentajes del icono 1 y mueve la flecha de color <b><i>blanco</i></b></string>
+    <string name="instr_online_questions_5">Y el <b>jugador 2</b> (el que se ha unido) maneja los porcentajes del icono 2 y mueve la flecha de color <b><i>rojo</i></b></string>
+    <string name="instr_online_questions_6">Los dos jugadores opinan individualmente, cada uno con su móvil, sin saber de la opinión del otro jugador.</string>
+    <string name="instr_online_questions_7">Cuando cada uno tiene su respuesta completada, pulsa el botón <b><i>Comparar respuesta</i></b> para ver cómo ha opinado el otro jugador y se comparan cuánto se parecen los resultados.</string>
+    <string name="instr_online_questions_8">Cuanto más se parezcan, más puntos obtendréis.</string>
+    <string name="instr_online_questions_9">El objetivo es obtener la máxima puntuación en las <b>4 rondas que dura la partida</b>.</string>
 
     <string name="instr_mode_ranges">Modo rangos</string>
     <string name="instr_ranges_1">Fase 1</string>
@@ -135,5 +145,22 @@
     <string name="instr_ranges_example_left">Villano</string>
     <string name="instr_ranges_example_right">Héroe</string>
     <string name="instr_ranges_example_clue">Gollum</string>
+
+    <string name="instr_online_first">Primero es necesario que un jugador cree una sala y que otro jugador se una a la sala creada.</string>
+    <string name="instr_online_second">Para unirse a una sala, basta con introducir el código que aparece tras crearla.</string>
+    <string name="instr_offline_first">Aquí no es necesario ninguna conexión a internet, sólo dos personas jugando con el mismo móvil pasándoselo mano a mano entre fases.</string>
+
+    <string name="instr_online_ranges_1">Este modo cuenta con dos fases: la fase de <b>dar pistas</b> y la fase de <b>adivinar</b>.</string>
+    <string name="instr_online_ranges_2">Fase de pistas</string>
+    <string name="instr_online_ranges_3">A cada jugador le aparecerá una zona para ganar puntos, situada aleatoriamente dentro de un rectángulo con dos conceptos opuestos en los extremos.\n<i>(Ejemplo: frío – caliente, sucio – limpio)</i></string>
+    <string name="instr_online_ranges_4">Tendréis que escribir una pista para ayudar al otro jugador a orientarse y adivinar dónde se encuentra la zona de puntos que habéis visto.</string>
+    <string name="instr_online_ranges_5">Cuando tengas la pista escrita, pulsa el botón <b><i>Guardar respuesta</i></b>.</string>
+    <string name="instr_online_ranges_6">Esta fase se repite <b>3 veces</b>. Por lo que aparecerán 3 rangos distintos y tendréis que dar una pista diferente para cada uno de ellos.</string>
+    <string name="instr_online_ranges_7">Fase de adivinar</string>
+    <string name="instr_online_ranges_8">Una vez ambos jugadores hayan escrito y enviado todas sus pistas, estas se intercambian.</string>
+    <string name="instr_online_ranges_9">El jugador 1 recibe los conceptos opuestos que vio el jugador 2 y debe <b>mover la flecha y colocarla</b>, con ayuda de la pista que el jugador 2 le dio, <b>donde crea que está la zona de puntos oculta</b>.</string>
+    <string name="instr_online_ranges_10">El jugador 2 hará exactamente lo mismo con la pista enviada por el jugador 1.</string>
+    <string name="instr_online_ranges_11">Cuando creáis que la flecha está correctamente colocada, pulsad el botón <b><i>Comprobar</i></b> para ver cuántos puntos ha obtenido cada uno.</string>
+    <string name="instr_online_ranges_12">Cuanta mayor sea la puntuación obtenida, <b>mejor</b>.</string>
 
 </resources>
