@@ -154,9 +154,12 @@ class OQuestionsJoinedFragment :
             buttonNextRound.root.setOnClickListener {
                 buttonNextRound.root.isEnabled = false
                 buttonNextRound.root.animateY(500f, 500)
-                nextRound()
-            }
 
+                if (round < 4) {
+                    showRound { }
+                    countDown(250) { nextRound() }
+                } else nextRound()
+            }
 
             val parent = secondOpinion.parent as View
             controller.setOnTouchListener { _, event ->
@@ -197,6 +200,7 @@ class OQuestionsJoinedFragment :
                     binding.loading.root.isVisible = false
                     serverData = event.data
                     questionList = event.data.questions
+                    waitingDialog?.dismiss()
                     showRound { setFirstPhase() }
                 }
 
@@ -221,7 +225,6 @@ class OQuestionsJoinedFragment :
 
     private fun setFirstPhase() {
         binding.apply {
-            waitingDialog?.dismiss()
             tvQuestion.text = questionList[position].text
             people.apply {
                 etPlayerBlue.setText(serverData?.blueName)
@@ -241,10 +244,12 @@ class OQuestionsJoinedFragment :
             round++
             position++
 
+            roundNumber.text = "$round"
             tvQuestion.hideAlpha(350)
             curtainVisibility(isVisible = true)
             firstArrowVisibility(isVisible = false)
             secondArrowVisibility(isVisible = false)
+            if (round > 3) buttonNextRound.button.text = getString(R.string.ranges_see_points)
             buttonHide.button.isEnabled = true
             buttonNextRound.button.isEnabled = true
 
@@ -265,6 +270,8 @@ class OQuestionsJoinedFragment :
 
             if (round >= 5) {
                 round = 1
+                roundNumber.text = "$round"
+
                 position = 0
                 endGame()
 
@@ -362,7 +369,7 @@ class OQuestionsJoinedFragment :
 
     private fun showRound(onEnd: () -> Unit) {
         binding.apply {
-            llRound.showAlpha(500) {
+            llRound.showAlpha(200) {
                 countDown(750) { llRound.hideAlpha(500) { onEnd() } }
             }
         }

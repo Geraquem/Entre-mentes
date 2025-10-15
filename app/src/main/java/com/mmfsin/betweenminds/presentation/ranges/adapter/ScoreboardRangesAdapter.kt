@@ -20,10 +20,8 @@ class ScoreboardRangesAdapter(
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding = ItemScoreBinding.bind(view)
         val c: Context = binding.root.context
-        fun bind(data: ScoreRange, position: Int, hideBarrier: Boolean) {
+        fun bind(data: ScoreRange, position: Int) {
             binding.apply {
-                if (hideBarrier) barrier.visibility = View.GONE
-
                 tvRound.text = "$position"
                 if (data.discovered) discovered.hideAlpha(500)
                 else discovered.showAlpha(1)
@@ -80,7 +78,7 @@ class ScoreboardRangesAdapter(
         ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_score, parent, false))
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(scoreRanges[position], position + 1, (position == itemCount - 1))
+        holder.bind(scoreRanges[position], position + 1)
     }
 
     override fun getItemCount(): Int = scoreRanges.size
