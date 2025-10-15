@@ -20,6 +20,7 @@ import com.mmfsin.betweenminds.domain.models.ScoreQuestion
 import com.mmfsin.betweenminds.presentation.common.dialog.WaitingOtherPlayerDialog
 import com.mmfsin.betweenminds.presentation.questions.adapter.ScoreboardQuestionAdapter
 import com.mmfsin.betweenminds.presentation.questions.dialogs.EndQuestionsDialog
+import com.mmfsin.betweenminds.presentation.questions.dialogs.OQuestionsJoinedStartDialog
 import com.mmfsin.betweenminds.utils.BEDROCK_STR_ARGS
 import com.mmfsin.betweenminds.utils.QUESTIONS_TYPE
 import com.mmfsin.betweenminds.utils.animateX
@@ -71,7 +72,15 @@ class OQuestionsJoinedFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        roomId?.let { id -> viewModel.getQuestionsAndNames(id) } ?: run { error() }
+        roomId?.let { id ->
+            activity?.showFragmentDialog(
+                OQuestionsJoinedStartDialog(
+                    close = { activity?.onBackPressedDispatcher?.onBackPressed() },
+                    start = { viewModel.getQuestionsAndNames(id) },
+                    instructions = { openInstructions() }
+                )
+            )
+        } ?: run { error() }
     }
 
     private fun setUpScoreboard() {
@@ -87,7 +96,8 @@ class OQuestionsJoinedFragment :
     override fun setUI() {
         binding.apply {
             loading.root.isVisible = true
-            llRound.isVisible = false
+
+            roundNumber.text = "$round"
             people.apply {
                 etPlayerBlue.isEnabled = false
                 etPlayerOrange.isEnabled = false
@@ -187,7 +197,7 @@ class OQuestionsJoinedFragment :
                     binding.loading.root.isVisible = false
                     serverData = event.data
                     questionList = event.data.questions
-                    setFirstPhase()
+                    showRound { setFirstPhase() }
                 }
 
                 is OQuestionsJoinedEvent.OtherPlayerOpinion -> {
@@ -348,6 +358,14 @@ class OQuestionsJoinedFragment :
         waitingDialog = WaitingOtherPlayerDialog()
         waitingDialog?.let { d -> activity?.showFragmentDialog(d) }
         roomId?.let { id -> viewModel.waitCreatorToRestartGame(id, gameNumber) }
+    }
+
+    private fun showRound(onEnd: () -> Unit) {
+        binding.apply {
+            llRound.showAlpha(500) {
+                countDown(750) { llRound.hideAlpha(500) { onEnd() } }
+            }
+        }
     }
 
     private fun openInstructions() = (activity as BedRockActivity).openBedRockActivity(

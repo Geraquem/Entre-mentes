@@ -25,6 +25,7 @@
     <string name="slash">/</string>
     <string name="three_dots">…</string>
     <string name="curtain_text">Top secret</string>
+    <string name="code_hint">----</string>
     <string name="btn_hide">Ocultar</string>
     <string name="btn_check">Comprobar</string>
     <string name="btn_next_round">Siguiente ronda</string>
@@ -42,6 +43,11 @@
     <string name="questions_welcome_three">El objetivo es <b>coincidir</b> para obtener la mayor puntuación.</string>
     <string name="questions_welcome_three_extra">El objetivo es <b>coincidir</b> para obtener la mayor puntuación en las <b>4 rondas</b> que dura la partida.</string>
     <string name="questions_welcome_four">¿Qué dos personas van a ser juzgadas?</string>
+    <string name="questions_welcome_you_are">Eres el jugador</string>
+    <string name="questions_welcome_you_move_white">Manejas la flecha blanca.</string>
+    <string name="questions_welcome_you_move_red">Manejas la flecha roja</string>
+    <string name="questions_blue_player">Jugador azul</string>
+    <string name="questions_orange_player">Jugador naranja</string>
 
     <!-- RANGES -->
     <string name="ranges_start_quick_resume">Resumen rápido</string>

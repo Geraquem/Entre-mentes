@@ -20,10 +20,8 @@ class ScoreboardQuestionAdapter(
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding = ItemScoreBinding.bind(view)
         val c: Context = binding.root.context
-        fun bind(data: ScoreQuestion, position: Int, hideBarrier: Boolean) {
+        fun bind(data: ScoreQuestion, position: Int) {
             binding.apply {
-                if (hideBarrier) barrier.visibility = View.GONE
-
                 if (data.activeRound) tvRound.setTextColor(getColor(c, R.color.dark_red))
                 else tvRound.setTextColor(getColor(c, R.color.dark_grey))
 
@@ -69,7 +67,7 @@ class ScoreboardQuestionAdapter(
         ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_score, parent, false))
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(scores[position], position + 1, (position == itemCount - 1))
+        holder.bind(scores[position], position + 1)
     }
 
     override fun getItemCount(): Int = scores.size

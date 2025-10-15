@@ -19,10 +19,12 @@ import com.mmfsin.betweenminds.domain.models.ScoreQuestion
 import com.mmfsin.betweenminds.presentation.common.dialog.WaitingOtherPlayerDialog
 import com.mmfsin.betweenminds.presentation.questions.adapter.ScoreboardQuestionAdapter
 import com.mmfsin.betweenminds.presentation.questions.dialogs.EndQuestionsDialog
+import com.mmfsin.betweenminds.presentation.questions.dialogs.OQuestionsCreatorStartDialog
 import com.mmfsin.betweenminds.utils.BEDROCK_STR_ARGS
 import com.mmfsin.betweenminds.utils.QUESTIONS_TYPE
 import com.mmfsin.betweenminds.utils.animateX
 import com.mmfsin.betweenminds.utils.animateY
+import com.mmfsin.betweenminds.utils.checkNotNulls
 import com.mmfsin.betweenminds.utils.countDown
 import com.mmfsin.betweenminds.utils.getEmptyScoreQuestionList
 import com.mmfsin.betweenminds.utils.getKonfettiParty
@@ -44,8 +46,8 @@ class OQuestionsCreatorFragment :
 
     private lateinit var mContext: Context
 
-    val blueName = "Manolito"
-    val orangeName = "Menganito"
+    private var blueName: String? = null
+    private var orangeName: String? = null
 
     var roomId: String? = null
 
@@ -72,7 +74,19 @@ class OQuestionsCreatorFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        roomId?.let { viewModel.getQuestions() } ?: run { error() }
+        roomId?.let {
+            activity?.showFragmentDialog(
+                OQuestionsCreatorStartDialog(
+                    close = { activity?.onBackPressedDispatcher?.onBackPressed() },
+                    start = { bName, oName ->
+                        blueName = bName
+                        orangeName = oName
+                        viewModel.getQuestions()
+                    },
+                    instructions = { openInstructions() }
+                )
+            )
+        } ?: run { error() }
     }
 
     private fun setUpScoreboard() {
@@ -88,12 +102,11 @@ class OQuestionsCreatorFragment :
     override fun setUI() {
         binding.apply {
             loading.root.isVisible = true
-            llRound.isVisible = false
+
+            roundNumber.text = "$round"
             people.apply {
                 etPlayerBlue.isEnabled = false
-                etPlayerBlue.setText(blueName)
                 etPlayerOrange.isEnabled = false
-                etPlayerOrange.setText(orangeName)
             }
 
             setUpScoreboard()
@@ -145,7 +158,11 @@ class OQuestionsCreatorFragment :
             buttonNextRound.root.setOnClickListener {
                 buttonNextRound.root.isEnabled = false
                 buttonNextRound.root.animateY(500f, 500)
-                nextRound()
+
+                if (round < 4) {
+                    showRound { }
+                    countDown(250) { nextRound() }
+                } else nextRound()
             }
 
             val parent = firstOpinion.parent as View
@@ -185,18 +202,24 @@ class OQuestionsCreatorFragment :
                 is OQuestionsCreatorEvent.GetQuestions -> {
                     questionList = event.questions.shuffled()
                     roomId?.let { id ->
-                        viewModel.setQuestionsInRoom(
-                            roomId = id,
-                            names = Pair(blueName, orangeName),
-                            questions = getQuestionsToRoom(),
-                            gameNumber = gameNumber
-                        )
+                        checkNotNulls(blueName, orangeName) { bN, oN ->
+                            binding.people.apply {
+                                etPlayerBlue.setText(bN)
+                                etPlayerOrange.setText(oN)
+                            }
+                            viewModel.setQuestionsInRoom(
+                                roomId = id,
+                                names = Pair(bN, oN),
+                                questions = getQuestionsToRoom(),
+                                gameNumber = gameNumber
+                            )
+                        }
                     }
                 }
 
                 is OQuestionsCreatorEvent.QuestionsSetInRoom -> {
                     binding.loading.root.isVisible = false
-                    setFirstPhase()
+                    showRound { setFirstPhase() }
                 }
 
                 is OQuestionsCreatorEvent.GameRestarted -> {
@@ -251,10 +274,12 @@ class OQuestionsCreatorFragment :
             round++
             position++
 
+            roundNumber.text = "$round"
             tvQuestion.hideAlpha(350)
             curtainVisibility(isVisible = true)
             firstArrowVisibility(isVisible = false)
             secondArrowVisibility(isVisible = false)
+            if (round > 3) buttonNextRound.button.text = getString(R.string.ranges_see_points)
             buttonHide.button.isEnabled = true
             buttonNextRound.button.isEnabled = true
 
@@ -275,9 +300,10 @@ class OQuestionsCreatorFragment :
 
             if (round >= 5) {
                 round = 1
+                roundNumber.text = "$round"
                 endGame()
 
-            } else countDown(1000) { setFirstPhase() }
+            } else countDown(1500) { setFirstPhase() }
         }
     }
 
@@ -373,6 +399,14 @@ class OQuestionsCreatorFragment :
         navGraph = R.navigation.nav_graph_instructions,
         strArgs = QUESTIONS_TYPE
     )
+
+    private fun showRound(onEnd: () -> Unit) {
+        binding.apply {
+            llRound.showAlpha(200) {
+                countDown(750) { llRound.hideAlpha(500) { onEnd() } }
+            }
+        }
+    }
 
     private fun error() = activity?.showErrorDialog()
 

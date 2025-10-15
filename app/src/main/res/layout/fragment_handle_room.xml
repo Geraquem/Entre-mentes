@@ -24,20 +24,21 @@
         android:autofillHints="null"
         android:background="@drawable/bg_edit_text"
         android:fontFamily="@font/inconsolata"
+        android:hint="@string/code_hint"
         android:imeOptions="actionDone"
         android:inputType="textShortMessage|textCapCharacters"
         android:labelFor="@id/et_room_code"
         android:letterSpacing="0.3"
         android:lines="1"
         android:maxLength="10"
+        android:textColorHint="@color/soft_white"
         android:maxLines="1"
         android:paddingHorizontal="16dp"
         android:paddingVertical="12dp"
         android:textAllCaps="true"
         android:textColor="@color/grey"
         android:textSize="28sp"
-        tools:ignore="LabelFor"
-        tools:text="AFWD0O" />
+        tools:ignore="LabelFor" />
 
     <include
         android:id="@+id/btn_continue"
