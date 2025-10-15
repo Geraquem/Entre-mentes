@@ -23,13 +23,14 @@
         app:tint="@color/dark_grey" />
 
     <com.airbnb.lottie.LottieAnimationView
-        android:layout_width="140dp"
-        android:layout_height="140dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_gravity="center"
         android:layout_marginBottom="8dp"
         app:lottie_autoPlay="true"
+        app:lottie_speed="0.5"
         app:lottie_loop="true"
-        app:lottie_rawRes="@raw/paper_plane" />
+        app:lottie_rawRes="@raw/waiting" />
 
     <TextView
         android:id="@+id/tv_description"
