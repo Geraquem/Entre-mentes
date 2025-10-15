@@ -110,7 +110,7 @@
     <string name="instr_questions_10">Con la primera opinión oculta, le toca al otro jugador opinar sobre la misma pregunta.</string>
     <string name="instr_questions_10_1">Este icono significa que es la segunda opinión</string>
     <string name="instr_questions_11">Cuando tenga su respuesta completa, pulsa el botón <b><i>Comprobar</i></b> para ver ambas opiniones y compararlas.</string>
-    <string name="instr_questions_12">Cuanto más se parezcan, más puntos obtendréis.</string>
+    <string name="instr_questions_12">Cuanto más se parezcan los porcentajes, más puntos obtendréis.</string>
     <string name="instr_questions_13">Fase 3</string>
     <string name="instr_questions_14">Darle al botón <b><i>Siguiente ronda</i></b>, turnarse y volver a empezar.</string>
     <string name="instr_questions_15">El objetivo es obtener la máxima puntuación en las <b>4 rondas que dura la partida</b>.</string>
