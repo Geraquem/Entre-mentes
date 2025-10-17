@@ -276,27 +276,30 @@ class OQuestionsCreatorFragment :
 
             roundNumber.text = "$round"
             tvQuestion.hideAlpha(350)
-            curtainVisibility(isVisible = true)
+
+            curtainVisibility(isVisible = true) {
+                firstArrow.translationX = 0f
+                firstOpinion.translationX = 0f
+                secondArrow.translationX = 0f
+                secondOpinion.translationX = 0f
+                myOpinion = 50
+
+                people.apply {
+                    percentOneBlue.text = getString(R.string.fifty)
+                    percentTwoBlue.text = getString(R.string.fifty)
+                    percentOneOrange.text = getString(R.string.fifty)
+                    percentTwoOrange.text = getString(R.string.fifty)
+                    moveHumans(this, 50)
+                    handlePercentsPlayerTwo(this, show = false)
+                }
+            }
+
             firstArrowVisibility(isVisible = false)
             secondArrowVisibility(isVisible = false)
+
             if (round > 3) buttonNextRound.button.text = getString(R.string.ranges_see_points)
             buttonHide.button.isEnabled = true
             buttonNextRound.button.isEnabled = true
-
-            people.apply {
-                percentOneBlue.text = getString(R.string.fifty)
-                percentTwoBlue.text = getString(R.string.fifty)
-                percentOneOrange.text = getString(R.string.fifty)
-                percentTwoOrange.text = getString(R.string.fifty)
-                moveHumans(this, 50)
-                handlePercentsPlayerTwo(this, show = false)
-            }
-
-            firstArrow.translationX = 0f
-            firstOpinion.translationX = 0f
-            secondArrow.translationX = 0f
-            secondOpinion.translationX = 0f
-            myOpinion = 50
 
             if (round >= 5) {
                 round = 1
