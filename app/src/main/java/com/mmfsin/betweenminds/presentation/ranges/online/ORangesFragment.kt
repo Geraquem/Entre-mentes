@@ -99,8 +99,13 @@ class ORangesFragment : BaseFragment<FragmentRangesOnlineBinding, ORangesViewMod
         binding.apply {
             loading.root.isVisible = true
 
+            rlPartner.alpha = 0f
+
             setUpScoreboard()
             scoreboard.root.hideAlpha(10)
+
+            tvCluesDone.text = "$round"
+            llCluesDone.showAlpha(350)
 
             clClue.showAlpha(350)
             tvTopText.text = getString(R.string.ranges_write_a_clue)
@@ -191,9 +196,15 @@ class ORangesFragment : BaseFragment<FragmentRangesOnlineBinding, ORangesViewMod
                 is ORangesEvent.OtherPlayerData -> {
                     waitingDialog?.dismiss()
                     otherPlayerData = event.data
-
                     round = 1
-                    startGuessingPhase()
+
+                    binding.apply {
+                        rlPartner.showAlpha(500) {
+                            countDown(1200) {
+                                rlPartner.hideAlpha(500) { startGuessingPhase() }
+                            }
+                        }
+                    }
                 }
 
                 is ORangesEvent.OtherPlayerPoints -> {
@@ -211,6 +222,7 @@ class ORangesFragment : BaseFragment<FragmentRangesOnlineBinding, ORangesViewMod
         binding.apply {
             loading.root.isVisible = false
             if (round <= 3) {
+                tvCluesDone.text = "$round"
                 if (round == 2) buttonHide.button.text = getString(R.string.online_btn_save_answer)
                 buttonHide.button.isEnabled = true
 
@@ -235,6 +247,8 @@ class ORangesFragment : BaseFragment<FragmentRangesOnlineBinding, ORangesViewMod
                     val onlineData = OnlineData(
                         roomId = id, isCreator = creator, data = data
                     )
+
+                    llCluesDone.hideAlpha(350)
                     viewModel.sendMyDataToRoom(onlineData)
                 }
             }
@@ -281,8 +295,8 @@ class ORangesFragment : BaseFragment<FragmentRangesOnlineBinding, ORangesViewMod
                 tvClue.text = actualRange.hint
                 ranges.tvRangeLeft.text = actualRange.leftRange
                 ranges.tvRangeRight.text = actualRange.rightRange
-                setBullsEye(position = actualRange.bullseyePosition)
                 bullseyeVisibility(isVisible = false)
+                setBullsEye(position = actualRange.bullseyePosition)
                 countDown(750) {
                     scoreboard.root.showAlpha(350)
                     clClue.showAlpha(350)
@@ -389,8 +403,10 @@ class ORangesFragment : BaseFragment<FragmentRangesOnlineBinding, ORangesViewMod
                     val maxX = parentWidth - (bullseyeWidth - centerOffset)
 
                     val randomX = (minX.toInt()..maxX.toInt()).random()
-                    bullseyePosition = randomX
-                    child.x = randomX.toFloat()
+//                    bullseyePosition = randomX
+//                    child.x = randomX.toFloat()
+                    bullseyePosition = maxX.toInt()
+                    child.x = maxX
 
                 } else child.x = position.toFloat()
             }
@@ -408,8 +424,8 @@ class ORangesFragment : BaseFragment<FragmentRangesOnlineBinding, ORangesViewMod
     private fun curtainVisibility(isVisible: Boolean, onEnd: () -> Unit = {}) {
         binding.apply {
             if (isVisible) {
-                curtainLeft.animateX(0f, 1000) { onEnd() }
-                curtainRight.animateX(0f, 1000) { onEnd() }
+                curtainLeft.animateX(0f, 500) { onEnd() }
+                curtainRight.animateX(0f, 500) { onEnd() }
             } else {
                 curtainLeft.animateX(-1000f, 1000) { onEnd() }
                 curtainRight.animateX(1000f, 1000) { onEnd() }

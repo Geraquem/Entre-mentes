@@ -46,7 +46,7 @@
         android:id="@+id/cl_clue"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="60dp"
         app:layout_constraintLeft_toLeftOf="@id/gl_left"
         app:layout_constraintRight_toRightOf="@id/gl_right"
         app:layout_constraintTop_toBottomOf="@id/scoreboard">
@@ -216,6 +216,45 @@
         app:layout_constraintLeft_toLeftOf="@id/gl_left"
         app:layout_constraintRight_toRightOf="@id/gl_right" />
 
+    <LinearLayout
+        android:id="@+id/ll_clues_done"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:layout_marginBottom="12dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@id/button_hide"
+        app:layout_constraintLeft_toLeftOf="@id/gl_left">
+
+        <TextView
+            style="@style/BigTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:fontFamily="@font/inconsolata"
+            android:text="@string/ranges_rounds_done"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/tv_clues_done"
+            style="@style/BigTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="2dp"
+            android:fontFamily="@font/inconsolata"
+            android:text="@string/ranges_one"
+            android:textColor="@color/white" />
+
+        <TextView
+            style="@style/BigTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/inconsolata"
+            android:text="@string/ranges_slash_three"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+
     <include
         android:id="@+id/button_hide"
         layout="@layout/include_button_white"
@@ -251,6 +290,32 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:visibility="gone" />
+
+    <RelativeLayout
+        android:id="@+id/rl_partner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:alpha="1"
+        android:background="@drawable/bg_white_box"
+        android:backgroundTint="@color/black"
+        android:elevation="10dp"
+        android:paddingVertical="100dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            style="@style/BigTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginHorizontal="64dp"
+            android:fontFamily="@font/inconsolata"
+            android:gravity="center"
+            android:text="Esto es lo que te ha mandado tu compañero"
+            android:textColor="@color/white" />
+
+    </RelativeLayout>
 
     <include
         android:id="@+id/loading"
