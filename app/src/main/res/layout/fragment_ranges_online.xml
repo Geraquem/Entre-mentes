@@ -312,7 +312,7 @@
             android:layout_marginHorizontal="64dp"
             android:fontFamily="@font/inconsolata"
             android:gravity="center"
-            android:text="Esto es lo que te ha mandado tu compañero"
+            android:text="@string/ranges_partner_sent"
             android:textColor="@color/white" />
 
     </RelativeLayout>
