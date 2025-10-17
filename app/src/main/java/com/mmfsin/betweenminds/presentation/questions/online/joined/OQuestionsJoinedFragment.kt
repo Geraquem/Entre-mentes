@@ -17,7 +17,6 @@ import com.mmfsin.betweenminds.databinding.FragmentQuestionsOnlineBinding
 import com.mmfsin.betweenminds.domain.models.OnlineQuestionsAndNames
 import com.mmfsin.betweenminds.domain.models.Question
 import com.mmfsin.betweenminds.domain.models.ScoreQuestion
-import com.mmfsin.betweenminds.presentation.common.dialog.WaitingOtherPlayerDialog
 import com.mmfsin.betweenminds.presentation.questions.adapter.ScoreboardQuestionAdapter
 import com.mmfsin.betweenminds.presentation.questions.dialogs.EndQuestionsDialog
 import com.mmfsin.betweenminds.presentation.questions.dialogs.OQuestionsJoinedStartDialog
@@ -37,6 +36,7 @@ import com.mmfsin.betweenminds.utils.showAlpha
 import com.mmfsin.betweenminds.utils.showErrorDialog
 import com.mmfsin.betweenminds.utils.showFragmentDialog
 import com.mmfsin.betweenminds.utils.updatePercents
+import com.mmfsin.betweenminds.utils.waitingPartnerVisibility
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -56,8 +56,6 @@ class OQuestionsJoinedFragment :
     private var position = 0
     private var round = 1
     private var myOpinion = 50
-
-    private var waitingDialog: WaitingOtherPlayerDialog? = null
 
     private var scoreboardQuestionAdapter: ScoreboardQuestionAdapter? = null
 
@@ -96,6 +94,8 @@ class OQuestionsJoinedFragment :
     override fun setUI() {
         binding.apply {
             loading.root.isVisible = true
+
+            waitingPartnerVisibility(waiting, isVisible = false)
 
             roundNumber.text = "$round"
             people.apply {
@@ -141,8 +141,7 @@ class OQuestionsJoinedFragment :
                 controller.isEnabled = false
                 binding.controllerInfo.root.hideAlpha(350)
 
-                waitingDialog = WaitingOtherPlayerDialog()
-                waitingDialog?.let { d -> activity?.showFragmentDialog(d) }
+                waitingPartnerVisibility(waiting, isVisible = true)
                 roomId?.let { id -> viewModel.sendOpinionToRoom(id, round, myOpinion) }
             }
 
@@ -195,17 +194,19 @@ class OQuestionsJoinedFragment :
                     binding.loading.root.isVisible = false
                     serverData = event.data
                     questionList = event.data.questions
-                    waitingDialog?.dismiss()
+                    waitingPartnerVisibility(binding.waiting, isVisible = false)
                     showRound { setFirstPhase() }
                 }
 
                 is OQuestionsJoinedEvent.OtherPlayerOpinion -> {
-                    waitingDialog?.dismiss()
-                    binding.buttonNextRound.root.animateY(0f, 500)
-                    checkPoints(event.otherOpinion)
-                    moveOtherOpinionArrow(event.otherOpinion)
-                    updatePercents(binding.people, 1, event.otherOpinion)
-                    handlePercentsPlayerOne(binding.people, show = true)
+                    binding.apply {
+                        waitingPartnerVisibility(waiting, isVisible = false)
+                        buttonNextRound.root.animateY(0f, 500)
+                        checkPoints(event.otherOpinion)
+                        moveOtherOpinionArrow(event.otherOpinion)
+                        updatePercents(people, 1, event.otherOpinion)
+                        handlePercentsPlayerOne(people, show = true)
+                    }
                 }
 
                 is OQuestionsJoinedEvent.GameRestarted -> {
@@ -360,8 +361,7 @@ class OQuestionsJoinedFragment :
 
     private fun restartGame() {
         scoreboardQuestionAdapter?.resetScores()
-        waitingDialog = WaitingOtherPlayerDialog()
-        waitingDialog?.let { d -> activity?.showFragmentDialog(d) }
+        waitingPartnerVisibility(binding.waiting, isVisible = true)
         roomId?.let { id -> viewModel.waitCreatorToRestartGame(id, gameNumber) }
     }
 

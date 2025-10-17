@@ -13,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import com.mmfsin.betweenminds.R
 import com.mmfsin.betweenminds.base.dialog.ErrorDialog
 import com.mmfsin.betweenminds.databinding.IncludePeopleBinding
+import com.mmfsin.betweenminds.databinding.IncludeWaitingOtherPlayerBinding
 import com.mmfsin.betweenminds.domain.models.ScoreQuestion
 import com.mmfsin.betweenminds.domain.models.ScoreRange
 import kotlinx.coroutines.delay
@@ -183,6 +184,17 @@ fun handlePercentsPlayerTwo(people: IncludePeopleBinding, show: Boolean) {
             llPercentTwoOrange.hideAlpha(100) { icQuestionTwoOrange.showAlpha(100) }
         }
     }
+}
+
+fun waitingPartnerVisibility(
+    waitingView: IncludeWaitingOtherPlayerBinding,
+    isVisible: Boolean
+) {
+    val w = waitingView.root
+    if (isVisible) {
+        w.visibility = View.VISIBLE
+        w.showAlpha(500)
+    } else w.hideAlpha(250) { w.visibility = View.INVISIBLE }
 }
 
 //fun FragmentActivity.shouldShowInterstitial(position: Int) =

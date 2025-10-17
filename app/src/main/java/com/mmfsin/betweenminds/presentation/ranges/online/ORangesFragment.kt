@@ -19,7 +19,6 @@ import com.mmfsin.betweenminds.domain.models.OnlineData
 import com.mmfsin.betweenminds.domain.models.OnlineRoundData
 import com.mmfsin.betweenminds.domain.models.Range
 import com.mmfsin.betweenminds.domain.models.ScoreRange
-import com.mmfsin.betweenminds.presentation.common.dialog.WaitingOtherPlayerDialog
 import com.mmfsin.betweenminds.presentation.ranges.adapter.ScoreboardRangesAdapter
 import com.mmfsin.betweenminds.presentation.ranges.dialogs.EndGameORangesDialog
 import com.mmfsin.betweenminds.presentation.ranges.dialogs.ORangesStartDialog
@@ -36,6 +35,7 @@ import com.mmfsin.betweenminds.utils.hideAlpha
 import com.mmfsin.betweenminds.utils.showAlpha
 import com.mmfsin.betweenminds.utils.showErrorDialog
 import com.mmfsin.betweenminds.utils.showFragmentDialog
+import com.mmfsin.betweenminds.utils.waitingPartnerVisibility
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -59,8 +59,6 @@ class ORangesFragment : BaseFragment<FragmentRangesOnlineBinding, ORangesViewMod
     private var otherPlayerPosition = 0
     private var pointsObtained = 0
 
-    private var waitingDialog: WaitingOtherPlayerDialog? = null
-
     private var scoreboardRangesAdapter: ScoreboardRangesAdapter? = null
 
     override fun inflateView(inflater: LayoutInflater, container: ViewGroup?) =
@@ -78,8 +76,7 @@ class ORangesFragment : BaseFragment<FragmentRangesOnlineBinding, ORangesViewMod
         checkNotNulls(roomId, isCreator) { _, _ -> } ?: run { error() }
 
         activity?.showFragmentDialog(
-            ORangesStartDialog(
-                close = { activity?.onBackPressedDispatcher?.onBackPressed() },
+            ORangesStartDialog(close = { activity?.onBackPressedDispatcher?.onBackPressed() },
                 start = { viewModel.getRanges() },
                 instructions = { openInstructions() })
         )
@@ -100,6 +97,7 @@ class ORangesFragment : BaseFragment<FragmentRangesOnlineBinding, ORangesViewMod
             loading.root.isVisible = true
 
             rlPartner.alpha = 0f
+            waitingPartnerVisibility(waiting, isVisible = false)
 
             setUpScoreboard()
             scoreboard.root.hideAlpha(10)
@@ -194,7 +192,7 @@ class ORangesFragment : BaseFragment<FragmentRangesOnlineBinding, ORangesViewMod
                 }
 
                 is ORangesEvent.OtherPlayerData -> {
-                    waitingDialog?.dismiss()
+                    waitingPartnerVisibility(binding.waiting, isVisible = false)
                     otherPlayerData = event.data
                     round = 1
 
@@ -208,7 +206,7 @@ class ORangesFragment : BaseFragment<FragmentRangesOnlineBinding, ORangesViewMod
                 }
 
                 is ORangesEvent.OtherPlayerPoints -> {
-                    waitingDialog?.dismiss()
+                    waitingPartnerVisibility(binding.waiting, isVisible = false)
                     endGame(event.otherPlayerPoints)
                 }
 
@@ -240,8 +238,7 @@ class ORangesFragment : BaseFragment<FragmentRangesOnlineBinding, ORangesViewMod
                     }
                 }
             } else {
-                waitingDialog = WaitingOtherPlayerDialog()
-                waitingDialog?.let { d -> activity?.showFragmentDialog(d) }
+                waitingPartnerVisibility(waiting, isVisible = true)
 
                 checkNotNulls(roomId, isCreator) { id, creator ->
                     val onlineData = OnlineData(
@@ -311,9 +308,7 @@ class ORangesFragment : BaseFragment<FragmentRangesOnlineBinding, ORangesViewMod
                     }
                 }
             } else {
-                waitingDialog = WaitingOtherPlayerDialog()
-                waitingDialog?.let { d -> activity?.showFragmentDialog(d) }
-
+                waitingPartnerVisibility(waiting, isVisible = true)
                 checkNotNulls(roomId, isCreator) { id, creator ->
                     viewModel.sendMyPoints(id, creator, pointsObtained)
                 }
@@ -403,10 +398,6 @@ class ORangesFragment : BaseFragment<FragmentRangesOnlineBinding, ORangesViewMod
                 val randomX = (minX.toInt()..maxX.toInt()).random()
                 val normalizedPosition = (randomX - minX) / (maxX - minX)
 
-                println("-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*")
-                println("$normalizedPosition")
-                println("-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*")
-
                 bullseyePosition = normalizedPosition
                 child.x = randomX.toFloat()
             }
@@ -467,8 +458,7 @@ class ORangesFragment : BaseFragment<FragmentRangesOnlineBinding, ORangesViewMod
                     checkNotNulls(roomId, isCreator) { id, creator ->
                         if (creator) viewModel.restartGame(id)
                         else {
-                            waitingDialog = WaitingOtherPlayerDialog()
-                            waitingDialog?.let { d -> activity?.showFragmentDialog(d) }
+                            waitingPartnerVisibility(binding.waiting, isVisible = true)
                             viewModel.waitCreatorToRestart(id)
                         }
                     }
@@ -485,14 +475,14 @@ class ORangesFragment : BaseFragment<FragmentRangesOnlineBinding, ORangesViewMod
         data.clear()
         otherPlayerData = emptyList()
 
-        waitingDialog?.dismiss()
+        waitingPartnerVisibility(binding.waiting, isVisible = false)
+
         setUI()
         startCluePhase()
     }
 
     private fun openInstructions() = (activity as BedRockActivity).openBedRockActivity(
-        navGraph = R.navigation.nav_graph_instructions,
-        strArgs = RANGES_TYPE
+        navGraph = R.navigation.nav_graph_instructions, strArgs = RANGES_TYPE
     )
 
     private fun error() = activity?.showErrorDialog()

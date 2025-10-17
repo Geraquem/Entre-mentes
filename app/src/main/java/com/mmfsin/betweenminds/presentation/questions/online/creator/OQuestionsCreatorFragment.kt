@@ -16,7 +16,6 @@ import com.mmfsin.betweenminds.base.bedrock.BedRockActivity
 import com.mmfsin.betweenminds.databinding.FragmentQuestionsOnlineBinding
 import com.mmfsin.betweenminds.domain.models.Question
 import com.mmfsin.betweenminds.domain.models.ScoreQuestion
-import com.mmfsin.betweenminds.presentation.common.dialog.WaitingOtherPlayerDialog
 import com.mmfsin.betweenminds.presentation.questions.adapter.ScoreboardQuestionAdapter
 import com.mmfsin.betweenminds.presentation.questions.dialogs.EndQuestionsDialog
 import com.mmfsin.betweenminds.presentation.questions.dialogs.OQuestionsCreatorStartDialog
@@ -36,6 +35,7 @@ import com.mmfsin.betweenminds.utils.showAlpha
 import com.mmfsin.betweenminds.utils.showErrorDialog
 import com.mmfsin.betweenminds.utils.showFragmentDialog
 import com.mmfsin.betweenminds.utils.updatePercents
+import com.mmfsin.betweenminds.utils.waitingPartnerVisibility
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -58,8 +58,6 @@ class OQuestionsCreatorFragment :
     private var questionPosition = 0
     private var round = 1
     private var myOpinion = 50
-
-    private var waitingDialog: WaitingOtherPlayerDialog? = null
 
     private var scoreboardQuestionAdapter: ScoreboardQuestionAdapter? = null
 
@@ -102,6 +100,8 @@ class OQuestionsCreatorFragment :
     override fun setUI() {
         binding.apply {
             loading.root.isVisible = true
+
+            waitingPartnerVisibility(waiting, isVisible = false)
 
             roundNumber.text = "$round"
             people.apply {
@@ -146,8 +146,7 @@ class OQuestionsCreatorFragment :
                 controller.isEnabled = false
                 binding.controllerInfo.root.hideAlpha(350)
 
-                waitingDialog = WaitingOtherPlayerDialog()
-                waitingDialog?.let { d -> activity?.showFragmentDialog(d) }
+                waitingPartnerVisibility(waiting, isVisible = true)
                 roomId?.let { id -> viewModel.sendOpinionToRoom(id, round, myOpinion) }
             }
 
@@ -233,12 +232,14 @@ class OQuestionsCreatorFragment :
                 }
 
                 is OQuestionsCreatorEvent.OtherPlayerOpinion -> {
-                    waitingDialog?.dismiss()
-                    binding.buttonNextRound.root.animateY(0f, 500)
-                    checkPoints(event.otherOpinion)
-                    moveOtherOpinionArrow(event.otherOpinion)
-                    updatePercents(binding.people, 2, event.otherOpinion)
-                    handlePercentsPlayerTwo(binding.people, show = true)
+                    binding.apply {
+                        waitingPartnerVisibility(waiting, isVisible = false)
+                        buttonNextRound.root.animateY(0f, 500)
+                        checkPoints(event.otherOpinion)
+                        moveOtherOpinionArrow(event.otherOpinion)
+                        updatePercents(people, 2, event.otherOpinion)
+                        handlePercentsPlayerTwo(people, show = true)
+                    }
                 }
 
                 is OQuestionsCreatorEvent.SomethingWentWrong -> error()

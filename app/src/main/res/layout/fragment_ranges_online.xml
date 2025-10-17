@@ -323,4 +323,9 @@
         layout="@layout/include_loading"
         android:visibility="gone" />
 
+    <include
+        android:id="@+id/waiting"
+        layout="@layout/include_waiting_other_player"
+        tools:visibility="gone" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
