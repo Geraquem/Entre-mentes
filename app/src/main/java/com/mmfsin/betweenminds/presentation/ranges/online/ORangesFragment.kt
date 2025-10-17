@@ -50,7 +50,7 @@ class ORangesFragment : BaseFragment<FragmentRangesOnlineBinding, ORangesViewMod
 
     private var rangesList: List<Range> = emptyList()
     private var position = 0
-    private var bullseyePosition = 0
+    private var bullseyePosition = 0f
     private var round = 1
 
     private val data = mutableListOf<OnlineRoundData>()
@@ -229,7 +229,7 @@ class ORangesFragment : BaseFragment<FragmentRangesOnlineBinding, ORangesViewMod
                 val actualRange = rangesList[position]
                 ranges.tvRangeLeft.text = actualRange.leftRange
                 ranges.tvRangeRight.text = actualRange.rightRange
-                setBullsEye()
+                setRandomBullsEyePosition()
                 countDown(750) {
                     clClue.showAlpha(350)
                     buttonHide.root.animateY(0f, 350)
@@ -268,7 +268,7 @@ class ORangesFragment : BaseFragment<FragmentRangesOnlineBinding, ORangesViewMod
             )
 
             buttonHide.root.animateY(500f, 350)
-            curtainVisibility(isVisible = true) { setBullsEye() }
+            curtainVisibility(isVisible = true) { setRandomBullsEyePosition() }
             ranges.apply {
                 tvRangeLeft.hideAlpha(350)
                 tvRangeRight.hideAlpha(350)
@@ -296,7 +296,7 @@ class ORangesFragment : BaseFragment<FragmentRangesOnlineBinding, ORangesViewMod
                 ranges.tvRangeLeft.text = actualRange.leftRange
                 ranges.tvRangeRight.text = actualRange.rightRange
                 bullseyeVisibility(isVisible = false)
-                setBullsEye(position = actualRange.bullseyePosition)
+                setBullsEyeWithPosition(position = actualRange.bullseyePosition)
                 countDown(750) {
                     scoreboard.root.showAlpha(350)
                     clClue.showAlpha(350)
@@ -387,28 +387,46 @@ class ORangesFragment : BaseFragment<FragmentRangesOnlineBinding, ORangesViewMod
         return isVisible1 && isVisible2 && Rect.intersects(rect1, rect2)
     }
 
-    private fun setBullsEye(position: Int? = null) {
+    private fun setRandomBullsEyePosition() {
         binding.apply {
             val parent = rlSlider
             val child = bullsEye.root
             parent.post {
+                val parentWidth = parent.width
+                val bullseyeWidth = child.width
 
-                if (position == null) {
-                    val parentWidth = parent.width
-                    val bullseyeWidth = child.width
+                val centerOffset = (0.2f * bullseyeWidth) + (0.35f * bullseyeWidth) / 2f
 
-                    val centerOffset = (0.2f * bullseyeWidth) + (0.35f * bullseyeWidth) / 2f
+                val minX = -centerOffset
+                val maxX = parentWidth - (bullseyeWidth - centerOffset)
 
-                    val minX = -centerOffset
-                    val maxX = parentWidth - (bullseyeWidth - centerOffset)
+                val randomX = (minX.toInt()..maxX.toInt()).random()
+                val normalizedPosition = (randomX - minX) / (maxX - minX)
 
-                    val randomX = (minX.toInt()..maxX.toInt()).random()
-//                    bullseyePosition = randomX
-//                    child.x = randomX.toFloat()
-                    bullseyePosition = maxX.toInt()
-                    child.x = maxX
+                println("-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*")
+                println("$normalizedPosition")
+                println("-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*")
 
-                } else child.x = position.toFloat()
+                bullseyePosition = normalizedPosition
+                child.x = randomX.toFloat()
+            }
+        }
+    }
+
+    private fun setBullsEyeWithPosition(position: Float) {
+        binding.apply {
+            val parent = rlSlider
+            val child = bullsEye.root
+            parent.post {
+                val parentWidth = parent.width
+                val bullseyeWidth = child.width
+
+                val centerOffset = (0.2f * bullseyeWidth) + (0.35f * bullseyeWidth) / 2f
+                val minX = -centerOffset
+                val maxX = parentWidth - (bullseyeWidth - centerOffset)
+
+                val realX = minX + position * (maxX - minX)
+                child.x = realX
             }
         }
     }

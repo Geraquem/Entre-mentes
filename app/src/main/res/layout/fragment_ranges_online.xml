@@ -296,13 +296,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:alpha="1"
+        android:alpha="0"
         android:background="@drawable/bg_white_box"
         android:backgroundTint="@color/black"
         android:elevation="10dp"
         android:paddingVertical="100dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="gone">
 
         <TextView
             style="@style/BigTextView"

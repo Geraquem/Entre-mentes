@@ -8,7 +8,7 @@ data class OnlineData(
 
 data class OnlineRoundData(
     val round: Int,
-    val bullseyePosition: Int,
+    val bullseyePosition: Float,
     val hint: String,
     val leftRange: String,
     val rightRange: String,

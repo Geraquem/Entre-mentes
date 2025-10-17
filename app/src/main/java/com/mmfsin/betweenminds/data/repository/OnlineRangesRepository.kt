@@ -64,7 +64,7 @@ class OnlineRangesRepository @Inject constructor(
                         try {
                             OnlineRoundData(
                                 round = (map["round"] as? Long)?.toInt() ?: 0,
-                                bullseyePosition = (map["bullseyePosition"] as? Long)?.toInt() ?: 0,
+                                bullseyePosition = (map["bullseyePosition"] as? Double)?.toFloat() ?: 0f,
                                 hint = map["hint"] as? String ?: "",
                                 leftRange = map["leftRange"] as? String ?: "",
                                 rightRange = map["rightRange"] as? String ?: ""
