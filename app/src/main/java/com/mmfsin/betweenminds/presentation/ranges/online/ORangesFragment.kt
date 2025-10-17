@@ -386,19 +386,19 @@ class ORangesFragment : BaseFragment<FragmentRangesOnlineBinding, ORangesViewMod
         binding.apply {
             val parent = rlSlider
             val child = bullsEye.root
+
             parent.post {
                 val parentWidth = parent.width
-                val bullseyeWidth = child.width
+                val childWidth = child.width
 
-                val centerOffset = (0.2f * bullseyeWidth) + (0.35f * bullseyeWidth) / 2f
-
+                // Ajuste de offsets internos (lo que tenías antes)
+                val centerOffset = (0.2f * childWidth) + (0.35f * childWidth) / 2f
                 val minX = -centerOffset
-                val maxX = parentWidth - (bullseyeWidth - centerOffset)
+                val maxX = parentWidth - (childWidth - centerOffset)
 
                 val randomX = (minX.toInt()..maxX.toInt()).random()
-                val normalizedPosition = (randomX - minX) / (maxX - minX)
 
-                bullseyePosition = normalizedPosition
+                bullseyePosition = randomX.toFloat() / (parentWidth - childWidth)
                 child.x = randomX.toFloat()
             }
         }
@@ -408,16 +408,12 @@ class ORangesFragment : BaseFragment<FragmentRangesOnlineBinding, ORangesViewMod
         binding.apply {
             val parent = rlSlider
             val child = bullsEye.root
+
             parent.post {
                 val parentWidth = parent.width
-                val bullseyeWidth = child.width
+                val childWidth = child.width
 
-                val centerOffset = (0.2f * bullseyeWidth) + (0.35f * bullseyeWidth) / 2f
-                val minX = -centerOffset
-                val maxX = parentWidth - (bullseyeWidth - centerOffset)
-
-                val realX = minX + position * (maxX - minX)
-                child.x = realX
+                child.x = position * (parentWidth - childWidth)
             }
         }
     }
