@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:autofillHints="null"
         android:background="@drawable/bg_edit_text"
-        android:fontFamily="@font/inconsolata"
+        android:fontFamily="@font/courier"
         android:hint="@string/code_hint"
         android:imeOptions="actionDone"
         android:inputType="textShortMessage|textCapCharacters"

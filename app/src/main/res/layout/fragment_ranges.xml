@@ -78,7 +78,7 @@
             android:maxLength="100"
             android:maxLines="1"
             android:paddingHorizontal="8dp"
-            android:paddingVertical="12dp"
+            android:paddingVertical="18dp"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
             app:layout_constraintLeft_toLeftOf="parent"

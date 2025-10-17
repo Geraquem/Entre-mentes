@@ -58,7 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:fontFamily="@font/inconsolata"
+            android:fontFamily="@font/courier"
             android:textColor="@color/dark_grey"
             tools:text="3" />
 

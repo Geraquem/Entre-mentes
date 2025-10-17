@@ -79,7 +79,7 @@
             android:maxLength="100"
             android:maxLines="1"
             android:paddingHorizontal="8dp"
-            android:paddingVertical="12dp"
+            android:paddingVertical="18dp"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -231,7 +231,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="4dp"
-            android:fontFamily="@font/inconsolata"
+            android:fontFamily="@font/courier"
             android:text="@string/ranges_rounds_done"
             android:textColor="@color/white" />
 
@@ -241,7 +241,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="2dp"
-            android:fontFamily="@font/inconsolata"
+            android:fontFamily="@font/courier"
             android:text="@string/ranges_one"
             android:textColor="@color/white" />
 
@@ -249,7 +249,7 @@
             style="@style/BigTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/inconsolata"
+            android:fontFamily="@font/courier"
             android:text="@string/ranges_slash_three"
             android:textColor="@color/white" />
 
@@ -311,7 +311,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_marginHorizontal="64dp"
-            android:fontFamily="@font/inconsolata"
+            android:fontFamily="@font/courier"
             android:gravity="center"
             android:text="@string/ranges_partner_sent"
             android:textColor="@color/white" />

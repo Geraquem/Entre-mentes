@@ -450,10 +450,11 @@ class ORangesFragment : BaseFragment<FragmentRangesOnlineBinding, ORangesViewMod
                 otherPlayerPoints = otherPlayerPoints,
                 exit = { activity?.onBackPressedDispatcher?.onBackPressed() },
                 replay = {
-                    binding.loading.root.isVisible = true
                     checkNotNulls(roomId, isCreator) { id, creator ->
-                        if (creator) viewModel.restartGame(id)
-                        else {
+                        if (creator) {
+                            binding.loading.root.isVisible = true
+                            viewModel.restartGame(id)
+                        } else {
                             waitingPartnerVisibility(binding.waiting, isVisible = true)
                             viewModel.waitCreatorToRestart(id)
                         }
