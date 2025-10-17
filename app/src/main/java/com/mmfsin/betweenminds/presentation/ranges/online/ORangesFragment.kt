@@ -200,7 +200,7 @@ class ORangesFragment : BaseFragment<FragmentRangesOnlineBinding, ORangesViewMod
 
                     binding.apply {
                         rlPartner.showAlpha(500) {
-                            countDown(1200) {
+                            countDown(1500) {
                                 rlPartner.hideAlpha(500) { startGuessingPhase() }
                             }
                         }
