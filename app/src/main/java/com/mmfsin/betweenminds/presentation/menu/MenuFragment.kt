@@ -45,7 +45,7 @@ class MenuFragment : BaseFragment<FragmentMenuBinding, MenuViewModel>(), ISelect
 
             /*********************************************************************************/
 //            findNavController().navigate(actionToChooseFragment(QUESTIONS_TYPE))
-            findNavController().navigate(actionToChooseFragment(RANGES_TYPE))
+//            findNavController().navigate(actionToChooseFragment(RANGES_TYPE))
             /*********************************************************************************/
         }
     }

@@ -116,7 +116,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:paddingVertical="6dp"
+                    android:paddingVertical="8dp"
                     android:text="@string/selector_how_to_play"
                     android:textAllCaps="true"
                     android:textColor="@color/background_black" />
@@ -138,7 +138,7 @@
                 android:background="@drawable/click_effect"
                 android:elevation="6dp"
                 android:gravity="center"
-                android:paddingVertical="6dp"
+                android:paddingVertical="8dp"
                 android:text="@string/selector_play"
                 android:textAllCaps="true"
                 android:textColor="@color/background_black" />
@@ -252,7 +252,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:paddingVertical="6dp"
+                    android:paddingVertical="8dp"
                     android:text="@string/selector_how_to_play"
                     android:textAllCaps="true"
                     android:textColor="@color/background_black" />
@@ -274,7 +274,7 @@
                 android:background="@drawable/click_effect"
                 android:elevation="6dp"
                 android:gravity="center"
-                android:paddingVertical="6dp"
+                android:paddingVertical="8dp"
                 android:text="@string/selector_play"
                 android:textAllCaps="true"
                 android:textColor="@color/background_black" />
