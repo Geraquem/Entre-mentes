@@ -22,9 +22,9 @@ interface IOnlineQuestionsRepository {
         roomId: String,
         isCreator: Boolean,
         round: Int,
-        orangeOpinion: Int
+        orangeOpinion: Float
     )
 
-    suspend fun waitOtherPlayerOpinion(roomId: String, isCreator: Boolean, round: Int): Int
+    suspend fun waitOtherPlayerOpinion(roomId: String, isCreator: Boolean, round: Int): Float
     suspend fun waitCreatorToRestartGame(roomId: String, gameNumber: Int): Int
 }

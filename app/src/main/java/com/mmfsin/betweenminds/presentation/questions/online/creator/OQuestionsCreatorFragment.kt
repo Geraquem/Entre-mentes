@@ -37,6 +37,7 @@ import com.mmfsin.betweenminds.utils.showFragmentDialog
 import com.mmfsin.betweenminds.utils.updatePercents
 import com.mmfsin.betweenminds.utils.waitingPartnerVisibility
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.math.roundToInt
 
 @AndroidEntryPoint
 class OQuestionsCreatorFragment :
@@ -58,6 +59,7 @@ class OQuestionsCreatorFragment :
     private var questionPosition = 0
     private var round = 1
     private var myOpinion = 50
+    private var myOpinionFloat = 50f
 
     private var scoreboardQuestionAdapter: ScoreboardQuestionAdapter? = null
 
@@ -147,7 +149,7 @@ class OQuestionsCreatorFragment :
                 binding.controllerInfo.root.hideAlpha(350)
 
                 waitingPartnerVisibility(waiting, isVisible = true)
-                roomId?.let { id -> viewModel.sendOpinionToRoom(id, round, myOpinion) }
+                roomId?.let { id -> viewModel.sendOpinionToRoom(id, round, myOpinionFloat) }
             }
 
             buttonCheck.button.setOnClickListener {
@@ -185,9 +187,12 @@ class OQuestionsCreatorFragment :
                         firstArrow.x = firstOpinion.x + (firstOpinion.width - firstArrow.width) / 2f
 
                         val percentX =
-                            ((firstOpinion.x / (parent.width - firstOpinion.width)) * 100).toInt()
-                        myOpinion = percentX
-                        updatePercents(people, 1, percentX)
+                            ((firstOpinion.x / (parent.width - firstOpinion.width)) * 100)
+
+                        myOpinion = percentX.toInt()
+                        myOpinionFloat = percentX
+
+                        updatePercents(people, 1, myOpinion)
                     }
                 }
                 true
@@ -235,9 +240,9 @@ class OQuestionsCreatorFragment :
                     binding.apply {
                         waitingPartnerVisibility(waiting, isVisible = false)
                         buttonNextRound.root.animateY(0f, 500)
-                        checkPoints(event.otherOpinion)
+                        checkPoints(event.otherOpinion.toInt())
                         moveOtherOpinionArrow(event.otherOpinion)
-                        updatePercents(people, 2, event.otherOpinion)
+                        updatePercents(people, 2, event.otherOpinion.toInt())
                         handlePercentsPlayerTwo(people, show = true)
                     }
                 }
@@ -365,16 +370,18 @@ class OQuestionsCreatorFragment :
         }
     }
 
-    private fun moveOtherOpinionArrow(otherOpinion: Int) {
+    private fun moveOtherOpinionArrow(otherOpinion: Float) {
         binding.apply {
             val parent = secondOpinion.parent as View
 
-            val clamped = otherOpinion.coerceIn(0, 100)
+            val clamped = otherOpinion.coerceIn(0f, 100f)
+
             val maxX = (parent.width - secondOpinion.width).toFloat()
             val newX = (clamped / 100f) * maxX
 
             secondOpinion.x = newX
             secondArrow.x = newX + (secondOpinion.width - secondArrow.width) / 2f
+
             secondArrowVisibility(isVisible = true)
         }
     }

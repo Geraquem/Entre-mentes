@@ -24,7 +24,7 @@ class OQuestionsJoinedViewModel @Inject constructor(
         )
     }
 
-    fun sendOpinionToRoom(roomId: String, round: Int, orangeOpinion: Int) {
+    fun sendOpinionToRoom(roomId: String, round: Int, orangeOpinion: Float) {
         executeUseCase(
             {
                 sendOpinionOQuestionsToRoomUseCase.execute(

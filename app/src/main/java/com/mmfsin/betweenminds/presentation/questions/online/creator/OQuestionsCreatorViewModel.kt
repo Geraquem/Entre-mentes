@@ -50,14 +50,14 @@ class OQuestionsCreatorViewModel @Inject constructor(
         )
     }
 
-    fun sendOpinionToRoom(roomId: String, round: Int, blueOpinion: Int) {
+    fun sendOpinionToRoom(roomId: String, round: Int, orangeOpinion: Float) {
         executeUseCase(
             {
                 sendOpinionOQuestionsToRoomUseCase.execute(
                     roomId,
                     isCreator = true,
                     round,
-                    blueOpinion
+                    orangeOpinion
                 )
             },
             { waitToOtherPlayerOpinion(roomId, round) },
