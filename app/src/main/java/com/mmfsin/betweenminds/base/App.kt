@@ -1,10 +1,10 @@
 package com.mmfsin.betweenminds.base
 
+//import com.google.firebase.messaging.FirebaseMessaging
 import android.app.Application
-import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode
-//import com.google.firebase.messaging.FirebaseMessaging
+import com.google.android.gms.ads.MobileAds
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
@@ -12,7 +12,7 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
-//        MobileAds.initialize(this) {}
+        MobileAds.initialize(this) {}
 
         getFCMToken()
         disableNightMode()

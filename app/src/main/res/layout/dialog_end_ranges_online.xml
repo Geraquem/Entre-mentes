@@ -21,7 +21,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            style="@style/BigTextView"
+            style="@style/MediumTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -31,17 +31,19 @@
 
         <TextView
             android:id="@+id/tv_my_points"
-            style="@style/BigTextView"
+            style="@style/MediumTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginBottom="12dp"
-            android:fontFamily="@font/august_shining"
+            android:fontFamily="@font/alphazet"
             android:gravity="center"
+            android:textSize="20sp"
+            android:textStyle="bold"
             tools:text="27 puntos" />
 
         <TextView
-            style="@style/BigTextView"
+            style="@style/MediumTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -51,13 +53,15 @@
 
         <TextView
             android:id="@+id/tv_other_points"
-            style="@style/BigTextView"
+            style="@style/MediumTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginBottom="24dp"
-            android:fontFamily="@font/august_shining"
+            android:fontFamily="@font/alphazet"
             android:gravity="center"
+            android:textSize="20sp"
+            android:textStyle="bold"
             tools:text="27 puntos" />
 
         <TextView

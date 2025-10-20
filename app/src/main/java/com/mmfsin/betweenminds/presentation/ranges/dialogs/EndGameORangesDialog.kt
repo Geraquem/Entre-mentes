@@ -2,9 +2,10 @@ package com.mmfsin.betweenminds.presentation.ranges.dialogs
 
 import android.app.Dialog
 import android.view.LayoutInflater
+import androidx.core.content.ContextCompat.getColor
 import com.mmfsin.betweenminds.R
 import com.mmfsin.betweenminds.base.BaseDialog
-import com.mmfsin.betweenminds.databinding.DialogEndOnlineRangesBinding
+import com.mmfsin.betweenminds.databinding.DialogEndRangesOnlineBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -13,10 +14,10 @@ class EndGameORangesDialog(
     private val otherPlayerPoints: Int,
     val exit: () -> Unit,
     val replay: () -> Unit,
-) : BaseDialog<DialogEndOnlineRangesBinding>() {
+) : BaseDialog<DialogEndRangesOnlineBinding>() {
 
     override fun inflateView(inflater: LayoutInflater) =
-        DialogEndOnlineRangesBinding.inflate(inflater)
+        DialogEndRangesOnlineBinding.inflate(inflater)
 
     override fun setCustomViewDialog(dialog: Dialog) = centerViewDialog(dialog)
 
@@ -34,6 +35,7 @@ class EndGameORangesDialog(
             else getString(R.string.endgame_pts, "$total")
 
             tvPhrase.text = getString(getPhrase(total))
+            setTvPointsColor(total)
         }
     }
 
@@ -42,10 +44,20 @@ class EndGameORangesDialog(
             30 -> R.string.endgame_phrase_perfect
             in 22..29 -> R.string.endgame_phrase_one
             in 16..21 -> R.string.endgame_phrase_two
-            in 7..15 -> R.string.endgame_phrase_three
-            in 1..6 -> R.string.endgame_phrase_four
+            in 8..15 -> R.string.endgame_phrase_three
+            in 1..7 -> R.string.endgame_phrase_four
             else -> R.string.endgame_phrase_five
         }
+    }
+
+    private fun setTvPointsColor(points: Int) {
+        val color = when (points) {
+            in 22..30 -> R.color.dark_green
+            in 8..21 -> R.color.dark_orange
+            in 1..7 -> R.color.dark_red
+            else -> R.color.black
+        }
+        context?.let { c -> binding.tvTotalPoints.setTextColor(getColor(c, color)) }
     }
 
     override fun setListeners() {

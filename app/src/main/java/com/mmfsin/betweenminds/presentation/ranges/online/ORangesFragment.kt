@@ -31,6 +31,7 @@ import com.mmfsin.betweenminds.utils.checkNotNulls
 import com.mmfsin.betweenminds.utils.countDown
 import com.mmfsin.betweenminds.utils.getEmptyOScoreRangesList
 import com.mmfsin.betweenminds.utils.getKonfettiParty
+import com.mmfsin.betweenminds.utils.handleAlpha
 import com.mmfsin.betweenminds.utils.hideAlpha
 import com.mmfsin.betweenminds.utils.showAlpha
 import com.mmfsin.betweenminds.utils.showErrorDialog
@@ -298,7 +299,7 @@ class ORangesFragment : BaseFragment<FragmentRangesOnlineBinding, ORangesViewMod
                     scoreboard.root.showAlpha(350)
                     clClue.showAlpha(350)
                     buttonCheck.root.animateY(0f, 350)
-                    controllerInfo.root.showAlpha(350)
+                    controllerInfo.root.handleAlpha(0.35f, 350)
                     controller.isEnabled = true
                     curtainVisibility(isVisible = false)
                     arrowVisibility(isVisible = true)

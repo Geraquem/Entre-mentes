@@ -268,6 +268,8 @@ class QuestionsFragment :
             phase = 2
             opinion1 = (people.percentOneBlue.text as String).toIntOrNull()
 
+            controller.isEnabled = false
+
             handlePercentsPlayerOne(people, show = false)
             buttonHide.root.animateY(500f, 500)
 
@@ -283,6 +285,7 @@ class QuestionsFragment :
                 curtainVisibility(isVisible = false)
                 secondArrowVisibility(isVisible = true)
                 buttonCheck.root.animateY(0f, 500)
+                controller.isEnabled = true
             }
         }
     }

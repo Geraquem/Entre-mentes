@@ -11,22 +11,22 @@
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        ads:layout_constraintBottom_toBottomOf="parent"
+        ads:layout_constraintBottom_toTopOf="@id/ad_banner"
         ads:layout_constraintTop_toTopOf="parent"
         app:defaultNavHost="true"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:navGraph="@navigation/nav_graph_bedrock" />
 
-    <!--    <com.google.android.gms.ads.AdView-->
-    <!--        android:id="@+id/adView"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:background="@color/white"-->
-    <!--        ads:adSize="BANNER"-->
-    <!--        ads:adUnitId="@string/banner"-->
-    <!--        ads:layout_constraintBottom_toBottomOf="parent"-->
-    <!--        ads:layout_constraintLeft_toLeftOf="parent"-->
-    <!--        ads:layout_constraintRight_toRightOf="parent" />-->
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/ad_banner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/background_black"
+        ads:adSize="BANNER"
+        ads:adUnitId="@string/banner"
+        ads:layout_constraintBottom_toBottomOf="parent"
+        ads:layout_constraintLeft_toLeftOf="parent"
+        ads:layout_constraintRight_toRightOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

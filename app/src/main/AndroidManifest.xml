@@ -12,6 +12,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.BetweenMinds.Splash">
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-4515698012373396~9788622070" />
+
         <activity
             android:name=".presentation.MainActivity"
             android:exported="true"

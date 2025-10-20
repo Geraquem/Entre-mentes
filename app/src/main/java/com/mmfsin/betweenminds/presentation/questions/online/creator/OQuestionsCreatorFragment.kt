@@ -28,6 +28,7 @@ import com.mmfsin.betweenminds.utils.countDown
 import com.mmfsin.betweenminds.utils.getEmptyScoreQuestionList
 import com.mmfsin.betweenminds.utils.getKonfettiParty
 import com.mmfsin.betweenminds.utils.getQuestionModePoints
+import com.mmfsin.betweenminds.utils.handleAlpha
 import com.mmfsin.betweenminds.utils.handlePercentsPlayerTwo
 import com.mmfsin.betweenminds.utils.hideAlpha
 import com.mmfsin.betweenminds.utils.moveHumans
@@ -37,7 +38,6 @@ import com.mmfsin.betweenminds.utils.showFragmentDialog
 import com.mmfsin.betweenminds.utils.updatePercents
 import com.mmfsin.betweenminds.utils.waitingPartnerVisibility
 import dagger.hilt.android.AndroidEntryPoint
-import kotlin.math.roundToInt
 
 @AndroidEntryPoint
 class OQuestionsCreatorFragment :
@@ -270,7 +270,7 @@ class OQuestionsCreatorFragment :
             firstArrowVisibility(isVisible = true)
             curtainVisibility(isVisible = false)
             controller.isEnabled = true
-            controllerInfo.root.showAlpha(500)
+            controllerInfo.root.handleAlpha(0.35f, 500)
             buttonHide.root.animateY(0f, 500)
         }
     }

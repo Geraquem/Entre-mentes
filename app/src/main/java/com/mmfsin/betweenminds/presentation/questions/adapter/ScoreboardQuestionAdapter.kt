@@ -25,6 +25,16 @@ class ScoreboardQuestionAdapter(
                 if (data.activeRound) tvRound.setTextColor(getColor(c, R.color.dark_red))
                 else tvRound.setTextColor(getColor(c, R.color.dark_grey))
 
+                data.points?.let { p ->
+                    val color = when {
+                        (p > 9) -> R.color.green
+                        p == 0 -> R.color.dark_red
+                        else -> R.color.dark_grey
+                    }
+                    tvPoints.setTextColor(getColor(c, color))
+                    tvPtsText.setTextColor(getColor(c, color))
+                }
+
                 tvRound.text = "$position"
                 if (data.discovered) discovered.hideAlpha(500)
                 else discovered.showAlpha(1)

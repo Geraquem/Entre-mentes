@@ -11,6 +11,9 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.NavHostFragment
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.LoadAdError
 import com.mmfsin.betweenminds.R
 import com.mmfsin.betweenminds.databinding.ActivityBedrockBinding
 import com.mmfsin.betweenminds.utils.BEDROCK_BOOLEAN_ARGS
@@ -90,13 +93,26 @@ class BedRockActivity : AppCompatActivity() {
     }
 
     private fun setAds() {
-//        val adRequest = AdRequest.Builder().build()
-//        binding.adView.loadAd(adRequest)
-//        showBanner(visible = false)
+        val adRequest = AdRequest.Builder().build()
+        binding.adBanner.loadAd(adRequest)
+        showBanner(visible = true)
+
+        binding.adBanner.adListener = object : AdListener() {
+            override fun onAdLoaded() {
+                val a = 2
+                println("Banner cargado correctamente")
+            }
+
+            override fun onAdFailedToLoad(error: LoadAdError) {
+                val a = 2
+                print("Fallo al cargar el banner: ${error.message}")
+            }
+        }
+
     }
 
     fun showBanner(visible: Boolean = false) {
-//        binding.adView.isVisible = visible
+        binding.adBanner.isVisible = visible
     }
 
     private fun error() = showErrorDialog(goBack = true)
