@@ -46,6 +46,13 @@ class ChooseFragment : BaseFragment<FragmentChooseBinding, ChooseViewModel>(), I
         binding.apply {
             loading.root.isVisible = false
             toolbar.btnInstructions.isVisible = false
+
+            when (gameType) {
+                QUESTIONS_TYPE -> clRanges.isVisible = false
+                RANGES_TYPE -> clQuestions.isVisible = false
+                else -> {}
+            }
+
             btnOffline.button.text = getString(R.string.online_btn_start)
         }
     }

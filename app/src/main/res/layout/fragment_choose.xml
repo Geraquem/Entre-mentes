@@ -33,144 +33,255 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
+        android:id="@+id/ll_mode"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="24dp"
         android:orientation="vertical"
         app:layout_constraintLeft_toLeftOf="@id/gl_left"
         app:layout_constraintRight_toRightOf="@id/gl_right"
         app:layout_constraintTop_toBottomOf="@id/toolbar">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:orientation="horizontal">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_questions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-            <com.google.android.material.imageview.ShapeableImageView
-                android:layout_width="8dp"
-                android:layout_height="8dp"
-                android:layout_gravity="center"
-                android:layout_marginEnd="8dp"
-                android:background="@color/grey"
+            <ImageView
+                android:id="@+id/human_blue"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:contentDescription="@string/content_description"
+                android:src="@drawable/ic_human_down"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:shapeAppearanceOverlay="@style/circular_image" />
+                app:tint="@color/blue" />
+
+            <ImageView
+                android:id="@+id/human_orange"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginStart="4dp"
+                android:contentDescription="@string/content_description"
+                android:src="@drawable/ic_human_down"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/human_blue"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/dark_orange" />
 
             <TextView
-                style="@style/BigTextView"
-                android:layout_width="wrap_content"
+                style="@style/BigTextView_Bold"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginEnd="12dp"
-                android:gravity="center"
-                android:text="@string/online_mode"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="8dp"
+                android:text="@string/selector_questions"
                 android:textAllCaps="true"
-                android:textColor="@color/grey"
-                android:textStyle="bold" />
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/human_orange"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_ranges"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:id="@+id/arrow_left"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
                 android:contentDescription="@string/content_description"
-                android:src="@drawable/ic_mobile"
-                app:tint="@color/grey" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:contentDescription="@string/content_description"
-                android:src="@drawable/ic_mobile"
-                app:tint="@color/grey" />
-
-        </LinearLayout>
-
-        <TextView
-            style="@style/MediumTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:text="@string/online_mode_desc"
-            android:textColor="@color/grey" />
-
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tl_room"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            app:tabBackground="@android:color/transparent"
-            app:tabIndicatorColor="@color/blue"
-            app:tabIndicatorFullWidth="false"
-            app:tabIndicatorHeight="6dp"
-            app:tabSelectedTextColor="@android:color/white"
-            app:tabTextColor="@android:color/white" />
-
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/view_pager"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginHorizontal="24dp"
-            android:layout_marginVertical="38dp"
-            android:background="@color/white" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:orientation="horizontal"
-            tools:ignore="UseCompoundDrawables">
-
-            <com.google.android.material.imageview.ShapeableImageView
-                android:layout_width="8dp"
-                android:layout_height="8dp"
-                android:layout_gravity="center"
-                android:layout_marginEnd="8dp"
-                android:background="@color/grey"
+                android:src="@drawable/ic_arrow"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:shapeAppearanceOverlay="@style/circular_image" />
-
-            <TextView
-                style="@style/BigTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginEnd="12dp"
-                android:gravity="center"
-                android:text="@string/online_offline"
-                android:textAllCaps="true"
-                android:textColor="@color/grey"
-                android:textStyle="bold" />
+                app:tint="@color/white" />
 
             <ImageView
-                android:layout_width="wrap_content"
+                android:id="@+id/arrow_right"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginStart="4dp"
+                android:contentDescription="@string/content_description"
+                android:scaleX="-1"
+                android:src="@drawable/ic_arrow"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/arrow_left"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/white" />
+
+            <TextView
+                style="@style/BigTextView_Bold"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:contentDescription="@string/content_description"
-                android:src="@drawable/ic_mobile"
-                app:tint="@color/grey" />
+                android:layout_marginHorizontal="8dp"
+                android:text="@string/selector_ranges"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/arrow_right"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        </LinearLayout>
-
-        <TextView
-            style="@style/MediumTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            android:text="@string/online_offline_desc"
-            android:textColor="@color/grey" />
-
-        <include
-            android:id="@+id/btn_offline"
-            layout="@layout/include_button_white" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
+
+    <androidx.core.widget.NestedScrollView
+        style="@style/scroll_no_effects"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="@id/gl_left"
+        app:layout_constraintRight_toRightOf="@id/gl_right"
+        app:layout_constraintTop_toBottomOf="@id/ll_mode">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:orientation="horizontal">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="8dp"
+                    android:background="@color/grey"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:shapeAppearanceOverlay="@style/circular_image" />
+
+                <TextView
+                    style="@style/BigTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="12dp"
+                    android:gravity="center"
+                    android:text="@string/online_mode"
+                    android:textAllCaps="true"
+                    android:textColor="@color/grey"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/content_description"
+                    android:src="@drawable/ic_mobile"
+                    app:tint="@color/grey" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/content_description"
+                    android:src="@drawable/ic_mobile"
+                    app:tint="@color/grey" />
+
+            </LinearLayout>
+
+            <TextView
+                style="@style/MediumTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:text="@string/online_mode_desc"
+                android:textColor="@color/grey" />
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tl_room"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                app:tabBackground="@android:color/transparent"
+                app:tabIndicatorColor="@color/blue"
+                app:tabIndicatorFullWidth="false"
+                app:tabIndicatorHeight="6dp"
+                app:tabSelectedTextColor="@android:color/white"
+                app:tabTextColor="@android:color/white" />
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/view_pager"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginVertical="38dp"
+                android:background="@color/white" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:orientation="horizontal"
+                tools:ignore="UseCompoundDrawables">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="8dp"
+                    android:background="@color/grey"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:shapeAppearanceOverlay="@style/circular_image" />
+
+                <TextView
+                    style="@style/BigTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="12dp"
+                    android:gravity="center"
+                    android:text="@string/online_offline"
+                    android:textAllCaps="true"
+                    android:textColor="@color/grey"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/content_description"
+                    android:src="@drawable/ic_mobile"
+                    app:tint="@color/grey" />
+
+            </LinearLayout>
+
+            <TextView
+                style="@style/MediumTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:text="@string/online_offline_desc"
+                android:textColor="@color/grey" />
+
+            <include
+                android:id="@+id/btn_offline"
+                layout="@layout/include_button_white" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="24dp" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
 
     <include
         android:id="@+id/loading"

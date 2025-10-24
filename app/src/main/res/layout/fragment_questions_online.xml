@@ -48,15 +48,17 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="18dp"
-        android:fontFamily="@font/alphazet"
+        android:ellipsize="end"
+        android:fontFamily="@font/courier"
         android:gravity="center"
-        android:lines="4"
+        android:lines="5"
+        android:maxLines="5"
         android:textColor="@color/white"
         android:textSize="18sp"
         app:layout_constraintLeft_toLeftOf="@id/gl_left"
         app:layout_constraintRight_toRightOf="@id/gl_right"
         app:layout_constraintTop_toBottomOf="@id/scoreboard"
-        tools:text="¿Quién es más torpe cuando se trata de andar por la calle un domingo" />
+        tools:text="¿Quién " />
 
     <include
         android:id="@+id/people"
