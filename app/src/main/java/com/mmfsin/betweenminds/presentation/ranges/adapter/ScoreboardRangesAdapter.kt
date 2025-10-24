@@ -31,6 +31,7 @@ class ScoreboardRangesAdapter(
 
                 data.points?.let { p ->
                     val color = when (p) {
+                        1 -> R.color.blue
                         2 -> R.color.dark_orange
                         5 -> R.color.green
                         else -> R.color.dark_grey
@@ -38,6 +39,10 @@ class ScoreboardRangesAdapter(
                     tvPoints.setTextColor(getColor(c, color))
                     tvPtsText.setTextColor(getColor(c, color))
                     tvPoints.text = "$p"
+
+                    val ptsText = if (data.points == 1) R.string.scoreboard_pt
+                    else R.string.scoreboard_pts
+                    tvPtsText.text = c.getString(ptsText)
                 }
             }
         }

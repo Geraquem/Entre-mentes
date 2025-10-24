@@ -75,7 +75,7 @@
             android:background="@drawable/bg_white_box_border_grey"
             android:imeOptions="actionDone"
             android:inputType="textCapSentences"
-            android:maxLength="100"
+            android:maxLength="150"
             android:maxLines="1"
             android:paddingHorizontal="8dp"
             android:paddingVertical="18dp"

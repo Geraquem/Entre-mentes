@@ -90,7 +90,7 @@ class MenuFragment : BaseFragment<FragmentMenuBinding, MenuViewModel>(), ISelect
             if (activity is MainActivity) {
                 if ((activity as MainActivity).firstInit) {
                     (activity as MainActivity).firstInit = false
-                    countDown(500) {
+                    countDown(1000) {
                         tvAppName.showAlpha(1000) {
 //                            icPlay.showAlpha(750)
                             btnPlay.root.animateY(0f, 500)

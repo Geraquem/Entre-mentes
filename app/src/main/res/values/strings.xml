@@ -12,10 +12,10 @@
     <string name="error_joining_room_description_2">Revisa el código de la sala, que estéis en el mismo modo de juego o tu conexión a internet y vuelve a intentarlo.</string>
 
     <!-- ADS -->
-<!--        <string name="banner">ca-app-pub-3940256099942544/6300978111</string>-->
+    <!--        <string name="banner">ca-app-pub-3940256099942544/6300978111</string>-->
     <string name="banner">ca-app-pub-4515698012373396/1214969812</string>
-<!--        <string name="interstitial">ca-app-pub-3940256099942544/1033173712</string>-->
-<!--    <string name="interstitial">ca-app-pub-4515698012373396/5631649980</string>-->
+    <!--        <string name="interstitial">ca-app-pub-3940256099942544/1033173712</string>-->
+    <!--    <string name="interstitial">ca-app-pub-4515698012373396/5631649980</string>-->
 
     <!-- MENU -->
     <string name="selector_play">Jugar</string>
@@ -65,6 +65,10 @@
     <string name="ranges_start_play">Empezar</string>
     <string name="ranges_start_instructions">Cómo se juega</string>
 
+    <string name="ranges_points_one">1</string>
+    <string name="ranges_points_two">2</string>
+    <string name="ranges_points_five">5</string>
+
     <string name="ranges_start_online"><b>Objetivo:</b> Ayudar a vuestro compañero a conseguir puntos.</string>
     <string name="ranges_start_online_1">Para ello deberéis mandar pistas para orientar al otro jugador a poner la flecha en la zona marcada para ganar puntos, y luego mover la flecha en función de la pista recibida.</string>
     <string name="ranges_start_online_2"><b>3 rondas</b> seguidas de mandar pistas, <b>3 rondas</b> seguidas de conseguir puntos con la pista de vuestro compañero.</string>
@@ -74,13 +78,14 @@
     <string name="ranges_write_a_clue">Escribe una pista</string>
     <string name="ranges_clue_title">La pista es:</string>
     <string name="ranges_see_points">Ver puntos</string>
-    <string name="ranges_partner_sent">Esto es lo que te ha mandado tu compañero</string>
+    <string name="ranges_partner_sent">Esto es lo que te ha mandado tu compañer@</string>
     <string name="ranges_rounds_done">Rondas:</string>
     <string name="ranges_one">1</string>
     <string name="ranges_slash_three">/3</string>
 
     <!-- SCOREBOARD -->
     <string name="scoreboard_rounds">Rondas</string>
+    <string name="scoreboard_pt">pt</string>
     <string name="scoreboard_pts">pts</string>
 
     <!-- ENDGAME -->

@@ -295,18 +295,28 @@ class RangesFragment : BaseFragment<FragmentRangesBinding, RangesViewModel>() {
             val parent = rlSlider
             val child = bullsEye.root
 
-            val parentWidth = parent.width
-            val bullseyeWidth = child.width
-
             parent.post {
-                val centerOffset = (0.2f * bullseyeWidth) + (0.35f * bullseyeWidth) / 2f
+                val parentWidth = parent.width.toFloat()
+                val bullseyeWidth = child.width.toFloat()
 
-                val minX = -centerOffset
-                val maxX = parentWidth - (bullseyeWidth - centerOffset)
+                val totalWeight = 9.5f
+                val p1Weight = 1.5f
+                val p2Weight = 2f
 
-                val randomX = (minX.toInt()..maxX.toInt()).random()
-                child.x = randomX.toFloat()
-//                child.x = minX
+                val w1 = bullseyeWidth * (p1Weight / totalWeight)
+                val w2 = bullseyeWidth * (p2Weight / totalWeight)
+
+                val lateralSectionsWidth = w1 + w2
+
+                val minX = -lateralSectionsWidth
+                val maxX = parentWidth - bullseyeWidth + lateralSectionsWidth
+
+                val finalMin = minOf(minX, maxX)
+                val finalMax = maxOf(minX, maxX)
+
+                val randomX = kotlin.random.Random.nextFloat() * (finalMax - finalMin) + finalMin
+
+                child.x = randomX
             }
         }
     }
@@ -314,8 +324,10 @@ class RangesFragment : BaseFragment<FragmentRangesBinding, RangesViewModel>() {
     private fun checkPoints() {
         binding.apply {
             val points = if (areViewsColliding(target, bullsEye.centerBullseye)) 5
-            else if (areViewsColliding(target, bullsEye.rightBullseye)) 2
-            else if (areViewsColliding(target, bullsEye.leftBullseye)) 2
+            else if (areViewsColliding(target, bullsEye.twoLeftBullseye)) 2
+            else if (areViewsColliding(target, bullsEye.twoRightBullseye)) 2
+            else if (areViewsColliding(target, bullsEye.oneLeftBullseye)) 1
+            else if (areViewsColliding(target, bullsEye.oneRightBullseye)) 1
             else 0
 
             if (points != 0) binding.konfetti.start(getKonfettiParty())

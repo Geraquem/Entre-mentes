@@ -1,16 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="45dp"
+    android:layout_width="60dp"
     android:layout_height="match_parent"
     android:background="@drawable/bg_slider"
     android:baselineAligned="false"
-    android:weightSum="1">
+    android:weightSum="9.5">
 
     <FrameLayout
-        android:id="@+id/left_bullseye"
+        android:id="@+id/one_left_bullseye"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="0.325"
+        android:layout_weight="1.5"
+        android:background="@color/blue">
+
+        <TextView
+            style="@style/SmallTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/manaspace"
+            android:gravity="center"
+            android:text="@string/ranges_points_one" />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/two_left_bullseye"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
         android:background="@color/dark_orange">
 
         <TextView
@@ -20,7 +38,7 @@
             android:layout_gravity="center"
             android:fontFamily="@font/manaspace"
             android:gravity="center"
-            android:text="2" />
+            android:text="@string/ranges_points_two" />
 
     </FrameLayout>
 
@@ -28,7 +46,7 @@
         android:id="@+id/center_bullseye"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="0.35"
+        android:layout_weight="2.5"
         android:background="@color/dark_green">
 
         <TextView
@@ -38,15 +56,15 @@
             android:layout_gravity="center"
             android:fontFamily="@font/manaspace"
             android:gravity="center"
-            android:text="5" />
+            android:text="@string/ranges_points_five" />
 
     </FrameLayout>
 
     <FrameLayout
-        android:id="@+id/right_bullseye"
+        android:id="@+id/two_right_bullseye"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="0.325"
+        android:layout_weight="2"
         android:background="@color/dark_orange">
 
         <TextView
@@ -56,7 +74,25 @@
             android:layout_gravity="center"
             android:fontFamily="@font/manaspace"
             android:gravity="center"
-            android:text="2" />
+            android:text="@string/ranges_points_two" />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/one_right_bullseye"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1.5"
+        android:background="@color/blue">
+
+        <TextView
+            style="@style/SmallTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/manaspace"
+            android:gravity="center"
+            android:text="@string/ranges_points_one" />
 
     </FrameLayout>
 

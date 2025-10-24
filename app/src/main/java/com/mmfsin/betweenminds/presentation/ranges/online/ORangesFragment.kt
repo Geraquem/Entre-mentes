@@ -358,8 +358,10 @@ class ORangesFragment : BaseFragment<FragmentRangesOnlineBinding, ORangesViewMod
     private fun checkPoints() {
         binding.apply {
             val points = if (areViewsColliding(target, bullsEye.centerBullseye)) 5
-            else if (areViewsColliding(target, bullsEye.rightBullseye)) 2
-            else if (areViewsColliding(target, bullsEye.leftBullseye)) 2
+            else if (areViewsColliding(target, bullsEye.twoLeftBullseye)) 2
+            else if (areViewsColliding(target, bullsEye.twoRightBullseye)) 2
+            else if (areViewsColliding(target, bullsEye.oneLeftBullseye)) 1
+            else if (areViewsColliding(target, bullsEye.oneRightBullseye)) 1
             else 0
 
             if (points != 0) binding.konfetti.start(getKonfettiParty())
@@ -390,17 +392,27 @@ class ORangesFragment : BaseFragment<FragmentRangesOnlineBinding, ORangesViewMod
 
             parent.post {
                 val parentWidth = parent.width
-                val childWidth = child.width
+                val bullseyeWidth = child.width
 
-                // Ajuste de offsets internos (lo que tenías antes)
-                val centerOffset = (0.2f * childWidth) + (0.35f * childWidth) / 2f
-                val minX = -centerOffset
-                val maxX = parentWidth - (childWidth - centerOffset)
+                val totalWeight = 9.5f
+                val p1Weight = 1.5f
+                val p2Weight = 2f
 
-                val randomX = (minX.toInt()..maxX.toInt()).random()
+                val w1 = bullseyeWidth * (p1Weight / totalWeight)
+                val w2 = bullseyeWidth * (p2Weight / totalWeight)
 
-                bullseyePosition = randomX.toFloat() / (parentWidth - childWidth)
-                child.x = randomX.toFloat()
+                val lateralSectionsWidth = w1 + w2
+
+                val minX = -lateralSectionsWidth
+                val maxX = parentWidth - bullseyeWidth + lateralSectionsWidth
+
+                val finalMin = minOf(minX, maxX)
+                val finalMax = maxOf(minX, maxX)
+
+                val randomX = kotlin.random.Random.nextFloat() * (finalMax - finalMin) + finalMin
+                bullseyePosition = randomX / (parentWidth - bullseyeWidth)
+
+                child.x = randomX
             }
         }
     }
