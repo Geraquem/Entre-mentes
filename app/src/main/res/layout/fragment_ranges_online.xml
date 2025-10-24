@@ -225,7 +225,7 @@
         android:layout_marginStart="6dp"
         android:layout_marginBottom="12dp"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@id/button_hide"
+        app:layout_constraintBottom_toTopOf="@id/cl_clue"
         app:layout_constraintLeft_toLeftOf="@id/gl_left">
 
         <TextView
@@ -256,6 +256,16 @@
             android:textColor="@color/white" />
 
     </LinearLayout>
+
+    <include
+        android:id="@+id/button_another_range"
+        layout="@layout/include_button_black"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@id/button_hide"
+        app:layout_constraintLeft_toLeftOf="@id/gl_left"
+        app:layout_constraintRight_toRightOf="@id/gl_right" />
 
     <include
         android:id="@+id/button_hide"

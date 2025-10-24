@@ -69,6 +69,7 @@ class RangesFragment : BaseFragment<FragmentRangesBinding, RangesViewModel>() {
         binding.apply {
             loading.root.isVisible = true
 
+            buttonAnotherRange.button.text = getString(R.string.ranges_another_range)
             buttonHide.button.text = getString(R.string.btn_hide)
             buttonCheck.button.text = getString(R.string.btn_check)
             buttonNextRound.button.text = getString(R.string.btn_next_round)
@@ -89,6 +90,7 @@ class RangesFragment : BaseFragment<FragmentRangesBinding, RangesViewModel>() {
                 tvRangeRight.hideAlpha(1)
             }
 
+            buttonAnotherRange.root.hideAlpha(1)
             buttonHide.root.animateY(500f, 1)
             buttonCheck.root.animateY(500f, 1)
             buttonNextRound.root.animateY(500f, 1)
@@ -106,8 +108,14 @@ class RangesFragment : BaseFragment<FragmentRangesBinding, RangesViewModel>() {
                 btnInstructions.setOnClickListener { openInstructions() }
             }
 
+            buttonAnotherRange.root.setOnClickListener {
+                buttonAnotherRange.root.isEnabled = false
+                pleaseAnotherRange()
+            }
+
             buttonHide.root.setOnClickListener {
                 buttonHide.root.isEnabled = false
+                buttonAnotherRange.root.isEnabled = false
                 secondPhase()
             }
 
@@ -173,7 +181,9 @@ class RangesFragment : BaseFragment<FragmentRangesBinding, RangesViewModel>() {
     private fun showRound(onEnd: () -> Unit) {
         binding.apply {
             llRound.showAlpha(500) {
-                llRound.hideAlpha(500) { onEnd() }
+                countDown(750) {
+                    llRound.hideAlpha(500) { onEnd() }
+                }
             }
         }
     }
@@ -198,6 +208,7 @@ class RangesFragment : BaseFragment<FragmentRangesBinding, RangesViewModel>() {
             arrow.translationX = 0f
             target.translationX = 0f
 
+            buttonAnotherRange.root.isEnabled = true
             buttonHide.root.isEnabled = true
             buttonCheck.root.isEnabled = true
             buttonNextRound.root.isEnabled = true
@@ -217,6 +228,9 @@ class RangesFragment : BaseFragment<FragmentRangesBinding, RangesViewModel>() {
                 ranges.tvRangeLeft.showAlpha(1000)
                 ranges.tvRangeRight.showAlpha(1000)
 
+                buttonAnotherRange.root.isEnabled = true
+                buttonAnotherRange.root.isVisible = true
+                buttonAnotherRange.root.showAlpha(1500)
                 buttonHide.root.animateY(0f, 1000)
             }
         }
@@ -231,6 +245,7 @@ class RangesFragment : BaseFragment<FragmentRangesBinding, RangesViewModel>() {
             etClue.hideAlpha(500) { etClue.text = null }
             tvClue.text = clue
 
+            buttonAnotherRange.root.hideAlpha(500) { buttonAnotherRange.root.isVisible = false }
             buttonHide.root.animateY(500f, 500)
             curtainVisibility(isVisible = true) {
                 bullseyeVisibility(isVisible = false)
@@ -287,6 +302,30 @@ class RangesFragment : BaseFragment<FragmentRangesBinding, RangesViewModel>() {
             }
 
             showRound { firstPhase() }
+        }
+    }
+
+    private fun pleaseAnotherRange() {
+        binding.apply {
+            buttonAnotherRange.root.hideAlpha(350)
+
+            curtainVisibility(isVisible = true) {
+                position++
+                if (position > rangesList.size - 1) position = 0
+                val actualRange = rangesList[position]
+                ranges.apply {
+                    tvRangeLeft.hideAlpha(350) { tvRangeLeft.text = actualRange.leftRange }
+                    tvRangeRight.hideAlpha(350) { tvRangeRight.text = actualRange.rightRange }
+                }
+                setBullsEye()
+            }
+            countDown(1500) {
+                curtainVisibility(isVisible = false)
+                ranges.apply {
+                    tvRangeLeft.showAlpha(1000)
+                    tvRangeRight.showAlpha(1000)
+                }
+            }
         }
     }
 

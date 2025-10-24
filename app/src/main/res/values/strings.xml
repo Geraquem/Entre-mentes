@@ -33,7 +33,7 @@
     <string name="three_dots">…</string>
     <string name="curtain_text">Top secret</string>
     <string name="code_hint">----</string>
-    <string name="btn_hide">Ocultar</string>
+    <string name="btn_hide">Listo</string>
     <string name="btn_check">Comprobar</string>
     <string name="btn_next_round">Siguiente ronda</string>
     <string name="name_blue">Nombre azul</string>
@@ -64,6 +64,7 @@
     <string name="ranges_start_resume_three">Entre todos hay que tratar de obtener la mayor puntuación posible en <b>4 rondas</b>.</string>
     <string name="ranges_start_play">Empezar</string>
     <string name="ranges_start_instructions">Cómo se juega</string>
+    <string name="ranges_another_range">Quiero uno nuevo</string>
 
     <string name="ranges_points_one">1</string>
     <string name="ranges_points_two">2</string>
@@ -132,7 +133,7 @@
     <string name="instr_questions_5">Primero opina un jugador sin que el resto de jugadores le vea.</string>
     <string name="instr_questions_6"><i>En este ejemplo, María es un 80% más ordenada que Juan</i>.</string>
     <string name="instr_questions_7">Este icono significa que es la primera opinión</string>
-    <string name="instr_questions_8">Cuando tiene su respuesta completada, pulsa el botón <b><i>Ocultar</i></b>.</string>
+    <string name="instr_questions_8">Cuando tiene su respuesta completada, pulsa el botón <b><i>Listo</i></b>.</string>
     <string name="instr_questions_9">Fase 2</string>
     <string name="instr_questions_10">Con la primera opinión oculta, le toca al otro jugador opinar sobre la misma pregunta.</string>
     <string name="instr_questions_10_1">Este icono significa que es la segunda opinión</string>
@@ -163,7 +164,7 @@
     <string name="instr_ranges_1">Fase 1</string>
     <string name="instr_ranges_2">Un jugador ve en secreto dónde está la zona para ganar puntos dentro de un segmento con dos conceptos opuestos en los extremos.\n<i>(Ejemplo: frío – caliente, sucio – limpio)</i>.</string>
     <string name="instr_ranges_3">Ese jugador escribe una pista (una palabra o idea) para <b>ayudar a que el resto de jugadores coloque el marcador</b> en el punto donde se encuentra la zona para ganar puntos.</string>
-    <string name="instr_ranges_4">Después pulsa el botón <b><i>Ocultar</i></b>.</string>
+    <string name="instr_ranges_4">Después pulsa el botón <b><i>Listo</i></b>.</string>
     <string name="instr_ranges_5">Fase 2</string>
     <string name="instr_ranges_6">El resto de jugadores, con la pista dada por el anterior jugador tienen que desplazar la flecha para intentar colocar el marcador en el lugar donde el primer jugador vio la zona donde se ganan puntos.</string>
     <string name="instr_ranges_7">Una vez está colocado el marcador, pulsan el botón <b><i>Comprobar</i></b> para ver si colocaron bien el marcador y obtuvieron algún punto.</string>

@@ -112,6 +112,7 @@ class ORangesFragment : BaseFragment<FragmentRangesOnlineBinding, ORangesViewMod
             etClue.showAlpha(350)
             tvClue.hideAlpha(10) { tvClue.text = null }
 
+            buttonAnotherRange.button.text = getString(R.string.ranges_another_range)
             buttonHide.button.text = getString(R.string.online_btn_save_answer)
             buttonCheck.button.text = getString(R.string.btn_check)
             buttonNextRound.button.text = getString(R.string.btn_next_round)
@@ -124,6 +125,7 @@ class ORangesFragment : BaseFragment<FragmentRangesOnlineBinding, ORangesViewMod
                 tvRangeRight.hideAlpha(1)
             }
 
+            buttonAnotherRange.root.hideAlpha(1)
             buttonHide.root.animateY(500f, 1)
             buttonCheck.root.animateY(500f, 1)
             buttonNextRound.root.animateY(500f, 1)
@@ -139,6 +141,11 @@ class ORangesFragment : BaseFragment<FragmentRangesOnlineBinding, ORangesViewMod
             toolbar.apply {
                 btnBack.setOnClickListener { activity?.onBackPressedDispatcher?.onBackPressed() }
                 btnInstructions.setOnClickListener { openInstructions() }
+            }
+
+            buttonAnotherRange.root.setOnClickListener {
+                buttonAnotherRange.root.isEnabled = false
+                pleaseAnotherRange()
             }
 
             buttonHide.button.setOnClickListener {
@@ -199,7 +206,7 @@ class ORangesFragment : BaseFragment<FragmentRangesOnlineBinding, ORangesViewMod
 
                     binding.apply {
                         rlPartner.showAlpha(500) {
-                            countDown(1500) {
+                            countDown(2000) {
                                 rlPartner.hideAlpha(500) { startGuessingPhase() }
                             }
                         }
@@ -225,12 +232,18 @@ class ORangesFragment : BaseFragment<FragmentRangesOnlineBinding, ORangesViewMod
                 if (round == 2) buttonHide.button.text = getString(R.string.online_btn_save_answer)
                 buttonHide.button.isEnabled = true
 
+                if (position > rangesList.size - 1) position = 0
                 val actualRange = rangesList[position]
                 ranges.tvRangeLeft.text = actualRange.leftRange
                 ranges.tvRangeRight.text = actualRange.rightRange
                 setRandomBullsEyePosition()
                 countDown(750) {
                     clClue.showAlpha(350)
+
+                    buttonAnotherRange.root.isEnabled = true
+                    buttonAnotherRange.root.isVisible = true
+                    buttonAnotherRange.root.showAlpha(350)
+
                     buttonHide.root.animateY(0f, 350)
                     curtainVisibility(isVisible = false)
                     ranges.apply {
@@ -265,7 +278,10 @@ class ORangesFragment : BaseFragment<FragmentRangesOnlineBinding, ORangesViewMod
                 )
             )
 
+            buttonAnotherRange.root.isEnabled = false
+            buttonAnotherRange.root.hideAlpha(350) { buttonAnotherRange.root.isVisible = false }
             buttonHide.root.animateY(500f, 350)
+
             curtainVisibility(isVisible = true) { setRandomBullsEyePosition() }
             ranges.apply {
                 tvRangeLeft.hideAlpha(350)
@@ -276,6 +292,30 @@ class ORangesFragment : BaseFragment<FragmentRangesOnlineBinding, ORangesViewMod
             round++
             position++
             countDown(750) { startCluePhase() }
+        }
+    }
+
+    private fun pleaseAnotherRange() {
+        binding.apply {
+            buttonAnotherRange.root.hideAlpha(350)
+
+            curtainVisibility(isVisible = true) {
+                position++
+                if (position > rangesList.size - 1) position = 0
+                val actualRange = rangesList[position]
+                ranges.apply {
+                    tvRangeLeft.hideAlpha(350) { tvRangeLeft.text = actualRange.leftRange }
+                    tvRangeRight.hideAlpha(350) { tvRangeRight.text = actualRange.rightRange }
+                }
+                setRandomBullsEyePosition()
+            }
+            countDown(1500) {
+                curtainVisibility(isVisible = false)
+                ranges.apply {
+                    tvRangeLeft.showAlpha(1000)
+                    tvRangeRight.showAlpha(1000)
+                }
+            }
         }
     }
 
