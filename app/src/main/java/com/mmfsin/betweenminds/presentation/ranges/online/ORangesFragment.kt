@@ -104,7 +104,7 @@ class ORangesFragment : BaseFragment<FragmentRangesOnlineBinding, ORangesViewMod
             scoreboard.root.hideAlpha(10)
 
             tvCluesDone.text = "$round"
-            llCluesDone.showAlpha(350)
+            llCluesDone.handleAlpha(0.5f, 350)
 
             clClue.showAlpha(350)
             tvTopText.text = getString(R.string.ranges_write_a_clue)
@@ -241,7 +241,7 @@ class ORangesFragment : BaseFragment<FragmentRangesOnlineBinding, ORangesViewMod
                     clClue.showAlpha(350)
 
                     buttonAnotherRange.root.isEnabled = true
-                    buttonAnotherRange.root.isVisible = true
+                    buttonAnotherRange.root.visibility = View.VISIBLE
                     buttonAnotherRange.root.showAlpha(350)
 
                     buttonHide.root.animateY(0f, 350)
@@ -279,7 +279,9 @@ class ORangesFragment : BaseFragment<FragmentRangesOnlineBinding, ORangesViewMod
             )
 
             buttonAnotherRange.root.isEnabled = false
-            buttonAnotherRange.root.hideAlpha(350) { buttonAnotherRange.root.isVisible = false }
+            buttonAnotherRange.root.hideAlpha(350) {
+                buttonAnotherRange.root.visibility = View.INVISIBLE
+            }
             buttonHide.root.animateY(500f, 350)
 
             curtainVisibility(isVisible = true) { setRandomBullsEyePosition() }

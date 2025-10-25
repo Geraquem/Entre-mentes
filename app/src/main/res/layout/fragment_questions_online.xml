@@ -58,7 +58,7 @@
         app:layout_constraintLeft_toLeftOf="@id/gl_left"
         app:layout_constraintRight_toRightOf="@id/gl_right"
         app:layout_constraintTop_toBottomOf="@id/scoreboard"
-        tools:text="¿Quién " />
+        tools:text="¿Quién vergüeza" />
 
     <include
         android:id="@+id/people"

@@ -107,7 +107,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_slier"
+        android:id="@+id/cl_slider"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -196,7 +196,7 @@
         android:layout_marginTop="4dp"
         app:layout_constraintLeft_toLeftOf="@id/gl_left"
         app:layout_constraintRight_toRightOf="@id/gl_right"
-        app:layout_constraintTop_toBottomOf="@id/cl_slier" />
+        app:layout_constraintTop_toBottomOf="@id/cl_slider" />
 
     <RelativeLayout
         android:id="@+id/controller"
@@ -222,10 +222,9 @@
         android:id="@+id/ll_clues_done"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="6dp"
         android:layout_marginBottom="12dp"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@id/cl_clue"
+        app:layout_constraintBottom_toTopOf="@id/button_another_range"
         app:layout_constraintLeft_toLeftOf="@id/gl_left">
 
         <TextView

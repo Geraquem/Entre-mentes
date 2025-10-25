@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.WindowInsets
+import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
@@ -13,10 +14,12 @@ import androidx.core.view.isVisible
 import androidx.navigation.fragment.NavHostFragment
 import com.mmfsin.betweenminds.R
 import com.mmfsin.betweenminds.databinding.ActivityBedrockBinding
+import com.mmfsin.betweenminds.presentation.choose.dialogs.ExitGameDialog
 import com.mmfsin.betweenminds.utils.BEDROCK_BOOLEAN_ARGS
 import com.mmfsin.betweenminds.utils.BEDROCK_STR_ARGS
 import com.mmfsin.betweenminds.utils.ROOT_ACTIVITY_NAV_GRAPH
 import com.mmfsin.betweenminds.utils.showErrorDialog
+import com.mmfsin.betweenminds.utils.showFragmentDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -32,6 +35,7 @@ class BedRockActivity : AppCompatActivity() {
         changeStatusBarColor(R.color.background_black)
         respectScreenDimensions()
 
+        setListeners()
         setUpNavGraph()
         setAds()
     }
@@ -67,6 +71,14 @@ class BedRockActivity : AppCompatActivity() {
 
         //true == dark
         WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = false
+    }
+
+    private fun setListeners() {
+        binding.apply {
+            onBackPressedDispatcher.addCallback(this@BedRockActivity) {
+                showFragmentDialog(ExitGameDialog(exit = { finish() }))
+            }
+        }
     }
 
     private fun setUpNavGraph() {

@@ -11,9 +11,16 @@
     <string name="error_joining_room_description">Parece que no ha sido posible unirte.</string>
     <string name="error_joining_room_description_2">Revisa el código de la sala, que estéis en el mismo modo de juego o tu conexión a internet y vuelve a intentarlo.</string>
 
+    <!-- EXIT -->
+    <string name="exit">Salir</string>
+    <string name="stay">Quedarse</string>
+    <string name="exit_text_1">¿Quieres salir?</string>
+    <string name="exit_text_2">Si sales, saldrás. Pulsa <b>salir</b> para salir de la partida.</string>
+    <string name="exit_text_3">Si sales de la partida habrás salido y perderás todo por haber salido.</string>
+
     <!-- ADS -->
-    <!--        <string name="banner">ca-app-pub-3940256099942544/6300978111</string>-->
-    <string name="banner">ca-app-pub-4515698012373396/1214969812</string>
+    <string name="banner">ca-app-pub-3940256099942544/6300978111</string>
+    <!--    <string name="banner">ca-app-pub-4515698012373396/1214969812</string>-->
     <!--        <string name="interstitial">ca-app-pub-3940256099942544/1033173712</string>-->
     <!--    <string name="interstitial">ca-app-pub-4515698012373396/5631649980</string>-->
 
