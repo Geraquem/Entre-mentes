@@ -33,7 +33,7 @@
             android:name=".base.bedrock.BedRockActivity"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"
+            android:windowSoftInputMode="adjustResize"
             android:theme="@style/Theme.BetweenMinds"
             tools:ignore="LockedOrientationActivity" />
 

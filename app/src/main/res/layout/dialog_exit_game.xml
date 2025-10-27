@@ -45,25 +45,16 @@
             style="@style/SmallTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="8dp"
-            android:gravity="center"
+            android:layout_marginBottom="0dp"
+            android:gravity="start"
             android:text="@string/exit_text_1" />
 
         <TextView
             style="@style/SmallTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="0dp"
-            android:gravity="start"
-            android:text="@string/exit_text_2" />
-
-        <TextView
-            style="@style/SmallTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
-            android:text="@string/exit_text_3" />
+            android:text="@string/exit_text_2" />
 
         <include
             android:id="@+id/btn_exit"

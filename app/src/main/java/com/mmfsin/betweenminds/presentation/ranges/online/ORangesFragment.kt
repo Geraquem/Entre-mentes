@@ -106,11 +106,14 @@ class ORangesFragment : BaseFragment<FragmentRangesOnlineBinding, ORangesViewMod
             tvCluesDone.text = "$round"
             llCluesDone.handleAlpha(0.5f, 350)
 
+            tvClue.isVisible = false
+            tvClue.hideAlpha(10) { tvClue.text = null }
+
+            clClue.isVisible = true
             clClue.showAlpha(350)
             tvTopText.text = getString(R.string.ranges_write_a_clue)
             etClue.text = null
             etClue.showAlpha(350)
-            tvClue.hideAlpha(10) { tvClue.text = null }
 
             buttonAnotherRange.button.text = getString(R.string.ranges_another_range)
             buttonHide.button.text = getString(R.string.online_btn_save_answer)
@@ -254,6 +257,12 @@ class ORangesFragment : BaseFragment<FragmentRangesOnlineBinding, ORangesViewMod
             } else {
                 waitingPartnerVisibility(waiting, isVisible = true)
 
+                ranges.root.hideAlpha(500)
+                clSlider.hideAlpha(500) {
+                    clClue.isVisible = false
+                    tvClue.isVisible = true
+                }
+
                 checkNotNulls(roomId, isCreator) { id, creator ->
                     val onlineData = OnlineData(
                         roomId = id, isCreator = creator, data = data
@@ -327,10 +336,6 @@ class ORangesFragment : BaseFragment<FragmentRangesOnlineBinding, ORangesViewMod
                 if (round == 3) buttonNextRound.button.text = getString(R.string.ranges_see_points)
                 buttonCheck.button.isEnabled = true
 
-                etClue.alpha = 0f
-                tvClue.alpha = 1f
-                tvTopText.text = getString(R.string.ranges_clue_title)
-
                 val actualRange = otherPlayerData[otherPlayerPosition]
                 tvClue.text = actualRange.hint
                 ranges.tvRangeLeft.text = actualRange.leftRange
@@ -338,8 +343,10 @@ class ORangesFragment : BaseFragment<FragmentRangesOnlineBinding, ORangesViewMod
                 bullseyeVisibility(isVisible = false)
                 setBullsEyeWithPosition(position = actualRange.bullseyePosition)
                 countDown(750) {
+                    clSlider.showAlpha(350)
+                    ranges.root.showAlpha(350)
                     scoreboard.root.showAlpha(350)
-                    clClue.showAlpha(350)
+                    tvClue.showAlpha(350)
                     buttonCheck.root.animateY(0f, 350)
                     controllerInfo.root.handleAlpha(0.35f, 350)
                     controller.isEnabled = true
@@ -379,7 +386,7 @@ class ORangesFragment : BaseFragment<FragmentRangesOnlineBinding, ORangesViewMod
 
     private fun getReadyForGuessingPhase() {
         binding.apply {
-            clClue.hideAlpha(350)
+            tvClue.hideAlpha(350)
             buttonCheck.root.animateY(500f, 350)
             controller.isEnabled = false
             curtainVisibility(isVisible = true)
