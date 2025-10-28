@@ -44,9 +44,11 @@ class MenuFragment : BaseFragment<FragmentMenuBinding, MenuViewModel>(), ISelect
         binding.apply {
             loading.root.isVisible = true
 
-            btnPlay.root.isVisible = false
-            btnPlay.root.animateY(500f, 10) { btnPlay.root.isVisible = true }
+            llButtons.isVisible = false
+            llButtons.animateY(500f, 10) { btnPlay.root.isVisible = true }
             btnPlay.button.text = getString(R.string.selector_play)
+            btnPacks.button.text = getString(R.string.menu_packs)
+
             /*********************************************************************************/
 //            findNavController().navigate(actionToChooseFragment(QUESTIONS_TYPE))
 //            findNavController().navigate(actionToChooseFragment(RANGES_TYPE))
@@ -59,6 +61,10 @@ class MenuFragment : BaseFragment<FragmentMenuBinding, MenuViewModel>(), ISelect
             tvAppName.setOnClickListener { openSelector() }
             btnPlay.root.setOnClickListener { openSelector() }
             icPlay.setOnClickListener { rotateImage { openSelector() } }
+
+            btnPacks.button.setOnClickListener {
+                navigateTo(navGraph = R.navigation.nav_graph_packs)
+            }
         }
     }
 
@@ -87,21 +93,18 @@ class MenuFragment : BaseFragment<FragmentMenuBinding, MenuViewModel>(), ISelect
     private fun showAnimations() {
         binding.apply {
             loading.root.isVisible = false
+            llButtons.isVisible = true
             if (activity is MainActivity) {
                 if ((activity as MainActivity).firstInit) {
                     (activity as MainActivity).firstInit = false
                     countDown(1000) {
                         tvAppName.showAlpha(1000) {
-//                            icPlay.showAlpha(750)
-                            btnPlay.root.animateY(0f, 500)
+                            llButtons.animateY(0f, 500)
                         }
                     }
                 } else {
                     tvAppName.showAlpha(10)
-//                    icPlay.showAlpha(10)
-
-                    btnPlay.root.isVisible = true
-                    btnPlay.root.animateY(0f, 10)
+                        llButtons.animateY(0f, 10)
                 }
             }
         }

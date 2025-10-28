@@ -61,15 +61,30 @@
         app:tint="@color/white"
         tools:alpha="1" />
 
-    <include
-        android:id="@+id/btn_play"
-        layout="@layout/include_button_white"
+    <LinearLayout
+        android:id="@+id/ll_buttons"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="42dp"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="@id/gl_left"
-        app:layout_constraintRight_toRightOf="@id/gl_right" />
+        app:layout_constraintRight_toRightOf="@id/gl_right">
+
+        <include
+            android:id="@+id/btn_play"
+            layout="@layout/include_button_white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp" />
+
+        <include
+            android:id="@+id/btn_packs"
+            layout="@layout/include_button_white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
 
     <include
         android:id="@+id/loading"

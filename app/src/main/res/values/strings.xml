@@ -24,6 +24,7 @@
     <!--    <string name="interstitial">ca-app-pub-4515698012373396/5631649980</string>-->
 
     <!-- MENU -->
+    <string name="menu_packs">Ver packs</string>
     <string name="selector_play">Jugar</string>
     <string name="selector_how_to_play">Aprender</string>
     <string name="selector_questions">Preguntas</string>
