@@ -105,9 +105,6 @@ dependencies {
     implementation("nl.dionsegijn:konfetti-xml:2.0.5")
     implementation("com.github.doctoror.particlesdrawable:library:2.0.2")
 
-    //Google services
-    implementation("com.google.android.gms:play-services-ads:22.1.0")
-
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
