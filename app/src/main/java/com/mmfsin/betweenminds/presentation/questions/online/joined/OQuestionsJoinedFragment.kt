@@ -226,7 +226,7 @@ class OQuestionsJoinedFragment :
 
     private fun setFirstPhase() {
         binding.apply {
-            tvQuestion.text = questionList[position].text
+            tvQuestion.text = questionList[position].question
             people.apply {
                 etPlayerBlue.setText(serverData?.blueName)
                 etPlayerOrange.setText(serverData?.orangeName)
@@ -291,7 +291,7 @@ class OQuestionsJoinedFragment :
 
                 val newScore = ScoreQuestion(
                     discovered = true,
-                    actualQuestion = questionList[position].text,
+                    actualQuestion = questionList[position].question,
                     topNumbers = Pair((100 - otherOpinion), otherOpinion),
                     bottomNumbers = Pair((100 - myOpinion), myOpinion),
                     points = points

@@ -7,8 +7,8 @@
 
     <fragment
         android:id="@+id/packsFragment"
-        android:name="com.mmfsin.betweenminds.presentation.packs.PacksFragment"
+        android:name="com.mmfsin.betweenminds.presentation.packs.PacksVPagerFragment"
         android:label="packsFragment"
-        tools:layout="@layout/fragment_packs" />
+        tools:layout="@layout/fragment_packs_vp" />
 
 </navigation>

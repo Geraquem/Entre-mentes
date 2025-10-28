@@ -74,7 +74,7 @@ class OnlineQuestionsRepository @Inject constructor(
                     if (!blueName.isNullOrEmpty() && !orangeName.isNullOrEmpty() && !questionsList.isNullOrEmpty()) {
                         val parsedQuestions = questionsList.mapNotNull { map ->
                             try {
-                                Question(text = map["text"] as? String ?: "")
+                                Question(question = map["question"] as? String ?: "", pack = -1)
                             } catch (e: Exception) {
                                 null
                             }

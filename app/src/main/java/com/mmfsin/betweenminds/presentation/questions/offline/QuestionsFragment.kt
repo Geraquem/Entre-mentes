@@ -214,7 +214,7 @@ class QuestionsFragment :
 
     private fun setFirstRanges() {
         binding.apply {
-            tvQuestion.text = questionList[position].text
+            tvQuestion.text = questionList[position].question
             countDown(500) { firstPhase() }
         }
     }
@@ -320,7 +320,7 @@ class QuestionsFragment :
             }
 
             if (position > questionList.size - 1) position = 0
-            tvQuestion.hideAlpha(350) { tvQuestion.text = questionList[position].text }
+            tvQuestion.hideAlpha(350) { tvQuestion.text = questionList[position].question }
 
             showRound { firstPhase() }
         }
@@ -334,7 +334,7 @@ class QuestionsFragment :
 
                 val newScore = ScoreQuestion(
                     discovered = true,
-                    actualQuestion = questionList[position].text,
+                    actualQuestion = questionList[position].question,
                     topNumbers = Pair(opinion1, opinion1?.let { 100 - it }),
                     bottomNumbers = Pair(opinion2, opinion2?.let { 100 - it }),
                     points = points

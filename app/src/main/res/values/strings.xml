@@ -51,6 +51,17 @@
     <string name="back">Volver</string>
     <string name="how_to_play">Cómo jugar</string>
 
+    <!-- PACKS -->
+    <string name="pack_questions">Modo preguntas</string>
+    <string name="pack_ranges">Modo rangos</string>
+
+    <string name="pack_questions_0_title">Gratis</string>
+    <string name="pack_questions_0_description">Gratis description blablablablabalbalbalbalabaab</string>
+    <string name="pack_questions_1_title">Para parejas</string>
+    <string name="pack_questions_1_description">Para parejas description blablablablabalbalbalbalabaab</string>
+    <string name="pack_questions_2_title">No se sabe todavía</string>
+    <string name="pack_questions_2_description">No se sabe todavía description blablablablabalbalbalbalabaab</string>
+
     <!-- QUESTIONS -->
     <string name="questions_welcome">Dos personas juegan para ver si opinan igual sobre ellos mismos o sobre otras personas.</string>
     <string name="questions_welcome_two">Se lee una pregunta, primero opina una persona, se oculta su respuesta y después opina la otra persona.</string>

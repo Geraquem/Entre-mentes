@@ -22,15 +22,36 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.95" />
 
-    <include
-        android:id="@+id/btn_purchase"
-        layout="@layout/include_button_white"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_height="0dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="@id/gl_left"
         app:layout_constraintRight_toRightOf="@id/gl_right"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Preguntas" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_packs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:itemCount="2"
+                tools:listitem="@layout/item_pack_questions" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
 
     <include
         android:id="@+id/loading"

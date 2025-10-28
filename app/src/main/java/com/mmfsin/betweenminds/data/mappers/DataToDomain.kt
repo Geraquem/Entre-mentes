@@ -4,10 +4,10 @@ import com.mmfsin.betweenminds.data.models.QuestionDTO
 import com.mmfsin.betweenminds.data.models.RangeDTO
 import com.mmfsin.betweenminds.domain.models.Question
 import com.mmfsin.betweenminds.domain.models.Range
-import com.mmfsin.betweenminds.domain.models.SavedScore
 
 fun QuestionDTO.toQuestion() = Question(
-    text = text
+    question = question,
+    pack = pack
 )
 
 fun List<QuestionDTO>.toQuestionsList() = this.map { it.toQuestion() }

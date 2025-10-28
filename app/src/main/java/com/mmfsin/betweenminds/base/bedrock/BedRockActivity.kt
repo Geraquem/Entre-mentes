@@ -26,6 +26,8 @@ class BedRockActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityBedrockBinding
 
+    var skipExitDialog = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityBedrockBinding.inflate(layoutInflater)
@@ -74,7 +76,8 @@ class BedRockActivity : AppCompatActivity() {
     private fun setListeners() {
         binding.apply {
             onBackPressedDispatcher.addCallback(this@BedRockActivity) {
-                showFragmentDialog(ExitGameDialog(exit = { finish() }))
+                if (skipExitDialog) finish()
+                else showFragmentDialog(ExitGameDialog(exit = { finish() }))
             }
         }
     }

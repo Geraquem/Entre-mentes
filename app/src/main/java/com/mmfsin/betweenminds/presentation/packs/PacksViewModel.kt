@@ -1,20 +1,20 @@
 package com.mmfsin.betweenminds.presentation.packs
 
 import com.mmfsin.betweenminds.base.BaseViewModel
-import com.mmfsin.betweenminds.domain.usecases.CheckVersionUseCase
+import com.mmfsin.betweenminds.domain.usecases.GetQuestionsPacksUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class PacksViewModel @Inject constructor(
-    private val checkVersionUseCase: CheckVersionUseCase
+    private val getQuestionsPacksUseCase: GetQuestionsPacksUseCase
 ) : BaseViewModel<PacksEvent>() {
 
-    fun dontknow() {
-//        executeUseCase(
-//            { checkVersionUseCase.execute() },
-//            { _event.value = MenuEvent.VersionCompleted },
-//            { _event.value = MenuEvent.SomethingWentWrong }
-//        )
+    fun getQuestionsPack() {
+        executeUseCase(
+            { getQuestionsPacksUseCase.execute() },
+            { result -> _event.value = PacksEvent.QuestionPacks(result) },
+            { _event.value = PacksEvent.SomethingWentWrong }
+        )
     }
 }

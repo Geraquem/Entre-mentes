@@ -265,7 +265,7 @@ class OQuestionsCreatorFragment :
     private fun setFirstPhase() {
         binding.apply {
             if (position >= questionList.size) position = 0
-            tvQuestion.text = questionList[position].text
+            tvQuestion.text = questionList[position].question
             tvQuestion.showAlpha(500)
             firstArrowVisibility(isVisible = true)
             curtainVisibility(isVisible = false)
@@ -324,7 +324,7 @@ class OQuestionsCreatorFragment :
 
                 val newScore = ScoreQuestion(
                     discovered = true,
-                    actualQuestion = questionList[position].text,
+                    actualQuestion = questionList[position].question,
                     topNumbers = Pair((100 - myOpinion), myOpinion),
                     bottomNumbers = Pair((100 - otherOpinion), otherOpinion),
                     points = points
