@@ -20,6 +20,8 @@ const val SHARED_PREFS = "sharedPrefs"
 const val SAVED_VERSION = "savedVersion"
 const val SERVER_RANGES = "serverRanges"
 const val SERVER_QUESTIONS = "serverQuestions"
+const val QUESTIONS_PACK = "questionsPack"
+const val RANGES_PACK = "rangesPack"
 
 /** FIREBASE */
 const val ROOMS = "rooms"

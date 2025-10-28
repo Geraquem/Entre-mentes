@@ -18,7 +18,7 @@ class GetQuestionsPacksUseCase @Inject constructor(
         for (i in 0..2) {
             val titleAndDescription = getPackTitleAndDescription(i)
             val pack = QuestionPack(
-                packId = i.toLong(),
+                packId = i,
                 packName = getPackName(i),
                 packTitle = titleAndDescription.first,
                 packDescription = titleAndDescription.second,

@@ -1,4 +1,4 @@
-package com.mmfsin.betweenminds.presentation.packs
+package com.mmfsin.betweenminds.presentation.packs.ranges
 
 import android.content.Context
 import android.os.Bundle
@@ -6,8 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
-import androidx.fragment.app.viewModels
-import com.mmfsin.betweenminds.base.BaseFragment
+import com.mmfsin.betweenminds.base.BaseFragmentNoVM
 import com.mmfsin.betweenminds.databinding.FragmentPacksBinding
 import com.mmfsin.betweenminds.domain.models.QuestionPack
 import com.mmfsin.betweenminds.presentation.packs.manager.BillingManager
@@ -15,9 +14,8 @@ import com.mmfsin.betweenminds.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class RangesPacksFragment : BaseFragment<FragmentPacksBinding, PacksViewModel>() {
+class RangesPacksFragment : BaseFragmentNoVM<FragmentPacksBinding>() {
 
-    override val viewModel: PacksViewModel by viewModels()
     private lateinit var mContext: Context
 
     private var billingManager: BillingManager? = null
@@ -47,15 +45,6 @@ class RangesPacksFragment : BaseFragment<FragmentPacksBinding, PacksViewModel>()
 //                    }
 //                }
 //            }
-        }
-    }
-
-    override fun observe() {
-        viewModel.event.observe(this) { event ->
-            when (event) {
-                is PacksEvent.QuestionPacks -> {}
-                is PacksEvent.SomethingWentWrong -> error()
-            }
         }
     }
 

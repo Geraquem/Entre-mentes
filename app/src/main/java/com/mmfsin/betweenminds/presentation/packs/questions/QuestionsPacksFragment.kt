@@ -1,4 +1,4 @@
-package com.mmfsin.betweenminds.presentation.packs
+package com.mmfsin.betweenminds.presentation.packs.questions
 
 import android.content.Context
 import android.os.Bundle
@@ -11,18 +11,22 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.mmfsin.betweenminds.base.BaseFragment
 import com.mmfsin.betweenminds.databinding.FragmentPacksBinding
 import com.mmfsin.betweenminds.domain.models.QuestionPack
-import com.mmfsin.betweenminds.presentation.packs.adapter.QuestionsPackAdapter
 import com.mmfsin.betweenminds.presentation.packs.manager.BillingManager
+import com.mmfsin.betweenminds.presentation.packs.questions.adapter.IQuestionsPackListener
+import com.mmfsin.betweenminds.presentation.packs.questions.adapter.QuestionsPackAdapter
 import com.mmfsin.betweenminds.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class QuestionsPacksFragment : BaseFragment<FragmentPacksBinding, PacksViewModel>() {
+class QuestionsPacksFragment : BaseFragment<FragmentPacksBinding, QuestionsPacksViewModel>(),
+    IQuestionsPackListener {
 
-    override val viewModel: PacksViewModel by viewModels()
+    override val viewModel: QuestionsPacksViewModel by viewModels()
     private lateinit var mContext: Context
 
     private var billingManager: BillingManager? = null
+
+    private var questionsPackAdapter: QuestionsPackAdapter? = null
 
     override fun inflateView(
         inflater: LayoutInflater, container: ViewGroup?
@@ -36,7 +40,7 @@ class QuestionsPacksFragment : BaseFragment<FragmentPacksBinding, PacksViewModel
 
     override fun setUI() {
         binding.apply {
-            loading.root.isVisible = false
+            loading.root.isVisible = true
 
         }
     }
@@ -56,8 +60,17 @@ class QuestionsPacksFragment : BaseFragment<FragmentPacksBinding, PacksViewModel
     override fun observe() {
         viewModel.event.observe(this) { event ->
             when (event) {
-                is PacksEvent.QuestionPacks -> setUpQuestionsPack(event.packs)
-                is PacksEvent.SomethingWentWrong -> error()
+                is QuestionsPacksEvent.SelectedPack -> {
+                    questionsPackAdapter?.updateSelectedPack(event.selected)
+                    binding.loading.root.isVisible = false
+                }
+
+                is QuestionsPacksEvent.QuestionsPacks -> setUpQuestionsPack(event.packs)
+                is QuestionsPacksEvent.NewPackSelected -> {
+                    questionsPackAdapter?.updateSelectedPack(event.packId)
+                }
+
+                is QuestionsPacksEvent.SomethingWentWrong -> error()
             }
         }
     }
@@ -65,9 +78,13 @@ class QuestionsPacksFragment : BaseFragment<FragmentPacksBinding, PacksViewModel
     private fun setUpQuestionsPack(packs: List<QuestionPack>) {
         binding.rvPacks.apply {
             layoutManager = LinearLayoutManager(activity)
-            adapter = QuestionsPackAdapter(packs)
+            questionsPackAdapter = QuestionsPackAdapter(packs, this@QuestionsPacksFragment)
+            adapter = questionsPackAdapter
         }
+        viewModel.getSelectedQuestionPack()
     }
+
+    override fun selectPack(packId: Int) = viewModel.selectQuestionPack(packId)
 
     private fun error() = activity?.showErrorDialog()
 
