@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mmfsin.betweenminds.R
 import com.mmfsin.betweenminds.databinding.ItemPackQuestionsBinding
@@ -23,9 +24,18 @@ class QuestionsPackAdapter(
                 tvTitle.text = c.getString(pack.packTitle)
                 tvDescription.text = c.getString(pack.packDescription)
 
+                setUpQuestionsAdapter(pack.questions.map { it.question })
+
                 ivSelected.isVisible = pack.selected
 
                 root.setOnClickListener { listener.selectPack(pack.packId) }
+            }
+        }
+
+        private fun setUpQuestionsAdapter(questions: List<String>) {
+            binding.rvExamples.apply {
+                layoutManager = LinearLayoutManager(c)
+                adapter = QExamplesPackAdapter(questions)
             }
         }
     }

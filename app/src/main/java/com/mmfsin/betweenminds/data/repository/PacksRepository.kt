@@ -13,21 +13,21 @@ class PacksRepository @Inject constructor(
     @ApplicationContext val context: Context
 ) : IPacksRepository {
 
-    override fun getQuestionsPackId(): Int {
+    override fun getSelectedQPackId(): Int {
         return getSharedPreferences().getInt(QUESTIONS_PACK, 0)
     }
 
-    override fun editQuestionsPackId(packId: Int) {
+    override fun editSelectedQPackId(packId: Int) {
         val editor = getSharedPreferences().edit()
         editor.putInt(QUESTIONS_PACK, packId)
         editor.apply()
     }
 
-    override fun getRangesPackId(): Int {
+    override fun getSelectedRPackId(): Int {
         return getSharedPreferences().getInt(RANGES_PACK, 0)
     }
 
-    override fun editRangesPackId(packId: Int) {
+    override fun editSelectedRPackId(packId: Int) {
         val editor = getSharedPreferences().edit()
         editor.putInt(RANGES_PACK, packId)
         editor.apply()

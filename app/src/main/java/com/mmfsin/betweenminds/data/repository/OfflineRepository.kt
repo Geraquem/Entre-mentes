@@ -11,7 +11,6 @@ import com.mmfsin.betweenminds.domain.interfaces.IOfflineRepository
 import com.mmfsin.betweenminds.domain.interfaces.IRealmDatabase
 import com.mmfsin.betweenminds.domain.models.Question
 import com.mmfsin.betweenminds.domain.models.Range
-import com.mmfsin.betweenminds.utils.SERVER_QUESTIONS
 import com.mmfsin.betweenminds.utils.SERVER_RANGES
 import com.mmfsin.betweenminds.utils.SHARED_PREFS
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -70,16 +69,14 @@ class OfflineRepository @Inject constructor(
 //            Firebase.database.reference.child(QUESTIONS).get().addOnSuccessListener {
             Firebase.database.reference.child("questions_test").get().addOnSuccessListener {
                 for (child in it.children) {
-                    val question = QuestionDTO().apply {
-                        id = child.key.toString()
-                        question = child.value.toString()
+                    child.getValue(QuestionDTO::class.java)?.let { question ->
+                        saveQuestionInRealm(question)
+                        questions.add(question)
                     }
-                    saveQuestionInRealm(question)
-                    questions.add(question)
-                }
-                sharedPrefs.edit().apply {
-                    putBoolean(SERVER_QUESTIONS, false)
-                    apply()
+                    sharedPrefs.edit().apply {
+                        putBoolean(SERVER_RANGES, false)
+                        apply()
+                    }
                 }
                 latch.countDown()
 

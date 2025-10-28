@@ -13,6 +13,7 @@ class GetQuestionsPacksUseCase @Inject constructor(
 ) {
     suspend fun execute(): List<QuestionPack> {
         val questions = repository.getQuestions()
+        val a = questions
         val result = mutableListOf<QuestionPack>()
 
         for (i in 0..2) {
@@ -22,7 +23,7 @@ class GetQuestionsPacksUseCase @Inject constructor(
                 packName = getPackName(i),
                 packTitle = titleAndDescription.first,
                 packDescription = titleAndDescription.second,
-                questions = questions.filter { it.pack.toInt() == i }
+                questions = questions.filter { it.pack == i }.take(6)
             )
             result.add(pack)
         }

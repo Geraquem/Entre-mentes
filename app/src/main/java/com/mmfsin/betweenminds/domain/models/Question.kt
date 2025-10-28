@@ -2,5 +2,5 @@ package com.mmfsin.betweenminds.domain.models
 
 data class Question(
     val question: String,
-    val pack: Long
+    val pack: Int
 )

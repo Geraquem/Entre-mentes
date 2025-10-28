@@ -6,5 +6,5 @@ import javax.inject.Inject
 class SelectQuestionsPackUseCase @Inject constructor(
     private val repository: IPacksRepository
 ) {
-    fun execute(packId: Int) = repository.editQuestionsPackId(packId)
+    fun execute(packId: Int) = repository.editSelectedQPackId(packId)
 }

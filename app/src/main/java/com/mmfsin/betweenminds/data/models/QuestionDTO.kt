@@ -8,5 +8,5 @@ open class QuestionDTO : RealmObject {
     @PrimaryKey
     var id: String = UUID.randomUUID().toString()
     var question: String = ""
-    var pack: Long = 0
+    var pack: Int = 0
 }

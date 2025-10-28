@@ -1,9 +1,9 @@
 package com.mmfsin.betweenminds.domain.interfaces
 
 interface IPacksRepository {
-    fun getQuestionsPackId(): Int
-    fun editQuestionsPackId(packId: Int)
+    fun getSelectedQPackId(): Int
+    fun editSelectedQPackId(packId: Int)
 
-    fun getRangesPackId(): Int
-    fun editRangesPackId(packId: Int)
+    fun getSelectedRPackId(): Int
+    fun editSelectedRPackId(packId: Int)
 }
