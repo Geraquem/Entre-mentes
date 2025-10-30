@@ -34,18 +34,6 @@ class QuestionsPacksFragment : BaseFragment<FragmentPacksBinding, QuestionsPacks
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activity?.let {
-            billingManager = BillingManager(it)
-            billingManager?.startConnection {
-                billingManager?.queryPurchasedIds(
-                    onResult = { ownedPackages ->
-                        println("-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*")
-                        println("purchased packages $ownedPackages")
-                    },
-                    onError = { error() }
-                )
-            }
-        }
         viewModel.getQuestionsPack()
     }
 
@@ -77,12 +65,32 @@ class QuestionsPacksFragment : BaseFragment<FragmentPacksBinding, QuestionsPacks
                     binding.loading.root.isVisible = false
                 }
 
-                is QuestionsPacksEvent.QuestionsPacks -> setUpQuestionsPack(event.packs)
+                is QuestionsPacksEvent.QuestionsPacks -> checkPurchasedPacks(event.packs)
                 is QuestionsPacksEvent.NewPackSelected -> {
                     questionsPackAdapter?.updateSelectedPack(event.packNumber)
                 }
 
                 is QuestionsPacksEvent.SomethingWentWrong -> error()
+            }
+        }
+    }
+
+    private fun checkPurchasedPacks(packs: List<QuestionPack>) {
+        activity?.let {
+            billingManager = BillingManager(it)
+            billingManager?.startConnection {
+                billingManager?.queryPurchasedIds(
+                    onResult = { ownedPackages ->
+
+                        val updatedPacks = packs.map { pack ->
+                            pack.copy(
+                                purchased = pack.packNumber == 0 || ownedPackages.contains(pack.packId)
+                            )
+                        }
+                        activity?.runOnUiThread { setUpQuestionsPack(updatedPacks) }
+                    },
+                    onError = { error() }
+                )
             }
         }
     }
@@ -93,6 +101,7 @@ class QuestionsPacksFragment : BaseFragment<FragmentPacksBinding, QuestionsPacks
             questionsPackAdapter = QuestionsPackAdapter(packs, this@QuestionsPacksFragment)
             adapter = questionsPackAdapter
         }
+
         viewModel.getSelectedQuestionPack()
     }
 

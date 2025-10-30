@@ -124,29 +124,21 @@
         <TextView
             android:id="@+id/tv_selected"
             style="@style/BigTextView"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:drawablePadding="6dp"
+            android:background="@drawable/click_effect_button"
+            android:backgroundTint="@color/blue"
             android:fontFamily="@font/alphazet"
             android:gravity="center"
+            android:paddingVertical="12dp"
             android:text="@string/pack_selected"
             android:textAllCaps="true"
+            android:textColor="@color/grey"
+            android:textSize="18sp"
+            android:textStyle="bold"
             android:visibility="gone"
-            app:drawableEndCompat="@drawable/ic_check_circle" />
+            app:layout_constraintTop_toTopOf="parent" />
 
     </RelativeLayout>
-
-    <ImageView
-        android:id="@+id/iv_selected"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:layout_margin="8dp"
-        android:contentDescription="@string/content_description"
-        android:rotation="15"
-        android:src="@drawable/ic_check_circle"
-        android:visibility="gone"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

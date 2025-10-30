@@ -34,18 +34,6 @@ class RangesPacksFragment : BaseFragment<FragmentPacksBinding, RangesPacksViewMo
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activity?.let {
-            billingManager = BillingManager(it)
-            billingManager?.startConnection {
-                billingManager?.queryPurchasedIds(
-                    onResult = { ownedPackages ->
-                        println("-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*")
-                        println("purchased packages $ownedPackages")
-                    },
-                    onError = { error() }
-                )
-            }
-        }
         viewModel.getRangesPack()
     }
 
@@ -57,18 +45,6 @@ class RangesPacksFragment : BaseFragment<FragmentPacksBinding, RangesPacksViewMo
         }
     }
 
-    override fun setListeners() {
-        binding.apply {
-//            btnPurchase.button.setOnClickListener {
-//                billingManager?.startConnection {
-//                    activity?.let {
-//                        billingManager?.launchPurchase(it, "ranges_pack_1")
-//                    }
-//                }
-//            }
-        }
-    }
-
     override fun observe() {
         viewModel.event.observe(this) { event ->
             when (event) {
@@ -77,12 +53,32 @@ class RangesPacksFragment : BaseFragment<FragmentPacksBinding, RangesPacksViewMo
                     binding.loading.root.isVisible = false
                 }
 
-                is RangesPacksEvent.RangesPacks -> setUpRangesPack(event.packs)
+                is RangesPacksEvent.RangesPacks -> checkPurchasedPacks(event.packs)
                 is RangesPacksEvent.NewPackSelected -> {
                     rangesPackAdapter?.updateSelectedPack(event.packNumber)
                 }
 
                 is RangesPacksEvent.SomethingWentWrong -> error()
+            }
+        }
+    }
+
+    private fun checkPurchasedPacks(packs: List<RangesPack>) {
+        activity?.let {
+            billingManager = BillingManager(it)
+            billingManager?.startConnection {
+                billingManager?.queryPurchasedIds(
+                    onResult = { ownedPackages ->
+
+                        val updatedPacks = packs.map { pack ->
+                            pack.copy(
+                                purchased = pack.packNumber == 0 || ownedPackages.contains(pack.packId)
+                            )
+                        }
+                        activity?.runOnUiThread { setUpRangesPack(updatedPacks) }
+                    },
+                    onError = { error() }
+                )
             }
         }
     }
