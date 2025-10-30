@@ -51,6 +51,10 @@
                 tools:itemCount="2"
                 tools:listitem="@layout/item_pack" />
 
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="100dp"/>
+
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>

@@ -54,7 +54,12 @@
     <!-- PACKS -->
     <string name="pack_questions">Modo preguntas</string>
     <string name="pack_ranges">Modo rangos</string>
-    <string name="pack_include_as">Incluye 50 preguntas como:</string>
+    <string name="pack_include_questions_as">Incluye 50 preguntas como:</string>
+    <string name="pack_include_ranges_as">Incluye 50 rangos como:</string>
+    <string name="pack_price">%1s€</string>
+    <string name="pack_purchase_btn">Comprar</string>
+    <string name="pack_selected_btn">Seleccionar</string>
+    <string name="pack_selected">Seleccionado</string>
 
     <string name="pack_questions_free_title">Gratis</string>
     <string name="pack_questions_free_description">Gratis description blablablablabalbalbalbalabaab</string>

@@ -7,14 +7,14 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.mmfsin.betweenminds.R
 import com.mmfsin.betweenminds.databinding.ItemPackBinding
 import com.mmfsin.betweenminds.domain.models.Range
 import com.mmfsin.betweenminds.domain.models.RangesPack
 
 class RangesPackAdapter(
-    private val packs: List<RangesPack>,
-    private val listener: IRangesPackListener
+    private val packs: List<RangesPack>, private val listener: IRangesPackListener
 ) : RecyclerView.Adapter<RangesPackAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -22,18 +22,38 @@ class RangesPackAdapter(
         val c: Context = binding.root.context
         fun bind(pack: RangesPack, listener: IRangesPackListener) {
             binding.apply {
+                Glide.with(c).load(pack.packIcon).into(ivPackIcon)
+                tvPrice.text = c.getString(R.string.pack_price, pack.packPrice)
                 tvTitle.text = pack.packTitle
                 tvDescription.text = pack.packDescription
+                tvInclude.text = c.getString(R.string.pack_include_ranges_as)
+                setUpRangesAdapter(pack.ranges)
 
-                setUpQuestionsAdapter(pack.ranges)
+                btnPurchase.button.text = c.getString(R.string.pack_purchase_btn)
+                btnSelect.button.text = c.getString(R.string.pack_selected_btn)
 
-                ivSelected.isVisible = pack.selected
+                tvPrice.isVisible = !pack.purchased
+                btnPurchase.root.isVisible = !pack.purchased
 
-                root.setOnClickListener { listener.selectPack(pack.packNumber) }
+                if (!pack.purchased) {
+                    btnSelect.root.isVisible = false
+                    tvSelected.isVisible = false
+                } else {
+                    btnSelect.root.isVisible = !pack.selected
+                    tvSelected.isVisible = pack.selected
+                }
+
+                btnSelect.button.setOnClickListener {
+                    if (!pack.selected) listener.selectPack(pack.packNumber)
+                }
+
+                btnPurchase.button.setOnClickListener {
+
+                }
             }
         }
 
-        private fun setUpQuestionsAdapter(ranges: List<Range>) {
+        private fun setUpRangesAdapter(ranges: List<Range>) {
             binding.rvExamples.apply {
                 layoutManager = LinearLayoutManager(c)
                 adapter = RExamplesPackAdapter(ranges)

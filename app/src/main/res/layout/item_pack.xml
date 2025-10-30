@@ -14,8 +14,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:paddingHorizontal="16dp"
+        android:paddingTop="16dp"
+        app:layout_constraintBottom_toTopOf="@id/rl_buttons"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -77,29 +78,64 @@
             tools:text="Compra este pack para obtener preguntas de pareja blablablabalba" />
 
         <TextView
+            android:id="@+id/tv_include"
             style="@style/MediumTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:fontFamily="@font/alphazet"
-            android:text="@string/pack_include_as"
-            android:textColor="@color/background_black" />
+            android:textColor="@color/background_black"
+            tools:text="@string/pack_include_questions_as" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_examples"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
             tools:itemCount="4"
             tools:listitem="@layout/item_pack_ranges_example" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
 
         <include
             android:id="@+id/btn_purchase"
             layout="@layout/include_button_black"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
-    </LinearLayout>
+        <include
+            android:id="@+id/btn_select"
+            layout="@layout/include_button_black"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_selected"
+            style="@style/BigTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:drawablePadding="6dp"
+            android:fontFamily="@font/alphazet"
+            android:gravity="center"
+            android:text="@string/pack_selected"
+            android:textAllCaps="true"
+            android:visibility="gone"
+            app:drawableEndCompat="@drawable/ic_check_circle" />
+
+    </RelativeLayout>
 
     <ImageView
         android:id="@+id/iv_selected"

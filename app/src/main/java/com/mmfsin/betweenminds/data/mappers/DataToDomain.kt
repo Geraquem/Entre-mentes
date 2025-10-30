@@ -23,12 +23,13 @@ fun RangeDTO.toRange() = Range(
 
 fun List<RangeDTO>.toRangesList() = this.map { it.toRange() }
 
-
 fun PackDTO.toQuestionPack() = QuestionPack(
     packId = packId,
     packNumber = packNumber.toInt(),
     packTitle = title,
-    packDescription = description
+    packDescription = description,
+    packPrice = price,
+    packIcon = icon
 )
 
 fun List<PackDTO>.createQuestionsPacks() = this.map { it.toQuestionPack() }
@@ -37,7 +38,9 @@ fun PackDTO.toRangesPack() = RangesPack(
     packId = packId,
     packNumber = packNumber.toInt(),
     packTitle = title,
-    packDescription = description
+    packDescription = description,
+    packPrice = price,
+    packIcon = icon
 )
 
 fun List<PackDTO>.createRangesPacks() = this.map { it.toRangesPack() }

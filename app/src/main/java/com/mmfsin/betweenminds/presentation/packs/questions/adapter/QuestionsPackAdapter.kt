@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.mmfsin.betweenminds.R
 import com.mmfsin.betweenminds.databinding.ItemPackBinding
 import com.mmfsin.betweenminds.domain.models.QuestionPack
@@ -21,14 +22,34 @@ class QuestionsPackAdapter(
         val c: Context = binding.root.context
         fun bind(pack: QuestionPack, listener: IQuestionsPackListener) {
             binding.apply {
+                Glide.with(c).load(pack.packIcon).into(ivPackIcon)
+                tvPrice.text = c.getString(R.string.pack_price, pack.packPrice)
                 tvTitle.text = pack.packTitle
                 tvDescription.text = pack.packDescription
-
+                tvInclude.text = c.getString(R.string.pack_include_questions_as)
                 setUpQuestionsAdapter(pack.questions.map { it.question })
 
-                ivSelected.isVisible = pack.selected
+                btnPurchase.button.text = c.getString(R.string.pack_purchase_btn)
+                btnSelect.button.text = c.getString(R.string.pack_selected_btn)
 
-                root.setOnClickListener { listener.selectPack(pack.packNumber) }
+                tvPrice.isVisible = !pack.purchased
+                btnPurchase.root.isVisible = !pack.purchased
+
+                if (!pack.purchased) {
+                    btnSelect.root.isVisible = false
+                    tvSelected.isVisible = false
+                } else {
+                    btnSelect.root.isVisible = !pack.selected
+                    tvSelected.isVisible = pack.selected
+                }
+
+                btnSelect.button.setOnClickListener {
+                    if (!pack.selected) listener.selectPack(pack.packNumber)
+                }
+
+                btnPurchase.button.setOnClickListener {
+
+                }
             }
         }
 
