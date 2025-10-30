@@ -54,13 +54,14 @@
     <!-- PACKS -->
     <string name="pack_questions">Modo preguntas</string>
     <string name="pack_ranges">Modo rangos</string>
+    <string name="pack_include_as">Incluye 50 preguntas como:</string>
 
-    <string name="pack_questions_0_title">Gratis</string>
-    <string name="pack_questions_0_description">Gratis description blablablablabalbalbalbalabaab</string>
-    <string name="pack_questions_1_title">Para parejas</string>
-    <string name="pack_questions_1_description">Para parejas description blablablablabalbalbalbalabaab</string>
-    <string name="pack_questions_2_title">No se sabe todavía</string>
-    <string name="pack_questions_2_description">No se sabe todavía description blablablablabalbalbalbalabaab</string>
+    <string name="pack_questions_free_title">Gratis</string>
+    <string name="pack_questions_free_description">Gratis description blablablablabalbalbalbalabaab</string>
+    <string name="pack_questions_couples_title">Para parejas</string>
+    <string name="pack_questions_couples_description">Para parejas description blablablablabalbalbalbalabaab</string>
+    <string name="pack_questions_idk_title">No se sabe todavía</string>
+    <string name="pack_questions_idk_description">No se sabe todavía description blablablablabalbalbalbalabaab</string>
 
     <!-- QUESTIONS -->
     <string name="questions_welcome">Dos personas juegan para ver si opinan igual sobre ellos mismos o sobre otras personas.</string>

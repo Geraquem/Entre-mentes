@@ -34,13 +34,25 @@ class QuestionsPacksFragment : BaseFragment<FragmentPacksBinding, QuestionsPacks
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activity?.let { billingManager = BillingManager(it) }
+        activity?.let {
+            billingManager = BillingManager(it)
+            billingManager?.startConnection {
+                billingManager?.queryPurchasedIds(
+                    onResult = { ownedPackages ->
+                        println("-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*")
+                        println("purchased packages $ownedPackages")
+                    },
+                    onError = { error() }
+                )
+            }
+        }
         viewModel.getQuestionsPack()
     }
 
     override fun setUI() {
         binding.apply {
             loading.root.isVisible = true
+
 
         }
     }
@@ -67,7 +79,7 @@ class QuestionsPacksFragment : BaseFragment<FragmentPacksBinding, QuestionsPacks
 
                 is QuestionsPacksEvent.QuestionsPacks -> setUpQuestionsPack(event.packs)
                 is QuestionsPacksEvent.NewPackSelected -> {
-                    questionsPackAdapter?.updateSelectedPack(event.packId)
+                    questionsPackAdapter?.updateSelectedPack(event.packNumber)
                 }
 
                 is QuestionsPacksEvent.SomethingWentWrong -> error()
@@ -84,7 +96,7 @@ class QuestionsPacksFragment : BaseFragment<FragmentPacksBinding, QuestionsPacks
         viewModel.getSelectedQuestionPack()
     }
 
-    override fun selectPack(packId: Int) = viewModel.selectQuestionPack(packId)
+    override fun selectPack(packNumber: Int) = viewModel.selectQuestionPack(packNumber)
 
     private fun error() = activity?.showErrorDialog()
 

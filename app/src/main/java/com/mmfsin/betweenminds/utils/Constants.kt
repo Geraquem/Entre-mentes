@@ -24,6 +24,7 @@ const val QUESTIONS_PACK = "questionsPack"
 const val RANGES_PACK = "rangesPack"
 
 /** FIREBASE */
+const val PACKS = "packs"
 const val ROOMS = "rooms"
 const val PLAYERS = "players"
 const val ROUNDS = "rounds"

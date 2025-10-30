@@ -23,6 +23,7 @@
         app:layout_constraintGuide_percent="0.95" />
 
     <androidx.core.widget.NestedScrollView
+        style="@style/scroll_no_effects"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:clipChildren="false"
@@ -44,10 +45,11 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_packs"
+                style="@style/scroll_no_effects"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:itemCount="2"
-                tools:listitem="@layout/item_pack_questions" />
+                tools:listitem="@layout/item_pack" />
 
         </LinearLayout>
 

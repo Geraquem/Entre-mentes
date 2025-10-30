@@ -1,7 +1,11 @@
 package com.mmfsin.betweenminds.domain.models
 
-open class RangesPackDTO(
-    var packId: Long = 0,
-    var packName: String = "",
-    var rages: List<Range> = emptyList()
+data class RangesPack(
+    var packId: String = "",
+    var packNumber: Int = 0,
+    var packTitle: String,
+    var packDescription: String,
+    var selected: Boolean = false,
+    var purchased: Boolean = false,
+    var ranges: List<Range> = emptyList()
 )

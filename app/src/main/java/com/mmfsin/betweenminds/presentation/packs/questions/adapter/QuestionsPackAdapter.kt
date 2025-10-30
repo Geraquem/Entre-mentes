@@ -8,7 +8,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mmfsin.betweenminds.R
-import com.mmfsin.betweenminds.databinding.ItemPackQuestionsBinding
+import com.mmfsin.betweenminds.databinding.ItemPackBinding
 import com.mmfsin.betweenminds.domain.models.QuestionPack
 
 class QuestionsPackAdapter(
@@ -17,18 +17,18 @@ class QuestionsPackAdapter(
 ) : RecyclerView.Adapter<QuestionsPackAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val binding = ItemPackQuestionsBinding.bind(view)
+        val binding = ItemPackBinding.bind(view)
         val c: Context = binding.root.context
         fun bind(pack: QuestionPack, listener: IQuestionsPackListener) {
             binding.apply {
-                tvTitle.text = c.getString(pack.packTitle)
-                tvDescription.text = c.getString(pack.packDescription)
+                tvTitle.text = pack.packTitle
+                tvDescription.text = pack.packDescription
 
                 setUpQuestionsAdapter(pack.questions.map { it.question })
 
                 ivSelected.isVisible = pack.selected
 
-                root.setOnClickListener { listener.selectPack(pack.packId) }
+                root.setOnClickListener { listener.selectPack(pack.packNumber) }
             }
         }
 
@@ -40,11 +40,11 @@ class QuestionsPackAdapter(
         }
     }
 
-    fun updateSelectedPack(packId: Int) {
-        deletePreviousSelected(packId)
+    fun updateSelectedPack(packNumber: Int) {
+        deletePreviousSelected(packNumber)
         var position: Int? = null
         packs.forEachIndexed { i, pack ->
-            if (pack.packId == packId) {
+            if (pack.packNumber == packNumber) {
                 pack.selected = !pack.selected
                 position = i
             }
@@ -52,10 +52,10 @@ class QuestionsPackAdapter(
         position?.let { pos -> notifyItemChanged(pos) }
     }
 
-    private fun deletePreviousSelected(packId: Int) {
+    private fun deletePreviousSelected(packNumber: Int) {
         var position: Int? = null
         packs.forEachIndexed { i, pack ->
-            if (pack.selected && pack.packId != packId) {
+            if (pack.selected && pack.packNumber != packNumber) {
                 pack.selected = false
                 position = i
             }
@@ -64,7 +64,7 @@ class QuestionsPackAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(
-        LayoutInflater.from(parent.context).inflate(R.layout.item_pack_questions, parent, false)
+        LayoutInflater.from(parent.context).inflate(R.layout.item_pack, parent, false)
     )
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

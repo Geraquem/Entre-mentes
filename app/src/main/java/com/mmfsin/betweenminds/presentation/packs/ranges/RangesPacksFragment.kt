@@ -6,19 +6,27 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
-import com.mmfsin.betweenminds.base.BaseFragmentNoVM
+import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.mmfsin.betweenminds.base.BaseFragment
 import com.mmfsin.betweenminds.databinding.FragmentPacksBinding
-import com.mmfsin.betweenminds.domain.models.QuestionPack
+import com.mmfsin.betweenminds.domain.models.RangesPack
 import com.mmfsin.betweenminds.presentation.packs.manager.BillingManager
+import com.mmfsin.betweenminds.presentation.packs.ranges.adapter.IRangesPackListener
+import com.mmfsin.betweenminds.presentation.packs.ranges.adapter.RangesPackAdapter
 import com.mmfsin.betweenminds.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class RangesPacksFragment : BaseFragmentNoVM<FragmentPacksBinding>() {
+class RangesPacksFragment : BaseFragment<FragmentPacksBinding, RangesPacksViewModel>(),
+    IRangesPackListener {
 
+    override val viewModel: RangesPacksViewModel by viewModels()
     private lateinit var mContext: Context
 
     private var billingManager: BillingManager? = null
+
+    private var rangesPackAdapter: RangesPackAdapter? = null
 
     override fun inflateView(
         inflater: LayoutInflater, container: ViewGroup?
@@ -26,12 +34,25 @@ class RangesPacksFragment : BaseFragmentNoVM<FragmentPacksBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activity?.let { billingManager = BillingManager(it) }
+        activity?.let {
+            billingManager = BillingManager(it)
+            billingManager?.startConnection {
+                billingManager?.queryPurchasedIds(
+                    onResult = { ownedPackages ->
+                        println("-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*")
+                        println("purchased packages $ownedPackages")
+                    },
+                    onError = { error() }
+                )
+            }
+        }
+        viewModel.getRangesPack()
     }
 
     override fun setUI() {
         binding.apply {
-            loading.root.isVisible = false
+            loading.root.isVisible = true
+
 
         }
     }
@@ -48,12 +69,34 @@ class RangesPacksFragment : BaseFragmentNoVM<FragmentPacksBinding>() {
         }
     }
 
-    private fun setUpQuestionsPack(packs: List<QuestionPack>) {
-//        binding.rvPacks.apply {
-//            layoutManager = LinearLayoutManager(activity)
-//            adapter = QuestionsPackAdapter(packs)
-//        }
+    override fun observe() {
+        viewModel.event.observe(this) { event ->
+            when (event) {
+                is RangesPacksEvent.SelectedPack -> {
+                    rangesPackAdapter?.updateSelectedPack(event.selected)
+                    binding.loading.root.isVisible = false
+                }
+
+                is RangesPacksEvent.RangesPacks -> setUpRangesPack(event.packs)
+                is RangesPacksEvent.NewPackSelected -> {
+                    rangesPackAdapter?.updateSelectedPack(event.packNumber)
+                }
+
+                is RangesPacksEvent.SomethingWentWrong -> error()
+            }
+        }
     }
+
+    private fun setUpRangesPack(packs: List<RangesPack>) {
+        binding.rvPacks.apply {
+            layoutManager = LinearLayoutManager(activity)
+            rangesPackAdapter = RangesPackAdapter(packs, this@RangesPacksFragment)
+            adapter = rangesPackAdapter
+        }
+        viewModel.getSelectedRangePack()
+    }
+
+    override fun selectPack(packNumber: Int) = viewModel.selectRangesPack(packNumber)
 
     private fun error() = activity?.showErrorDialog()
 

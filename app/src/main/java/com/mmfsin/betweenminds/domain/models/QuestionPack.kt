@@ -1,10 +1,11 @@
 package com.mmfsin.betweenminds.domain.models
 
-open class QuestionPack(
-    var packId: Int = 0,
-    var packName: String,
-    var packTitle: Int,
-    var packDescription: Int,
+data class QuestionPack(
+    var packId: String = "",
+    var packNumber: Int = 0,
+    var packTitle: String,
+    var packDescription: String,
     var selected: Boolean = false,
+    var purchased: Boolean = false,
     var questions: List<Question> = emptyList()
 )

@@ -30,10 +30,10 @@ class QuestionsPacksViewModel @Inject constructor(
         )
     }
 
-    fun selectQuestionPack(packId: Int) {
+    fun selectQuestionPack(packNumber: Int) {
         executeUseCase(
-            { selectedQuestionsPackUseCase.execute(packId) },
-            { _event.value = QuestionsPacksEvent.NewPackSelected(packId) },
+            { selectedQuestionsPackUseCase.execute(packNumber) },
+            { _event.value = QuestionsPacksEvent.NewPackSelected(packNumber) },
             { _event.value = QuestionsPacksEvent.SomethingWentWrong }
         )
     }

@@ -9,6 +9,7 @@ import com.android.billingclient.api.BillingFlowParams
 import com.android.billingclient.api.BillingResult
 import com.android.billingclient.api.Purchase
 import com.android.billingclient.api.QueryProductDetailsParams
+import com.android.billingclient.api.QueryPurchasesParams
 
 class BillingManager(val context: Context) {
 
@@ -68,6 +69,19 @@ class BillingManager(val context: Context) {
                     unlockPremiumContent()
                 }
             }
+        }
+    }
+
+    fun queryPurchasedIds(onResult: (List<String>) -> Unit, onError: () -> Unit) {
+        val params = QueryPurchasesParams.newBuilder()
+            .setProductType(BillingClient.ProductType.INAPP)
+            .build()
+
+        billingClient.queryPurchasesAsync(params) { billingResult, purchasesList ->
+            if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+                val purchasedIds = purchasesList.flatMap { it.products }
+                onResult(purchasedIds)
+            } else onError()
         }
     }
 

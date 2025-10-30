@@ -9,5 +9,5 @@ open class RangeDTO : RealmObject {
     var id: String = UUID.randomUUID().toString()
     var leftRange: String = ""
     var rightRange: String = ""
-    var pack: Long = 0
+    var pack: Int = 0
 }
