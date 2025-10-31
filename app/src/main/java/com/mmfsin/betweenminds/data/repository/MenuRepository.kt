@@ -6,6 +6,7 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.mmfsin.betweenminds.domain.interfaces.IMenuRepository
 import com.mmfsin.betweenminds.utils.SAVED_VERSION
+import com.mmfsin.betweenminds.utils.SERVER_PACKS
 import com.mmfsin.betweenminds.utils.SERVER_QUESTIONS
 import com.mmfsin.betweenminds.utils.SERVER_RANGES
 import com.mmfsin.betweenminds.utils.SHARED_PREFS
@@ -64,6 +65,7 @@ class MenuRepository @Inject constructor(
         sharedPrefs.edit().apply {
             putBoolean(SERVER_RANGES, true)
             putBoolean(SERVER_QUESTIONS, true)
+            putBoolean(SERVER_PACKS, true)
             apply()
         }
     }

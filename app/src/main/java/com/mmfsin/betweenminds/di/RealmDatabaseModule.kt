@@ -1,6 +1,7 @@
 package com.mmfsin.betweenminds.di
 
 import com.mmfsin.betweenminds.data.database.RealmDatabase
+import com.mmfsin.betweenminds.data.models.PackDTO
 import com.mmfsin.betweenminds.data.models.QuestionDTO
 import com.mmfsin.betweenminds.data.models.RangeDTO
 import com.mmfsin.betweenminds.domain.interfaces.IRealmDatabase
@@ -21,7 +22,8 @@ object RealmDatabaseModule {
         val config = RealmConfiguration.create(
             schema = setOf(
                 RangeDTO::class,
-                QuestionDTO::class
+                QuestionDTO::class,
+                PackDTO::class
             )
         )
 

@@ -9,6 +9,7 @@ import com.mmfsin.betweenminds.data.mappers.createQuestionsPacks
 import com.mmfsin.betweenminds.data.mappers.createRangesPacks
 import com.mmfsin.betweenminds.data.models.PackDTO
 import com.mmfsin.betweenminds.domain.interfaces.IPacksRepository
+import com.mmfsin.betweenminds.domain.interfaces.IRealmDatabase
 import com.mmfsin.betweenminds.domain.models.QuestionPack
 import com.mmfsin.betweenminds.domain.models.RangesPack
 import com.mmfsin.betweenminds.utils.PACKS
@@ -16,37 +17,62 @@ import com.mmfsin.betweenminds.utils.QUESTIONS
 import com.mmfsin.betweenminds.utils.QUESTIONS_PACK
 import com.mmfsin.betweenminds.utils.RANGES
 import com.mmfsin.betweenminds.utils.RANGES_PACK
+import com.mmfsin.betweenminds.utils.SERVER_PACKS
 import com.mmfsin.betweenminds.utils.SHARED_PREFS
 import dagger.hilt.android.qualifiers.ApplicationContext
+import io.realm.kotlin.ext.query
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.concurrent.CountDownLatch
 import javax.inject.Inject
 
 class PacksRepository @Inject constructor(
-    @ApplicationContext val context: Context
+    @ApplicationContext val context: Context,
+    private val realmDatabase: IRealmDatabase
 ) : IPacksRepository {
 
     private suspend fun getPacks(): List<PackDTO> {
-        val latch = CountDownLatch(1)
         val packs = mutableListOf<PackDTO>()
-        Firebase.firestore.collection(PACKS).get()
-            .addOnSuccessListener { documents ->
-                for (doc in documents) {
-                    try {
-                        doc.toObject(PackDTO::class.java).let { packs.add(it) }
-                    } catch (e: Exception) {
-                        Log.e("error", "error parsing pack")
+        val sharedPrefs = context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE)
+
+        if (sharedPrefs.getBoolean(SERVER_PACKS, true)) {
+            val latch = CountDownLatch(1)
+            Firebase.firestore.collection(PACKS).get()
+                .addOnSuccessListener { documents ->
+                    for (doc in documents) {
+                        try {
+                            doc.toObject(PackDTO::class.java).let { pack ->
+                                savePackInRealm(pack)
+                                packs.add(pack)
+                            }
+                        } catch (e: Exception) {
+                            Log.e("error", "error parsing pack")
+                        }
                     }
+                    sharedPrefs.edit().apply {
+                        putBoolean(SERVER_PACKS, false)
+                        apply()
+                    }
+                    latch.countDown()
+
+                }.addOnFailureListener {
+                    latch.countDown()
                 }
-                latch.countDown()
 
-            }.addOnFailureListener {
-                latch.countDown()
-            }
+            withContext(Dispatchers.IO) { latch.await() }
+            return packs
 
-        withContext(Dispatchers.IO) { latch.await() }
-        return packs
+        } else {
+            return realmDatabase.getObjectsFromRealm { query<PackDTO>().find() }
+        }
+    }
+
+    private fun savePackInRealm(pack: PackDTO) {
+        try {
+            realmDatabase.addObject { pack }
+        } catch (e: Exception) {
+            println("Error writing in realm")
+        }
     }
 
     override suspend fun getQuestionsPack(): List<QuestionPack> {
