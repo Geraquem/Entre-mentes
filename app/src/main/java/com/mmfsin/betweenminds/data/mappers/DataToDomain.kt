@@ -4,7 +4,7 @@ import com.mmfsin.betweenminds.data.models.PackDTO
 import com.mmfsin.betweenminds.data.models.QuestionDTO
 import com.mmfsin.betweenminds.data.models.RangeDTO
 import com.mmfsin.betweenminds.domain.models.Question
-import com.mmfsin.betweenminds.domain.models.QuestionPack
+import com.mmfsin.betweenminds.domain.models.QuestionsPack
 import com.mmfsin.betweenminds.domain.models.Range
 import com.mmfsin.betweenminds.domain.models.RangesPack
 
@@ -23,7 +23,7 @@ fun RangeDTO.toRange() = Range(
 
 fun List<RangeDTO>.toRangesList() = this.map { it.toRange() }
 
-fun PackDTO.toQuestionPack() = QuestionPack(
+fun PackDTO.toQuestionPack() = QuestionsPack(
     packId = packId,
     packNumber = packNumber.toInt(),
     packTitle = title,

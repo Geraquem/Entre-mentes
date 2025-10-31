@@ -2,15 +2,25 @@ package com.mmfsin.betweenminds.presentation.choose
 
 import com.mmfsin.betweenminds.base.BaseViewModel
 import com.mmfsin.betweenminds.domain.usecases.CreateRoomUseCase
+import com.mmfsin.betweenminds.domain.usecases.GetSelectedDataPackUseCase
 import com.mmfsin.betweenminds.domain.usecases.JoinRoomUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class ChooseViewModel @Inject constructor(
+    private val getSelectedDataPackUseCase: GetSelectedDataPackUseCase,
     private val createRoomUseCase: CreateRoomUseCase,
     private val joinRoomUseCase: JoinRoomUseCase
 ) : BaseViewModel<ChooseEvent>() {
+
+    fun getSelectedPack(gameType: String) {
+        executeUseCase(
+            { getSelectedDataPackUseCase.execute(gameType) },
+            { result -> _event.value = ChooseEvent.SelectedPack(result) },
+            { _event.value = ChooseEvent.SomethingWentWrong }
+        )
+    }
 
     fun createRoom(gameType: String) {
         executeUseCase(

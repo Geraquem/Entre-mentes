@@ -1,6 +1,6 @@
 package com.mmfsin.betweenminds.domain.models
 
-data class QuestionPack(
+data class QuestionsPack(
     var packId: String = "",
     var packNumber: Int = 0,
     var packTitle: String,

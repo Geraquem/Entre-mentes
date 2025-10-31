@@ -14,10 +14,10 @@
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/iv_dot"
-        android:layout_width="6dp"
-        android:layout_height="6dp"
+        android:layout_width="4dp"
+        android:layout_height="4dp"
         android:layout_gravity="center"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="6dp"
         android:background="@color/background_black"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -25,7 +25,7 @@
 
     <TextView
         android:id="@+id/tv_question"
-        style="@style/MediumTextView"
+        style="@style/SmallTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"

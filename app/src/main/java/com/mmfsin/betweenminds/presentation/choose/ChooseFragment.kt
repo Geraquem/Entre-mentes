@@ -2,13 +2,16 @@ package com.mmfsin.betweenminds.presentation.choose
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
+import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayoutMediator
 import com.mmfsin.betweenminds.R
 import com.mmfsin.betweenminds.base.BaseFragment
@@ -39,6 +42,11 @@ class ChooseFragment : BaseFragment<FragmentChooseBinding, ChooseViewModel>(), I
 
     override fun getBundleArgs() {
         arguments?.let { gameType = it.getString(GAME_TYPE) } ?: run { error(goBack = true) }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        gameType?.let { type -> viewModel.getSelectedPack(type) }
     }
 
     override fun setUI() {
@@ -75,6 +83,8 @@ class ChooseFragment : BaseFragment<FragmentChooseBinding, ChooseViewModel>(), I
     override fun observe() {
         viewModel.event.observe(this) { event ->
             when (event) {
+                is ChooseEvent.SelectedPack -> setPack(event.data)
+
                 is ChooseEvent.RoomCreated -> {
                     println("Room created with code: ${event.roomId}")
                     binding.loading.root.isVisible = false
@@ -106,6 +116,13 @@ class ChooseFragment : BaseFragment<FragmentChooseBinding, ChooseViewModel>(), I
                     error(goBack = false)
                 }
             }
+        }
+    }
+
+    private fun setPack(data: Pair<String?, String?>) {
+        binding.apply {
+            data.first?.let { icon -> Glide.with(mContext).load(icon).into(binding.ivPackIcon) }
+            data.second?.let { title -> tvPackName.text = title }
         }
     }
 

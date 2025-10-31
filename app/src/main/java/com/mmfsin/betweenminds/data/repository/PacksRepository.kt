@@ -10,13 +10,15 @@ import com.mmfsin.betweenminds.data.mappers.createRangesPacks
 import com.mmfsin.betweenminds.data.models.PackDTO
 import com.mmfsin.betweenminds.domain.interfaces.IPacksRepository
 import com.mmfsin.betweenminds.domain.interfaces.IRealmDatabase
-import com.mmfsin.betweenminds.domain.models.QuestionPack
+import com.mmfsin.betweenminds.domain.models.QuestionsPack
 import com.mmfsin.betweenminds.domain.models.RangesPack
 import com.mmfsin.betweenminds.utils.PACKS
 import com.mmfsin.betweenminds.utils.QUESTIONS
 import com.mmfsin.betweenminds.utils.QUESTIONS_PACK
+import com.mmfsin.betweenminds.utils.QUESTIONS_TYPE
 import com.mmfsin.betweenminds.utils.RANGES
 import com.mmfsin.betweenminds.utils.RANGES_PACK
+import com.mmfsin.betweenminds.utils.RANGES_TYPE
 import com.mmfsin.betweenminds.utils.SERVER_PACKS
 import com.mmfsin.betweenminds.utils.SHARED_PREFS
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -35,7 +37,8 @@ class PacksRepository @Inject constructor(
         val packs = mutableListOf<PackDTO>()
         val sharedPrefs = context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE)
 
-        if (sharedPrefs.getBoolean(SERVER_PACKS, true)) {
+        if (true) {
+//        if (sharedPrefs.getBoolean(SERVER_PACKS, true)) {
             val latch = CountDownLatch(1)
             Firebase.firestore.collection(PACKS).get()
                 .addOnSuccessListener { documents ->
@@ -75,7 +78,31 @@ class PacksRepository @Inject constructor(
         }
     }
 
-    override suspend fun getQuestionsPack(): List<QuestionPack> {
+    private suspend fun insertPacksInBBDD() = insertDataInFirestore()
+
+    override suspend fun getDataSelectedPack(gameType: String): Pair<String?, String?> {
+        val packs = getPacks()
+        when (gameType) {
+            QUESTIONS_TYPE -> {
+                val selected = getSelectedQPackId()
+                val p = packs.find { it.packType == QUESTIONS && it.packNumber.toInt() == selected }
+                return Pair(p?.icon, p?.title)
+            }
+
+            RANGES_TYPE -> {
+                val selected = getSelectedRPackId()
+                val p = packs.find { it.packType == RANGES && it.packNumber.toInt() == selected }
+                return Pair(p?.icon, p?.title)
+            }
+
+            else -> return Pair(null, null)
+        }
+    }
+
+    override suspend fun getQuestionsPack(): List<QuestionsPack> {
+//        insertPacksInBBDD()
+//        val packs = emptyList<PackDTO>()
+
         val packs = getPacks()
         return packs.filter { it.packType == QUESTIONS }.createQuestionsPacks()
     }
@@ -148,34 +175,43 @@ class PacksRepository @Inject constructor(
                 "packNumber" to 0,
                 "packType" to "questions",
                 "price" to "0.25",
-                "icon" to "image_url",
+                "icon" to "https://firebasestorage.googleapis.com/v0/b/entre-mentes.firebasestorage.app/o/Packs%2Fhappy.png?alt=media&token=c9e91343-8be3-49bc-b6f3-693b68d83fbc",
                 "title" to "Básico",
-                "description" to "Contiene 50 preguntas de todo tipo bien variadas para que dkjfslkjgklfsdjdlk",
+                "description" to "Perfecto para demostrar cuánto conoces a tus amigos, familiares y personas cercanas.",
             ),
             hashMapOf(
                 "packId" to "questions_pack_couples",
                 "packNumber" to 1,
                 "packType" to "questions",
-                "icon" to "image_url",
+                "icon" to "https://firebasestorage.googleapis.com/v0/b/entre-mentes.firebasestorage.app/o/Packs%2Fheart.png?alt=media&token=e6104f02-b24a-4bc2-b6a2-992fdcb5ada5",
                 "title" to "Para parejas",
                 "price" to "0.25",
-                "description" to "Preguntas para que pongas en duda o refuerces tu relación ñlkfsñdlkjfñlskfñlsdlñ",
+                "description" to "Enamoramiento, celos, romanticismo y situaciones íntimas que revelan cómo pensáis y os sentís estando juntos. No vale discutir.",
             ),
             hashMapOf(
-                "packId" to "questions_pack_idk",
+                "packId" to "questions_pack_more",
                 "packNumber" to 2,
                 "price" to "0.25",
                 "packType" to "questions",
-                "icon" to "image_url",
-                "title" to "No sé que poner",
-                "description" to "Descnoidjflksdj sdlkfjlksdj flksjd lkj sld l",
+                "icon" to "https://firebasestorage.googleapis.com/v0/b/entre-mentes.firebasestorage.app/o/Packs%2Fmonkey.png?alt=media&token=6c5f8a1e-23b0-4f86-aa98-e2be00768480",
+                "title" to "Más preguntas",
+                "description" to "¿Quieres más? Con este pack vas a ver de verdad cómo son tus amigos: sus manías, reacciones y esos detalles que nunca muestran. Ideal para reírte, sorprenderte y conocerlos mejor que nunca.",
+            ),
+            hashMapOf(
+                "packId" to "questions_pack_more_two",
+                "packNumber" to 2,
+                "price" to "0.25",
+                "packType" to "questions",
+                "icon" to "https://firebasestorage.googleapis.com/v0/b/entre-mentes.firebasestorage.app/o/Packs%2Ffox.png?alt=media&token=68b8c50d-0d96-409b-bb4a-52605eb11cc4",
+                "title" to "Todavía más preguntas",
+                "description" to "Si pensabas que ya os habíais exprimido al máximo, aquí hay otras 50 preguntas diferentes para que sigáis dándole al coco y descubriendo cómo de diferente pensáis sobre vosotros mismos.",
             ),
             hashMapOf(
                 "packId" to "ranges_pack_free",
                 "price" to "0.25",
                 "packNumber" to 0,
                 "packType" to "ranges",
-                "icon" to "image_url",
+                "icon" to "https://firebasestorage.googleapis.com/v0/b/entre-mentes.firebasestorage.app/o/Packs%2Franges.png?alt=media&token=c4ba875c-7de5-4653-bcb5-372059967a9c",
                 "title" to "Básico",
                 "description" to "LAdklskdñldkfñlkslñfk ñlkfñls kdñ l",
             ),

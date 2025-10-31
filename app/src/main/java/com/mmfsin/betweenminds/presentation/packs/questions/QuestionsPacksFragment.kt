@@ -10,7 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mmfsin.betweenminds.base.BaseFragment
 import com.mmfsin.betweenminds.databinding.FragmentPacksBinding
-import com.mmfsin.betweenminds.domain.models.QuestionPack
+import com.mmfsin.betweenminds.domain.models.QuestionsPack
 import com.mmfsin.betweenminds.presentation.packs.manager.BillingManager
 import com.mmfsin.betweenminds.presentation.packs.questions.adapter.IQuestionsPackListener
 import com.mmfsin.betweenminds.presentation.packs.questions.adapter.QuestionsPackAdapter
@@ -75,16 +75,19 @@ class QuestionsPacksFragment : BaseFragment<FragmentPacksBinding, QuestionsPacks
         }
     }
 
-    private fun checkPurchasedPacks(packs: List<QuestionPack>) {
+    private fun checkPurchasedPacks(packs: List<QuestionsPack>) {
         activity?.let {
             billingManager = BillingManager(it)
             billingManager?.startConnection {
                 billingManager?.queryPurchasedIds(
                     onResult = { ownedPackages ->
 
+                        val test = listOf("questions_pack_couples")
+
                         val updatedPacks = packs.map { pack ->
                             pack.copy(
-                                purchased = pack.packNumber == 0 || ownedPackages.contains(pack.packId)
+//                                purchased = pack.packNumber == 0 || ownedPackages.contains(pack.packId)
+                                purchased = pack.packNumber == 0 || test.contains(pack.packId)
                             )
                         }
                         activity?.runOnUiThread { setUpQuestionsPack(updatedPacks) }
@@ -95,7 +98,7 @@ class QuestionsPacksFragment : BaseFragment<FragmentPacksBinding, QuestionsPacks
         }
     }
 
-    private fun setUpQuestionsPack(packs: List<QuestionPack>) {
+    private fun setUpQuestionsPack(packs: List<QuestionsPack>) {
         binding.rvPacks.apply {
             layoutManager = LinearLayoutManager(activity)
             questionsPackAdapter = QuestionsPackAdapter(packs, this@QuestionsPacksFragment)

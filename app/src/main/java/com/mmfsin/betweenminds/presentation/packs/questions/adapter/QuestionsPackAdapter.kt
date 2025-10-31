@@ -10,17 +10,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.mmfsin.betweenminds.R
 import com.mmfsin.betweenminds.databinding.ItemPackBinding
-import com.mmfsin.betweenminds.domain.models.QuestionPack
+import com.mmfsin.betweenminds.domain.models.QuestionsPack
 
 class QuestionsPackAdapter(
-    private val packs: List<QuestionPack>,
+    private val packs: List<QuestionsPack>,
     private val listener: IQuestionsPackListener
 ) : RecyclerView.Adapter<QuestionsPackAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding = ItemPackBinding.bind(view)
         val c: Context = binding.root.context
-        fun bind(pack: QuestionPack, listener: IQuestionsPackListener) {
+        fun bind(pack: QuestionsPack, listener: IQuestionsPackListener) {
             binding.apply {
                 Glide.with(c).load(pack.packIcon).into(ivPackIcon)
                 tvPrice.text = c.getString(R.string.pack_price, pack.packPrice)
