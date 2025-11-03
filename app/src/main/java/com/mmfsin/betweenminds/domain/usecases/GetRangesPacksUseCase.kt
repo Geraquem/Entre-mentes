@@ -17,7 +17,10 @@ class GetRangesPacksUseCase @Inject constructor(
         val packs = packsRepository.getRangesPack()
 
         val result = packs.map { pack ->
-            pack.copy(ranges = ranges.filter { it.pack == pack.packNumber })
+            pack.copy(ranges = ranges
+                .filter { it.pack == pack.packNumber }
+                .shuffled()
+                .take(4))
         }
 
         return result.sortedBy { it.packNumber }

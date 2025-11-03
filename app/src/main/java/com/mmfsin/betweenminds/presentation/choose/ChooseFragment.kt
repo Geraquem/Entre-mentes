@@ -68,7 +68,14 @@ class ChooseFragment : BaseFragment<FragmentChooseBinding, ChooseViewModel>(), I
             toolbar.btnBack.setOnClickListener { activity?.onBackPressedDispatcher?.onBackPressed() }
 
             tvChangePack.setOnClickListener {
-                (activity as MainActivity).openBedRockActivity(R.navigation.nav_graph_packs)
+                val openRanges = when (gameType) {
+                    RANGES_TYPE -> true
+                    else -> false
+                }
+                (activity as MainActivity).openBedRockActivity(
+                    navGraph = R.navigation.nav_graph_packs,
+                    booleanArgs = openRanges
+                )
             }
 
             btnOffline.button.setOnClickListener {

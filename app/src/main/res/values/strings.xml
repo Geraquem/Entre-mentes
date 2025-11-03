@@ -61,6 +61,7 @@
     <string name="pack_purchase_btn">Comprar</string>
     <string name="pack_selected_btn">Seleccionar</string>
     <string name="pack_selected">Seleccionado</string>
+    <string name="pack_loading">Un momentito…</string>
 
     <string name="pack_questions_free_title">Gratis</string>
     <string name="pack_questions_free_description">Gratis description blablablablabalbalbalbalabaab</string>

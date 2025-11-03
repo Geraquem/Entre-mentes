@@ -17,11 +17,10 @@ class GetQuestionsPacksUseCase @Inject constructor(
         val packs = packsRepository.getQuestionsPack()
 
         val result = packs.map { pack ->
-            pack.copy(
-                questions = questions
-                    .filter { it.pack == pack.packNumber }
-                    .shuffled()
-                    .take(4)
+            pack.copy(questions = questions
+                .filter { it.pack == pack.packNumber }
+                .shuffled()
+                .take(4)
             )
         }
 

@@ -12,6 +12,7 @@ import com.mmfsin.betweenminds.base.BaseFragmentNoVM
 import com.mmfsin.betweenminds.base.bedrock.BedRockActivity
 import com.mmfsin.betweenminds.databinding.FragmentPacksVpBinding
 import com.mmfsin.betweenminds.presentation.packs.adapter.ViewPagerPacksAdapter
+import com.mmfsin.betweenminds.utils.BEDROCK_BOOLEAN_ARGS
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -19,9 +20,17 @@ class PacksVPagerFragment : BaseFragmentNoVM<FragmentPacksVpBinding>() {
 
     private lateinit var mContext: Context
 
+    private var openRanges: Boolean = false
+
     override fun inflateView(
         inflater: LayoutInflater, container: ViewGroup?
     ) = FragmentPacksVpBinding.inflate(inflater, container, false)
+
+    override fun getBundleArgs() {
+        activity?.intent?.let {
+            openRanges = it.getBooleanExtra(BEDROCK_BOOLEAN_ARGS, false)
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -48,6 +57,11 @@ class PacksVPagerFragment : BaseFragmentNoVM<FragmentPacksVpBinding>() {
                         1 -> tab.text = getString(R.string.pack_ranges)
                     }
                 }.attach()
+            }
+
+            if (openRanges) {
+                viewPager.currentItem = 1
+                tlPacks.getTabAt(1)?.select()
             }
         }
     }

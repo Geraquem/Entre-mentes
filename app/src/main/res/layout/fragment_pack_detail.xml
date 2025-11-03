@@ -118,7 +118,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="100dp"
                 android:fontFamily="@font/alphazet"
-                android:text="Cargando preguntas..."
+                android:text="@string/pack_loading"
                 android:textColor="@color/white" />
 
         </LinearLayout>

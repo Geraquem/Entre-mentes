@@ -13,7 +13,6 @@ class GetQuestionsUseCase @Inject constructor(
     suspend fun execute(): List<Question> {
         val selectedPack = packRepository.getSelectedQPackId()
         val questions = offlineRepository.getQuestions()
-        val r = questions.filter { it.pack == selectedPack }.shuffled(Random(System.nanoTime()))
-        return r
+        return questions.filter { it.pack == selectedPack }.shuffled(Random(System.nanoTime()))
     }
 }
