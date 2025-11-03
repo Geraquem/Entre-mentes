@@ -57,7 +57,7 @@ class DetailPackFragment : BaseFragment<FragmentPackDetailBinding, DetailPackVie
     override fun setUI() {
         binding.apply {
             toolbar.btnInstructions.isVisible = false
-            loading.isVisible = true
+            tvLoading.isVisible = true
             btnPurchase.button.text = getString(R.string.pack_purchase_btn)
             btnSelect.button.text = getString(R.string.pack_selected_btn)
         }
@@ -122,7 +122,7 @@ class DetailPackFragment : BaseFragment<FragmentPackDetailBinding, DetailPackVie
                 layoutManager = LinearLayoutManager(mContext)
                 adapter = QDetailPackAdapter(questions.map { it.question })
             }
-            loading.isVisible = false
+            tvLoading.isVisible = false
         }
     }
 
@@ -132,7 +132,7 @@ class DetailPackFragment : BaseFragment<FragmentPackDetailBinding, DetailPackVie
                 layoutManager = LinearLayoutManager(mContext)
                 adapter = RExamplesPackAdapter(ranges)
             }
-            loading.isVisible = false
+            tvLoading.isVisible = false
         }
     }
 
