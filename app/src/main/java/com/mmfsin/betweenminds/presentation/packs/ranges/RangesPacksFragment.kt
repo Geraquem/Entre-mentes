@@ -12,6 +12,7 @@ import com.mmfsin.betweenminds.base.BaseFragment
 import com.mmfsin.betweenminds.databinding.FragmentPacksBinding
 import com.mmfsin.betweenminds.domain.models.RangesPack
 import com.mmfsin.betweenminds.presentation.packs.manager.BillingManager
+import com.mmfsin.betweenminds.presentation.packs.manager.IBillingListener
 import com.mmfsin.betweenminds.presentation.packs.ranges.adapter.IRangesPackListener
 import com.mmfsin.betweenminds.presentation.packs.ranges.adapter.RangesPackAdapter
 import com.mmfsin.betweenminds.utils.showErrorDialog
@@ -19,7 +20,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class RangesPacksFragment : BaseFragment<FragmentPacksBinding, RangesPacksViewModel>(),
-    IRangesPackListener {
+    IRangesPackListener, IBillingListener {
 
     override val viewModel: RangesPacksViewModel by viewModels()
     private lateinit var mContext: Context
@@ -65,7 +66,7 @@ class RangesPacksFragment : BaseFragment<FragmentPacksBinding, RangesPacksViewMo
 
     private fun checkPurchasedPacks(packs: List<RangesPack>) {
         activity?.let {
-            billingManager = BillingManager(it)
+            billingManager = BillingManager(it, this@RangesPacksFragment)
             billingManager?.startConnection {
                 billingManager?.queryPurchasedIds(
                     onResult = { ownedPackages ->
@@ -93,6 +94,10 @@ class RangesPacksFragment : BaseFragment<FragmentPacksBinding, RangesPacksViewMo
     }
 
     override fun selectPack(packNumber: Int) = viewModel.selectRangesPack(packNumber)
+
+    override fun purchasedCompleted(packId: String) {
+
+    }
 
     private fun error() = activity?.showErrorDialog()
 
