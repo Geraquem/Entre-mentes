@@ -86,9 +86,7 @@ class BillingManager(val context: Context) {
     }
 
     private fun unlockPremiumContent() {
-        /********************************************************************************************/
-        // Aquí desbloqueas el paquete para el usuario
-        val prefs = context.getSharedPreferences("entreminds_prefs", Context.MODE_PRIVATE)
-        prefs.edit().putBoolean("has_premium_pack", true).apply()
+        /** PURCHASE OK */
+        /** UPDATE UI */
     }
 }

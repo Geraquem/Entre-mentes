@@ -47,10 +47,7 @@ class QuestionsPackAdapter(
                     if (!pack.selected) listener.selectPack(pack.packNumber)
                 }
 
-                btnPurchase.button.setOnClickListener {
-
-                }
-
+                btnPurchase.button.setOnClickListener { listener.purchase(pack.packId) }
                 tvSeeMore.setOnClickListener { listener.seeMore(pack) }
             }
         }

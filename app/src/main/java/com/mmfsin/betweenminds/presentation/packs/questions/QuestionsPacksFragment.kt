@@ -49,18 +49,6 @@ class QuestionsPacksFragment : BaseFragment<FragmentPacksBinding, QuestionsPacks
         }
     }
 
-    override fun setListeners() {
-        binding.apply {
-//            btnPurchase.button.setOnClickListener {
-//                billingManager?.startConnection {
-//                    activity?.let {
-//                        billingManager?.launchPurchase(it, "ranges_pack_1")
-//                    }
-//                }
-//            }
-        }
-    }
-
     override fun observe() {
         viewModel.event.observe(this) { event ->
             when (event) {
@@ -85,15 +73,8 @@ class QuestionsPacksFragment : BaseFragment<FragmentPacksBinding, QuestionsPacks
             billingManager?.startConnection {
                 billingManager?.queryPurchasedIds(
                     onResult = { ownedPackages ->
-//
+
                         val test = listOf("questions_pack_couples")
-//
-//                        val updatedPacks = packs.map { pack ->
-//                            pack.copy(
-////                                purchased = pack.packNumber == 0 || ownedPackages.contains(pack.packId)
-//                                purchased = pack.packNumber == 0 || test.contains(pack.packId)
-//                            )
-//                        }
 
                         val productIds = packs.let { p ->
                             p.filter { it.packNumber != 0 }
@@ -114,13 +95,13 @@ class QuestionsPacksFragment : BaseFragment<FragmentPacksBinding, QuestionsPacks
                             queryProductDetailsParams
                         ) { billingResult, productDetailsList ->
                             if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
-                                // Creamos un mapa: productId -> precio mostrado
+                                //Mapa: productId -> Precio
                                 val pricesMap = productDetailsList.associateBy(
                                     { it.productId },
                                     { it.oneTimePurchaseOfferDetails?.formattedPrice ?: "" }
                                 )
 
-                                // 4️⃣ Actualizamos los packs con la información de compra y precio
+                                //Actualizamos los packs con la información de compra y precio
                                 val updatedPacks = packs.map { pack ->
                                     pack.copy(
                                         purchased = pack.packNumber == 0 || test.contains(
@@ -131,13 +112,11 @@ class QuestionsPacksFragment : BaseFragment<FragmentPacksBinding, QuestionsPacks
                                     )
                                 }
 
-                                // 5️⃣ Actualizamos el RecyclerView en el hilo principal
+                                //Actualizamos el RecyclerView en el hilo principal
                                 a.runOnUiThread {
                                     setUpQuestionsPack(updatedPacks)
                                 }
-                            } else {
-                                error()
-                            }
+                            } else error()
                         }
                     },
                     onError = { error() }
@@ -160,6 +139,12 @@ class QuestionsPacksFragment : BaseFragment<FragmentPacksBinding, QuestionsPacks
 
     override fun seeMore(pack: QuestionsPack) {
         findNavController().navigate(actionToPackDetail(questionPack = pack, rangePack = null))
+    }
+
+    override fun purchase(packId: String) {
+        billingManager?.startConnection {
+            activity?.let { billingManager?.launchPurchase(it, packId) }
+        }
     }
 
     private fun error() = activity?.showErrorDialog()

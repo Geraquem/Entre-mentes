@@ -5,4 +5,5 @@ import com.mmfsin.betweenminds.domain.models.QuestionsPack
 interface IQuestionsPackListener {
     fun selectPack(packNumber: Int)
     fun seeMore(pack: QuestionsPack)
+    fun purchase(packId: String)
 }
