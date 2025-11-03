@@ -14,7 +14,8 @@ import com.mmfsin.betweenminds.domain.models.Range
 import com.mmfsin.betweenminds.domain.models.RangesPack
 
 class RangesPackAdapter(
-    private val packs: List<RangesPack>, private val listener: IRangesPackListener
+    private val packs: List<RangesPack>,
+    private val listener: IRangesPackListener
 ) : RecyclerView.Adapter<RangesPackAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {

@@ -22,42 +22,31 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.95" />
 
-    <androidx.core.widget.NestedScrollView
-        style="@style/scroll_no_effects"
+    <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:clipChildren="false"
         android:clipToPadding="false"
+        android:orientation="vertical"
+        android:paddingTop="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="@id/gl_left"
         app:layout_constraintRight_toRightOf="@id/gl_right"
         app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_packs"
+            style="@style/scroll_no_effects"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            tools:itemCount="2"
+            tools:listitem="@layout/item_pack" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Preguntas" />
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="100dp" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_packs"
-                style="@style/scroll_no_effects"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:itemCount="2"
-                tools:listitem="@layout/item_pack" />
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="100dp"/>
-
-        </LinearLayout>
-
-    </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
 
     <include
         android:id="@+id/loading"

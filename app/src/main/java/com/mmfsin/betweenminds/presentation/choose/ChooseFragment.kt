@@ -2,9 +2,7 @@ package com.mmfsin.betweenminds.presentation.choose
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -44,8 +42,8 @@ class ChooseFragment : BaseFragment<FragmentChooseBinding, ChooseViewModel>(), I
         arguments?.let { gameType = it.getString(GAME_TYPE) } ?: run { error(goBack = true) }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onResume() {
+        super.onResume()
         gameType?.let { type -> viewModel.getSelectedPack(type) }
     }
 
@@ -68,6 +66,10 @@ class ChooseFragment : BaseFragment<FragmentChooseBinding, ChooseViewModel>(), I
     override fun setListeners() {
         binding.apply {
             toolbar.btnBack.setOnClickListener { activity?.onBackPressedDispatcher?.onBackPressed() }
+
+            tvChangePack.setOnClickListener {
+                (activity as MainActivity).openBedRockActivity(R.navigation.nav_graph_packs)
+            }
 
             btnOffline.button.setOnClickListener {
                 val navGraph = when (gameType) {

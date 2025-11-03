@@ -9,6 +9,26 @@
         android:id="@+id/packsFragment"
         android:name="com.mmfsin.betweenminds.presentation.packs.PacksVPagerFragment"
         android:label="packsFragment"
-        tools:layout="@layout/fragment_packs_vp" />
+        tools:layout="@layout/fragment_packs_vp">
+        <action
+            android:id="@+id/action_to_pack_detail"
+            app:destination="@id/packDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/packDetailFragment"
+        android:name="com.mmfsin.betweenminds.presentation.packs.detail.DetailPackFragment"
+        android:label="packDetailFragment"
+        tools:layout="@layout/fragment_pack_detail">
+        <argument
+            android:name="questionPack"
+            app:argType="com.mmfsin.betweenminds.domain.models.QuestionsPack"
+            app:nullable="true" />
+
+        <argument
+            android:name="rangePack"
+            app:argType="com.mmfsin.betweenminds.domain.models.RangesPack"
+            app:nullable="true" />
+    </fragment>
 
 </navigation>

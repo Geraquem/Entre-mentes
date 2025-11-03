@@ -1,5 +1,9 @@
 package com.mmfsin.betweenminds.domain.models
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class QuestionsPack(
     var packId: String = "",
     var packNumber: Int = 0,
@@ -10,4 +14,4 @@ data class QuestionsPack(
     var selected: Boolean = false,
     var purchased: Boolean = false,
     var questions: List<Question> = emptyList()
-)
+): Parcelable

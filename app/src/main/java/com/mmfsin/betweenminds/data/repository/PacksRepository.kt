@@ -7,12 +7,17 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.mmfsin.betweenminds.data.mappers.createQuestionsPacks
 import com.mmfsin.betweenminds.data.mappers.createRangesPacks
+import com.mmfsin.betweenminds.data.mappers.toQuestionPack
+import com.mmfsin.betweenminds.data.mappers.toRangesPack
 import com.mmfsin.betweenminds.data.models.PackDTO
 import com.mmfsin.betweenminds.domain.interfaces.IPacksRepository
 import com.mmfsin.betweenminds.domain.interfaces.IRealmDatabase
+import com.mmfsin.betweenminds.domain.models.Question
 import com.mmfsin.betweenminds.domain.models.QuestionsPack
+import com.mmfsin.betweenminds.domain.models.Range
 import com.mmfsin.betweenminds.domain.models.RangesPack
 import com.mmfsin.betweenminds.utils.PACKS
+import com.mmfsin.betweenminds.utils.PACK_ID
 import com.mmfsin.betweenminds.utils.QUESTIONS
 import com.mmfsin.betweenminds.utils.QUESTIONS_PACK
 import com.mmfsin.betweenminds.utils.QUESTIONS_TYPE
@@ -37,8 +42,8 @@ class PacksRepository @Inject constructor(
         val packs = mutableListOf<PackDTO>()
         val sharedPrefs = context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE)
 
-        if (true) {
-//        if (sharedPrefs.getBoolean(SERVER_PACKS, true)) {
+//        if (true) {
+        if (sharedPrefs.getBoolean(SERVER_PACKS, true)) {
             val latch = CountDownLatch(1)
             Firebase.firestore.collection(PACKS).get()
                 .addOnSuccessListener { documents ->
@@ -79,6 +84,20 @@ class PacksRepository @Inject constructor(
     }
 
     private suspend fun insertPacksInBBDD() = insertDataInFirestore()
+
+    override suspend fun getPackQuestions(packId: String): List<Question> {
+        val pack = realmDatabase.getObjectFromRealm(PackDTO::class, PACK_ID, packId)
+        return pack?.let { p ->
+            p.toQuestionPack().questions.filter { it.pack == p.packNumber.toInt() }
+        } ?: run { emptyList() }
+    }
+
+    override suspend fun getPackRanges(packId: String): List<Range> {
+        val pack = realmDatabase.getObjectFromRealm(PackDTO::class, PACK_ID, packId)
+        return pack?.let { p ->
+            p.toRangesPack().ranges.filter { it.pack == p.packNumber.toInt() }
+        } ?: run { emptyList() }
+    }
 
     override suspend fun getDataSelectedPack(gameType: String): Pair<String?, String?> {
         val packs = getPacks()

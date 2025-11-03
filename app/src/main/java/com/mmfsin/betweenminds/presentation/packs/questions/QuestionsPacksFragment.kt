@@ -7,12 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.QueryProductDetailsParams
 import com.mmfsin.betweenminds.base.BaseFragment
 import com.mmfsin.betweenminds.databinding.FragmentPacksBinding
 import com.mmfsin.betweenminds.domain.models.QuestionsPack
+import com.mmfsin.betweenminds.presentation.packs.PacksVPagerFragmentDirections.Companion.actionToPackDetail
 import com.mmfsin.betweenminds.presentation.packs.manager.BillingManager
 import com.mmfsin.betweenminds.presentation.packs.questions.adapter.IQuestionsPackListener
 import com.mmfsin.betweenminds.presentation.packs.questions.adapter.QuestionsPackAdapter
@@ -78,7 +80,7 @@ class QuestionsPacksFragment : BaseFragment<FragmentPacksBinding, QuestionsPacks
     }
 
     private fun checkPurchasedPacks(packs: List<QuestionsPack>) {
-        activity?.let { a->
+        activity?.let { a ->
             billingManager = BillingManager(a)
             billingManager?.startConnection {
                 billingManager?.queryPurchasedIds(
@@ -124,7 +126,8 @@ class QuestionsPacksFragment : BaseFragment<FragmentPacksBinding, QuestionsPacks
                                         purchased = pack.packNumber == 0 || test.contains(
                                             pack.packId
                                         ),
-                                        packPrice = pricesMap[pack.packId]  ?: "null"// ← aquí agregas el precio real
+                                        packPrice = pricesMap[pack.packId]
+                                            ?: "null"// ← aquí agregas el precio real
                                     )
                                 }
 
@@ -154,6 +157,10 @@ class QuestionsPacksFragment : BaseFragment<FragmentPacksBinding, QuestionsPacks
     }
 
     override fun selectPack(packNumber: Int) = viewModel.selectQuestionPack(packNumber)
+
+    override fun seeMore(pack: QuestionsPack) {
+        findNavController().navigate(actionToPackDetail(questionPack = pack, rangePack = null))
+    }
 
     private fun error() = activity?.showErrorDialog()
 

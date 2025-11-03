@@ -6,6 +6,7 @@ const val BEDROCK_STR_ARGS = "bedrock_str_args"
 const val BEDROCK_BOOLEAN_ARGS = "bedrock_boolean_args"
 
 const val ID = "id"
+const val PACK_ID = "packId"
 const val VERSION = "version"
 const val RANGES = "ranges"
 const val QUESTIONS = "questions"

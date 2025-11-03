@@ -50,6 +50,8 @@ class QuestionsPackAdapter(
                 btnPurchase.button.setOnClickListener {
 
                 }
+
+                tvSeeMore.setOnClickListener { listener.seeMore(pack) }
             }
         }
 

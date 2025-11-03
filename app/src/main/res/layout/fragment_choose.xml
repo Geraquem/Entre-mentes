@@ -163,12 +163,12 @@
                     android:textColor="@color/white"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toRightOf="@id/iv_pack_icon"
-                    app:layout_constraintRight_toLeftOf="@id/tv_change"
+                    app:layout_constraintRight_toLeftOf="@id/tv_change_pack"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="Para parejas" />
 
                 <TextView
-                    android:id="@+id/tv_change"
+                    android:id="@+id/tv_change_pack"
                     style="@style/MediumTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
