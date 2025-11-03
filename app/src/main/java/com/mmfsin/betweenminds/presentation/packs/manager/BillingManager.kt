@@ -11,7 +11,7 @@ import com.android.billingclient.api.Purchase
 import com.android.billingclient.api.QueryProductDetailsParams
 import com.android.billingclient.api.QueryPurchasesParams
 
-class BillingManager(val context: Context) {
+class BillingManager(val context: Context, val listener: IBillingListener) {
 
     val billingClient =
         BillingClient.newBuilder(context).setListener { billingResult, purchases ->
@@ -66,7 +66,8 @@ class BillingManager(val context: Context) {
 
             billingClient.acknowledgePurchase(acknowledgeParams) {
                 if (it.responseCode == BillingClient.BillingResponseCode.OK) {
-                    unlockPremiumContent()
+                    /** PURCHASE OK */
+                    purchase.products.forEach { p -> listener.purchasedCompleted(p) }
                 }
             }
         }
@@ -83,10 +84,5 @@ class BillingManager(val context: Context) {
                 onResult(purchasedIds)
             } else onError()
         }
-    }
-
-    private fun unlockPremiumContent() {
-        /** PURCHASE OK */
-        /** UPDATE UI */
     }
 }

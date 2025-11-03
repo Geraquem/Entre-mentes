@@ -16,6 +16,7 @@ import com.mmfsin.betweenminds.databinding.FragmentPacksBinding
 import com.mmfsin.betweenminds.domain.models.QuestionsPack
 import com.mmfsin.betweenminds.presentation.packs.PacksVPagerFragmentDirections.Companion.actionToPackDetail
 import com.mmfsin.betweenminds.presentation.packs.manager.BillingManager
+import com.mmfsin.betweenminds.presentation.packs.manager.IBillingListener
 import com.mmfsin.betweenminds.presentation.packs.questions.adapter.IQuestionsPackListener
 import com.mmfsin.betweenminds.presentation.packs.questions.adapter.QuestionsPackAdapter
 import com.mmfsin.betweenminds.utils.showErrorDialog
@@ -23,7 +24,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class QuestionsPacksFragment : BaseFragment<FragmentPacksBinding, QuestionsPacksViewModel>(),
-    IQuestionsPackListener {
+    IQuestionsPackListener, IBillingListener {
 
     override val viewModel: QuestionsPacksViewModel by viewModels()
     private lateinit var mContext: Context
@@ -42,11 +43,7 @@ class QuestionsPacksFragment : BaseFragment<FragmentPacksBinding, QuestionsPacks
     }
 
     override fun setUI() {
-        binding.apply {
-            loading.root.isVisible = true
-
-
-        }
+        binding.loading.root.isVisible = true
     }
 
     override fun observe() {
@@ -69,12 +66,12 @@ class QuestionsPacksFragment : BaseFragment<FragmentPacksBinding, QuestionsPacks
 
     private fun checkPurchasedPacks(packs: List<QuestionsPack>) {
         activity?.let { a ->
-            billingManager = BillingManager(a)
+            billingManager = BillingManager(a, this@QuestionsPacksFragment)
             billingManager?.startConnection {
                 billingManager?.queryPurchasedIds(
                     onResult = { ownedPackages ->
 
-                        val test = listOf("questions_pack_couples")
+//                        val test = listOf("questions_pack_couples")
 
                         val productIds = packs.let { p ->
                             p.filter { it.packNumber != 0 }
@@ -104,11 +101,9 @@ class QuestionsPacksFragment : BaseFragment<FragmentPacksBinding, QuestionsPacks
                                 //Actualizamos los packs con la información de compra y precio
                                 val updatedPacks = packs.map { pack ->
                                     pack.copy(
-                                        purchased = pack.packNumber == 0 || test.contains(
-                                            pack.packId
-                                        ),
-                                        packPrice = pricesMap[pack.packId]
-                                            ?: "null"// ← aquí agregas el precio real
+                                        purchased =
+                                        pack.packNumber == 0 || ownedPackages.contains(pack.packId),
+                                        packPrice = pricesMap[pack.packId] ?: "?€"
                                     )
                                 }
 
@@ -145,6 +140,10 @@ class QuestionsPacksFragment : BaseFragment<FragmentPacksBinding, QuestionsPacks
         billingManager?.startConnection {
             activity?.let { billingManager?.launchPurchase(it, packId) }
         }
+    }
+
+    override fun purchasedCompleted(packId: String) {
+        questionsPackAdapter?.purchasedPack(packId)
     }
 
     private fun error() = activity?.showErrorDialog()

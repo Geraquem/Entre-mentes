@@ -62,6 +62,19 @@ class QuestionsPackAdapter(
         }
     }
 
+    fun purchasedPack(packId: String) {
+        var position: Int? = null
+        packs.forEachIndexed { i, pack ->
+            if (pack.packId == packId) {
+                pack.selected = !pack.selected
+                pack.purchased = true
+                position = i
+                deletePreviousSelected(pack.packNumber)
+            }
+        }
+        position?.let { pos -> notifyItemChanged(pos) }
+    }
+
     fun updateSelectedPack(packNumber: Int) {
         deletePreviousSelected(packNumber)
         var position: Int? = null
