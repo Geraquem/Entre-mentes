@@ -23,7 +23,7 @@ class RangesPackAdapter(
         fun bind(pack: RangesPack, listener: IRangesPackListener) {
             binding.apply {
                 Glide.with(c).load(pack.packIcon).into(ivPackIcon)
-                tvPrice.text = c.getString(R.string.pack_price, pack.packPrice)
+                tvPrice.text = pack.packPrice
                 tvTitle.text = pack.packTitle
                 tvDescription.text = pack.packDescription
                 tvInclude.text = c.getString(R.string.pack_include_ranges_as)

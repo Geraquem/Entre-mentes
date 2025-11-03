@@ -13,7 +13,7 @@ import com.android.billingclient.api.QueryPurchasesParams
 
 class BillingManager(val context: Context) {
 
-    private val billingClient =
+    val billingClient =
         BillingClient.newBuilder(context).setListener { billingResult, purchases ->
             if (billingResult.responseCode == BillingClient.BillingResponseCode.OK && purchases != null) {
                 purchases.forEach { handlePurchase(it) }

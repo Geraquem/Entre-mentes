@@ -23,7 +23,7 @@ class QuestionsPackAdapter(
         fun bind(pack: QuestionsPack, listener: IQuestionsPackListener) {
             binding.apply {
                 Glide.with(c).load(pack.packIcon).into(ivPackIcon)
-                tvPrice.text = c.getString(R.string.pack_price, pack.packPrice)
+                tvPrice.text = pack.packPrice
                 tvTitle.text = pack.packTitle
                 tvDescription.text = pack.packDescription
                 tvInclude.text = c.getString(R.string.pack_include_questions_as)

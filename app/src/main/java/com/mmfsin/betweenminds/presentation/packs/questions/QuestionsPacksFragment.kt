@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.android.billingclient.api.BillingClient
+import com.android.billingclient.api.QueryProductDetailsParams
 import com.mmfsin.betweenminds.base.BaseFragment
 import com.mmfsin.betweenminds.databinding.FragmentPacksBinding
 import com.mmfsin.betweenminds.domain.models.QuestionsPack
@@ -76,21 +78,64 @@ class QuestionsPacksFragment : BaseFragment<FragmentPacksBinding, QuestionsPacks
     }
 
     private fun checkPurchasedPacks(packs: List<QuestionsPack>) {
-        activity?.let {
-            billingManager = BillingManager(it)
+        activity?.let { a->
+            billingManager = BillingManager(a)
             billingManager?.startConnection {
                 billingManager?.queryPurchasedIds(
                     onResult = { ownedPackages ->
-
+//
                         val test = listOf("questions_pack_couples")
+//
+//                        val updatedPacks = packs.map { pack ->
+//                            pack.copy(
+////                                purchased = pack.packNumber == 0 || ownedPackages.contains(pack.packId)
+//                                purchased = pack.packNumber == 0 || test.contains(pack.packId)
+//                            )
+//                        }
 
-                        val updatedPacks = packs.map { pack ->
-                            pack.copy(
-//                                purchased = pack.packNumber == 0 || ownedPackages.contains(pack.packId)
-                                purchased = pack.packNumber == 0 || test.contains(pack.packId)
-                            )
+                        val productIds = packs.let { p ->
+                            p.filter { it.packNumber != 0 }
+                                .map { it.packId }
                         }
-                        activity?.runOnUiThread { setUpQuestionsPack(updatedPacks) }
+
+                        val queryProductDetailsParams = QueryProductDetailsParams.newBuilder()
+                            .setProductList(
+                                productIds.map { id ->
+                                    QueryProductDetailsParams.Product.newBuilder()
+                                        .setProductId(id)
+                                        .setProductType(BillingClient.ProductType.INAPP)
+                                        .build()
+                                }
+                            ).build()
+
+                        billingManager?.billingClient?.queryProductDetailsAsync(
+                            queryProductDetailsParams
+                        ) { billingResult, productDetailsList ->
+                            if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+                                // Creamos un mapa: productId -> precio mostrado
+                                val pricesMap = productDetailsList.associateBy(
+                                    { it.productId },
+                                    { it.oneTimePurchaseOfferDetails?.formattedPrice ?: "" }
+                                )
+
+                                // 4️⃣ Actualizamos los packs con la información de compra y precio
+                                val updatedPacks = packs.map { pack ->
+                                    pack.copy(
+                                        purchased = pack.packNumber == 0 || test.contains(
+                                            pack.packId
+                                        ),
+                                        packPrice = pricesMap[pack.packId]  ?: "null"// ← aquí agregas el precio real
+                                    )
+                                }
+
+                                // 5️⃣ Actualizamos el RecyclerView en el hilo principal
+                                a.runOnUiThread {
+                                    setUpQuestionsPack(updatedPacks)
+                                }
+                            } else {
+                                error()
+                            }
+                        }
                     },
                     onError = { error() }
                 )

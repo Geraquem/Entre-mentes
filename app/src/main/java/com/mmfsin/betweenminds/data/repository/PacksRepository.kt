@@ -174,7 +174,6 @@ class PacksRepository @Inject constructor(
                 "packId" to "questions_pack_free",
                 "packNumber" to 0,
                 "packType" to "questions",
-                "price" to "0.25",
                 "icon" to "https://firebasestorage.googleapis.com/v0/b/entre-mentes.firebasestorage.app/o/Packs%2Fhappy.png?alt=media&token=c9e91343-8be3-49bc-b6f3-693b68d83fbc",
                 "title" to "Básico",
                 "description" to "Perfecto para demostrar cuánto conoces a tus amigos, familiares y personas cercanas.",
@@ -185,13 +184,11 @@ class PacksRepository @Inject constructor(
                 "packType" to "questions",
                 "icon" to "https://firebasestorage.googleapis.com/v0/b/entre-mentes.firebasestorage.app/o/Packs%2Fheart.png?alt=media&token=e6104f02-b24a-4bc2-b6a2-992fdcb5ada5",
                 "title" to "Para parejas",
-                "price" to "0.25",
                 "description" to "Enamoramiento, celos, romanticismo y situaciones íntimas que revelan cómo pensáis y os sentís estando juntos. No vale discutir.",
             ),
             hashMapOf(
                 "packId" to "questions_pack_more",
                 "packNumber" to 2,
-                "price" to "0.25",
                 "packType" to "questions",
                 "icon" to "https://firebasestorage.googleapis.com/v0/b/entre-mentes.firebasestorage.app/o/Packs%2Fmonkey.png?alt=media&token=6c5f8a1e-23b0-4f86-aa98-e2be00768480",
                 "title" to "Más preguntas",
@@ -200,7 +197,6 @@ class PacksRepository @Inject constructor(
             hashMapOf(
                 "packId" to "questions_pack_more_two",
                 "packNumber" to 2,
-                "price" to "0.25",
                 "packType" to "questions",
                 "icon" to "https://firebasestorage.googleapis.com/v0/b/entre-mentes.firebasestorage.app/o/Packs%2Ffox.png?alt=media&token=68b8c50d-0d96-409b-bb4a-52605eb11cc4",
                 "title" to "Todavía más preguntas",
@@ -208,7 +204,6 @@ class PacksRepository @Inject constructor(
             ),
             hashMapOf(
                 "packId" to "ranges_pack_free",
-                "price" to "0.25",
                 "packNumber" to 0,
                 "packType" to "ranges",
                 "icon" to "https://firebasestorage.googleapis.com/v0/b/entre-mentes.firebasestorage.app/o/Packs%2Franges.png?alt=media&token=c4ba875c-7de5-4653-bcb5-372059967a9c",
@@ -218,7 +213,6 @@ class PacksRepository @Inject constructor(
             hashMapOf(
                 "packId" to "ranges_pack_idk1",
                 "packNumber" to 1,
-                "price" to "0.25",
                 "packType" to "ranges",
                 "icon" to "image_url",
                 "title" to "No sé uno mirar wavelenght",
@@ -228,7 +222,6 @@ class PacksRepository @Inject constructor(
                 "packId" to "ranges_pack_idk2",
                 "packNumber" to 2,
                 "packType" to "ranges",
-                "price" to "0.25",
                 "icon" to "image_url",
                 "title" to "Mirar Wavelenght 2",
                 "description" to "a´ldksañdkj ñlkdjf ñlkjsdlñ fjsdl lkñsdj lñksdj lkjfñdlsj ñlsj dñlkjgñlksj gñl",
