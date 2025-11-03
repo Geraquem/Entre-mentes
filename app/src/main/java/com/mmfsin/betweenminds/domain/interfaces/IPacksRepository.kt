@@ -7,8 +7,6 @@ import com.mmfsin.betweenminds.domain.models.RangesPack
 
 interface IPacksRepository {
     suspend fun getDataSelectedPack(gameType: String): Pair<String?, String?>
-    suspend fun getPackQuestions(packId: String): List<Question>
-    suspend fun getPackRanges(packId: String): List<Range>
 
     suspend fun getQuestionsPack(): List<QuestionsPack>
     fun getSelectedQPackId(): Int

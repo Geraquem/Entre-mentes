@@ -28,84 +28,101 @@
         app:layout_constraintLeft_toLeftOf="@id/gl_left"
         app:layout_constraintRight_toRightOf="@id/gl_right" />
 
-    <LinearLayout
-        android:id="@+id/ll_main"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="24dp"
         android:layout_marginBottom="16dp"
-        android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@id/rl_buttons"
         app:layout_constraintLeft_toLeftOf="@id/gl_left"
         app:layout_constraintRight_toRightOf="@id/gl_right"
         app:layout_constraintTop_toBottomOf="@id/toolbar">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
+            android:id="@+id/ll_main"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp">
+            android:layout_height="0dp"
+            android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/iv_pack_icon"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:contentDescription="@string/content_description"
-                android:src="@drawable/ic_heart"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:tint="@color/white" />
-
-            <TextView
-                android:id="@+id/tv_title"
-                style="@style/MediumTextView"
-                android:layout_width="0dp"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="8dp"
-                android:fontFamily="@font/alphazet"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toRightOf="@id/iv_pack_icon"
-                app:layout_constraintRight_toLeftOf="@id/tv_price"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="Para parejas" />
+                android:layout_marginBottom="8dp">
+
+                <ImageView
+                    android:id="@+id/iv_pack_icon"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:contentDescription="@string/content_description"
+                    android:src="@drawable/ic_heart"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/white" />
+
+                <TextView
+                    android:id="@+id/tv_title"
+                    style="@style/MediumTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="8dp"
+                    android:fontFamily="@font/alphazet"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@id/iv_pack_icon"
+                    app:layout_constraintRight_toLeftOf="@id/tv_price"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Para parejas" />
+
+                <TextView
+                    android:id="@+id/tv_price"
+                    style="@style/MediumTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:fontFamily="@font/alphazet"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="0.20€" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
-                android:id="@+id/tv_price"
+                android:id="@+id/tv_description"
                 style="@style/MediumTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
+                android:layout_marginBottom="16dp"
                 android:fontFamily="@font/alphazet"
                 android:textColor="@color/white"
-                android:textSize="20sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="0.20€" />
+                tools:text="Compra este pack para obtener preguntas de pareja blablablabalba" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/loading"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                app:lottie_autoPlay="true"
+                app:lottie_colorFilter="@color/white"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/lottie_waiting" />
 
-        <TextView
-            android:id="@+id/tv_description"
-            style="@style/MediumTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:fontFamily="@font/alphazet"
-            android:textColor="@color/white"
-            tools:text="Compra este pack para obtener preguntas de pareja blablablabalba" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_examples"
+                style="@style/scroll_no_effects"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:itemCount="4"
+                tools:listitem="@layout/item_pack_questions_detail" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_examples"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:itemCount="4"
-            tools:listitem="@layout/item_pack_ranges_example" />
+        </LinearLayout>
 
-    </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
     <RelativeLayout
         android:id="@+id/rl_buttons"

@@ -1,11 +1,14 @@
 package com.mmfsin.betweenminds.domain.usecases
 
-import com.mmfsin.betweenminds.domain.interfaces.IPacksRepository
+import com.mmfsin.betweenminds.data.repository.OfflineRepository
 import com.mmfsin.betweenminds.domain.models.Range
 import javax.inject.Inject
 
 class GetPackRangesUseCase @Inject constructor(
-    private val repository: IPacksRepository,
+    private val repository: OfflineRepository
 ) {
-    suspend fun execute(packId: String): List<Range> = repository.getPackRanges(packId)
+    suspend fun execute(packNumber: Int): List<Range> {
+        val questions = repository.getRanges()
+        return questions.filter { it.pack == packNumber }
+    }
 }

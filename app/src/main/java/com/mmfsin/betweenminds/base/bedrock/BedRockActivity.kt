@@ -76,8 +76,10 @@ class BedRockActivity : AppCompatActivity() {
     private fun setListeners() {
         binding.apply {
             onBackPressedDispatcher.addCallback(this@BedRockActivity) {
-                if (skipExitDialog) finish()
-                else showFragmentDialog(ExitGameDialog(exit = { finish() }))
+                if (skipExitDialog) {
+                    val a = 2
+                    finish()
+                } else showFragmentDialog(ExitGameDialog(exit = { finish() }))
             }
         }
     }

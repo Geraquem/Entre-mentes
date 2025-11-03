@@ -10,14 +10,14 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.mmfsin.betweenminds.R
 import com.mmfsin.betweenminds.base.BaseFragment
 import com.mmfsin.betweenminds.databinding.FragmentPackDetailBinding
 import com.mmfsin.betweenminds.domain.models.Question
 import com.mmfsin.betweenminds.domain.models.QuestionsPack
 import com.mmfsin.betweenminds.domain.models.Range
 import com.mmfsin.betweenminds.domain.models.RangesPack
-import com.mmfsin.betweenminds.presentation.packs.manager.BillingManager
-import com.mmfsin.betweenminds.presentation.packs.questions.adapter.QExamplesPackAdapter
+import com.mmfsin.betweenminds.presentation.packs.detail.adapter.QDetailPackAdapter
 import com.mmfsin.betweenminds.presentation.packs.ranges.adapter.RExamplesPackAdapter
 import com.mmfsin.betweenminds.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,8 +30,6 @@ class DetailPackFragment : BaseFragment<FragmentPackDetailBinding, DetailPackVie
 
     private var qPack: QuestionsPack? = null
     private var rPack: RangesPack? = null
-
-    private var billingManager: BillingManager? = null
 
     override fun inflateView(
         inflater: LayoutInflater, container: ViewGroup?
@@ -47,18 +45,21 @@ class DetailPackFragment : BaseFragment<FragmentPackDetailBinding, DetailPackVie
         super.onViewCreated(view, savedInstanceState)
         qPack?.let { p ->
             setUpQuestionPack(p)
-            viewModel.getQuestions(p.packId)
+            viewModel.getQuestions(p.packNumber)
         }
 
         rPack?.let { p ->
             setUpRangePack(p)
-            viewModel.getRanges(p.packId)
+            viewModel.getRanges(p.packNumber)
         }
     }
 
     override fun setUI() {
         binding.apply {
             toolbar.btnInstructions.isVisible = false
+            loading.isVisible = true
+            btnPurchase.button.text = getString(R.string.pack_purchase_btn)
+            btnSelect.button.text = getString(R.string.pack_selected_btn)
         }
     }
 
@@ -84,6 +85,8 @@ class DetailPackFragment : BaseFragment<FragmentPackDetailBinding, DetailPackVie
             tvPrice.text = pack.packPrice
             tvTitle.text = pack.packTitle
             tvDescription.text = pack.packDescription
+
+            handleIfPurchase(pack.purchased, pack.selected)
         }
     }
 
@@ -93,20 +96,43 @@ class DetailPackFragment : BaseFragment<FragmentPackDetailBinding, DetailPackVie
             tvPrice.text = pack.packPrice
             tvTitle.text = pack.packTitle
             tvDescription.text = pack.packDescription
+
+            handleIfPurchase(pack.purchased, pack.selected)
+        }
+    }
+
+    private fun handleIfPurchase(purchased: Boolean, selected: Boolean) {
+        binding.apply {
+            tvPrice.isVisible = !purchased
+            btnPurchase.root.isVisible = !purchased
+
+            if (!purchased) {
+                btnSelect.root.isVisible = false
+                tvSelected.isVisible = false
+            } else {
+                btnSelect.root.isVisible = !selected
+                tvSelected.isVisible = selected
+            }
         }
     }
 
     private fun setUpQuestionsExample(questions: List<Question>) {
-        binding.rvExamples.apply {
-            layoutManager = LinearLayoutManager(mContext)
-            adapter = QExamplesPackAdapter(questions.map { it.question })
+        binding.apply {
+            rvExamples.apply {
+                layoutManager = LinearLayoutManager(mContext)
+                adapter = QDetailPackAdapter(questions.map { it.question })
+            }
+            loading.isVisible = false
         }
     }
 
     private fun setUpRangesExample(ranges: List<Range>) {
-        binding.rvExamples.apply {
-            layoutManager = LinearLayoutManager(mContext)
-            adapter = RExamplesPackAdapter(ranges)
+        binding.apply {
+            rvExamples.apply {
+                layoutManager = LinearLayoutManager(mContext)
+                adapter = RExamplesPackAdapter(ranges)
+            }
+            loading.isVisible = false
         }
     }
 

@@ -1,11 +1,14 @@
 package com.mmfsin.betweenminds.domain.usecases
 
-import com.mmfsin.betweenminds.domain.interfaces.IPacksRepository
+import com.mmfsin.betweenminds.data.repository.OfflineRepository
 import com.mmfsin.betweenminds.domain.models.Question
 import javax.inject.Inject
 
 class GetPackQuestionsUseCase @Inject constructor(
-    private val repository: IPacksRepository,
+    private val repository: OfflineRepository
 ) {
-    suspend fun execute(packId: String): List<Question> = repository.getPackQuestions(packId)
+    suspend fun execute(packNumber: Int): List<Question> {
+        val questions = repository.getQuestions()
+        return questions.filter { it.pack == packNumber }
+    }
 }

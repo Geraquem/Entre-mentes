@@ -12,17 +12,17 @@ class DetailPackViewModel @Inject constructor(
     private val getPackRangesUseCase: GetPackRangesUseCase,
 ) : BaseViewModel<DetailPackEvent>() {
 
-    fun getQuestions(packId: String) {
+    fun getQuestions(packNumber: Int) {
         executeUseCase(
-            { getPackQuestionsUseCase.execute(packId) },
+            { getPackQuestionsUseCase.execute(packNumber) },
             { result -> _event.value = DetailPackEvent.QuestionsPack(result) },
             { _event.value = DetailPackEvent.SomethingWentWrong }
         )
     }
 
-    fun getRanges(packId: String) {
+    fun getRanges(packNumber: Int) {
         executeUseCase(
-            { getPackRangesUseCase.execute(packId) },
+            { getPackRangesUseCase.execute(packNumber) },
             { result -> _event.value = DetailPackEvent.RangesPack(result) },
             { _event.value = DetailPackEvent.SomethingWentWrong }
         )

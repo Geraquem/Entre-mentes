@@ -85,20 +85,6 @@ class PacksRepository @Inject constructor(
 
     private suspend fun insertPacksInBBDD() = insertDataInFirestore()
 
-    override suspend fun getPackQuestions(packId: String): List<Question> {
-        val pack = realmDatabase.getObjectFromRealm(PackDTO::class, PACK_ID, packId)
-        return pack?.let { p ->
-            p.toQuestionPack().questions.filter { it.pack == p.packNumber.toInt() }
-        } ?: run { emptyList() }
-    }
-
-    override suspend fun getPackRanges(packId: String): List<Range> {
-        val pack = realmDatabase.getObjectFromRealm(PackDTO::class, PACK_ID, packId)
-        return pack?.let { p ->
-            p.toRangesPack().ranges.filter { it.pack == p.packNumber.toInt() }
-        } ?: run { emptyList() }
-    }
-
     override suspend fun getDataSelectedPack(gameType: String): Pair<String?, String?> {
         val packs = getPacks()
         when (gameType) {
