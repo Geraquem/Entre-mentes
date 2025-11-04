@@ -7,17 +7,12 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.mmfsin.betweenminds.data.mappers.createQuestionsPacks
 import com.mmfsin.betweenminds.data.mappers.createRangesPacks
-import com.mmfsin.betweenminds.data.mappers.toQuestionPack
-import com.mmfsin.betweenminds.data.mappers.toRangesPack
 import com.mmfsin.betweenminds.data.models.PackDTO
 import com.mmfsin.betweenminds.domain.interfaces.IPacksRepository
 import com.mmfsin.betweenminds.domain.interfaces.IRealmDatabase
-import com.mmfsin.betweenminds.domain.models.Question
 import com.mmfsin.betweenminds.domain.models.QuestionsPack
-import com.mmfsin.betweenminds.domain.models.Range
 import com.mmfsin.betweenminds.domain.models.RangesPack
 import com.mmfsin.betweenminds.utils.PACKS
-import com.mmfsin.betweenminds.utils.PACK_ID
 import com.mmfsin.betweenminds.utils.QUESTIONS
 import com.mmfsin.betweenminds.utils.QUESTIONS_PACK
 import com.mmfsin.betweenminds.utils.QUESTIONS_TYPE
@@ -42,7 +37,6 @@ class PacksRepository @Inject constructor(
         val packs = mutableListOf<PackDTO>()
         val sharedPrefs = context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE)
 
-//        if (true) {
         if (sharedPrefs.getBoolean(SERVER_PACKS, true)) {
             val latch = CountDownLatch(1)
             Firebase.firestore.collection(PACKS).get()
@@ -83,8 +77,6 @@ class PacksRepository @Inject constructor(
         }
     }
 
-    private suspend fun insertPacksInBBDD() = insertDataInFirestore()
-
     override suspend fun getDataSelectedPack(gameType: String): Pair<String?, String?> {
         val packs = getPacks()
         when (gameType) {
@@ -105,9 +97,8 @@ class PacksRepository @Inject constructor(
     }
 
     override suspend fun getQuestionsPack(): List<QuestionsPack> {
-//        insertPacksInBBDD()
-//        val packs = emptyList<PackDTO>()
-
+//        insertDataInFirestore()
+//        return emptyList()
         val packs = getPacks()
         return packs.filter { it.packType == QUESTIONS }.createQuestionsPacks()
     }
@@ -176,60 +167,68 @@ class PacksRepository @Inject constructor(
     private fun listToInsert(): List<HashMap<String, Any>> {
         return listOf(
             hashMapOf(
-                "packId" to "questions_pack_free",
+                "packId" to "pack_questions_free",
                 "packNumber" to 0,
                 "packType" to "questions",
                 "icon" to "https://firebasestorage.googleapis.com/v0/b/entre-mentes.firebasestorage.app/o/Packs%2Fhappy.png?alt=media&token=c9e91343-8be3-49bc-b6f3-693b68d83fbc",
-                "title" to "Básico",
+                "title" to "Paquete básico",
                 "description" to "Perfecto para demostrar cuánto conoces a tus amigos, familiares y personas cercanas.",
             ),
             hashMapOf(
-                "packId" to "questions_pack_couples",
+                "packId" to "pack_questions_love",
                 "packNumber" to 1,
                 "packType" to "questions",
                 "icon" to "https://firebasestorage.googleapis.com/v0/b/entre-mentes.firebasestorage.app/o/Packs%2Fheart.png?alt=media&token=e6104f02-b24a-4bc2-b6a2-992fdcb5ada5",
                 "title" to "Para parejas",
-                "description" to "Enamoramiento, celos, romanticismo y situaciones íntimas que revelan cómo pensáis y os sentís estando juntos. No vale discutir.",
+                "description" to "Enamoramiento, celos, romanticismo y situaciones íntimas para ver cuánto os conocéis en los sentimental. No vale discutir.",
             ),
             hashMapOf(
-                "packId" to "questions_pack_more",
+                "packId" to "pack_questions_more_1",
                 "packNumber" to 2,
                 "packType" to "questions",
-                "icon" to "https://firebasestorage.googleapis.com/v0/b/entre-mentes.firebasestorage.app/o/Packs%2Fmonkey.png?alt=media&token=6c5f8a1e-23b0-4f86-aa98-e2be00768480",
+                "icon" to "https://firebasestorage.googleapis.com/v0/b/entre-mentes.firebasestorage.app/o/Packs%2Falien.png?alt=media&token=1702521d-45b7-4fe3-85c8-088f16ae47fe",
                 "title" to "Más preguntas",
-                "description" to "¿Quieres más? Con este pack vas a ver de verdad cómo son tus amigos: sus manías, reacciones y esos detalles que nunca muestran. Ideal para reírte, sorprenderte y conocerlos mejor que nunca.",
+                "description" to "¿Quieres más? Con este pack vas a ver de verdad cómo son tus amigos. Ideal para reírte, sorprenderte y conocerlos mejor que nunca.",
             ),
             hashMapOf(
-                "packId" to "questions_pack_more_two",
+                "packId" to "pack_questions_more_2",
                 "packNumber" to 2,
                 "packType" to "questions",
-                "icon" to "https://firebasestorage.googleapis.com/v0/b/entre-mentes.firebasestorage.app/o/Packs%2Ffox.png?alt=media&token=68b8c50d-0d96-409b-bb4a-52605eb11cc4",
+                "icon" to "https://firebasestorage.googleapis.com/v0/b/entre-mentes.firebasestorage.app/o/Packs%2Fstar.png?alt=media&token=1be5260e-7b5a-415c-a1d6-83e42a1f2142",
                 "title" to "Todavía más preguntas",
                 "description" to "Si pensabas que ya os habíais exprimido al máximo, aquí hay otras 50 preguntas diferentes para que sigáis dándole al coco y descubriendo cómo de diferente pensáis sobre vosotros mismos.",
             ),
             hashMapOf(
-                "packId" to "ranges_pack_free",
+                "packId" to "pack_ranges_free",
                 "packNumber" to 0,
                 "packType" to "ranges",
-                "icon" to "https://firebasestorage.googleapis.com/v0/b/entre-mentes.firebasestorage.app/o/Packs%2Franges.png?alt=media&token=c4ba875c-7de5-4653-bcb5-372059967a9c",
-                "title" to "Básico",
-                "description" to "LAdklskdñldkfñlkslñfk ñlkfñls kdñ l",
+                "icon" to "https://firebasestorage.googleapis.com/v0/b/entre-mentes.firebasestorage.app/o/Packs%2Fone-finger.png?alt=media&token=8051782b-de69-4aa5-bb40-79fc5d3658f1",
+                "title" to "Paquete básico",
+                "description" to "Pack básico de rangos para que ponerte a prueba con tus compañer@s.",
             ),
             hashMapOf(
-                "packId" to "ranges_pack_idk1",
+                "packId" to "pack_ranges_1",
                 "packNumber" to 1,
                 "packType" to "ranges",
-                "icon" to "image_url",
-                "title" to "No sé uno mirar wavelenght",
-                "description" to "alkjdksjd lkajs dlklkdaslkjdlkas jljslj laj sljd lkasjdljweoigpor ig",
+                "icon" to "https://firebasestorage.googleapis.com/v0/b/entre-mentes.firebasestorage.app/o/Packs%2Ftwo-fingers.png?alt=media&token=b3fda56e-fe31-45e6-b240-318183416903",
+                "title" to "Tostadora 3000",
+                "description" to "Aquí lo importante no es cómo piensas, si no cómo creen que piensas.",
             ),
             hashMapOf(
-                "packId" to "ranges_pack_idk2",
+                "packId" to "pack_ranges_2",
                 "packNumber" to 2,
                 "packType" to "ranges",
-                "icon" to "image_url",
-                "title" to "Mirar Wavelenght 2",
-                "description" to "a´ldksañdkj ñlkdjf ñlkjsdlñ fjsdl lkñsdj lñksdj lkjfñdlsj ñlsj dñlkjgñlksj gñl",
+                "icon" to "https://firebasestorage.googleapis.com/v0/b/entre-mentes.firebasestorage.app/o/Packs%2Fthree-fingers.png?alt=media&token=edff5f03-210e-4b39-94a3-1f53e247e454",
+                "title" to "Don Trapito",
+                "description" to "No le des muchas vueltas, a veces es más simple de lo que parece.",
+            ),
+            hashMapOf(
+                "packId" to "pack_ranges_3",
+                "packNumber" to 3,
+                "packType" to "ranges",
+                "icon" to "https://firebasestorage.googleapis.com/v0/b/entre-mentes.firebasestorage.app/o/Packs%2Ffour-fingers.png?alt=media&token=139dd119-0215-444a-846b-5ca3b2bd5c39",
+                "title" to "Relojito tardón",
+                "description" to "Tú sigue intentandolo que seguro que algo aciertas.",
             ),
         )
     }

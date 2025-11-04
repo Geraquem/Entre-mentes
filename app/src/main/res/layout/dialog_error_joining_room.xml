@@ -37,13 +37,13 @@
         android:clipToPadding="false"
         android:gravity="center"
         android:orientation="vertical"
-        android:padding="24dp"
+        android:padding="16dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/rl_top">
 
         <TextView
-            style="@style/SmallTextView"
+            style="@style/MediumTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -54,7 +54,7 @@
             style="@style/SmallTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
+            android:layout_marginBottom="16dp"
             android:gravity="center"
             android:text="@string/error_joining_room_description_2" />
 

@@ -143,6 +143,8 @@ class QuestionsPacksFragment : BaseFragment<FragmentPacksBinding, QuestionsPacks
     }
 
     override fun purchasedCompleted(packId: String) {
+        println("-*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*-")
+        println("Compra realizada con éxito: $packId")
         questionsPackAdapter?.purchasedPack(packId)
     }
 

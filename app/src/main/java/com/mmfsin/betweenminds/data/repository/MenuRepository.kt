@@ -5,6 +5,7 @@ import android.content.Context.MODE_PRIVATE
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.mmfsin.betweenminds.domain.interfaces.IMenuRepository
+import com.mmfsin.betweenminds.domain.interfaces.IRealmDatabase
 import com.mmfsin.betweenminds.utils.SAVED_VERSION
 import com.mmfsin.betweenminds.utils.SERVER_PACKS
 import com.mmfsin.betweenminds.utils.SERVER_QUESTIONS
@@ -19,7 +20,8 @@ import javax.inject.Inject
 import kotlin.coroutines.resume
 
 class MenuRepository @Inject constructor(
-    @ApplicationContext val context: Context
+    @ApplicationContext val context: Context,
+    private val realmDatabase: IRealmDatabase
 ) : IMenuRepository {
 
     override suspend fun checkVersion() {
@@ -61,6 +63,7 @@ class MenuRepository @Inject constructor(
     }
 
     private fun restartSystemData() {
+        realmDatabase.deleteAllData()
         val sharedPrefs = context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE)
         sharedPrefs.edit().apply {
             putBoolean(SERVER_RANGES, true)

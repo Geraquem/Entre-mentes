@@ -17,12 +17,12 @@ class ExitGameDialog(val exit: () -> Unit) : BaseDialog<DialogExitGameBinding>()
 
     override fun setUI() {
         isCancelable = true
-        binding.btnExit.button.text = getString(R.string.exit)
+        binding.btnExit.text = getString(R.string.exit)
     }
 
     override fun setListeners() {
         binding.apply {
-            btnExit.button.setOnClickListener {
+            btnExit.setOnClickListener {
                 exit()
                 dismiss()
             }

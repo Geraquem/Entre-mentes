@@ -45,6 +45,14 @@ class ChooseFragment : BaseFragment<FragmentChooseBinding, ChooseViewModel>(), I
     override fun onResume() {
         super.onResume()
         gameType?.let { type -> viewModel.getSelectedPack(type) }
+        try {
+            binding.apply {
+                viewPager.currentItem = 0
+                tlRoom.getTabAt(0)?.select()
+            }
+        } catch (e: Exception) {
+            println("Error: ${e.message}")
+        }
     }
 
     override fun setUI() {

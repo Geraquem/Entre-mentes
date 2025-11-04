@@ -34,7 +34,7 @@
 
         <TextView
             android:id="@+id/tv_range_left"
-            style="@style/SmallTextView"
+            style="@style/MediumTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.475"
@@ -50,7 +50,7 @@
 
         <TextView
             android:id="@+id/tv_range_right"
-            style="@style/SmallTextView"
+            style="@style/MediumTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="top|end"
