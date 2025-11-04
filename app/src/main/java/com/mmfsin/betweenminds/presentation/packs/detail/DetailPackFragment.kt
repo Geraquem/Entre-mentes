@@ -18,7 +18,7 @@ import com.mmfsin.betweenminds.domain.models.QuestionsPack
 import com.mmfsin.betweenminds.domain.models.Range
 import com.mmfsin.betweenminds.domain.models.RangesPack
 import com.mmfsin.betweenminds.presentation.packs.detail.adapter.QDetailPackAdapter
-import com.mmfsin.betweenminds.presentation.packs.ranges.adapter.RExamplesPackAdapter
+import com.mmfsin.betweenminds.presentation.packs.detail.adapter.RDetailPackAdapter
 import com.mmfsin.betweenminds.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -130,7 +130,7 @@ class DetailPackFragment : BaseFragment<FragmentPackDetailBinding, DetailPackVie
         binding.apply {
             rvExamples.apply {
                 layoutManager = LinearLayoutManager(mContext)
-                adapter = RExamplesPackAdapter(ranges)
+                adapter = RDetailPackAdapter(ranges)
             }
             tvLoading.isVisible = false
         }

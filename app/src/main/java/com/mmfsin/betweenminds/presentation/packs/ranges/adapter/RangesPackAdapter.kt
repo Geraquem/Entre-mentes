@@ -33,13 +33,15 @@ class RangesPackAdapter(
                 btnPurchase.button.text = c.getString(R.string.pack_purchase_btn)
                 btnSelect.button.text = c.getString(R.string.pack_selected_btn)
 
-                tvPrice.isVisible = !pack.purchased
+                ivCheck.isVisible = pack.purchased
                 btnPurchase.root.isVisible = !pack.purchased
 
                 if (!pack.purchased) {
+                    tvPrice.visibility = View.VISIBLE
                     btnSelect.root.isVisible = false
                     tvSelected.isVisible = false
                 } else {
+                    tvPrice.visibility = View.INVISIBLE
                     btnSelect.root.isVisible = !pack.selected
                     tvSelected.isVisible = pack.selected
                 }
@@ -48,9 +50,8 @@ class RangesPackAdapter(
                     if (!pack.selected) listener.selectPack(pack.packNumber)
                 }
 
-                btnPurchase.button.setOnClickListener {
-
-                }
+                btnPurchase.button.setOnClickListener { listener.purchase(pack.packId) }
+                tvSeeMore.setOnClickListener { listener.seeMore(pack) }
             }
         }
 
@@ -60,6 +61,19 @@ class RangesPackAdapter(
                 adapter = RExamplesPackAdapter(ranges)
             }
         }
+    }
+
+    fun purchasedPack(packId: String) {
+        var position: Int? = null
+        packs.forEachIndexed { i, pack ->
+            if (pack.packId == packId) {
+                pack.selected = !pack.selected
+                pack.purchased = true
+                position = i
+                deletePreviousSelected(pack.packNumber)
+            }
+        }
+        position?.let { pos -> notifyItemChanged(pos) }
     }
 
     fun updateSelectedPack(packNumber: Int) {
