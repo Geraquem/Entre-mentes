@@ -42,6 +42,11 @@ class QuestionsPacksFragment : BaseFragment<FragmentPacksBinding, QuestionsPacks
         viewModel.getQuestionsPack()
     }
 
+    override fun onResume() {
+        super.onResume()
+        val a = 2
+    }
+
     override fun setUI() {
         binding.loading.root.isVisible = true
     }
@@ -151,7 +156,9 @@ class QuestionsPacksFragment : BaseFragment<FragmentPacksBinding, QuestionsPacks
     override fun purchasedCompleted(packId: String) {
         println("-*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*-")
         println("Compra realizada con éxito: $packId")
-        questionsPackAdapter?.purchasedPack(packId)
+        questionsPackAdapter?.purchasedPack(packId) ?: run {
+            println("questionPackAdapter es nulo ¿¿??")
+        }
     }
 
     private fun error() = activity?.showErrorDialog()

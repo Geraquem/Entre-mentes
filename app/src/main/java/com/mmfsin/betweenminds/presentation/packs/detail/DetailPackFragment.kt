@@ -155,10 +155,13 @@ class DetailPackFragment : BaseFragment<FragmentPackDetailBinding, DetailPackVie
         rPack?.let { packId = it.packId }
 
         activity?.let { a ->
+            println("-*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*-")
+            billingManager = BillingManager(a, this@DetailPackFragment)
             billingManager?.startConnection {
-                println("-*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*-")
                 println("INICIO DE COMPRA: $packId")
                 packId?.let { id -> billingManager?.launchPurchase(a, id) } ?: run { error() }
+            } ?: run {
+                println("Parece que billingManager es nulo y no se puede comprar")
             }
         }
     }
