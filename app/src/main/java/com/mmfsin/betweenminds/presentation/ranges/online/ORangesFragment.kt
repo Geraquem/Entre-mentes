@@ -544,7 +544,12 @@ class ORangesFragment : BaseFragment<FragmentRangesOnlineBinding, ORangesViewMod
         navGraph = R.navigation.nav_graph_instructions, strArgs = RANGES_TYPE
     )
 
-    private fun error() = activity?.showErrorDialog()
+    private fun error() {
+        if (activity is BedRockActivity) {
+            (activity as BedRockActivity).skipExitDialog = true
+        }
+        activity?.showErrorDialog()
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

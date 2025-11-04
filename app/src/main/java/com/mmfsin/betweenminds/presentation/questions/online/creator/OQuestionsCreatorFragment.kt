@@ -419,7 +419,12 @@ class OQuestionsCreatorFragment :
         }
     }
 
-    private fun error() = activity?.showErrorDialog()
+    private fun error() {
+        if (activity is BedRockActivity) {
+            (activity as BedRockActivity).skipExitDialog = true
+        }
+        activity?.showErrorDialog()
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
