@@ -71,7 +71,7 @@ class QuestionsPacksFragment : BaseFragment<FragmentPacksBinding, QuestionsPacks
                 billingManager?.queryPurchasedIds(
                     onResult = { ownedPackages ->
 
-//                        val test = listOf("questions_pack_couples")
+                        val test = listOf("questions_pack_couples")
 
                         val productIds = packs.let { p ->
                             p.filter { it.packNumber != 0 }
@@ -102,7 +102,7 @@ class QuestionsPacksFragment : BaseFragment<FragmentPacksBinding, QuestionsPacks
                                 val updatedPacks = packs.map { pack ->
                                     pack.copy(
                                         purchased =
-                                        pack.packNumber == 0 || ownedPackages.contains(pack.packId),
+                                        pack.packNumber == 0 || test.contains(pack.packId),
                                         packPrice = pricesMap[pack.packId] ?: "?€"
                                     )
                                 }
@@ -138,6 +138,9 @@ class QuestionsPacksFragment : BaseFragment<FragmentPacksBinding, QuestionsPacks
 
     override fun purchase(packId: String) {
         billingManager?.startConnection {
+            println("-*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*-")
+            println("INICIO DE COMPRA: $packId")
+
             activity?.let { billingManager?.launchPurchase(it, packId) }
         }
     }

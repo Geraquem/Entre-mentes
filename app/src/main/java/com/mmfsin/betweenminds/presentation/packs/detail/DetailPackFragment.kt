@@ -19,17 +19,22 @@ import com.mmfsin.betweenminds.domain.models.Range
 import com.mmfsin.betweenminds.domain.models.RangesPack
 import com.mmfsin.betweenminds.presentation.packs.detail.adapter.QDetailPackAdapter
 import com.mmfsin.betweenminds.presentation.packs.detail.adapter.RDetailPackAdapter
+import com.mmfsin.betweenminds.presentation.packs.manager.BillingManager
+import com.mmfsin.betweenminds.presentation.packs.manager.IBillingListener
 import com.mmfsin.betweenminds.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DetailPackFragment : BaseFragment<FragmentPackDetailBinding, DetailPackViewModel>() {
+class DetailPackFragment : BaseFragment<FragmentPackDetailBinding, DetailPackViewModel>(),
+    IBillingListener {
 
     override val viewModel: DetailPackViewModel by viewModels()
     private lateinit var mContext: Context
 
     private var qPack: QuestionsPack? = null
     private var rPack: RangesPack? = null
+
+    private var billingManager: BillingManager? = null
 
     override fun inflateView(
         inflater: LayoutInflater, container: ViewGroup?
@@ -66,6 +71,13 @@ class DetailPackFragment : BaseFragment<FragmentPackDetailBinding, DetailPackVie
     override fun setListeners() {
         binding.apply {
             toolbar.btnBack.setOnClickListener { activity?.onBackPressedDispatcher?.onBackPressed() }
+
+            btnPurchase.button.setOnClickListener { purchasePack() }
+
+            btnSelect.button.setOnClickListener {
+                qPack?.let { viewModel.selectQuestionPack(it.packNumber) }
+                rPack?.let { viewModel.selectRangesPack(it.packNumber) }
+            }
         }
     }
 
@@ -74,6 +86,7 @@ class DetailPackFragment : BaseFragment<FragmentPackDetailBinding, DetailPackVie
             when (event) {
                 is DetailPackEvent.QuestionsPack -> setUpQuestionsExample(event.data)
                 is DetailPackEvent.RangesPack -> setUpRangesExample(event.data)
+                is DetailPackEvent.Selected -> handleIfPurchase(purchased = true, selected = true)
                 is DetailPackEvent.SomethingWentWrong -> error()
             }
         }
@@ -136,7 +149,29 @@ class DetailPackFragment : BaseFragment<FragmentPackDetailBinding, DetailPackVie
         }
     }
 
-    private fun error() = activity?.showErrorDialog(goBack = true)
+    private fun purchasePack() {
+        var packId: String? = null
+        qPack?.let { packId = it.packId }
+        rPack?.let { packId = it.packId }
+
+        activity?.let { a ->
+            billingManager?.startConnection {
+                println("-*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*-")
+                println("INICIO DE COMPRA: $packId")
+                packId?.let { id -> billingManager?.launchPurchase(a, id) } ?: run { error() }
+            }
+        }
+    }
+
+    override fun purchasedCompleted(packId: String) {
+        println("-*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*-")
+        println("Compra realizada con éxito: $packId")
+
+        qPack?.let { viewModel.selectQuestionPack(it.packNumber) }
+        rPack?.let { viewModel.selectRangesPack(it.packNumber) }
+    }
+
+    private fun error() = activity?.showErrorDialog()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
