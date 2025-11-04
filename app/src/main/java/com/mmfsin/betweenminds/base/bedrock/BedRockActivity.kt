@@ -11,6 +11,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import com.mmfsin.betweenminds.R
 import com.mmfsin.betweenminds.databinding.ActivityBedrockBinding
 import com.mmfsin.betweenminds.presentation.choose.dialogs.ExitGameDialog
@@ -74,11 +75,18 @@ class BedRockActivity : AppCompatActivity() {
     }
 
     private fun setListeners() {
+        val navController = supportFragmentManager
+            .findFragmentById(R.id.br_fragment_container)
+            ?.findNavController()
         binding.apply {
             onBackPressedDispatcher.addCallback(this@BedRockActivity) {
                 if (skipExitDialog) {
-                    val a = 2
-                    finish()
+                    if (navController?.currentBackStackEntry != null &&
+                        navController.previousBackStackEntry != null
+                    ) {
+                        navController.popBackStack()
+                    } else finish()
+
                 } else showFragmentDialog(ExitGameDialog(exit = { finish() }))
             }
         }

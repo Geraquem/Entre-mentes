@@ -13,7 +13,11 @@ class RangesViewModel @Inject constructor(
     fun getRanges() {
         executeUseCase(
             { getRangesUseCase.execute() },
-            { result -> _event.value = RangesEvent.Ranges(result) },
+            { result ->
+                _event.value =
+                    if (result.isEmpty()) RangesEvent.SomethingWentWrong
+                    else RangesEvent.Ranges(result)
+            },
             { _event.value = RangesEvent.SomethingWentWrong }
         )
     }

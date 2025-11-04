@@ -4,7 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 abstract class BaseViewModel<T> : ViewModel() {
 
@@ -16,11 +18,12 @@ abstract class BaseViewModel<T> : ViewModel() {
         success: (T) -> Unit,
         error: (Throwable) -> Unit
     ) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
-                useCase().also { result -> success(result) }
+                val result = useCase()
+                withContext(Dispatchers.Main) { success(result) }
             } catch (t: Throwable) {
-                error(t)
+                withContext(Dispatchers.Main) { error(t) }
 
                 println("*****************************************************************")
                 println("*****************************************************************")

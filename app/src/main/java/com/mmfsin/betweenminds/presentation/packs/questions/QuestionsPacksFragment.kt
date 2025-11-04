@@ -71,7 +71,7 @@ class QuestionsPacksFragment : BaseFragment<FragmentPacksBinding, QuestionsPacks
                 billingManager?.queryPurchasedIds(
                     onResult = { ownedPackages ->
 
-                        val test = listOf("questions_pack_couples")
+                        val test = listOf("pack_questions_love")
 
                         val productIds = packs.let { p ->
                             p.filter { it.packNumber != 0 }
@@ -102,8 +102,11 @@ class QuestionsPacksFragment : BaseFragment<FragmentPacksBinding, QuestionsPacks
                                 val updatedPacks = packs.map { pack ->
                                     pack.copy(
                                         purchased =
-                                        pack.packNumber == 0 || test.contains(pack.packId),
-                                        packPrice = pricesMap[pack.packId] ?: "?€"
+                                        pack.packNumber == 0 || ownedPackages.contains(pack.packId),
+                                        packPrice = pricesMap[pack.packId]?.replace(
+                                            "\\s".toRegex(),
+                                            replacement = ""
+                                        ) ?: "?€"
                                     )
                                 }
 

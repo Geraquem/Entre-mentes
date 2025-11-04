@@ -13,7 +13,11 @@ class QuestionsViewModel @Inject constructor(
     fun getQuestions() {
         executeUseCase(
             { getQuestionsUseCase.execute() },
-            { result -> _event.value = QuestionsEvent.Questions(result) },
+            { result ->
+                _event.value =
+                    if (result.isEmpty()) QuestionsEvent.SomethingWentWrong
+                    else QuestionsEvent.Questions(result)
+            },
             { _event.value = QuestionsEvent.SomethingWentWrong }
         )
     }

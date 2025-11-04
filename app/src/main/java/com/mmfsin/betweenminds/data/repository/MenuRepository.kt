@@ -63,7 +63,6 @@ class MenuRepository @Inject constructor(
     }
 
     private fun restartSystemData() {
-        realmDatabase.deleteAllData()
         val sharedPrefs = context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE)
         sharedPrefs.edit().apply {
             putBoolean(SERVER_RANGES, true)

@@ -5,12 +5,14 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.mmfsin.betweenminds.data.mappers.toQuestionsList
 import com.mmfsin.betweenminds.data.mappers.toRangesList
+import com.mmfsin.betweenminds.data.models.PackDTO
 import com.mmfsin.betweenminds.data.models.QuestionDTO
 import com.mmfsin.betweenminds.data.models.RangeDTO
 import com.mmfsin.betweenminds.domain.interfaces.IOfflineRepository
 import com.mmfsin.betweenminds.domain.interfaces.IRealmDatabase
 import com.mmfsin.betweenminds.domain.models.Question
 import com.mmfsin.betweenminds.domain.models.Range
+import com.mmfsin.betweenminds.utils.SERVER_QUESTIONS
 import com.mmfsin.betweenminds.utils.SERVER_RANGES
 import com.mmfsin.betweenminds.utils.SHARED_PREFS
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -30,8 +32,9 @@ class OfflineRepository @Inject constructor(
         val sharedPrefs = context.getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE)
 
         val ranges = mutableListOf<RangeDTO>()
-//        if (sharedPrefs.getBoolean(SERVER_RANGES, true)) {
-        if (true) {
+        if (sharedPrefs.getBoolean(SERVER_RANGES, true)) {
+            realmDatabase.deleteAllObjects(RangeDTO::class)
+
 //            Firebase.database.reference.child(RANGES).get().addOnSuccessListener {
             Firebase.database.reference.child("ranges_test").get().addOnSuccessListener {
                 for (child in it.children) {
@@ -64,8 +67,8 @@ class OfflineRepository @Inject constructor(
         val sharedPrefs = context.getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE)
 
         val questions = mutableListOf<QuestionDTO>()
-//        if (sharedPrefs.getBoolean(SERVER_QUESTIONS, true)) {
-        if (true) {
+        if (sharedPrefs.getBoolean(SERVER_QUESTIONS, true)) {
+            realmDatabase.deleteAllObjects(QuestionDTO::class)
 //            Firebase.database.reference.child(QUESTIONS).get().addOnSuccessListener {
             Firebase.database.reference.child("questions_test").get().addOnSuccessListener {
                 for (child in it.children) {
@@ -74,7 +77,7 @@ class OfflineRepository @Inject constructor(
                         questions.add(question)
                     }
                     sharedPrefs.edit().apply {
-                        putBoolean(SERVER_RANGES, false)
+                        putBoolean(SERVER_QUESTIONS, false)
                         apply()
                     }
                 }

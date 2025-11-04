@@ -8,6 +8,7 @@ import com.google.firebase.ktx.Firebase
 import com.mmfsin.betweenminds.data.mappers.createQuestionsPacks
 import com.mmfsin.betweenminds.data.mappers.createRangesPacks
 import com.mmfsin.betweenminds.data.models.PackDTO
+import com.mmfsin.betweenminds.data.models.QuestionDTO
 import com.mmfsin.betweenminds.domain.interfaces.IPacksRepository
 import com.mmfsin.betweenminds.domain.interfaces.IRealmDatabase
 import com.mmfsin.betweenminds.domain.models.QuestionsPack
@@ -38,6 +39,8 @@ class PacksRepository @Inject constructor(
         val sharedPrefs = context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE)
 
         if (sharedPrefs.getBoolean(SERVER_PACKS, true)) {
+            realmDatabase.deleteAllObjects(PackDTO::class)
+
             val latch = CountDownLatch(1)
             Firebase.firestore.collection(PACKS).get()
                 .addOnSuccessListener { documents ->
@@ -179,7 +182,7 @@ class PacksRepository @Inject constructor(
                 "packNumber" to 1,
                 "packType" to "questions",
                 "icon" to "https://firebasestorage.googleapis.com/v0/b/entre-mentes.firebasestorage.app/o/Packs%2Fheart.png?alt=media&token=e6104f02-b24a-4bc2-b6a2-992fdcb5ada5",
-                "title" to "Para parejas",
+                "title" to "Sobre amor",
                 "description" to "Enamoramiento, celos, romanticismo y situaciones íntimas para ver cuánto os conocéis en los sentimental. No vale discutir.",
             ),
             hashMapOf(
