@@ -43,11 +43,7 @@ class RangesPacksFragment : BaseFragment<FragmentPacksBinding, RangesPacksViewMo
     }
 
     override fun setUI() {
-        binding.apply {
-            loading.root.isVisible = true
-
-
-        }
+        binding.loading.root.isVisible = true
     }
 
     override fun observe() {
@@ -75,7 +71,7 @@ class RangesPacksFragment : BaseFragment<FragmentPacksBinding, RangesPacksViewMo
                 billingManager?.queryPurchasedIds(
                     onResult = { ownedPackages ->
 
-//                        val test = listOf("questions_pack_couples")
+//                        val test = listOf("pack_ranges_1")
 
                         val productIds = packs.let { p ->
                             p.filter { it.packNumber != 0 }
@@ -107,7 +103,10 @@ class RangesPacksFragment : BaseFragment<FragmentPacksBinding, RangesPacksViewMo
                                     pack.copy(
                                         purchased =
                                         pack.packNumber == 0 || ownedPackages.contains(pack.packId),
-                                        packPrice = pricesMap[pack.packId] ?: "?€"
+                                        packPrice = pricesMap[pack.packId]?.replace(
+                                            "\\s".toRegex(),
+                                            replacement = ""
+                                        ) ?: "?€"
                                     )
                                 }
 
