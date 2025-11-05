@@ -173,14 +173,12 @@ class DetailPackFragment : BaseFragment<FragmentPackDetailBinding, DetailPackVie
             billingManager = BillingManager(a, this@DetailPackFragment)
             billingManager?.startConnection {
                 packId?.let { id -> billingManager?.launchPurchase(a, id) } ?: run { error() }
-            } ?: run {
-                println("Parece que billingManager es nulo y no se puede comprar")
             }
         }
     }
 
     override fun purchasedCompleted(packId: String) {
-        requireActivity().runOnUiThread {
+        activity?.runOnUiThread {
             binding.loading.root.isVisible = true
             qPack?.let { viewModel.selectQuestionPack(it.packNumber) }
             rPack?.let { viewModel.selectRangesPack(it.packNumber) }

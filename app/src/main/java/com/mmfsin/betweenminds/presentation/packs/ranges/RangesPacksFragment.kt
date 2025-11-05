@@ -154,7 +154,9 @@ class RangesPacksFragment : BaseFragment<FragmentPacksBinding, RangesPacksViewMo
     }
 
     override fun purchasedCompleted(packId: String) {
-        requireActivity().runOnUiThread { rangesPackAdapter?.purchasedPack(packId) }
+        activity?.runOnUiThread {
+            rangesPackAdapter?.purchasedPack(packId)
+        }
     }
 
     private fun error() = activity?.showErrorDialog()

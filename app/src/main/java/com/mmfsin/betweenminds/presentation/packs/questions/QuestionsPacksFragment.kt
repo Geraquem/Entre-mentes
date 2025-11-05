@@ -150,12 +150,16 @@ class QuestionsPacksFragment : BaseFragment<FragmentPacksBinding, QuestionsPacks
 
     override fun purchase(packId: String) {
         billingManager?.startConnection {
-            activity?.let { billingManager?.launchPurchase(it, packId) }
+            activity?.let {
+                billingManager?.launchPurchase(it, packId)
+            }
         }
     }
 
     override fun purchasedCompleted(packId: String) {
-        requireActivity().runOnUiThread { questionsPackAdapter?.purchasedPack(packId) }
+        activity?.runOnUiThread {
+            questionsPackAdapter?.purchasedPack(packId)
+        }
     }
 
     private fun error() = activity?.showErrorDialog()

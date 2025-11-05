@@ -72,7 +72,9 @@ class QuestionsPackAdapter(
                 deletePreviousSelected(pack.packNumber)
             }
         }
-        position?.let { pos -> notifyItemChanged(pos) }
+        position?.let { pos ->
+            notifyItemChanged(pos)
+        }
     }
 
     fun updateSelectedPack(packNumber: Int) {
@@ -95,7 +97,9 @@ class QuestionsPackAdapter(
                 position = i
             }
         }
-        position?.let { pos -> notifyItemChanged(pos) }
+        position?.let { pos ->
+            notifyItemChanged(pos)
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(
