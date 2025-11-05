@@ -61,6 +61,7 @@ class DetailPackFragment : BaseFragment<FragmentPackDetailBinding, DetailPackVie
 
     override fun setUI() {
         binding.apply {
+            loading.root.isVisible = false
             toolbar.btnInstructions.isVisible = false
             tvLoading.isVisible = true
             btnPurchase.button.text = getString(R.string.pack_purchase_btn)
@@ -126,6 +127,8 @@ class DetailPackFragment : BaseFragment<FragmentPackDetailBinding, DetailPackVie
                 btnSelect.root.isVisible = !selected
                 tvSelected.isVisible = selected
             }
+
+            loading.root.isVisible = false
         }
     }
 
@@ -166,6 +169,7 @@ class DetailPackFragment : BaseFragment<FragmentPackDetailBinding, DetailPackVie
 
     override fun purchasedCompleted(packId: String) {
         requireActivity().runOnUiThread {
+            binding.loading.root.isVisible = true
             qPack?.let { viewModel.selectQuestionPack(it.packNumber) }
             rPack?.let { viewModel.selectRangesPack(it.packNumber) }
         }
