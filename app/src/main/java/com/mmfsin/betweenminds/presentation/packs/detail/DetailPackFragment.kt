@@ -158,11 +158,9 @@ class DetailPackFragment : BaseFragment<FragmentPackDetailBinding, DetailPackVie
     }
 
     private fun selectPack() {
-        var packNumber: Int? = null
-        qPack?.let { packNumber = it.packNumber }
-        rPack?.let { packNumber = it.packNumber }
+        qPack?.let { selectedManager.updateSelectedQuestionPackNumber(it.packNumber) }
+        rPack?.let { selectedManager.updateSelectedRangesPackNumber(it.packNumber) }
 
-        packNumber?.let { pN -> selectedManager.updateSelectedQuestionPackNumber(pN) }
         handleIfPurchase(purchased = true, selected = true)
     }
 

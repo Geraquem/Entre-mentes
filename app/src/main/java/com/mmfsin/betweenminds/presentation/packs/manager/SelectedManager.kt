@@ -12,11 +12,18 @@ class SelectedManager @Inject constructor(defaultPackId: Int?) {
         value = defaultPackId
     }
 
+    private val _selectedRangesPackNumber = MutableLiveData<Int?>().apply {
+        value = defaultPackId
+    }
+
     val selectedQuestionPackNumber: LiveData<Int?> = _selectedQuestionPackNumber
+    val selectedRangesPackNumber: LiveData<Int?> = _selectedRangesPackNumber
 
     fun updateSelectedQuestionPackNumber(packNumber: Int?) {
         _selectedQuestionPackNumber.value = packNumber
     }
 
-
+    fun updateSelectedRangesPackNumber(packNumber: Int?) {
+        _selectedRangesPackNumber.value = packNumber
+    }
 }

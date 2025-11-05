@@ -17,10 +17,12 @@ import com.mmfsin.betweenminds.domain.models.RangesPack
 import com.mmfsin.betweenminds.presentation.packs.PacksVPagerFragmentDirections.Companion.actionToPackDetail
 import com.mmfsin.betweenminds.presentation.packs.manager.BillingManager
 import com.mmfsin.betweenminds.presentation.packs.manager.IBillingListener
+import com.mmfsin.betweenminds.presentation.packs.manager.SelectedManager
 import com.mmfsin.betweenminds.presentation.packs.ranges.adapter.IRangesPackListener
 import com.mmfsin.betweenminds.presentation.packs.ranges.adapter.RangesPackAdapter
 import com.mmfsin.betweenminds.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class RangesPacksFragment : BaseFragment<FragmentPacksBinding, RangesPacksViewModel>(),
@@ -33,6 +35,9 @@ class RangesPacksFragment : BaseFragment<FragmentPacksBinding, RangesPacksViewMo
 
     private var rangesPackAdapter: RangesPackAdapter? = null
 
+    @Inject
+    lateinit var selectedManager: SelectedManager
+
     override fun inflateView(
         inflater: LayoutInflater, container: ViewGroup?
     ) = FragmentPacksBinding.inflate(inflater, container, false)
@@ -44,6 +49,12 @@ class RangesPacksFragment : BaseFragment<FragmentPacksBinding, RangesPacksViewMo
 
     override fun setUI() {
         binding.loading.root.isVisible = true
+    }
+
+    override fun setListeners() {
+        selectedManager.selectedRangesPackNumber.observe(viewLifecycleOwner) { packNumber ->
+            packNumber?.let { rangesPackAdapter?.updateSelectedPack(it) }
+        }
     }
 
     override fun observe() {
@@ -71,7 +82,7 @@ class RangesPacksFragment : BaseFragment<FragmentPacksBinding, RangesPacksViewMo
                 billingManager?.queryPurchasedIds(
                     onResult = { ownedPackages ->
 
-//                        val test = listOf("pack_ranges_1")
+                        val test = listOf("pack_ranges_1")
 
                         val productIds = packs.let { p ->
                             p.filter { it.packNumber != 0 }
@@ -102,7 +113,7 @@ class RangesPacksFragment : BaseFragment<FragmentPacksBinding, RangesPacksViewMo
                                 val updatedPacks = packs.map { pack ->
                                     pack.copy(
                                         purchased =
-                                        pack.packNumber == 0 || ownedPackages.contains(pack.packId),
+                                        pack.packNumber == 0 || test.contains(pack.packId),
                                         packPrice = pricesMap[pack.packId]?.replace(
                                             "\\s".toRegex(),
                                             replacement = ""
