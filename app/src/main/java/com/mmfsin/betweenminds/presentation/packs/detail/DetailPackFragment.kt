@@ -21,8 +21,10 @@ import com.mmfsin.betweenminds.presentation.packs.detail.adapter.QDetailPackAdap
 import com.mmfsin.betweenminds.presentation.packs.detail.adapter.RDetailPackAdapter
 import com.mmfsin.betweenminds.presentation.packs.manager.BillingManager
 import com.mmfsin.betweenminds.presentation.packs.manager.IBillingListener
+import com.mmfsin.betweenminds.presentation.packs.manager.SelectedManager
 import com.mmfsin.betweenminds.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class DetailPackFragment : BaseFragment<FragmentPackDetailBinding, DetailPackViewModel>(),
@@ -35,6 +37,9 @@ class DetailPackFragment : BaseFragment<FragmentPackDetailBinding, DetailPackVie
     private var rPack: RangesPack? = null
 
     private var billingManager: BillingManager? = null
+
+    @Inject
+    lateinit var selectedManager: SelectedManager
 
     override fun inflateView(
         inflater: LayoutInflater, container: ViewGroup?
@@ -87,7 +92,7 @@ class DetailPackFragment : BaseFragment<FragmentPackDetailBinding, DetailPackVie
             when (event) {
                 is DetailPackEvent.QuestionsPack -> setUpQuestionsExample(event.data)
                 is DetailPackEvent.RangesPack -> setUpRangesExample(event.data)
-                is DetailPackEvent.Selected -> handleIfPurchase(purchased = true, selected = true)
+                is DetailPackEvent.Selected -> selectPack()
                 is DetailPackEvent.SomethingWentWrong -> error()
             }
         }
@@ -150,6 +155,15 @@ class DetailPackFragment : BaseFragment<FragmentPackDetailBinding, DetailPackVie
             }
             tvLoading.isVisible = false
         }
+    }
+
+    private fun selectPack() {
+        var packNumber: Int? = null
+        qPack?.let { packNumber = it.packNumber }
+        rPack?.let { packNumber = it.packNumber }
+
+        packNumber?.let { pN -> selectedManager.updateSelectedQuestionPackNumber(pN) }
+        handleIfPurchase(purchased = true, selected = true)
     }
 
     private fun purchasePack() {

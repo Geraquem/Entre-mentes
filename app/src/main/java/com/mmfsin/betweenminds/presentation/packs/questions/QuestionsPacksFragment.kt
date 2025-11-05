@@ -17,10 +17,12 @@ import com.mmfsin.betweenminds.domain.models.QuestionsPack
 import com.mmfsin.betweenminds.presentation.packs.PacksVPagerFragmentDirections.Companion.actionToPackDetail
 import com.mmfsin.betweenminds.presentation.packs.manager.BillingManager
 import com.mmfsin.betweenminds.presentation.packs.manager.IBillingListener
+import com.mmfsin.betweenminds.presentation.packs.manager.SelectedManager
 import com.mmfsin.betweenminds.presentation.packs.questions.adapter.IQuestionsPackListener
 import com.mmfsin.betweenminds.presentation.packs.questions.adapter.QuestionsPackAdapter
 import com.mmfsin.betweenminds.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class QuestionsPacksFragment : BaseFragment<FragmentPacksBinding, QuestionsPacksViewModel>(),
@@ -33,6 +35,9 @@ class QuestionsPacksFragment : BaseFragment<FragmentPacksBinding, QuestionsPacks
 
     private var questionsPackAdapter: QuestionsPackAdapter? = null
 
+    @Inject
+    lateinit var selectedManager: SelectedManager
+
     override fun inflateView(
         inflater: LayoutInflater, container: ViewGroup?
     ) = FragmentPacksBinding.inflate(inflater, container, false)
@@ -42,13 +47,14 @@ class QuestionsPacksFragment : BaseFragment<FragmentPacksBinding, QuestionsPacks
         viewModel.getQuestionsPack()
     }
 
-    override fun onResume() {
-        super.onResume()
-        val a = 2
-    }
-
     override fun setUI() {
         binding.loading.root.isVisible = true
+    }
+
+    override fun setListeners() {
+        selectedManager.selectedQuestionPackNumber.observe(viewLifecycleOwner) { packNumber ->
+            packNumber?.let { questionsPackAdapter?.updateSelectedPack(it) }
+        }
     }
 
     override fun observe() {
@@ -107,7 +113,7 @@ class QuestionsPacksFragment : BaseFragment<FragmentPacksBinding, QuestionsPacks
                                 val updatedPacks = packs.map { pack ->
                                     pack.copy(
                                         purchased =
-                                        pack.packNumber == 0 || ownedPackages.contains(pack.packId),
+                                        pack.packNumber == 0 || test.contains(pack.packId),
                                         packPrice = pricesMap[pack.packId]?.replace(
                                             "\\s".toRegex(),
                                             replacement = ""
