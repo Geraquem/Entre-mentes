@@ -165,11 +165,10 @@ class DetailPackFragment : BaseFragment<FragmentPackDetailBinding, DetailPackVie
     }
 
     override fun purchasedCompleted(packId: String) {
-        println("-*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*-")
-        println("Compra realizada con éxito: $packId")
-
-        qPack?.let { viewModel.selectQuestionPack(it.packNumber) }
-        rPack?.let { viewModel.selectRangesPack(it.packNumber) }
+        requireActivity().runOnUiThread {
+            qPack?.let { viewModel.selectQuestionPack(it.packNumber) }
+            rPack?.let { viewModel.selectRangesPack(it.packNumber) }
+        }
     }
 
     private fun error() = activity?.showErrorDialog()

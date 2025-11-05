@@ -111,9 +111,7 @@ class RangesPacksFragment : BaseFragment<FragmentPacksBinding, RangesPacksViewMo
                                 }
 
                                 //Actualizamos el RecyclerView en el hilo principal
-                                a.runOnUiThread {
-                                    setUpRangesPack(updatedPacks)
-                                }
+                                a.runOnUiThread { setUpRangesPack(updatedPacks) }
                             } else error()
                         }
                     },
@@ -140,19 +138,12 @@ class RangesPacksFragment : BaseFragment<FragmentPacksBinding, RangesPacksViewMo
 
     override fun purchase(packId: String) {
         billingManager?.startConnection {
-
-            println("-*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*-")
-            println("INICIO DE COMPRA: $packId")
-
             activity?.let { billingManager?.launchPurchase(it, packId) }
         }
     }
 
     override fun purchasedCompleted(packId: String) {
-        println("-*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*-")
-        println("Compra realizada con éxito: $packId")
-
-        rangesPackAdapter?.purchasedPack(packId)
+        requireActivity().runOnUiThread { rangesPackAdapter?.purchasedPack(packId) }
     }
 
     private fun error() = activity?.showErrorDialog()

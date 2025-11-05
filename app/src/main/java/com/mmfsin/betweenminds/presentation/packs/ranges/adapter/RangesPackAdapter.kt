@@ -73,11 +73,7 @@ class RangesPackAdapter(
                 deletePreviousSelected(pack.packNumber)
             }
         }
-        position?.let { pos ->
-            println("-*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*-")
-            println("Update pack position: $pos")
-
-            notifyItemChanged(pos) }
+        position?.let { pos -> notifyItemChanged(pos) }
     }
 
     fun updateSelectedPack(packNumber: Int) {

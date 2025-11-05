@@ -116,9 +116,7 @@ class QuestionsPacksFragment : BaseFragment<FragmentPacksBinding, QuestionsPacks
                                 }
 
                                 //Actualizamos el RecyclerView en el hilo principal
-                                a.runOnUiThread {
-                                    setUpQuestionsPack(updatedPacks)
-                                }
+                                a.runOnUiThread { setUpQuestionsPack(updatedPacks) }
                             } else error()
                         }
                     },

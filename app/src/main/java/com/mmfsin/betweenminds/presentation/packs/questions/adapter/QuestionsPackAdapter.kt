@@ -63,28 +63,16 @@ class QuestionsPackAdapter(
     }
 
     fun purchasedPack(packId: String) {
-        println("-*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*-")
-        println("-*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*-")
-        println("-*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*-")
-        println("Entro en la función para actualizar el pack que acabo de comprar en el adapter")
-
         var position: Int? = null
         packs.forEachIndexed { i, pack ->
-            println("Pack recorrido: ${pack.packId}")
             if (pack.packId == packId) {
                 pack.selected = !pack.selected
                 pack.purchased = true
                 position = i
-                println("Pack que tengo que actualizar: ${pack.packId}")
                 deletePreviousSelected(pack.packNumber)
             }
         }
-        position?.let { pos ->
-            println("Update pack position: $pos")
-            notifyItemChanged(pos)
-        } ?: run {
-            println("No se ha encontrado el pack que acabo de comprar ¿¿??")
-        }
+        position?.let { pos -> notifyItemChanged(pos) }
     }
 
     fun updateSelectedPack(packNumber: Int) {
@@ -96,11 +84,7 @@ class QuestionsPackAdapter(
                 position = i
             }
         }
-        position?.let { pos ->
-            notifyItemChanged(pos)
-        } ?: run {
-            println("Parece que no hay ningún pack que tenga que borrar ¿¿??")
-        }
+        position?.let { pos -> notifyItemChanged(pos) }
     }
 
     private fun deletePreviousSelected(packNumber: Int) {
@@ -109,7 +93,6 @@ class QuestionsPackAdapter(
             if (pack.selected && pack.packNumber != packNumber) {
                 pack.selected = false
                 position = i
-                println("Borro pack previamente seleccionado: ${pack.packId}")
             }
         }
         position?.let { pos -> notifyItemChanged(pos) }
