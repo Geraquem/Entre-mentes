@@ -113,7 +113,7 @@ class RangesPacksFragment : BaseFragment<FragmentPacksBinding, RangesPacksViewMo
                                 val updatedPacks = packs.map { pack ->
                                     pack.copy(
                                         purchased =
-                                        pack.packNumber == 0 || test.contains(pack.packId),
+                                        pack.packNumber == 0 || ownedPackages.contains(pack.packId),
                                         packPrice = pricesMap[pack.packId]?.replace(
                                             "\\s".toRegex(),
                                             replacement = ""
