@@ -38,8 +38,7 @@ class PacksRepository @Inject constructor(
         val packs = mutableListOf<PackDTO>()
         val sharedPrefs = context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE)
 
-        if ( true) {
-//        if (sharedPrefs.getBoolean(SERVER_PACKS, true)) {
+        if (sharedPrefs.getBoolean(SERVER_PACKS, true)) {
             realmDatabase.deleteAllObjects(PackDTO::class)
 
             val latch = CountDownLatch(1)

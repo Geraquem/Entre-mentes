@@ -394,7 +394,12 @@ class QuestionsFragment :
                 EndQuestionsDialog(
                     data = data,
                     restartGame = { restartGame() },
-                    exit = { activity?.onBackPressedDispatcher?.onBackPressed() }
+                    exit = {
+                        if (activity is BedRockActivity) {
+                            (activity as BedRockActivity).skipExitDialog = true
+                        }
+                        activity?.onBackPressedDispatcher?.onBackPressed()
+                    }
                 )
             )
         } ?: run { error() }

@@ -5,13 +5,14 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.mmfsin.betweenminds.data.mappers.toQuestionsList
 import com.mmfsin.betweenminds.data.mappers.toRangesList
-import com.mmfsin.betweenminds.data.models.PackDTO
 import com.mmfsin.betweenminds.data.models.QuestionDTO
 import com.mmfsin.betweenminds.data.models.RangeDTO
 import com.mmfsin.betweenminds.domain.interfaces.IOfflineRepository
 import com.mmfsin.betweenminds.domain.interfaces.IRealmDatabase
 import com.mmfsin.betweenminds.domain.models.Question
 import com.mmfsin.betweenminds.domain.models.Range
+import com.mmfsin.betweenminds.utils.QUESTIONS
+import com.mmfsin.betweenminds.utils.RANGES
 import com.mmfsin.betweenminds.utils.SERVER_QUESTIONS
 import com.mmfsin.betweenminds.utils.SERVER_RANGES
 import com.mmfsin.betweenminds.utils.SHARED_PREFS
@@ -35,8 +36,7 @@ class OfflineRepository @Inject constructor(
         if (sharedPrefs.getBoolean(SERVER_RANGES, true)) {
             realmDatabase.deleteAllObjects(RangeDTO::class)
 
-//            Firebase.database.reference.child(RANGES).get().addOnSuccessListener {
-            Firebase.database.reference.child("ranges_test").get().addOnSuccessListener {
+            Firebase.database.reference.child(RANGES).get().addOnSuccessListener {
                 for (child in it.children) {
                     child.getValue(RangeDTO::class.java)?.let { range ->
                         saveRangesInRealm(range)
@@ -69,8 +69,7 @@ class OfflineRepository @Inject constructor(
         val questions = mutableListOf<QuestionDTO>()
         if (sharedPrefs.getBoolean(SERVER_QUESTIONS, true)) {
             realmDatabase.deleteAllObjects(QuestionDTO::class)
-//            Firebase.database.reference.child(QUESTIONS).get().addOnSuccessListener {
-            Firebase.database.reference.child("questions_test").get().addOnSuccessListener {
+            Firebase.database.reference.child(QUESTIONS).get().addOnSuccessListener {
                 for (child in it.children) {
                     child.getValue(QuestionDTO::class.java)?.let { question ->
                         saveQuestionInRealm(question)

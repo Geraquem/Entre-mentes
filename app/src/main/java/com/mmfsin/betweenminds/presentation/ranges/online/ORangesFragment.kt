@@ -510,7 +510,12 @@ class ORangesFragment : BaseFragment<FragmentRangesOnlineBinding, ORangesViewMod
         activity?.showFragmentDialog(
             EndGameORangesDialog(myPoints = pointsObtained,
                 otherPlayerPoints = otherPlayerPoints,
-                exit = { activity?.onBackPressedDispatcher?.onBackPressed() },
+                exit = {
+                    if (activity is BedRockActivity) {
+                        (activity as BedRockActivity).skipExitDialog = true
+                    }
+                    activity?.onBackPressedDispatcher?.onBackPressed()
+                },
                 replay = {
                     checkNotNulls(roomId, isCreator) { id, creator ->
                         if (creator) {
