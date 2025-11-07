@@ -7,15 +7,16 @@ import com.mmfsin.betweenminds.presentation.packs.questions.QuestionsPacksFragme
 import com.mmfsin.betweenminds.presentation.packs.ranges.RangesPacksFragment
 
 class ViewPagerPacksAdapter(
-    fragmentActivity: FragmentActivity
+    fragmentActivity: FragmentActivity,
+    val areFree: Boolean
 ) : FragmentStateAdapter(fragmentActivity) {
 
     override fun getItemCount(): Int = 2
 
     override fun createFragment(position: Int): Fragment {
         return when (position) {
-            0 -> QuestionsPacksFragment()
-            else -> RangesPacksFragment()
+            0 -> QuestionsPacksFragment(areFree)
+            else -> RangesPacksFragment(areFree)
         }
     }
 }

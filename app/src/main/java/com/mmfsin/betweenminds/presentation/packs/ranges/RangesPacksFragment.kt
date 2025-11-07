@@ -14,7 +14,7 @@ import com.android.billingclient.api.QueryProductDetailsParams
 import com.mmfsin.betweenminds.base.BaseFragment
 import com.mmfsin.betweenminds.databinding.FragmentPacksBinding
 import com.mmfsin.betweenminds.domain.models.RangesPack
-import com.mmfsin.betweenminds.presentation.packs.PacksVPagerFragmentDirections.Companion.actionToPackDetail
+import com.mmfsin.betweenminds.presentation.packs.PacksVPFragmentDirections.Companion.actionToPackDetail
 import com.mmfsin.betweenminds.presentation.packs.manager.BillingManager
 import com.mmfsin.betweenminds.presentation.packs.manager.IBillingListener
 import com.mmfsin.betweenminds.presentation.packs.manager.SelectedManager
@@ -25,7 +25,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class RangesPacksFragment : BaseFragment<FragmentPacksBinding, RangesPacksViewModel>(),
+class RangesPacksFragment(val areFree: Boolean) :
+    BaseFragment<FragmentPacksBinding, RangesPacksViewModel>(),
     IRangesPackListener, IBillingListener {
 
     override val viewModel: RangesPacksViewModel by viewModels()
@@ -65,13 +66,24 @@ class RangesPacksFragment : BaseFragment<FragmentPacksBinding, RangesPacksViewMo
                     binding.loading.root.isVisible = false
                 }
 
-                is RangesPacksEvent.RangesPacks -> checkPurchasedPacks(event.packs)
+                is RangesPacksEvent.RangesPacks -> {
+                    if (areFree) allPacksFree(event.packs)
+                    else checkPurchasedPacks(event.packs)
+                }
+
                 is RangesPacksEvent.NewPackSelected -> {
                     rangesPackAdapter?.updateSelectedPack(event.packNumber)
                 }
 
                 is RangesPacksEvent.SomethingWentWrong -> error()
             }
+        }
+    }
+
+    private fun allPacksFree(packs: List<RangesPack>) {
+        binding.apply {
+            val freePacks = packs.map { pack -> pack.copy(purchased = true) }
+            setUpRangesPack(freePacks)
         }
     }
 

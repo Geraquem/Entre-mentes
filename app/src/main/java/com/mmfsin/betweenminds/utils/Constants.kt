@@ -24,6 +24,7 @@ const val SERVER_QUESTIONS = "serverQuestions"
 const val SERVER_PACKS = "serverPacks"
 const val QUESTIONS_PACK = "questionsPack"
 const val RANGES_PACK = "rangesPack"
+const val FREE_PACKS_VERSION = "freePacksVersion"
 
 /** FIREBASE */
 const val PACKS = "packs"

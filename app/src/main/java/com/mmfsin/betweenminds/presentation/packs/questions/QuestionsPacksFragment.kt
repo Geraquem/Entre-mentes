@@ -14,7 +14,7 @@ import com.android.billingclient.api.QueryProductDetailsParams
 import com.mmfsin.betweenminds.base.BaseFragment
 import com.mmfsin.betweenminds.databinding.FragmentPacksBinding
 import com.mmfsin.betweenminds.domain.models.QuestionsPack
-import com.mmfsin.betweenminds.presentation.packs.PacksVPagerFragmentDirections.Companion.actionToPackDetail
+import com.mmfsin.betweenminds.presentation.packs.PacksVPFragmentDirections.Companion.actionToPackDetail
 import com.mmfsin.betweenminds.presentation.packs.manager.BillingManager
 import com.mmfsin.betweenminds.presentation.packs.manager.IBillingListener
 import com.mmfsin.betweenminds.presentation.packs.manager.SelectedManager
@@ -25,7 +25,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class QuestionsPacksFragment : BaseFragment<FragmentPacksBinding, QuestionsPacksViewModel>(),
+class QuestionsPacksFragment(val areFree: Boolean) :
+    BaseFragment<FragmentPacksBinding, QuestionsPacksViewModel>(),
     IQuestionsPackListener, IBillingListener {
 
     override val viewModel: QuestionsPacksViewModel by viewModels()
@@ -65,13 +66,24 @@ class QuestionsPacksFragment : BaseFragment<FragmentPacksBinding, QuestionsPacks
                     binding.loading.root.isVisible = false
                 }
 
-                is QuestionsPacksEvent.QuestionsPacks -> checkPurchasedPacks(event.packs)
+                is QuestionsPacksEvent.QuestionsPacks -> {
+                    if (areFree) allPacksFree(event.packs)
+                    else checkPurchasedPacks(event.packs)
+                }
+
                 is QuestionsPacksEvent.NewPackSelected -> {
                     questionsPackAdapter?.updateSelectedPack(event.packNumber)
                 }
 
                 is QuestionsPacksEvent.SomethingWentWrong -> error()
             }
+        }
+    }
+
+    private fun allPacksFree(packs: List<QuestionsPack>) {
+        binding.apply {
+            val freePacks = packs.map { pack -> pack.copy(purchased = true) }
+            setUpQuestionsPack(freePacks)
         }
     }
 

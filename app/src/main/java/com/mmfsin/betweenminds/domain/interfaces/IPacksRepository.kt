@@ -1,8 +1,6 @@
 package com.mmfsin.betweenminds.domain.interfaces
 
-import com.mmfsin.betweenminds.domain.models.Question
 import com.mmfsin.betweenminds.domain.models.QuestionsPack
-import com.mmfsin.betweenminds.domain.models.Range
 import com.mmfsin.betweenminds.domain.models.RangesPack
 
 interface IPacksRepository {
@@ -15,4 +13,7 @@ interface IPacksRepository {
     suspend fun getRangesPack(): List<RangesPack>
     fun getSelectedRPackId(): Int
     fun editSelectedRPackId(packNumber: Int)
+
+    fun setFreePacks()
+    fun checkIfPacksAreFree(): Boolean
 }

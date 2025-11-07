@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -30,6 +31,8 @@ class MenuFragment : BaseFragment<FragmentMenuBinding, MenuViewModel>(), ISelect
 
     override val viewModel: MenuViewModel by viewModels()
     private lateinit var mContext: Context
+
+    private var codeCounter = 0
 
     override fun inflateView(
         inflater: LayoutInflater, container: ViewGroup?
@@ -58,10 +61,12 @@ class MenuFragment : BaseFragment<FragmentMenuBinding, MenuViewModel>(), ISelect
 
     override fun setListeners() {
         binding.apply {
-            tvAppName.setOnClickListener { openSelector() }
-            btnPlay.root.setOnClickListener { openSelector() }
-            icPlay.setOnClickListener { rotateImage { openSelector() } }
+            tvAppName.setOnClickListener {
+                codeCounter++
+                if (codeCounter == 20) viewModel.setFreePacks()
+            }
 
+            btnPlay.root.setOnClickListener { openSelector() }
             btnPacks.button.setOnClickListener {
                 navigateTo(navGraph = R.navigation.nav_graph_packs)
             }
@@ -85,6 +90,7 @@ class MenuFragment : BaseFragment<FragmentMenuBinding, MenuViewModel>(), ISelect
         viewModel.event.observe(this) { event ->
             when (event) {
                 is MenuEvent.VersionCompleted -> showAnimations()
+                is MenuEvent.FreePacks -> freePacks()
                 is MenuEvent.SomethingWentWrong -> error()
             }
         }
@@ -104,7 +110,7 @@ class MenuFragment : BaseFragment<FragmentMenuBinding, MenuViewModel>(), ISelect
                     }
                 } else {
                     tvAppName.showAlpha(10)
-                        llButtons.animateY(0f, 10)
+                    llButtons.animateY(0f, 10)
                 }
             }
         }
@@ -129,6 +135,9 @@ class MenuFragment : BaseFragment<FragmentMenuBinding, MenuViewModel>(), ISelect
             navGraph = navGraph, strArgs = strArgs, booleanArgs = booleanArgs
         )
     }
+
+    private fun freePacks() =
+        Toast.makeText(mContext, R.string.pack_free_set, Toast.LENGTH_SHORT).show()
 
     private fun error() = activity?.showErrorDialog()
 

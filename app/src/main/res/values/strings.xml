@@ -62,13 +62,7 @@
     <string name="pack_selected_btn">Seleccionar</string>
     <string name="pack_selected">Seleccionado</string>
     <string name="pack_loading">Un momentito…</string>
-
-    <string name="pack_questions_free_title">Gratis</string>
-    <string name="pack_questions_free_description">Gratis description blablablablabalbalbalbalabaab</string>
-    <string name="pack_questions_couples_title">Para parejas</string>
-    <string name="pack_questions_couples_description">Para parejas description blablablablabalbalbalbalabaab</string>
-    <string name="pack_questions_idk_title">No se sabe todavía</string>
-    <string name="pack_questions_idk_description">No se sabe todavía description blablablablabalbalbalbalabaab</string>
+    <string name="pack_free_set">de nada ;)</string>
 
     <!-- QUESTIONS -->
     <string name="questions_welcome">Dos personas juegan para ver si opinan igual sobre ellos mismos o sobre otras personas.</string>

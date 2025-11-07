@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/packsFragment"
-        android:name="com.mmfsin.betweenminds.presentation.packs.PacksVPagerFragment"
+        android:name="com.mmfsin.betweenminds.presentation.packs.PacksVPFragment"
         android:label="packsFragment"
         tools:layout="@layout/fragment_packs_vp">
         <action
