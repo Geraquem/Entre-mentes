@@ -9,6 +9,7 @@ import androidx.core.view.isVisible
 import com.google.android.material.tabs.TabLayoutMediator
 import com.mmfsin.betweenminds.R
 import com.mmfsin.betweenminds.base.BaseFragmentNoVM
+import com.mmfsin.betweenminds.base.bedrock.BedRockActivity
 import com.mmfsin.betweenminds.databinding.FragmentInstructionsVpBinding
 import com.mmfsin.betweenminds.presentation.instructions.adapter.ViewPagerInstrAdapter
 import com.mmfsin.betweenminds.utils.BEDROCK_BOOLEAN_ARGS
@@ -39,6 +40,7 @@ class InstructionsVPFragment : BaseFragmentNoVM<FragmentInstructionsVpBinding>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if (activity is BedRockActivity) (activity as BedRockActivity).skipExitDialog = true
         setUpViewPager()
     }
 

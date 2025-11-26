@@ -196,7 +196,6 @@
             app:layout_constraintTop_toBottomOf="@id/tv_top_text"
             tools:ignore="LabelFor" />
 
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <RelativeLayout
@@ -215,7 +214,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@id/button_hide"
+        app:layout_constraintBottom_toTopOf="@id/ll_hide"
         app:layout_constraintLeft_toLeftOf="@id/gl_left"
         app:layout_constraintRight_toRightOf="@id/gl_right" />
 
@@ -225,7 +224,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@id/button_another_range"
+        app:layout_constraintBottom_toTopOf="@id/ll_hide"
         app:layout_constraintLeft_toLeftOf="@id/gl_left">
 
         <TextView
@@ -257,25 +256,38 @@
 
     </LinearLayout>
 
-    <include
-        android:id="@+id/button_another_range"
-        layout="@layout/include_button_black"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@id/button_hide"
-        app:layout_constraintLeft_toLeftOf="@id/gl_left"
-        app:layout_constraintRight_toRightOf="@id/gl_right" />
-
-    <include
-        android:id="@+id/button_hide"
-        layout="@layout/include_button_white"
+    <LinearLayout
+        android:id="@+id/ll_hide"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="@id/gl_left"
-        app:layout_constraintRight_toRightOf="@id/gl_right" />
+        app:layout_constraintRight_toRightOf="@id/gl_right">
+
+        <include
+            android:id="@+id/button_hide"
+            layout="@layout/include_button_white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="@id/gl_left"
+            app:layout_constraintRight_toRightOf="@id/gl_right" />
+
+        <TextView
+            android:id="@+id/button_another_range"
+            style="@style/BigTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/alphazet"
+            android:text="@string/ranges_another_range"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+    </LinearLayout>
 
     <include
         android:id="@+id/button_check"

@@ -115,7 +115,7 @@ class ORangesFragment : BaseFragment<FragmentRangesOnlineBinding, ORangesViewMod
             etClue.text = null
             etClue.showAlpha(350)
 
-            buttonAnotherRange.button.text = getString(R.string.ranges_another_range)
+            buttonAnotherRange.text = getString(R.string.ranges_another_range)
             buttonHide.button.text = getString(R.string.online_btn_save_answer)
             buttonCheck.button.text = getString(R.string.btn_check)
             buttonNextRound.button.text = getString(R.string.btn_next_round)
@@ -128,8 +128,8 @@ class ORangesFragment : BaseFragment<FragmentRangesOnlineBinding, ORangesViewMod
                 tvRangeRight.hideAlpha(1)
             }
 
-            buttonAnotherRange.root.hideAlpha(1)
-            buttonHide.root.animateY(500f, 1)
+            buttonAnotherRange.hideAlpha(1)
+            buttonHide.root.hideAlpha(1)
             buttonCheck.root.animateY(500f, 1)
             buttonNextRound.root.animateY(500f, 1)
 
@@ -146,8 +146,8 @@ class ORangesFragment : BaseFragment<FragmentRangesOnlineBinding, ORangesViewMod
                 btnInstructions.setOnClickListener { openInstructions() }
             }
 
-            buttonAnotherRange.root.setOnClickListener {
-                buttonAnotherRange.root.isEnabled = false
+            buttonAnotherRange.setOnClickListener {
+                buttonAnotherRange.isEnabled = false
                 pleaseAnotherRange()
             }
 
@@ -243,11 +243,11 @@ class ORangesFragment : BaseFragment<FragmentRangesOnlineBinding, ORangesViewMod
                 countDown(750) {
                     clClue.showAlpha(350)
 
-                    buttonAnotherRange.root.isEnabled = true
-                    buttonAnotherRange.root.visibility = View.VISIBLE
-                    buttonAnotherRange.root.showAlpha(350)
+                    buttonAnotherRange.isEnabled = true
+                    buttonAnotherRange.visibility = View.VISIBLE
+                    buttonAnotherRange.showAlpha(350)
 
-                    buttonHide.root.animateY(0f, 350)
+                    buttonHide.root.showAlpha(350)
                     curtainVisibility(isVisible = false)
                     ranges.apply {
                         tvRangeLeft.showAlpha(350)
@@ -287,11 +287,11 @@ class ORangesFragment : BaseFragment<FragmentRangesOnlineBinding, ORangesViewMod
                 )
             )
 
-            buttonAnotherRange.root.isEnabled = false
-            buttonAnotherRange.root.hideAlpha(350) {
-                buttonAnotherRange.root.visibility = View.INVISIBLE
+            buttonAnotherRange.isEnabled = false
+            buttonAnotherRange.hideAlpha(350) {
+                buttonAnotherRange.visibility = View.INVISIBLE
             }
-            buttonHide.root.animateY(500f, 350)
+            buttonHide.root.hideAlpha( 350)
 
             curtainVisibility(isVisible = true) { setRandomBullsEyePosition() }
             ranges.apply {
@@ -308,7 +308,7 @@ class ORangesFragment : BaseFragment<FragmentRangesOnlineBinding, ORangesViewMod
 
     private fun pleaseAnotherRange() {
         binding.apply {
-            buttonAnotherRange.root.hideAlpha(350)
+            buttonAnotherRange.hideAlpha(350)
 
             curtainVisibility(isVisible = true) {
                 position++
@@ -333,7 +333,10 @@ class ORangesFragment : BaseFragment<FragmentRangesOnlineBinding, ORangesViewMod
     private fun startGuessingPhase() {
         binding.apply {
             if (round <= 3) {
-                if (round == 3) buttonNextRound.button.text = getString(R.string.ranges_see_points)
+                val btnText = if (round == 3) getString(R.string.ranges_see_points)
+                else getString(R.string.btn_next_round)
+                buttonNextRound.button.text = btnText
+
                 buttonCheck.button.isEnabled = true
 
                 val actualRange = otherPlayerData[otherPlayerPosition]

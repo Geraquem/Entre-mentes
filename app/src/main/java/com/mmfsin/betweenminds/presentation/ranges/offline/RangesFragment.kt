@@ -69,7 +69,7 @@ class RangesFragment : BaseFragment<FragmentRangesBinding, RangesViewModel>() {
         binding.apply {
             loading.root.isVisible = true
 
-            buttonAnotherRange.button.text = getString(R.string.ranges_another_range)
+            buttonAnotherRange.text = getString(R.string.ranges_another_range)
             buttonHide.button.text = getString(R.string.btn_hide)
             buttonCheck.button.text = getString(R.string.btn_check)
             buttonNextRound.button.text = getString(R.string.btn_next_round)
@@ -90,8 +90,8 @@ class RangesFragment : BaseFragment<FragmentRangesBinding, RangesViewModel>() {
                 tvRangeRight.hideAlpha(1)
             }
 
-            buttonAnotherRange.root.hideAlpha(1)
-            buttonHide.root.animateY(500f, 1)
+            buttonAnotherRange.hideAlpha(1)
+            buttonHide.root.hideAlpha(1)
             buttonCheck.root.animateY(500f, 1)
             buttonNextRound.root.animateY(500f, 1)
 
@@ -108,14 +108,14 @@ class RangesFragment : BaseFragment<FragmentRangesBinding, RangesViewModel>() {
                 btnInstructions.setOnClickListener { openInstructions() }
             }
 
-            buttonAnotherRange.root.setOnClickListener {
-                buttonAnotherRange.root.isEnabled = false
+            buttonAnotherRange.setOnClickListener {
+                buttonAnotherRange.isEnabled = false
                 pleaseAnotherRange()
             }
 
             buttonHide.root.setOnClickListener {
                 buttonHide.root.isEnabled = false
-                buttonAnotherRange.root.isEnabled = false
+                buttonAnotherRange.isEnabled = false
                 secondPhase()
             }
 
@@ -126,7 +126,11 @@ class RangesFragment : BaseFragment<FragmentRangesBinding, RangesViewModel>() {
 
             buttonNextRound.root.setOnClickListener {
                 buttonNextRound.root.isEnabled = false
-                buttonNextRound.root.animateY(500f, 500)
+                buttonNextRound.root.animateY(500f, 500) {
+                    if (round > 3) {
+                        buttonNextRound.button.text = getString(R.string.ranges_see_points)
+                    }
+                }
                 if (round > 3) endGame() else nextRange()
             }
 
@@ -208,12 +212,10 @@ class RangesFragment : BaseFragment<FragmentRangesBinding, RangesViewModel>() {
             arrow.translationX = 0f
             target.translationX = 0f
 
-            buttonAnotherRange.root.isEnabled = true
+            buttonAnotherRange.isEnabled = true
             buttonHide.root.isEnabled = true
             buttonCheck.root.isEnabled = true
             buttonNextRound.root.isEnabled = true
-
-            if (round > 3) buttonNextRound.button.text = getString(R.string.ranges_see_points)
         }
     }
 
@@ -228,10 +230,10 @@ class RangesFragment : BaseFragment<FragmentRangesBinding, RangesViewModel>() {
                 ranges.tvRangeLeft.showAlpha(1000)
                 ranges.tvRangeRight.showAlpha(1000)
 
-                buttonAnotherRange.root.isEnabled = true
-                buttonAnotherRange.root.isVisible = true
-                buttonAnotherRange.root.showAlpha(1500)
-                buttonHide.root.animateY(0f, 1000)
+                buttonAnotherRange.isEnabled = true
+                buttonAnotherRange.isVisible = true
+                buttonAnotherRange.showAlpha(1500)
+                buttonHide.root.showAlpha(1000)
             }
         }
     }
@@ -245,8 +247,8 @@ class RangesFragment : BaseFragment<FragmentRangesBinding, RangesViewModel>() {
             etClue.hideAlpha(500) { etClue.text = null }
             tvClue.text = clue
 
-            buttonAnotherRange.root.hideAlpha(500) { buttonAnotherRange.root.isVisible = false }
-            buttonHide.root.animateY(500f, 500)
+            buttonAnotherRange.hideAlpha(500) { buttonAnotherRange.isVisible = false }
+            buttonHide.root.hideAlpha(500)
             curtainVisibility(isVisible = true) {
                 bullseyeVisibility(isVisible = false)
             }
@@ -307,7 +309,7 @@ class RangesFragment : BaseFragment<FragmentRangesBinding, RangesViewModel>() {
 
     private fun pleaseAnotherRange() {
         binding.apply {
-            buttonAnotherRange.root.hideAlpha(350)
+            buttonAnotherRange.hideAlpha(350)
 
             curtainVisibility(isVisible = true) {
                 position++
@@ -427,7 +429,8 @@ class RangesFragment : BaseFragment<FragmentRangesBinding, RangesViewModel>() {
                         if (activity is BedRockActivity) {
                             (activity as BedRockActivity).skipExitDialog = true
                         }
-                        activity?.onBackPressedDispatcher?.onBackPressed() })
+                        activity?.onBackPressedDispatcher?.onBackPressed()
+                    })
             )
         } ?: run { error() }
     }
@@ -445,10 +448,12 @@ class RangesFragment : BaseFragment<FragmentRangesBinding, RangesViewModel>() {
 
     private fun restartGame() {
         round = 1
-        binding.roundNumber.text = "$round"
         position++
         scoreboardRangesAdapter?.resetScores()
-
+        binding.apply {
+            roundNumber.text = "$round"
+            buttonNextRound.button.text = getString(R.string.btn_next_round)
+        }
         showRound { setFirstRanges() }
     }
 

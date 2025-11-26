@@ -149,7 +149,11 @@ class OQuestionsJoinedFragment :
 
             buttonNextRound.root.setOnClickListener {
                 buttonNextRound.root.isEnabled = false
-                buttonNextRound.root.animateY(500f, 500)
+                buttonNextRound.root.animateY(500f, 500) {
+                    if (round > 3) {
+                        buttonNextRound.button.text = getString(R.string.ranges_see_points)
+                    }
+                }
 
                 if (round < 4) {
                     showRound { }
@@ -254,6 +258,7 @@ class OQuestionsJoinedFragment :
                 secondArrow.translationX = 0f
                 secondOpinion.translationX = 0f
                 myOpinion = 50
+                myOpinionFloat = 50f
 
                 people.apply {
                     percentOneBlue.text = getString(R.string.fifty)
@@ -374,6 +379,9 @@ class OQuestionsJoinedFragment :
     private fun restartGame() {
         scoreboardQuestionAdapter?.resetScores()
         waitingPartnerVisibility(binding.waiting, isVisible = true)
+        binding.apply {
+            buttonNextRound.button.text = getString(R.string.btn_next_round)
+        }
         roomId?.let { id -> viewModel.waitCreatorToRestartGame(id, gameNumber) }
     }
 

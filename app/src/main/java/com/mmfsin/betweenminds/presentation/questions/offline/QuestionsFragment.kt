@@ -128,7 +128,11 @@ class QuestionsFragment :
 
             buttonNextRound.root.setOnClickListener {
                 buttonNextRound.root.isEnabled = false
-                buttonNextRound.root.animateY(500f, 500)
+                buttonNextRound.root.animateY(500f, 500) {
+                    if (round > 3) {
+                        buttonNextRound.button.text = getString(R.string.ranges_see_points)
+                    }
+                }
                 if (round > 3) endGame() else nextRange()
             }
 
@@ -241,8 +245,6 @@ class QuestionsFragment :
             buttonHide.root.isEnabled = true
             buttonCheck.root.isEnabled = true
             buttonNextRound.root.isEnabled = true
-
-            if (round > 3) buttonNextRound.button.text = getString(R.string.ranges_see_points)
         }
     }
 
@@ -414,10 +416,12 @@ class QuestionsFragment :
 
     private fun restartGame() {
         round = 1
-        binding.roundNumber.text = "$round"
         position++
         scoreboardQuestionAdapter?.resetScores()
-
+        binding.apply {
+            roundNumber.text = "$round"
+            buttonNextRound.button.text = getString(R.string.btn_next_round)
+        }
         showRound { setFirstRanges() }
     }
 
