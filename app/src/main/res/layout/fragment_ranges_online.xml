@@ -42,34 +42,15 @@
         app:layout_constraintTop_toBottomOf="@id/toolbar"
         tools:visibility="visible" />
 
-    <TextView
-        android:id="@+id/tv_clue"
-        style="@style/BigTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="36dp"
-        android:ellipsize="end"
-        android:gravity="center"
-        android:lines="4"
-        android:maxLines="4"
-        android:paddingTop="8dp"
-        android:textColor="@color/white"
-        android:visibility="gone"
-        app:layout_constraintLeft_toLeftOf="@id/gl_left"
-        app:layout_constraintRight_toRightOf="@id/gl_right"
-        app:layout_constraintTop_toBottomOf="@id/scoreboard"
-        tools:text="pista" />
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_slider"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="24dp"
         app:layout_constraintBottom_toTopOf="@id/ranges"
         app:layout_constraintLeft_toLeftOf="@id/gl_left"
         app:layout_constraintRight_toRightOf="@id/gl_right"
-        app:layout_constraintTop_toBottomOf="@id/tv_clue">
+        app:layout_constraintTop_toBottomOf="@id/cl_clue">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/rl_slider"
@@ -157,44 +138,67 @@
         android:id="@+id/cl_clue"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         app:layout_constraintLeft_toLeftOf="@id/gl_left"
         app:layout_constraintRight_toRightOf="@id/gl_right"
-        app:layout_constraintTop_toBottomOf="@id/ranges">
+        app:layout_constraintTop_toBottomOf="@id/scoreboard">
 
-        <TextView
-            android:id="@+id/tv_top_text"
-            style="@style/MediumTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:fontFamily="@font/alphazet"
-            android:text="@string/ranges_write_a_clue"
-            android:textColor="@color/white"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <EditText
-            android:id="@+id/et_clue"
-            style="@style/MediumTextView"
+        <LinearLayout
+            android:id="@+id/ll_clue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="8dp"
-            android:autofillHints="null"
-            android:background="@drawable/bg_white_box_big_border_grey"
-            android:imeOptions="actionDone"
-            android:inputType="textCapSentences"
-            android:maxLength="150"
-            android:maxLines="1"
-            android:padding="16dp"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"
+            android:orientation="vertical"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_top_text"
-            tools:ignore="LabelFor" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tv_top_text"
+                style="@style/MediumTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/alphazet"
+                android:text="@string/ranges_write_a_clue"
+                android:textColor="@color/white" />
+
+            <EditText
+                android:id="@+id/et_clue"
+                style="@style/MediumTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="8dp"
+                android:autofillHints="null"
+                android:background="@drawable/bg_white_box_big_border_grey"
+                android:imeOptions="actionDone"
+                android:inputType="textCapSentences"
+                android:maxLength="150"
+                android:maxLines="1"
+                android:padding="16dp"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                tools:ignore="LabelFor" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_clue"
+            style="@style/BigTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:lines="4"
+            android:maxLines="4"
+            android:paddingTop="8dp"
+            android:textColor="@color/white"
+            android:visibility="gone"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="pista" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

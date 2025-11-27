@@ -109,8 +109,8 @@ class ORangesFragment : BaseFragment<FragmentRangesOnlineBinding, ORangesViewMod
             tvClue.isVisible = false
             tvClue.hideAlpha(10) { tvClue.text = null }
 
-            clClue.isVisible = true
-            clClue.showAlpha(350)
+            llClue.isVisible = true
+            llClue.showAlpha(350)
             tvTopText.text = getString(R.string.ranges_write_a_clue)
             etClue.text = null
             etClue.showAlpha(350)
@@ -241,7 +241,7 @@ class ORangesFragment : BaseFragment<FragmentRangesOnlineBinding, ORangesViewMod
                 ranges.tvRangeRight.text = actualRange.rightRange
                 setRandomBullsEyePosition()
                 countDown(750) {
-                    clClue.showAlpha(350)
+                    llClue.showAlpha(350)
 
                     buttonAnotherRange.isEnabled = true
                     buttonAnotherRange.visibility = View.VISIBLE
@@ -259,7 +259,7 @@ class ORangesFragment : BaseFragment<FragmentRangesOnlineBinding, ORangesViewMod
 
                 ranges.root.hideAlpha(500)
                 clSlider.hideAlpha(500) {
-                    clClue.isVisible = false
+                    llClue.isVisible = false
                     tvClue.isVisible = true
                 }
 
@@ -298,7 +298,7 @@ class ORangesFragment : BaseFragment<FragmentRangesOnlineBinding, ORangesViewMod
                 tvRangeLeft.hideAlpha(350)
                 tvRangeRight.hideAlpha(350)
             }
-            clClue.hideAlpha(350) { etClue.text = null }
+            llClue.hideAlpha(350) { etClue.text = null }
 
             round++
             position++
