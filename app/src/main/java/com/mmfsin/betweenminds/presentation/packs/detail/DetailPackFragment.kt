@@ -7,21 +7,23 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.mmfsin.betweenminds.R
 import com.mmfsin.betweenminds.base.BaseFragment
+import com.mmfsin.betweenminds.base.bedrock.BedRockActivity
 import com.mmfsin.betweenminds.databinding.FragmentPackDetailBinding
+import com.mmfsin.betweenminds.domain.models.Pack
 import com.mmfsin.betweenminds.domain.models.Question
-import com.mmfsin.betweenminds.domain.models.QuestionsPack
 import com.mmfsin.betweenminds.domain.models.Range
-import com.mmfsin.betweenminds.domain.models.RangesPack
 import com.mmfsin.betweenminds.presentation.packs.detail.adapter.QDetailPackAdapter
 import com.mmfsin.betweenminds.presentation.packs.detail.adapter.RDetailPackAdapter
 import com.mmfsin.betweenminds.presentation.packs.manager.BillingManager
 import com.mmfsin.betweenminds.presentation.packs.manager.IBillingListener
 import com.mmfsin.betweenminds.presentation.packs.manager.SelectedManager
+import com.mmfsin.betweenminds.utils.BEDROCK_STR_ARGS
+import com.mmfsin.betweenminds.utils.QUESTIONS
+import com.mmfsin.betweenminds.utils.RANGES
 import com.mmfsin.betweenminds.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -33,8 +35,8 @@ class DetailPackFragment : BaseFragment<FragmentPackDetailBinding, DetailPackVie
     override val viewModel: DetailPackViewModel by viewModels()
     private lateinit var mContext: Context
 
-    private var qPack: QuestionsPack? = null
-    private var rPack: RangesPack? = null
+    private var packId: String? = null
+    private var pack: Pack? = null
 
     private var billingManager: BillingManager? = null
 
@@ -46,26 +48,18 @@ class DetailPackFragment : BaseFragment<FragmentPackDetailBinding, DetailPackVie
     ) = FragmentPackDetailBinding.inflate(inflater, container, false)
 
     override fun getBundleArgs() {
-        val args: DetailPackFragmentArgs by navArgs()
-        qPack = args.questionPack
-        rPack = args.rangePack
+        packId = activity?.intent?.getStringExtra(BEDROCK_STR_ARGS)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        qPack?.let { p ->
-            setUpQuestionPack(p)
-            viewModel.getQuestions(p.packNumber)
-        }
 
-        rPack?.let { p ->
-            setUpRangePack(p)
-            viewModel.getRanges(p.packNumber)
-        }
+        packId?.let { id -> viewModel.getPackTypeById(id) } ?: run { error() }
     }
 
     override fun setUI() {
         binding.apply {
+            (activity as BedRockActivity).skipExitDialog = true
             loading.root.isVisible = false
             toolbar.btnInstructions.isVisible = false
             tvLoading.isVisible = true
@@ -81,8 +75,7 @@ class DetailPackFragment : BaseFragment<FragmentPackDetailBinding, DetailPackVie
             btnPurchase.button.setOnClickListener { purchasePack() }
 
             btnSelect.button.setOnClickListener {
-                qPack?.let { viewModel.selectQuestionPack(it.packNumber) }
-                rPack?.let { viewModel.selectRangesPack(it.packNumber) }
+                pack?.let { viewModel.selectQuestionPack(it.packNumber) }
             }
         }
     }
@@ -90,6 +83,7 @@ class DetailPackFragment : BaseFragment<FragmentPackDetailBinding, DetailPackVie
     override fun observe() {
         viewModel.event.observe(this) { event ->
             when (event) {
+                is DetailPackEvent.GetPack -> setUpPack(event.pack)
                 is DetailPackEvent.QuestionsPack -> setUpQuestionsExample(event.data)
                 is DetailPackEvent.RangesPack -> setUpRangesExample(event.data)
                 is DetailPackEvent.Selected -> selectPack()
@@ -98,7 +92,7 @@ class DetailPackFragment : BaseFragment<FragmentPackDetailBinding, DetailPackVie
         }
     }
 
-    private fun setUpQuestionPack(pack: QuestionsPack) {
+    private fun setUpPack(pack: Pack) {
         binding.apply {
             Glide.with(mContext).load(pack.packIcon).into(ivPackIcon)
             tvPrice.text = pack.packPrice
@@ -106,17 +100,12 @@ class DetailPackFragment : BaseFragment<FragmentPackDetailBinding, DetailPackVie
             tvDescription.text = pack.packDescription
 
             handleIfPurchase(pack.purchased, pack.selected)
-        }
-    }
 
-    private fun setUpRangePack(pack: RangesPack) {
-        binding.apply {
-            Glide.with(mContext).load(pack.packIcon).into(ivPackIcon)
-            tvPrice.text = pack.packPrice
-            tvTitle.text = pack.packTitle
-            tvDescription.text = pack.packDescription
-
-            handleIfPurchase(pack.purchased, pack.selected)
+            when (pack.packType) {
+                QUESTIONS -> viewModel.getQuestions(pack.packNumber)
+                RANGES -> viewModel.getRanges(pack.packNumber)
+                else -> error()
+            }
         }
     }
 
@@ -158,16 +147,13 @@ class DetailPackFragment : BaseFragment<FragmentPackDetailBinding, DetailPackVie
     }
 
     private fun selectPack() {
-        qPack?.let { selectedManager.updateSelectedQuestionPackNumber(it.packNumber) }
-        rPack?.let { selectedManager.updateSelectedRangesPackNumber(it.packNumber) }
-
+        pack?.let { selectedManager.updateSelectedQuestionPackNumber(it.packNumber) }
         handleIfPurchase(purchased = true, selected = true)
     }
 
     private fun purchasePack() {
         var packId: String? = null
-        qPack?.let { packId = it.packId }
-        rPack?.let { packId = it.packId }
+        pack?.let { packId = it.packId }
 
         activity?.let { a ->
             billingManager = BillingManager(a, this@DetailPackFragment)
@@ -180,8 +166,7 @@ class DetailPackFragment : BaseFragment<FragmentPackDetailBinding, DetailPackVie
     override fun purchasedCompleted(packId: String) {
         activity?.runOnUiThread {
             binding.loading.root.isVisible = true
-            qPack?.let { viewModel.selectQuestionPack(it.packNumber) }
-            rPack?.let { viewModel.selectRangesPack(it.packNumber) }
+            pack?.let { viewModel.selectQuestionPack(it.packNumber) }
         }
     }
 

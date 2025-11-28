@@ -3,6 +3,7 @@ package com.mmfsin.betweenminds.data.mappers
 import com.mmfsin.betweenminds.data.models.PackDTO
 import com.mmfsin.betweenminds.data.models.QuestionDTO
 import com.mmfsin.betweenminds.data.models.RangeDTO
+import com.mmfsin.betweenminds.domain.models.Pack
 import com.mmfsin.betweenminds.domain.models.Question
 import com.mmfsin.betweenminds.domain.models.QuestionsPack
 import com.mmfsin.betweenminds.domain.models.Range
@@ -44,4 +45,14 @@ fun PackDTO.toRangesPack() = RangesPack(
 )
 
 fun List<PackDTO>.createRangesPacks() = this.map { it.toRangesPack() }
+
+fun PackDTO.toPack() = Pack(
+    packId = packId,
+    packType = packType,
+    packNumber = packNumber.toInt(),
+    packTitle = title,
+    packDescription = description,
+    packPrice = price,
+    packIcon = icon
+)
 

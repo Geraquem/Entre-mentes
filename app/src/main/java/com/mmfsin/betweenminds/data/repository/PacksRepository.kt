@@ -7,13 +7,16 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.mmfsin.betweenminds.data.mappers.createQuestionsPacks
 import com.mmfsin.betweenminds.data.mappers.createRangesPacks
+import com.mmfsin.betweenminds.data.mappers.toPack
 import com.mmfsin.betweenminds.data.models.PackDTO
 import com.mmfsin.betweenminds.domain.interfaces.IPacksRepository
 import com.mmfsin.betweenminds.domain.interfaces.IRealmDatabase
+import com.mmfsin.betweenminds.domain.models.Pack
 import com.mmfsin.betweenminds.domain.models.QuestionsPack
 import com.mmfsin.betweenminds.domain.models.RangesPack
 import com.mmfsin.betweenminds.utils.FREE_PACKS_VERSION
 import com.mmfsin.betweenminds.utils.PACKS
+import com.mmfsin.betweenminds.utils.PACK_ID
 import com.mmfsin.betweenminds.utils.QUESTIONS
 import com.mmfsin.betweenminds.utils.QUESTIONS_PACK
 import com.mmfsin.betweenminds.utils.QUESTIONS_TYPE
@@ -141,6 +144,11 @@ class PacksRepository @Inject constructor(
 
     override fun checkIfPacksAreFree(): Boolean {
         return getSharedPreferences().getBoolean(FREE_PACKS_VERSION, false)
+    }
+
+    override suspend fun getPackById(packId: String): Pack? {
+        val packDTO = realmDatabase.getObjectFromRealm(PackDTO::class, PACK_ID, packId)
+        return packDTO?.toPack()
     }
 
     /****************************************************************************************************/

@@ -11,7 +11,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.QueryProductDetailsParams
+import com.mmfsin.betweenminds.R
 import com.mmfsin.betweenminds.base.BaseFragment
+import com.mmfsin.betweenminds.base.bedrock.BedRockActivity
 import com.mmfsin.betweenminds.databinding.FragmentPacksBinding
 import com.mmfsin.betweenminds.domain.models.QuestionsPack
 import com.mmfsin.betweenminds.presentation.packs.PacksVPFragmentDirections.Companion.actionToPackDetail
@@ -157,7 +159,10 @@ class QuestionsPacksFragment(val areFree: Boolean) :
     override fun selectPack(packNumber: Int) = viewModel.selectQuestionPack(packNumber)
 
     override fun seeMore(pack: QuestionsPack) {
-        findNavController().navigate(actionToPackDetail(questionPack = pack, rangePack = null))
+        (activity as BedRockActivity).openBedRockActivity(
+            navGraph = R.navigation.nav_graph_pack_detail,
+            strArgs = pack.packId
+        )
     }
 
     override fun purchase(packId: String) {
