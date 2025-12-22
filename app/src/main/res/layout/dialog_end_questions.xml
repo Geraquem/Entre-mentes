@@ -9,12 +9,12 @@
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nsv_main"
+        style="@style/scroll_no_effects"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_white_box"
         android:gravity="center"
         android:padding="16dp"
-        style="@style/scroll_no_effects"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -34,22 +34,22 @@
                 android:gravity="center"
                 android:text="@string/endgame_top_text" />
 
-            <TextView
-                android:id="@+id/tv_points"
-                style="@style/BigTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginBottom="12dp"
-                android:fontFamily="@font/august_shining"
-                android:gravity="center"
-                android:textSize="26sp"
-                tools:text="27 puntos" />
+                <TextView
+                    android:id="@+id/tv_points"
+                    style="@style/BigTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/august_shining"
+                    android:gravity="center"
+                    android:textSize="26sp"
+                    tools:text="27 puntos" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_answers"
-                android:layout_width="match_parent"
                 style="@style/scroll_no_effects"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:itemCount="4"
                 tools:listitem="@layout/item_end_question" />
@@ -59,58 +59,102 @@
     </androidx.core.widget.NestedScrollView>
 
     <LinearLayout
-        android:id="@+id/ll_buttons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:weightSum="1"
+        android:orientation="vertical"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/nsv_main">
 
         <LinearLayout
-            android:id="@+id/btn_exit"
-            android:layout_width="0dp"
+            android:id="@+id/ll_buttons"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.25"
+            android:layout_marginTop="8dp"
+            android:weightSum="1">
+
+            <LinearLayout
+                android:id="@+id/btn_exit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.25"
+                android:background="@drawable/click_effect"
+                android:gravity="center"
+                android:paddingVertical="12dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/content_description"
+                    android:src="@drawable/ic_exit"
+                    app:tint="@color/dark_red" />
+
+                <TextView
+                    style="@style/MediumTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:text="@string/endgame_exit"
+                    android:textAllCaps="true"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.05" />
+
+            <TextView
+                android:id="@+id/btn_rematch"
+                style="@style/MediumTextView"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.7"
+                android:background="@drawable/click_effect"
+                android:gravity="center"
+                android:text="@string/endgame_replay"
+                android:textAllCaps="true"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/btn_change_names"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
             android:background="@drawable/click_effect"
             android:gravity="center"
+            android:orientation="horizontal"
             android:paddingVertical="12dp">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/content_description"
-                android:src="@drawable/ic_exit"
-                app:tint="@color/dark_red" />
 
             <TextView
                 style="@style/MediumTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:text="@string/endgame_exit"
+                android:layout_marginEnd="8dp"
+                android:gravity="center"
+                android:text="@string/endgame_replay_new_names"
                 android:textAllCaps="true"
-                android:visibility="gone" />
+                android:textStyle="bold" />
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:contentDescription="@string/content_description"
+                android:src="@drawable/ic_human_down"
+                app:tint="@color/blue" />
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:contentDescription="@string/content_description"
+                android:src="@drawable/ic_human_down"
+                app:tint="@color/dark_orange" />
 
         </LinearLayout>
-
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.05" />
-
-        <TextView
-            android:id="@+id/btn_rematch"
-            style="@style/MediumTextView"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.7"
-            android:background="@drawable/click_effect"
-            android:gravity="center"
-            android:text="@string/endgame_replay"
-            android:textAllCaps="true"
-            android:textStyle="bold" />
 
     </LinearLayout>
 

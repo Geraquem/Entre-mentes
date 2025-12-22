@@ -122,6 +122,7 @@
     <string name="endgame_exit">Salir</string>
     <string name="endgame_save">Guardar</string>
     <string name="endgame_replay">Volver a jugar</string>
+    <string name="endgame_replay_new_names">Cambiar nombres</string>
 
     <string name="endgame_online_ranges_you">Tú has conseguido</string>
     <string name="endgame_online_ranges_your_teammate">Tu compañero ha conseguido</string>

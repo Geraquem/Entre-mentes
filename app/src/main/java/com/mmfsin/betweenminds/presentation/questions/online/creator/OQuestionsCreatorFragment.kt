@@ -398,6 +398,8 @@ class OQuestionsCreatorFragment :
                 EndQuestionsDialog(
                     data = data,
                     restartGame = { restartGame() },
+                    canChangeNames = false,
+                    changeNamesAndRestart = {},
                     exit = {
                         if (activity is BedRockActivity) {
                             (activity as BedRockActivity).skipExitDialog = true

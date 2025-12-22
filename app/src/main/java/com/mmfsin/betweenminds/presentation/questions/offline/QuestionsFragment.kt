@@ -20,6 +20,7 @@ import com.mmfsin.betweenminds.domain.models.Question
 import com.mmfsin.betweenminds.domain.models.ScoreQuestion
 import com.mmfsin.betweenminds.presentation.questions.adapter.ScoreboardQuestionAdapter
 import com.mmfsin.betweenminds.presentation.questions.dialogs.EndQuestionsDialog
+import com.mmfsin.betweenminds.presentation.questions.dialogs.NewNamesQuestionsDialog
 import com.mmfsin.betweenminds.presentation.questions.dialogs.QuestionsStartDialog
 import com.mmfsin.betweenminds.utils.QUESTIONS_TYPE
 import com.mmfsin.betweenminds.utils.animateX
@@ -396,15 +397,30 @@ class QuestionsFragment :
                 EndQuestionsDialog(
                     data = data,
                     restartGame = { restartGame() },
-                    exit = {
-                        if (activity is BedRockActivity) {
-                            (activity as BedRockActivity).skipExitDialog = true
-                        }
-                        activity?.onBackPressedDispatcher?.onBackPressed()
-                    }
+                    canChangeNames = true,
+                    changeNamesAndRestart = {
+                        activity?.showFragmentDialog(
+                            NewNamesQuestionsDialog(
+                                start = { blueName, orangeName ->
+                                    if (blueName.isNotEmpty()) binding.people.etPlayerBlue.setText(blueName)
+                                    if (orangeName.isNotEmpty()) binding.people.etPlayerOrange.setText(orangeName)
+                                    restartGame()
+                                },
+                                exit = { exit() }
+                            )
+                        )
+                    },
+                    exit = { exit() }
                 )
             )
         } ?: run { error() }
+    }
+
+    private fun exit(){
+        if (activity is BedRockActivity) {
+            (activity as BedRockActivity).skipExitDialog = true
+        }
+        activity?.onBackPressedDispatcher?.onBackPressed()
     }
 
     private fun endGameStates() {

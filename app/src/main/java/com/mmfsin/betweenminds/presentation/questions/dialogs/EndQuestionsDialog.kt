@@ -2,6 +2,7 @@ package com.mmfsin.betweenminds.presentation.questions.dialogs
 
 import android.app.Dialog
 import android.view.LayoutInflater
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mmfsin.betweenminds.R
 import com.mmfsin.betweenminds.base.BaseDialog
@@ -14,6 +15,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class EndQuestionsDialog(
     private val data: List<ScoreQuestion>,
     private val restartGame: () -> Unit,
+    private val canChangeNames: Boolean,
+    private val changeNamesAndRestart: () -> Unit,
     private val exit: () -> Unit,
 ) : BaseDialog<DialogEndQuestionsBinding>() {
 
@@ -28,6 +31,8 @@ class EndQuestionsDialog(
         binding.apply {
             tvPoints.text = if (points == 1) getString(R.string.endgame_one_point)
             else getString(R.string.endgame_pts, "$points")
+
+            if (!canChangeNames) btnChangeNames.visibility = View.GONE
         }
     }
 
@@ -66,6 +71,11 @@ class EndQuestionsDialog(
 
             btnRematch.setOnClickListener {
                 restartGame()
+                dismiss()
+            }
+
+            btnChangeNames.setOnClickListener {
+                changeNamesAndRestart()
                 dismiss()
             }
         }
