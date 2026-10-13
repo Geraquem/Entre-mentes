@@ -130,6 +130,15 @@ fun QuestionsOnlineJoinContent(
 ) {
     var parentWidth by remember { mutableIntStateOf(0) }
 
+    LaunchedEffect(uiStates.actualQuestion) {
+        android.util.Log.d(
+            "QUESTION_DEBUG",
+            "Pregunta: '${uiStates.actualQuestion}', " +
+                    "longitud=${uiStates.actualQuestion.length}, " +
+                    "total preguntas=${uiStates.questions.size}"
+        )
+    }
+
     Scaffold(
         topBar = {
             CustomToolbar(

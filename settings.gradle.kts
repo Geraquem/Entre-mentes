@@ -22,6 +22,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Between Minds Compose"
+rootProject.name = "Between Minds"
 include(":app")
  

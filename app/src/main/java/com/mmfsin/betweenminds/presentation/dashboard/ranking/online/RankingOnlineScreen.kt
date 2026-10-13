@@ -55,6 +55,7 @@ import com.mmfsin.betweenminds.presentation.core.components.SpacerLarge
 import com.mmfsin.betweenminds.presentation.core.components.SpacerMedium
 import com.mmfsin.betweenminds.presentation.core.components.SpacerSmall
 import com.mmfsin.betweenminds.presentation.core.theme.BackgroundBlack
+import com.mmfsin.betweenminds.presentation.core.theme.GrayHard
 import com.mmfsin.betweenminds.presentation.core.theme.White
 import com.mmfsin.betweenminds.presentation.core.theme.alphazet
 import com.mmfsin.betweenminds.presentation.core.theme.courier
@@ -215,11 +216,12 @@ fun RankingOnlineContent(
                                             boxBounds[index] = coordinates.boundsInRoot()
                                         }
                                         .background(
-                                            color = checkBoxColor(
-                                                isEnabled = uiStates.showComparativeList,
-                                                firstText = uiStates.firstSortedList[index].text,
-                                                secondText = uiStates.secondSortedList[index].text
-                                            ),
+                                            color =  if (uiStates.showComparativeList) {
+                                                checkBoxColor(
+                                                    firstText = uiStates.firstSortedList[index].text,
+                                                    secondText = uiStates.secondSortedList[index].text
+                                                )
+                                            } else GrayHard,
                                             shape = RoundedCornerShape(12.dp)
                                         )
                                         .padding(16.dp)

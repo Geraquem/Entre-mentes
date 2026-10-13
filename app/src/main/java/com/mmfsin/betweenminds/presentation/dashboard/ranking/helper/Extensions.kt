@@ -1,7 +1,6 @@
 package com.mmfsin.betweenminds.presentation.dashboard.ranking.helper
 
 import androidx.compose.ui.graphics.Color
-import com.mmfsin.betweenminds.presentation.core.theme.GrayHard
 import com.mmfsin.betweenminds.presentation.core.theme.GreenMedium
 import com.mmfsin.betweenminds.presentation.core.theme.OrangeHard
 import com.mmfsin.betweenminds.presentation.core.theme.RedHard
@@ -13,17 +12,15 @@ fun calculatePoints(firstList: List<String>, secondList: List<String>): Int {
 
 fun getPointsColor(dif: Int): Color {
     return when (dif) {
-        1,2 -> OrangeHard
+        1, 2 -> OrangeHard
         4 -> GreenMedium
         else -> RedHard
     }
 }
 
 fun checkBoxColor(
-    isEnabled: Boolean,
     firstText: String,
     secondText: String
 ): Color {
-    return if (!isEnabled) GrayHard
-    else if (firstText == secondText) GreenMedium else RedMedium
+    return if (firstText == secondText) GreenMedium else RedMedium
 }

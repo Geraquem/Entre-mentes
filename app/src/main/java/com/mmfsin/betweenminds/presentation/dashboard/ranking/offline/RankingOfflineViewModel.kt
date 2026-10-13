@@ -216,6 +216,7 @@ class RankingOfflineViewModel @Inject constructor(
                     firstSortedList = emptyRankingBoxList(),
                     secondSortedList = emptyRankingBoxList(),
 
+                    dragEnabled = true,
                     buttonEnabled = true,
                     buttonText = R.string.btn_ready
                 )

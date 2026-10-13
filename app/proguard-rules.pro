@@ -19,3 +19,9 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+# Modelos del dominio: conservar clases, campos y nombres
+-keep class com.mmfsin.betweenminds.domain.models.** { *; }
+
+# Modelos y DTO de datos: conservar clases, campos y nombres
+-keep class com.mmfsin.betweenminds.data.models.** { *; }
